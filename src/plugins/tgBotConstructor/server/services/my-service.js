@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = ({ /*strapi*/ }) => ({
+module.exports = ({ /*strapi*/}) => ({
   getWelcomeMessage() {
     return 'Welcome to Strapi 🚀';
   },

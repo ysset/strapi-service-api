@@ -43,7 +43,8 @@ const commands = {
     },
   },
 
-  FAVORITE: {regex: userLang()?.FAVORITE.regex, fn: async (msg) => {
+  FAVORITE: {
+    regex: userLang()?.FAVORITE.regex, fn: async (msg) => {
       lang.currLang = msg.from.language_code;
       const chatId = msg.chat.id;
 
@@ -82,7 +83,8 @@ const commands = {
           }
         })
       }
-    },},
+    },
+  },
 
   SEARCH_FLAT: {
     regex: userLang()?.SEARCH_FLAT.regex,

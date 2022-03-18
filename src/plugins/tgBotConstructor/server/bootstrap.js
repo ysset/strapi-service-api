@@ -2,9 +2,9 @@
 
 const TgBot = require("node-telegram-bot-api");
 const bot = new TgBot("5279208722:AAFnrLQ1HOZgtAmA0M2ybgWGZbM7X9fmpmI", {polling: true});
-const { commands } = require('./utils/components');
+const {commands} = require('./utils/components');
 
-module.exports = async ({ strapi }) => {
+module.exports = async ({strapi}) => {
   strapi.bot = bot;
   await strapi.bot.setMyCommands([
     {
