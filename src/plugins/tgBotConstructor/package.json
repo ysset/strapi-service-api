@@ -1,0 +1,26 @@
+{
+  "name": "tg-bot-constructor",
+  "version": "0.0.0",
+  "description": "This is the description of the plugin.",
+  "strapi": {
+    "name": "tgBotConstructor",
+    "description": "Description of tgBotConstructor plugin",
+    "kind": "plugin"
+  },
+  "dependencies": {
+    "node-telegram-bot-api": "^0.56.0"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "maintainers": [
+    {
+      "name": "A Strapi developer"
+    }
+  ],
+  "engines": {
+    "node": ">=12.x.x <=16.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

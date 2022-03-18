@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "telegram_users",
+  "info": {
+    "singularName": "telegram-user",
+    "pluralName": "telegram-users",
+    "displayName": "Telegram user"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "telegramID": {
+      "type": "biginteger"
+    },
+    "language": {
+      "type": "string"
+    },
+    "favorite": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product",
+      "mappedBy": "telegram_user"
+    }
+  }
+}

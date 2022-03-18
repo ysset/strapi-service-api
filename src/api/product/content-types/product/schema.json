@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "adress": {
+      "type": "text"
+    },
+    "apartmentArea": {
+      "type": "integer"
+    },
+    "agent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::agent.agent",
+      "inversedBy": "products"
+    },
+    "layoutPhoto": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "telegram_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "favorite"
+    }
+  }
+}
