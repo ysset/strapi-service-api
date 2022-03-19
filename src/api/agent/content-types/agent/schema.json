@@ -23,6 +23,9 @@
     },
     "ownerName": {
       "type": "string"
+    },
+    "agentUsername": {
+      "type": "string"
     }
   }
 }

@@ -1,5 +1,6 @@
-const {commands} = require('./commands');
+const { commands, inlineCallBacks} = require('./commands');
 
 module.exports = {
-  commands
+  commands,
+  inlineCallBacks
 }

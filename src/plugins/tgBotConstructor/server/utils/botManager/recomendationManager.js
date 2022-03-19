@@ -37,4 +37,29 @@ module.exports = class infinityQueue {
       return randomValue({queue: this.endlessQueue.get(user.telegramID)});
     }
   }
+
+  async save({from, data}) {
+    const user = await strapi.db.query("api::telegram-user.telegram-user").findOne({
+      where: {
+        telegramID: from.id
+      },
+      populate: true
+    });
+
+    await strapi.db.query("api::telegram-user.telegram-user").update({
+      where: {
+        telegramID: from.id
+      },
+      data: {
+        favorite: [
+          ...user.favorite,
+          data.recId
+        ]
+      },
+      populate: true
+    })
+      .catch(e => {
+        console.log(e)
+      })
+  }
 }

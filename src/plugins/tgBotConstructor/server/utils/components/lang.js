@@ -16,15 +16,15 @@ const lang = {
     UN_AUTHORIZE: "Кажется мы не смогли найти избранные квартиры, пожалуйста перезапустите бота!",
     WRITE_AGENT_INLINE: {
       text: "Связаться с агентом",
-      callback_data: 'WRITE_AGENT',
     },
     SAVE_INLINE: {
       text: "Сохранить",
-      callback_data: 'SAVE'
     },
     NEXT_INLINE: {
       text: "Следующая",
-      callback_data: 'NEXT'
+      callback_data: JSON.stringify({
+        action: "NEXT"
+      })
     },
   }
 }
