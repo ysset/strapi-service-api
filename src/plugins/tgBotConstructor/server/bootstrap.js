@@ -17,6 +17,14 @@ module.exports = async ({strapi}) => {
     }
   ]);
 
-  strapi.bot.onText(commands.START.regex, commands.START.fn)
+  strapi.bot.onText(commands.START.regex, commands.START.fn);
+
+  strapi.bot.on('callback_query', async (query) => {
+    await commands.SEARCH_FLAT.fn({
+      ...query.message,
+      from: query.from
+    })
+  });
+
   console.log('Bot Connected!');
 };

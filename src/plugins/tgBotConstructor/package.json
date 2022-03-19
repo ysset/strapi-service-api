@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "This is the description of the plugin.",
   "strapi": {
-    "name": "tgBotConstructor",
+    "name": "DR.Invest.Bot",
     "description": "Description of tgBotConstructor plugin",
     "kind": "plugin"
   },

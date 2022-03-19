@@ -1,4 +1,31 @@
 const {lang, userLang} = require('./lang');
+const infinityQueue = require('../botManager/recomendationManager');
+const recommendations = new infinityQueue();
+
+const isUser = async ({msg, chatId}) => {
+  const user = await strapi.entityService.findOne('api::telegram-user.telegram-user', 1, {
+    where: {
+      telegramID: msg.from.id
+    },
+    populate: "*",
+  });
+
+  if (!user)
+    return await strapi.bot.sendMessage(chatId, userLang().UN_AUTHORIZE);
+
+  if (user.favorite.length === 0)
+    return await strapi.bot.sendMessage(chatId, userLang().NO_FAVORITE_NOW, {
+      reply_markup: {
+        keyboard: [
+          [userLang().FAVORITE, userLang().SEARCH_FLAT]
+        ],
+        resize_keyboard: true,
+        one_time_keyboard: true,
+      }
+    });
+
+  return user;
+};
 
 const commands = {
   START: {
@@ -39,7 +66,7 @@ const commands = {
       await strapi.bot.deleteMessage(chatId, messageId);
       if (lang.currLang)
         for (const command in commands) {
-          strapi.bot.onText(commands[command].regex, commands[command].fn)
+          strapi.bot.onText(commands[command].regex, commands[command].fn);
         }
     },
   },
@@ -49,28 +76,11 @@ const commands = {
     fn: async (msg) => {
       lang.currLang = msg.from.language_code;
       const chatId = msg.chat.id;
-      let arrOfPhoto = [];
 
-      const user = await strapi.entityService.findOne('api::telegram-user.telegram-user', 1, {
-        where: {
-          telegramID: msg.from.id
-        },
-        populate: "*",
-      });
+      const user = await isUser({msg, chatId});
 
       if (!user)
-        return await strapi.bot.sendMessage(chatId, userLang().UN_AUTHORIZE);
-
-      if (user.favorite.length === 0)
-        return await strapi.bot.sendMessage(chatId, userLang().NO_FAVORITE_NOW, {
-          reply_markup: {
-            keyboard: [
-              [userLang().FAVORITE, userLang().SEARCH_FLAT]
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
-          }
-        });
+        return;
 
       for (const product of user.favorite) {
         const photo = await strapi.entityService.findOne("api::product.product", 1, {
@@ -103,41 +113,28 @@ const commands = {
     regex: userLang()?.SEARCH_FLAT.regex,
     fn: async (msg) => {
       const chatId = msg.chat.id;
-      await strapi.bot.sendMessage(chatId, "Салат малекулы", {
+
+      const user = await isUser({msg, chatId});
+
+      if (!user)
+        return;
+
+      const rec = await recommendations.get(user);
+      const photo = rec.layoutPhoto;
+      const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${photo[0].formats.large.url}`;
+
+      await strapi.bot.sendPhoto(chatId, photoUrl, {
         reply_markup: {
           inline_keyboard: [
             [userLang().SAVE_INLINE, userLang().NEXT_INLINE],
             [userLang().WRITE_AGENT_INLINE],
-          ],
-          keyboard: [
-            [userLang().FAVORITE]
-          ],
-          resize_keyboard: true,
-          one_time_keyboard: true,
+          ]
         }
       });
     }
   }
 };
 
-// const onReply = (chatId, messageId) => {
-//     for (const replyButton in replyButtons) {
-//         bot.onReplyToMessage(chatId, messageId, replyButtons[replyButton].fn);
-//     }
-// }
-
-// const replyButtons = {
-//     NEXT: {
-//         fn: async (/*msg*/) => {
-//
-//         },
-//     },
-//     LIKE: {
-//         fn: async (/*msg*/) => {
-//
-//         },
-//     },
-// };
 
 /**
  * to send mach photos
