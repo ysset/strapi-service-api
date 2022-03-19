@@ -21,7 +21,8 @@ const commands = {
         await strapi.entityService.create('api::telegram-user.telegram-user', {
           data: {
             telegramID: msg.from.id,
-            language: lang.currLang
+            language: lang.currLang,
+            username: msg.from.username,
           }
         });
 
@@ -44,9 +45,11 @@ const commands = {
   },
 
   FAVORITE: {
-    regex: userLang()?.FAVORITE.regex, fn: async (msg) => {
+    regex: userLang()?.FAVORITE.regex,
+    fn: async (msg) => {
       lang.currLang = msg.from.language_code;
       const chatId = msg.chat.id;
+      let arrOfPhoto = [];
 
       const user = await strapi.entityService.findOne('api::telegram-user.telegram-user', 1, {
         where: {
@@ -70,20 +73,30 @@ const commands = {
         });
 
       for (const product of user.favorite) {
-        return await strapi.bot.sendPhoto(chatId, product.layoutPhoto, {
+        const photo = await strapi.entityService.findOne("api::product.product", 1, {
+          where: {id: product.id},
+          populate: '*',
+        });
+
+        await strapi.bot.sendPhoto(chatId, `/Users/ysset/WebstormProjects/tgBotStrapi/public${photo.layoutPhoto[0].formats.large.url}`, {
           reply_markup: {
-            keyboard: [
-              [userLang().SEARCH_FLAT]
-            ],
             inline_keyboard: [
-              [userLang().WRITE_AGENT_INLINE],
+              [userLang().WRITE_AGENT_INLINE]
             ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
           }
-        })
+        });
       }
-    },
+
+      await strapi.bot.sendMessage(chatId, 'Ищем дальше?', {
+        reply_markup: {
+          keyboard: [
+            [userLang().SEARCH_FLAT]
+          ],
+          resize_keyboard: true,
+          one_time_keyboard: true,
+        }
+      })
+    }
   },
 
   SEARCH_FLAT: {
@@ -125,6 +138,17 @@ const commands = {
 //         },
 //     },
 // };
+
+/**
+ * to send mach photos
+ */
+// for (let layout of photo.layoutPhoto) {
+//   arrOfPhoto.push({
+//     ...layout.formats.thumbnail,
+//     media: `/Users/ysset/WebstormProjects/tgBotStrapi/public${layout.formats.large.url}`,
+//     type: 'photo'
+//   });
+// }
 
 module.exports = {
   commands

@@ -4,24 +4,28 @@
   "info": {
     "singularName": "telegram-user",
     "pluralName": "telegram-users",
-    "displayName": "Telegram user"
+    "displayName": "Telegram user",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
     "telegramID": {
       "type": "biginteger"
     },
-    "language": {
-      "type": "string"
-    },
     "favorite": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::product.product",
       "mappedBy": "telegram_user"
+    },
+    "username": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
     }
   }
 }

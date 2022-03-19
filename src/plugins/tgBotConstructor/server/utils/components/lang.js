@@ -16,7 +16,7 @@ const lang = {
     NO_FAVORITE_NOW: "У вас пока нет сохраненных квартир!",
     UN_AUTHORIZE: "Кажется мы не смогли найти избранные квартиры, пожалуйста перезапустите бота!",
     WRITE_AGENT_INLINE: {
-      text: "Написать агенту",
+      text: "Связаться с агентом",
       callback_data: 'WRITE_AGENT',
     },
     SAVE_INLINE: {

@@ -4,10 +4,11 @@
   "info": {
     "singularName": "product",
     "pluralName": "products",
-    "displayName": "Product"
+    "displayName": "Product",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -23,6 +24,12 @@
       "target": "api::agent.agent",
       "inversedBy": "products"
     },
+    "telegram_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "favorite"
+    },
     "layoutPhoto": {
       "allowedTypes": [
         "images",
@@ -32,12 +39,6 @@
       ],
       "type": "media",
       "multiple": true
-    },
-    "telegram_user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::telegram-user.telegram-user",
-      "inversedBy": "favorite"
     }
   }
 }
