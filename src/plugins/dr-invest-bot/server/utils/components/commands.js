@@ -13,13 +13,13 @@ const commands = {
 
       await isUser({msg});
       commands.FAVORITE.regex = userLang().FAVORITE.regex;
-      commands.SEARCH_FLAT.regex = userLang().SEARCH_FLAT.regex;
+      commands.SEARCH_FLATS.regex = userLang().SEARCH_FLATS.regex;
 
       await strapi.bots.drInvest.clearTextListeners();
       await strapi.bots.drInvest.sendMessage(chatId, userLang().WELCOME.drInvest, {
         reply_markup: {
           keyboard: [
-            [userLang().FAVORITE, userLang().SEARCH_FLAT]
+            [userLang().FAVORITE, userLang().SEARCH_FLATS]
           ],
           resize_keyboard: true,
           one_time_keyboard: true,
@@ -45,10 +45,10 @@ const commands = {
         return;
 
       if (user.flats.length === 0) {
-        return await strapi.bots.drInvest.sendMessage(chatId, userLang().NO_FAVORITE_NOW, {
+        return await strapi.bots.drInvest.sendMessage(chatId, userLang().NO_FAVORITE_NOW.flat, {
           reply_markup: {
             keyboard: [
-              [userLang().FAVORITE, userLang().SEARCH_FLAT]
+              [userLang().FAVORITE, userLang().SEARCH_FLATS]
             ],
             resize_keyboard: true,
             one_time_keyboard: true,
@@ -86,7 +86,7 @@ const commands = {
       await strapi.bots.drInvest.sendMessage(chatId, 'Ищем дальше?', {
         reply_markup: {
           keyboard: [
-            [userLang().SEARCH_FLAT]
+            [userLang().SEARCH_FLATS]
           ],
           resize_keyboard: true,
           one_time_keyboard: true,
@@ -95,8 +95,8 @@ const commands = {
     }
   },
 
-  SEARCH_FLAT: {
-    regex: userLang()?.SEARCH_FLAT.regex,
+  SEARCH_FLATS: {
+    regex: userLang()?.SEARCH_FLATS.regex,
     fn: async (msg) => {
       const chatId = msg.chat.id;
 
@@ -114,10 +114,10 @@ const commands = {
       });
 
       if (!rec)
-        await drInvest.NO_FLATS();
+        await drInvest.NO_FLATS(chatId);
 
       if (!rec.agent.agentUsername)
-        await drInvest.SERVER_ERROR();
+        await drInvest.SERVER_ERROR(chatId);
 
       const photo = rec.layoutPhoto;
       const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${photo[0].formats.large.url}`;
@@ -169,7 +169,7 @@ const inlineCallBacks = {
       return;
 
     await strapi.bots.drInvest.deleteMessage(chatId, query.message.message_id);
-    return await commands.SEARCH_FLAT.fn({
+    return await commands.SEARCH_FLATS.fn({
       ...query.message,
       from: query.from
     })
@@ -191,7 +191,7 @@ const inlineCallBacks = {
       },
       data: query.data
     });
-    return await commands.SEARCH_FLAT.fn({
+    return await commands.SEARCH_FLATS.fn({
       ...query.message,
       from: query.from
     })
