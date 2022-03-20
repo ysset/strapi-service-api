@@ -15,17 +15,17 @@
     "name": {
       "type": "string"
     },
-    "products": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product.product",
-      "mappedBy": "agent"
-    },
     "ownerName": {
       "type": "string"
     },
     "agentUsername": {
       "type": "string"
+    },
+    "flats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::flat.flat",
+      "mappedBy": "agent"
     }
   }
 }

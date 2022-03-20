@@ -15,17 +15,23 @@
     "telegramID": {
       "type": "biginteger"
     },
-    "favorite": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product.product",
-      "mappedBy": "telegram_user"
-    },
     "username": {
       "type": "string"
     },
     "language": {
       "type": "string"
+    },
+    "flats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::flat.flat",
+      "mappedBy": "telegram_user"
+    },
+    "cars": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::car.car",
+      "mappedBy": "telegram_user"
     }
   }
 }

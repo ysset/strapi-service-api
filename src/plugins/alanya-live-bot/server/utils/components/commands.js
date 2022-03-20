@@ -1,7 +1,7 @@
 const {lang, userLang} = require('../../../../botUtils/botsLanguages');
 const infinityQueue = require('../../../../botUtils/botManager/recomendationManager');
 const recommendations = new infinityQueue();
-const {drInvest} = require('../../../../botUtils/errorHandlers')
+const { alanyaBot } = require('../../../../botUtils/errorHandlers')
 
 const isUser = async ({msg}) => {
   const user = await strapi.entityService.findOne('api::telegram-user.telegram-user', 1, {
@@ -37,8 +37,8 @@ const commands = {
 
       await isUser({msg});
 
-      await strapi.bots.drInvest.clearTextListeners();
-      await strapi.bots.drInvest.sendMessage(chatId, userLang().WELCOME.drInvest, {
+      await strapi.bots.alanyaBot.clearTextListeners();
+      await strapi.bots.alanyaBot.sendMessage(chatId, userLang().WELCOME.alanyaBot, {
         reply_markup: {
           keyboard: [
             [userLang().FAVORITE, userLang().SEARCH_FLAT]
@@ -47,10 +47,10 @@ const commands = {
           one_time_keyboard: true,
         }
       });
-      await strapi.bots.drInvest.deleteMessage(chatId, messageId);
+      await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
       if (lang.currLang)
         for (const command in commands) {
-          strapi.bots.drInvest.onText(commands[command].regex, commands[command].fn);
+          strapi.bots.alanyaBot.onText(commands[command].regex, commands[command].fn);
         }
     },
   },
@@ -66,8 +66,8 @@ const commands = {
       if (!user)
         return;
 
-      if (user.flats.length === 0) {
-        return await strapi.bots.drInvest.sendMessage(chatId, userLang().NO_FAVORITE_NOW, {
+      if (user.favorite.length === 0) {
+        return await strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FAVORITE_NOW, {
           reply_markup: {
             keyboard: [
               [userLang().FAVORITE, userLang().SEARCH_FLAT]
@@ -78,17 +78,17 @@ const commands = {
         });
       }
 
-      const flats = await strapi.db.query("api::flat.flat").findMany({
+      const favorite = await strapi.db.query("api::product.product").findMany({
         where: {
           id: {
-            $in: user.flats.map(el => el.id)
+            $in: user.favorite.map(el => el.id)
           }
         },
         populate: true,
       })
 
-      for (const flat of flats) {
-        await strapi.bots.drInvest.sendPhoto(chatId, `/Users/ysset/WebstormProjects/tgBotStrapi/public${flat.layoutPhoto[0].formats.large.url}`, {
+      for (const product of favorite) {
+        await strapi.bots.alanyaBot.sendPhoto(chatId, `/Users/ysset/WebstormProjects/tgBotStrapi/public${product.layoutPhoto[0].formats.large.url}`, {
           reply_markup: {
             inline_keyboard: [
               [
@@ -96,7 +96,7 @@ const commands = {
                   ...userLang().WRITE_AGENT_INLINE,
                   callback_data: JSON.stringify({
                     action: "WRITE_AGENT",
-                    agentUsername: flat.agent.agentUsername
+                    agentUsername: product.agent.agentUsername
                   })
                 }
               ]
@@ -105,7 +105,7 @@ const commands = {
         });
       }
 
-      await strapi.bots.drInvest.sendMessage(chatId, 'Ищем дальше?', {
+      await strapi.bots.alanyaBot.sendMessage(chatId, 'Ищем дальше?', {
         reply_markup: {
           keyboard: [
             [userLang().SEARCH_FLAT]
@@ -131,20 +131,20 @@ const commands = {
         user,
         filter: {
           type: "FLATS",
-          api: "api::flat.flat"
+          api: "api::car.car"
         }
       });
 
       if (!rec)
-        await drInvest.NO_FLATS();
+        await alanyaBot.NO_FLATS();
 
       if (!rec.agent.agentUsername)
-        await drInvest.SERVER_ERROR();
+        await alanyaBot.SERVER_ERROR();
 
       const photo = rec.layoutPhoto;
       const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${photo[0].formats.large.url}`;
 
-      await strapi.bots.drInvest.sendPhoto(chatId, photoUrl, {
+      await strapi.bots.alanyaBot.sendPhoto(chatId, photoUrl, {
         reply_markup: {
           inline_keyboard: [
             [
@@ -152,7 +152,62 @@ const commands = {
                 ...userLang().SAVE_INLINE,
                 callback_data: JSON.stringify({
                   action: "SAVE",
-                  type: "FLATS",
+                  recId: rec.id
+                })
+              },
+              userLang().NEXT_INLINE
+            ],
+            [
+              {
+                ...userLang().WRITE_AGENT_INLINE,
+                callback_data: JSON.stringify({
+                  action: "WRITE_AGENT",
+                  agentUsername: rec.agent.agentUsername
+                })
+              }
+            ],
+          ]
+        }
+      });
+    }
+  },
+
+  SEARCH_CAR: {
+    regex: userLang()?.SEARCH_CAR.regex,
+    fn: async (msg) => {
+      const chatId = msg.chat.id;
+
+      const user = await isUser({msg});
+
+      if (!user)
+        return;
+
+      const rec = await recommendations.get({
+        user,
+        filter: {
+          type: "CARS",
+          api: "api::car.car"
+        }
+      });
+
+      if (!rec)
+        await alanyaBot.NO_CARS();
+
+      if (!rec.agent.agentUsername)
+        await alanyaBot.SERVER_ERROR();
+
+      const photo = rec.layoutPhoto;
+      const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${photo[0].formats.large.url}`;
+
+      await strapi.bots.alanyaBot.sendPhoto(chatId, photoUrl, {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                ...userLang().SAVE_INLINE,
+                callback_data: JSON.stringify({
+                  action: "SAVE",
+                  type: "CARS",
                   recId: rec.id
                 })
               },
@@ -160,7 +215,7 @@ const commands = {
                 ...userLang().NEXT_INLINE,
                 callback_data: JSON.stringify({
                   action: "NEXT",
-                  type: "FLATS",
+                  type: "CARS",
                 })
               }
             ],
@@ -181,7 +236,6 @@ const commands = {
 };
 
 const inlineCallBacks = {
-
   NEXT: async (query) => {
     const chatId = query.message.chat.id;
 
@@ -190,13 +244,12 @@ const inlineCallBacks = {
     if (!user)
       return;
 
-    await strapi.bots.drInvest.deleteMessage(chatId, query.message.message_id);
+    await strapi.bots.alanyaBot.deleteMessage(chatId, query.message.message_id);
     return await commands.SEARCH_FLAT.fn({
       ...query.message,
       from: query.from
     })
   },
-
   SAVE: async (query) => {
     const user = await isUser({msg: query});
 
@@ -213,12 +266,12 @@ const inlineCallBacks = {
       },
       data: query.data
     });
+
     return await commands.SEARCH_FLAT.fn({
       ...query.message,
       from: query.from
     })
   },
-
   WRITE_AGENT: {},
 }
 

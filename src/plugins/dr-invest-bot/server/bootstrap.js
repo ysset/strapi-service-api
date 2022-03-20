@@ -5,8 +5,8 @@ const bot = new TgBot("5279208722:AAFnrLQ1HOZgtAmA0M2ybgWGZbM7X9fmpmI", {polling
 const { commands, inlineCallBacks } = require('./utils/components');
 
 module.exports = async ({strapi}) => {
-  strapi.bot = bot;
-  await strapi.bot.setMyCommands([
+  strapi.bots.drInvest = bot;
+  await strapi.bots.drInvest.setMyCommands([
     {
       command: '/start',
       description: 'Повторный взлет?'
@@ -17,12 +17,12 @@ module.exports = async ({strapi}) => {
     }
   ]);
 
-  strapi.bot.onText(commands.START.regex, commands.START.fn);
+  strapi.bots.drInvest.onText(commands.START.regex, commands.START.fn);
 
-  strapi.bot.on('callback_query', async (query) => {
+  strapi.bots.drInvest.on('callback_query', async (query) => {
     query.data = JSON.parse(query.data);
     return await inlineCallBacks[query.data.action](query);
   });
 
-  console.log('Bot Connected!');
+  console.log('DR Invest Bot Connected!');
 };
