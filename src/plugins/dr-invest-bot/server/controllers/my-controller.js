@@ -3,7 +3,7 @@
 module.exports = {
   index(ctx) {
     ctx.body = strapi
-      .plugin('tgBotConstructor')
+      .plugin('dr-invest-bot')
       .service('myService')
       .getWelcomeMessage();
   },

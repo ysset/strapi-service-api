@@ -2,7 +2,7 @@ const {lang, userLang} = require('./lang');
 const infinityQueue = require('../botManager/recomendationManager');
 const recommendations = new infinityQueue();
 
-const isUser = async ({ msg }) => {
+const isUser = async ({msg}) => {
   const user = await strapi.entityService.findOne('api::telegram-user.telegram-user', 1, {
     where: {
       telegramID: msg.from.id
@@ -34,7 +34,7 @@ const commands = {
       const chatId = msg.chat.id;
       const messageId = msg.message_id;
 
-      await isUser({ msg });
+      await isUser({msg});
 
       await strapi.bot.clearTextListeners();
       await strapi.bot.sendMessage(chatId, userLang().WELCOME, {
@@ -60,12 +60,12 @@ const commands = {
       lang.currLang = msg.from.language_code;
       const chatId = msg.chat.id;
 
-      const user = await isUser({ msg });
+      const user = await isUser({msg});
 
       if (!user)
         return;
 
-      if (user.favorite.length === 0)
+      if (user.favorite.length === 0) {
         return await strapi.bot.sendMessage(chatId, userLang().NO_FAVORITE_NOW, {
           reply_markup: {
             keyboard: [
@@ -75,17 +75,30 @@ const commands = {
             one_time_keyboard: true,
           }
         });
+      }
 
-      for (const product of user.favorite) {
-        const photo = await strapi.entityService.findOne("api::product.product", 1, {
-          where: {id: product.id},
-          populate: '*',
-        });
+      const favorite = await strapi.db.query("api::product.product").findMany({
+        where: {
+          id: {
+            $in: user.favorite.map(el => el.id)
+          }
+        },
+        populate: true,
+      })
 
-        await strapi.bot.sendPhoto(chatId, `/Users/ysset/WebstormProjects/tgBotStrapi/public${photo.layoutPhoto[0].formats.large.url}`, {
+      for (const product of favorite) {
+        await strapi.bot.sendPhoto(chatId, `/Users/ysset/WebstormProjects/tgBotStrapi/public${product.layoutPhoto[0].formats.large.url}`, {
           reply_markup: {
             inline_keyboard: [
-              [userLang().WRITE_AGENT_INLINE]
+              [
+                {
+                  ...userLang().WRITE_AGENT_INLINE,
+                  callback_data: JSON.stringify({
+                    action: "WRITE_AGENT",
+                    agentUsername: product.agent.agentUsername
+                  })
+                }
+              ]
             ],
           }
         });
@@ -108,7 +121,7 @@ const commands = {
     fn: async (msg) => {
       const chatId = msg.chat.id;
 
-      const user = await isUser({ msg });
+      const user = await isUser({msg});
 
       if (!user)
         return;
@@ -150,7 +163,7 @@ const inlineCallBacks = {
   NEXT: async (query) => {
     const chatId = query.message.chat.id;
 
-    const user = await isUser({ msg: query });
+    const user = await isUser({msg: query});
 
     if (!user)
       return;
@@ -162,7 +175,7 @@ const inlineCallBacks = {
     })
   },
   SAVE: async (query) => {
-    const user = await isUser({ msg: query });
+    const user = await isUser({msg: query});
 
     if (!user)
       return;
@@ -176,9 +189,7 @@ const inlineCallBacks = {
       from: query.from
     })
   },
-  WRITE_AGENT: {
-
-  },
+  WRITE_AGENT: {},
 }
 
 
