@@ -1,32 +1,8 @@
 const {lang, userLang} = require('../../../../botUtils/botsLanguages');
 const infinityQueue = require('../../../../botUtils/botManager/recomendationManager');
+const {drInvest} = require('../../../../botUtils/errorHandlers');
+const isUser = require('../../../../botUtils/userController');
 const recommendations = new infinityQueue();
-const {drInvest} = require('../../../../botUtils/errorHandlers')
-
-const isUser = async ({msg}) => {
-  const user = await strapi.entityService.findOne('api::telegram-user.telegram-user', 1, {
-    where: {
-      telegramID: msg.from.id
-    },
-    populate: "*",
-  });
-
-
-  if (!user)
-    await strapi.entityService.create('api::telegram-user.telegram-user', {
-      data: {
-        telegramID: msg.from.id,
-        language: lang.currLang,
-        username: msg.from.username,
-      }
-    });
-
-  lang.currLang = msg.from.language_code;
-  commands.FAVORITE.regex = userLang().FAVORITE.regex;
-  commands.SEARCH_FLAT.regex = userLang().SEARCH_FLAT.regex;
-
-  return user;
-};
 
 const commands = {
   START: {
@@ -36,6 +12,8 @@ const commands = {
       const messageId = msg.message_id;
 
       await isUser({msg});
+      commands.FAVORITE.regex = userLang().FAVORITE.regex;
+      commands.SEARCH_FLAT.regex = userLang().SEARCH_FLAT.regex;
 
       await strapi.bots.drInvest.clearTextListeners();
       await strapi.bots.drInvest.sendMessage(chatId, userLang().WELCOME.drInvest, {
