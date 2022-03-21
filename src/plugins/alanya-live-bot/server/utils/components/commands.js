@@ -69,7 +69,7 @@ const commands = {
         return await strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FAVORITE_NOW.car, {
           reply_markup: {
             keyboard: [
-              [userLang().FAVORITE_FLATS, userLang().SEARCH_FLATS]
+              [userLang().FAVORITE_FLATS, userLang().SEARCH_CARS]
             ],
             resize_keyboard: true,
             one_time_keyboard: true,
@@ -131,7 +131,7 @@ const commands = {
         return await strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FAVORITE_NOW.flat, {
           reply_markup: {
             keyboard: [
-              [userLang().FAVORITE_CARS, userLang().SEARCH_CARS]
+              [userLang().FAVORITE_CARS, userLang().SEARCH_FLATS]
             ],
             resize_keyboard: true,
             one_time_keyboard: true,
@@ -215,11 +215,11 @@ const commands = {
         }
       });
 
-      if (!rec)
-        await alanyaBot.NO_FLATS(chatId);
+      if (!rec || rec.length === 0)
+        return await alanyaBot.NO_FLATS(chatId);
 
       if (!rec.agent.agentUsername)
-        await alanyaBot.SERVER_ERROR(chatId);
+        return await alanyaBot.SERVER_ERROR(chatId);
 
       const photo = rec.layoutPhoto;
       const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${photo[0].formats.medium.url}`;
@@ -277,14 +277,16 @@ const commands = {
         }
       });
 
-      if (!rec)
-        await alanyaBot.NO_CARS(chatId);
+      if (!rec || rec.length === 0)
+        return await alanyaBot.NO_CARS(chatId);
 
-      if (!rec.agent.agentUsername)
-        await alanyaBot.SERVER_ERROR(chatId);
+      if (!rec.agent.agentUsername || !rec.carPhoto)
+        return await alanyaBot.SERVER_ERROR(chatId);
 
-      const photo = rec.layoutPhoto;
-      const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${photo[0].formats.medium.url}`;
+      const photo = rec.carPhoto;
+      const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${
+        photo[0].formats.medium ? photo[0].formats.medium.url : photo[0].formats.thumbnail.url
+      }`;
 
       await strapi.bots.alanyaBot.sendPhoto(chatId, photoUrl, {
         reply_markup: {
@@ -348,13 +350,17 @@ const inlineCallBacks = {
         where: {
           key: "telegramID",
           value: query.from.id
+
         },
         apiKey: "api::telegram-user.telegram-user"
       },
       data: query.data
     });
 
-    return await commands.SEARCH_FLATS.fn({
+    await strapi.bots.alanyaBot.sendMessage(query.message.chat.id, userLang().SAVED);
+
+
+    return await commands[`SEARCH_${query.data.type}`].fn({
       ...query.message,
       from: query.from
     })

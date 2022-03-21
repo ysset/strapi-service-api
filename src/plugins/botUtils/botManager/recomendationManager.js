@@ -24,22 +24,27 @@ module.exports = class infinityQueue {
       return show;
     }
 
+    /**
+     * TODO Infinity Queue
+     * @type {null}
+     */
     let rec = null;
     if (!this.endlessQueue.has(id)) {
+      console.log(user[type.toLowerCase()].map(el => el.id))
       rec = await strapi.db.query(api).findMany({
-        where: {
-          id: {
-            $ne: user[type.toLowerCase()].map(el => el.id)
-          }
-        },
         populate: true
       });
+      rec = rec.filter(recEl => user[type.toLowerCase()].some(el => recEl.id === el.id))
+      console.log(rec)
       this.endlessQueue.set(id, rec);
       return randomValue({queue: this.endlessQueue.get(id)});
     } else {
-      if (this.endlessQueue.get(id).length === 0) {
+      const isQueryHasNonLikedEntity = user[type.toLowerCase()].some(userEl => !this.shown.get(id).some(showEl => userEl.id === showEl.id))
+      if (this.endlessQueue.get(id).length === 0 && isQueryHasNonLikedEntity) {
         this.endlessQueue.set(id, this.shown.get(id));
         this.shown.set(user.telegramID, []);
+      } else {
+        return []
       }
       return randomValue({queue: this.endlessQueue.get(id)});
     }
@@ -74,7 +79,7 @@ module.exports = class infinityQueue {
       },
       data: {
         [data.type.toLowerCase()]: [
-          ...user.flats,
+          ...user[data.type.toLowerCase()],
           data.recId
         ]
       },

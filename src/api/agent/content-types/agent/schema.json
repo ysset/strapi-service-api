@@ -26,6 +26,12 @@
       "relation": "oneToMany",
       "target": "api::flat.flat",
       "mappedBy": "agent"
+    },
+    "cars": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::car.car",
+      "mappedBy": "agent"
     }
   }
 }
