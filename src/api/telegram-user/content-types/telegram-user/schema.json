@@ -21,17 +21,29 @@
     "language": {
       "type": "string"
     },
-    "flats": {
+    "favorite_flats": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::flat.flat",
       "mappedBy": "telegram_user"
     },
-    "cars": {
+    "favorite_cars": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::car.car",
       "mappedBy": "telegram_user"
+    },
+    "checked_flats": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::flat.flat",
+      "inversedBy": "checked_users"
+    },
+    "checked_cars": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::car.car",
+      "inversedBy": "checked_users"
     }
   }
 }

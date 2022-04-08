@@ -1,92 +1,78 @@
 module.exports = class infinityQueue {
-  constructor() {
-    this.endlessQueue = new Map();
-    this.shown = new Map();
-  }
+    constructor() {}
 
-  async get({ user, filter = {
-    type: String,
-    api: String
-  }}) {
-
-    const { type, api } = filter;
-    const id = `${user.telegramID}::${type}`;
-
-    const randomValue = ({queue = Array}) => {
-      const randomIndex = Math.floor(Math.random() * queue.length);
-      const show = queue[randomIndex];
-      if (this.shown.has(id)) {
-        this.shown.set(id, [...this.shown.get(id), show]);
-      } else {
-        this.shown.set(id, [show]);
-      }
-      this.endlessQueue.set(id, queue.filter(el => el.id !== show.id));
-      return show;
+    async get({ user, filter }) {
+        const watched = {
+            cars: user.checked_cars,
+            flats: user.checked_flats,
+        };
+        const favorite = {
+            cars: user.favorite_cars,
+            flats: user.favorite_flats,
+        };
+        if (!favorite[filter.type.toLowerCase()]) {
+            return null;
+        }
+        if (!watched[filter.type.toLowerCase()]) {
+            return null;
+        }
+        const recommendations = await strapi.entityService.findMany(filter.api, {
+            populate: '*',
+        });
+        // убираем из полного списка все что было сохранено пользователем
+        let filteredByFavorite = recommendations.filter((rec) => {
+            return !favorite[filter.type.toLowerCase()].some((favorite) => rec.id === favorite.id);
+        });
+        // убираем из полного списка все что было просмотрено пользователем
+        let filteredByWatched = filteredByFavorite.filter((filtered) => {
+            return !watched[filter.type.toLowerCase()].some((watched) => watched.id === filtered.id);
+        });
+        if (filteredByWatched.length === 0) {
+            return null;
+        }
+        return filteredByWatched[Math.floor(Math.random() * filteredByWatched.length)];
     }
 
     /**
-     * TODO Infinity Queue
-     * @type {null}
+     *
+     * @param filter
+     * @param data
+     * @returns {Promise<void>}
      */
-    let rec = null;
-    if (!this.endlessQueue.has(id)) {
-      console.log(user[type.toLowerCase()].map(el => el.id))
-      rec = await strapi.db.query(api).findMany({
-        populate: true
-      });
-      rec = rec.filter(recEl => user[type.toLowerCase()].some(el => recEl.id === el.id))
-      console.log(rec)
-      this.endlessQueue.set(id, rec);
-      return randomValue({queue: this.endlessQueue.get(id)});
-    } else {
-      const isQueryHasNonLikedEntity = user[type.toLowerCase()].some(userEl => !this.shown.get(id).some(showEl => userEl.id === showEl.id))
-      if (this.endlessQueue.get(id).length === 0 && isQueryHasNonLikedEntity) {
-        this.endlessQueue.set(id, this.shown.get(id));
-        this.shown.set(user.telegramID, []);
-      } else {
-        return []
-      }
-      return randomValue({queue: this.endlessQueue.get(id)});
+    async save({
+        filter = {
+            where: {
+                key: String,
+                value: Object,
+            },
+            apiKey: String,
+        },
+        data,
+    }) {
+        const {
+            where: { key, value },
+            apiKey,
+        } = filter;
+        const user = await strapi.db.query(apiKey).findOne({
+            where: {
+                [key]: value,
+            },
+            populate: true,
+        });
+
+        await strapi.db
+            .query(apiKey)
+            .update({
+                where: {
+                    [key]: value,
+                },
+                data: {
+                    [data.type.toLowerCase()]: [...user[data.type.toLowerCase()], data.recId],
+                },
+                populate: true,
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     }
-  }
-
-  /**
-   *
-   * @param filter
-   * @param data
-   * @returns {Promise<void>}
-   */
-  async save({
-               filter = {
-                 where: {
-                   key: String,
-                   value: Any,
-                 },
-                 apiKey: String
-               }, data
-             }) {
-    const {where: {key, value}, apiKey} = filter;
-    const user = await strapi.db.query(apiKey).findOne({
-      where: {
-        [key]: value
-      },
-      populate: true
-    });
-
-    await strapi.db.query(apiKey).update({
-      where: {
-        [key]: value
-      },
-      data: {
-        [data.type.toLowerCase()]: [
-          ...user[data.type.toLowerCase()],
-          data.recId
-        ]
-      },
-      populate: true
-    })
-      .catch(e => {
-        console.log(e)
-      })
-  }
-}
+};

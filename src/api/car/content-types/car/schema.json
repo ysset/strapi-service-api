@@ -30,12 +30,6 @@
     "location": {
       "type": "string"
     },
-    "telegram_user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::telegram-user.telegram-user",
-      "inversedBy": "cars"
-    },
     "agent": {
       "type": "relation",
       "relation": "manyToOne",
@@ -51,6 +45,18 @@
       ],
       "type": "media",
       "multiple": true
+    },
+    "telegram_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "favorite_cars"
+    },
+    "checked_users": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "checked_cars"
     }
   }
 }

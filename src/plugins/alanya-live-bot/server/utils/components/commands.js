@@ -1,373 +1,371 @@
-const {lang, userLang} = require('../../../../botUtils/botsLanguages');
+const { lang, userLang } = require('../../../../botUtils/botsLanguages');
 const infinityQueue = require('../../../../botUtils/botManager/recomendationManager');
-const {alanyaBot} = require('../../../../botUtils/errorHandlers');
+const { alanyaBot } = require('../../../../botUtils/errorHandlers');
 const isUser = require('../../../../botUtils/userController');
 const recommendations = new infinityQueue();
 
 const commands = {
-  START: {
-    regex: /\/start/,
-    fn: async (msg) => {
-      const chatId = msg.chat.id;
-      const messageId = msg.message_id;
+    START: {
+        regex: /\/start/,
+        fn: async (msg) => {
+            const chatId = msg.chat.id;
+            const messageId = msg.message_id;
 
-      await isUser({msg});
+            await isUser({ msg });
 
-      Object.keys(commands).forEach(key => {
-        commands[key].regex = userLang()[key].regex
-      });
+            Object.keys(commands).forEach((key) => {
+                commands[key].regex = userLang()[key].regex;
+            });
 
-      await strapi.bots.alanyaBot.clearTextListeners();
-      await strapi.bots.alanyaBot.sendMessage(chatId, userLang().WELCOME.alanyaBot, {
-        reply_markup: {
-          keyboard: [
-            [userLang().FAVORITE, userLang().SEARCH]
-          ],
-          resize_keyboard: true,
-          one_time_keyboard: true,
-        }
-      });
-      await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
-      if (lang.currLang)
-        for (const command in commands) {
-          strapi.bots.alanyaBot.onText(commands[command].regex, commands[command].fn);
-        }
+            await strapi.bots.alanyaBot.clearTextListeners();
+            await strapi.bots.alanyaBot.sendMessage(chatId, userLang().WELCOME.alanyaBot, {
+                reply_markup: {
+                    keyboard: [[userLang().FAVORITE, userLang().SEARCH]],
+                    resize_keyboard: true,
+                    one_time_keyboard: true,
+                },
+            });
+            await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
+            if (lang.currLang)
+                for (const command in commands) {
+                    strapi.bots.alanyaBot.onText(commands[command].regex, commands[command].fn);
+                }
+        },
     },
-  },
 
-  FAVORITE: {
-    regex: userLang()?.FAVORITE.regex,
-    fn: async (msg) => {
-      lang.currLang = msg.from.language_code;
-      const chatId = msg.chat.id;
+    FAVORITE: {
+        regex: userLang()?.FAVORITE.regex,
+        fn: async (msg) => {
+            lang.currLang = msg.from.language_code;
+            const chatId = msg.chat.id;
 
-      const messageId = msg.message_id;
-      await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
+            const messageId = msg.message_id;
+            await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
 
-      return await strapi.bots.alanyaBot.sendMessage(chatId, "Выберите подгруппу", {
-        reply_markup: {
-          keyboard: [
-            [userLang().FAVORITE_CARS, userLang().FAVORITE_FLATS]
-          ]
-        }
-      })
-    }
-  },
-
-  FAVORITE_CARS: {
-    regex: userLang()?.FAVORITE_CARS.regex,
-    fn: async (msg) => {
-      lang.currLang = msg.from.language_code;
-      const chatId = msg.chat.id;
-
-      const user = await isUser({msg});
-
-      if (!user)
-        return;
-
-      if (user.cars.length === 0) {
-        return await strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FAVORITE_NOW.car, {
-          reply_markup: {
-            keyboard: [
-              [userLang().FAVORITE_FLATS, userLang().SEARCH_CARS]
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
-          }
-        });
-      }
-
-      const cars = await strapi.db.query("api::car.car").findMany({
-        where: {
-          id: {
-            $in: user.cars.map(el => el.id)
-          }
+            return await strapi.bots.alanyaBot.sendMessage(chatId, 'Выберите подгруппу', {
+                reply_markup: {
+                    keyboard: [[userLang().FAVORITE_CARS, userLang().FAVORITE_FLATS]],
+                },
+            });
         },
-        populate: true,
-      })
+    },
 
-      for (const car of cars) {
-        await strapi.bots.alanyaBot.sendPhoto(chatId, `/Users/ysset/WebstormProjects/tgBotStrapi/public${car.layoutPhoto[0].formats.medium.url}`, {
-          reply_markup: {
-            inline_keyboard: [
-              [
-                {
-                  ...userLang().WRITE_AGENT_INLINE,
-                  callback_data: JSON.stringify({
-                    action: "WRITE_AGENT",
-                    agentUsername: car.agent.agentUsername
-                  })
-                }
-              ]
-            ],
-          }
-        });
-      }
+    FAVORITE_CARS: {
+        regex: userLang()?.FAVORITE_CARS.regex,
+        fn: async (msg) => {
+            lang.currLang = msg.from.language_code;
+            const chatId = msg.chat.id;
 
-      await strapi.bots.alanyaBot.sendMessage(chatId, 'Ищем дальше?', {
-        reply_markup: {
-          keyboard: [
-            [userLang().FAVORITE_CARS]
-          ],
-          resize_keyboard: true,
-          one_time_keyboard: true,
-        }
-      })
-    }
-  },
+            const user = await isUser({ msg });
 
-  FAVORITE_FLATS: {
-    regex: userLang()?.FAVORITE_FLATS.regex,
-    fn: async (msg) => {
-      lang.currLang = msg.from.language_code;
-      const chatId = msg.chat.id;
+            if (!user) return;
 
-      const user = await isUser({msg});
+            if (user.cars.length === 0) {
+                return await strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FAVORITE_NOW.car, {
+                    reply_markup: {
+                        keyboard: [[userLang().FAVORITE_FLATS, userLang().SEARCH_CARS]],
+                        resize_keyboard: true,
+                        one_time_keyboard: true,
+                    },
+                });
+            }
 
-      if (!user)
-        return;
+            const cars = await strapi.db.query('api::car.car').findMany({
+                where: {
+                    id: {
+                        $in: user.cars.map((el) => el.id),
+                    },
+                },
+                populate: true,
+            });
 
-      if (user.flats.length === 0) {
-        return await strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FAVORITE_NOW.flat, {
-          reply_markup: {
-            keyboard: [
-              [userLang().FAVORITE_CARS, userLang().SEARCH_FLATS]
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
-          }
-        });
-      }
+            for (const car of cars) {
+                await strapi.bots.alanyaBot.sendPhoto(
+                    chatId,
+                    `/Users/ysset/WebstormProjects/tgBotStrapi/public${car.layoutPhoto[0].formats.medium.url}`,
+                    {
+                        reply_markup: {
+                            inline_keyboard: [
+                                [
+                                    {
+                                        ...userLang().WRITE_AGENT_INLINE,
+                                        callback_data: JSON.stringify({
+                                            action: 'WRITE_AGENT',
+                                            agentUsername: car.agent.agentUsername,
+                                        }),
+                                    },
+                                ],
+                            ],
+                        },
+                    }
+                );
+            }
 
-      const flats = await strapi.db.query("api::flat.flat").findMany({
-        where: {
-          id: {
-            $in: user.flats.map(el => el.id)
-          }
+            await strapi.bots.alanyaBot.sendMessage(chatId, 'Ищем дальше?', {
+                reply_markup: {
+                    keyboard: [[userLang().FAVORITE_CARS]],
+                    resize_keyboard: true,
+                    one_time_keyboard: true,
+                },
+            });
         },
-        populate: true,
-      })
+    },
 
-      for (const flat of flats) {
-        await strapi.bots.alanyaBot.sendPhoto(chatId, `/Users/ysset/WebstormProjects/tgBotStrapi/public${flat.layoutPhoto[0].formats.medium.url}`, {
-          reply_markup: {
-            inline_keyboard: [
-              [
-                {
-                  ...userLang().WRITE_AGENT_INLINE,
-                  callback_data: JSON.stringify({
-                    action: "WRITE_AGENT",
-                    agentUsername: flat.agent.agentUsername
-                  })
-                }
-              ]
-            ],
-          }
-        });
-      }
+    FAVORITE_FLATS: {
+        regex: userLang()?.FAVORITE_FLATS.regex,
+        fn: async (msg) => {
+            lang.currLang = msg.from.language_code;
+            const chatId = msg.chat.id;
 
-      await strapi.bots.alanyaBot.sendMessage(chatId, 'Ищем дальше?', {
-        reply_markup: {
-          keyboard: [
-            [userLang().SEARCH_FLATS]
-          ],
-          resize_keyboard: true,
-          one_time_keyboard: true,
-        }
-      })
-    }
-  },
+            const user = await isUser({ msg });
 
-  SEARCH: {
-    regex: userLang()?.SEARCH.regex,
-    fn: async (msg) => {
-      lang.currLang = msg.from.language_code;
-      const chatId = msg.chat.id;
+            if (!user) return;
 
-      const messageId = msg.message_id;
-      await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
+            if (user.flats.length === 0) {
+                return await strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FAVORITE_NOW.flat, {
+                    reply_markup: {
+                        keyboard: [[userLang().FAVORITE_CARS, userLang().SEARCH_FLATS]],
+                        resize_keyboard: true,
+                        one_time_keyboard: true,
+                    },
+                });
+            }
 
-      return await strapi.bots.alanyaBot.sendMessage(chatId, "Выберите подгруппу", {
-        reply_markup: {
-          keyboard: [
-            [userLang().SEARCH_FLATS, userLang().SEARCH_CARS]
-          ]
-        }
-      })
-    }
-  },
+            const flats = await strapi.db.query('api::flat.flat').findMany({
+                where: {
+                    id: {
+                        $in: user.flats.map((el) => el.id),
+                    },
+                },
+                populate: true,
+            });
 
-  SEARCH_FLATS: {
-    regex: userLang()?.SEARCH_FLATS.regex,
-    fn: async (msg) => {
-      const chatId = msg.chat.id;
+            for (const flat of flats) {
+                await strapi.bots.alanyaBot.sendPhoto(
+                    chatId,
+                    `/Users/ysset/WebstormProjects/tgBotStrapi/public${flat.layoutPhoto[0].formats.medium.url}`,
+                    {
+                        reply_markup: {
+                            inline_keyboard: [
+                                [
+                                    {
+                                        ...userLang().WRITE_AGENT_INLINE,
+                                        callback_data: JSON.stringify({
+                                            action: 'WRITE_AGENT',
+                                            agentUsername: flat.agent.agentUsername,
+                                        }),
+                                    },
+                                ],
+                            ],
+                        },
+                    }
+                );
+            }
 
-      const user = await isUser({msg});
+            await strapi.bots.alanyaBot.sendMessage(chatId, 'Ищем дальше?', {
+                reply_markup: {
+                    keyboard: [[userLang().SEARCH_FLATS]],
+                    resize_keyboard: true,
+                    one_time_keyboard: true,
+                },
+            });
+        },
+    },
 
-      if (!user)
-        return;
+    SEARCH: {
+        regex: userLang()?.SEARCH.regex,
+        fn: async (msg) => {
+            lang.currLang = msg.from.language_code;
+            const chatId = msg.chat.id;
 
-      const rec = await recommendations.get({
-        user,
-        filter: {
-          type: "FLATS",
-          api: "api::flat.flat"
-        }
-      });
+            const messageId = msg.message_id;
+            await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
 
-      if (!rec || rec.length === 0)
-        return await alanyaBot.NO_FLATS(chatId);
+            return await strapi.bots.alanyaBot.sendMessage(chatId, 'Выберите подгруппу', {
+                reply_markup: {
+                    keyboard: [[userLang().SEARCH_FLATS, userLang().SEARCH_CARS]],
+                },
+            });
+        },
+    },
 
-      if (!rec.agent.agentUsername)
-        return await alanyaBot.SERVER_ERROR(chatId);
+    SEARCH_FLATS: {
+        regex: userLang()?.SEARCH_FLATS.regex,
+        fn: async (msg) => {
+            const chatId = msg.chat.id;
 
-      const photo = rec.layoutPhoto;
-      const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${photo[0].formats.medium.url}`;
+            const user = await isUser({ msg });
 
-      await strapi.bots.alanyaBot.sendPhoto(chatId, photoUrl, {
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                ...userLang().SAVE_INLINE,
-                callback_data: JSON.stringify({
-                  action: "SAVE",
-                  type: "FLATS",
-                  recId: rec.id
-                })
-              },
-              {
-                ...userLang().NEXT_INLINE,
-                callback_data: JSON.stringify({
-                  action: "NEXT",
-                  type: "FLATS",
-                })
-              }
-            ],
-            [
-              {
-                ...userLang().WRITE_AGENT_INLINE,
-                callback_data: JSON.stringify({
-                  action: "WRITE_AGENT",
-                  agentUsername: rec.agent.agentUsername
-                })
-              }
-            ],
-          ]
-        }
-      });
-    }
-  },
+            if (!user) return;
 
-  SEARCH_CARS: {
-    regex: userLang()?.SEARCH_CARS.regex,
-    fn: async (msg) => {
-      const chatId = msg.chat.id;
+            const recommendationFlat = await recommendations.get({
+                user,
+                filter: {
+                    type: 'FLATS',
+                    api: 'api::flat.flat',
+                },
+            });
 
-      const user = await isUser({msg});
+            if (!recommendationFlat) {
+                return await alanyaBot.NO_FLATS(chatId);
+            }
+            if (!recommendationFlat.agent.agentUsername) {
+                return await alanyaBot.SERVER_ERROR(chatId);
+            }
 
-      if (!user)
-        return;
+            const photo = recommendationFlat.layoutPhoto;
+            const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${photo[0].formats.medium.url}`;
 
-      const rec = await recommendations.get({
-        user,
-        filter: {
-          type: "CARS",
-          api: "api::car.car"
-        }
-      });
+            await strapi.bots.alanyaBot.sendPhoto(chatId, photoUrl, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                ...userLang().SAVE_INLINE,
+                                callback_data: JSON.stringify({
+                                    action: 'SAVE',
+                                    type: 'FLATS',
+                                    recId: recommendationFlat.id,
+                                }),
+                            },
+                            {
+                                ...userLang().NEXT_INLINE,
+                                callback_data: JSON.stringify({
+                                    action: 'NEXT',
+                                    type: 'FLATS',
+                                }),
+                            },
+                        ],
+                        [
+                            {
+                                ...userLang().WRITE_AGENT_INLINE,
+                                callback_data: JSON.stringify({
+                                    action: 'WRITE_AGENT',
+                                    agentUsername: recommendationFlat.agent.agentUsername,
+                                }),
+                            },
+                        ],
+                    ],
+                },
+            });
+            const params = {
+                data: {
+                    checked_flats: [...user.checked_flats, recommendationFlat.id],
+                },
+            };
+            await strapi.entityService.update('api::telegram-user.telegram-user', 1, params).catch((e) => {
+                console.log(e);
+            });
+        },
+    },
 
-      if (!rec || rec.length === 0)
-        return await alanyaBot.NO_CARS(chatId);
+    SEARCH_CARS: {
+        regex: userLang()?.SEARCH_CARS.regex,
+        fn: async (msg) => {
+            const chatId = msg.chat.id;
 
-      if (!rec.agent.agentUsername || !rec.carPhoto)
-        return await alanyaBot.SERVER_ERROR(chatId);
+            const user = await isUser({ msg });
 
-      const photo = rec.carPhoto;
-      const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${
-        photo[0].formats.medium ? photo[0].formats.medium.url : photo[0].formats.thumbnail.url
-      }`;
+            if (!user) return;
 
-      await strapi.bots.alanyaBot.sendPhoto(chatId, photoUrl, {
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                ...userLang().SAVE_INLINE,
-                callback_data: JSON.stringify({
-                  action: "SAVE",
-                  type: "CARS",
-                  recId: rec.id
-                })
-              },
-              {
-                ...userLang().NEXT_INLINE,
-                callback_data: JSON.stringify({
-                  action: "NEXT",
-                  type: "CARS",
-                })
-              }
-            ],
-            [
-              {
-                ...userLang().WRITE_AGENT_INLINE,
-                callback_data: JSON.stringify({
-                  action: "WRITE_AGENT",
-                  agentUsername: rec.agent.agentUsername
-                })
-              }
-            ],
-          ]
-        }
-      });
-    }
-  }
+            const recommendationCar = await recommendations.get({
+                user,
+                filter: {
+                    type: 'CARS',
+                    api: 'api::car.car',
+                },
+            });
+
+            if (!recommendationCar) {
+                return await alanyaBot.NO_CARS(chatId);
+            }
+            if (!recommendationCar.agent.agentUsername) {
+                return await alanyaBot.SERVER_ERROR(chatId);
+            }
+
+            const photo = recommendationCar.carPhoto;
+            const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${
+                photo[0].formats.medium ? photo[0].formats.medium.url : photo[0].formats.thumbnail.url
+            }`;
+
+            await strapi.bots.alanyaBot.sendPhoto(chatId, photoUrl, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                ...userLang().SAVE_INLINE,
+                                callback_data: JSON.stringify({
+                                    action: 'SAVE',
+                                    type: 'CARS',
+                                    recId: recommendationCar.id,
+                                }),
+                            },
+                            {
+                                ...userLang().NEXT_INLINE,
+                                callback_data: JSON.stringify({
+                                    action: 'NEXT',
+                                    type: 'CARS',
+                                }),
+                            },
+                        ],
+                        [
+                            {
+                                ...userLang().WRITE_AGENT_INLINE,
+                                callback_data: JSON.stringify({
+                                    action: 'WRITE_AGENT',
+                                    agentUsername: recommendationCar.agent.agentUsername,
+                                }),
+                            },
+                        ],
+                    ],
+                },
+            });
+            await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
+                checked_cars: [...user.checked_cars, recommendationCar.id],
+            });
+        },
+    },
 };
 
 const inlineCallBacks = {
-  NEXT: async (query) => {
-    const chatId = query.message.chat.id;
+    NEXT: async (query) => {
+        const chatId = query.message.chat.id;
 
-    const user = await isUser({msg: query});
+        const user = await isUser({ msg: query });
 
-    if (!user)
-      return;
+        if (!user) return;
 
-    await strapi.bots.alanyaBot.deleteMessage(chatId, query.message.message_id);
-    return await commands.SEARCH_FLATS.fn({
-      ...query.message,
-      from: query.from
-    })
-  },
-  SAVE: async (query) => {
-    const user = await isUser({msg: query});
+        await strapi.bots.alanyaBot.deleteMessage(chatId, query.message.message_id);
+        return await commands.SEARCH_FLATS.fn({
+            ...query.message,
+            from: query.from,
+        });
+    },
+    SAVE: async (query) => {
+        const user = await isUser({ msg: query });
 
-    if (!user)
-      return;
+        if (!user) return;
 
-    await recommendations.save({
-      filter: {
-        where: {
-          key: "telegramID",
-          value: query.from.id
+        await recommendations.save({
+            filter: {
+                where: {
+                    key: 'telegramID',
+                    value: query.from.id,
+                },
+                apiKey: 'api::telegram-user.telegram-user',
+            },
+            data: query.data,
+        });
 
-        },
-        apiKey: "api::telegram-user.telegram-user"
-      },
-      data: query.data
-    });
+        await strapi.bots.alanyaBot.sendMessage(query.message.chat.id, userLang().SAVED);
 
-    await strapi.bots.alanyaBot.sendMessage(query.message.chat.id, userLang().SAVED);
-
-
-    return await commands[`SEARCH_${query.data.type}`].fn({
-      ...query.message,
-      from: query.from
-    })
-  },
-  WRITE_AGENT: {},
-}
-
+        return await commands[`SEARCH_${query.data.type}`].fn({
+            ...query.message,
+            from: query.from,
+        });
+    },
+    WRITE_AGENT: {},
+};
 
 /**
  * to send mach photos
@@ -381,6 +379,6 @@ const inlineCallBacks = {
 // }
 
 module.exports = {
-  commands,
-  inlineCallBacks
-}
+    commands,
+    inlineCallBacks,
+};

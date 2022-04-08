@@ -39,7 +39,13 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::telegram-user.telegram-user",
-      "inversedBy": "flats"
+      "inversedBy": "favorite_flats"
+    },
+    "checked_users": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "checked_flats"
     }
   }
 }

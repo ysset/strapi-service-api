@@ -1,27 +1,27 @@
 {
-  "parser": "babel-eslint",
-  "extends": "eslint:recommended",
   "env": {
     "commonjs": true,
-    "es6": true,
-    "node": true,
-    "browser": false
+    "es2021": true,
+    "node": true
   },
+  "extends": ["eslint:recommended"],
   "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": false
-    },
-    "sourceType": "module"
+    "ecmaVersion": 12
   },
   "globals": {
-    "strapi": true
+    "afterAll": "readonly",
+    "afterEach": "readonly",
+    "beforeAll": "readonly",
+    "beforeEach": "readonly",
+    "strapi": "readonly",
+    "describe": "readonly",
+    "it": "readonly",
+    "expect": "readonly",
+    "jest": "readonly"
   },
   "rules": {
-    "indent": ["error", 2, { "SwitchCase": 1 }],
-    "linebreak-style": ["error", "unix"],
-    "no-console": 0,
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"]
+    "quotes": ["warn", "single"],
+    "semi": ["off"],
+    "no-unused-vars": "warn"
   }
 }
