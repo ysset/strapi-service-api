@@ -1,5 +1,5 @@
 const lang = {
-    currLang: null,
+    currentLang: null,
     ru: {
         WELCOME: {
             drInvest: 'Добро пожаловать в DR.Invest Бот!',
@@ -71,7 +71,7 @@ const lang = {
 };
 
 const userLang = () => {
-    if (lang.currLang) return lang[lang.currLang];
+    if (lang.currentLang) return lang[lang.currentLang];
 };
 
 module.exports = {

@@ -26,7 +26,7 @@ const commands = {
                 },
             });
             await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
-            if (lang.currLang)
+            if (lang.currentLang)
                 for (const command in commands) {
                     strapi.bots.alanyaBot.onText(commands[command].regex, (msg) =>
                         commands[command].fn({ ...msg, user })
@@ -38,7 +38,7 @@ const commands = {
     FAVORITE: {
         regex: userLang()?.FAVORITE.regex,
         fn: async (msg) => {
-            lang.currLang = msg.from.language_code;
+            lang.currentLang = msg.from.language_code;
             const chatId = msg.chat.id;
 
             const messageId = msg.message_id;
@@ -55,7 +55,7 @@ const commands = {
     FAVORITE_CARS: {
         regex: userLang()?.FAVORITE_CARS.regex,
         fn: async (msg) => {
-            lang.currLang = msg.from.language_code;
+            lang.currentLang = msg.from.language_code;
             const chatId = msg.chat.id;
 
             if (!msg.user) return;
@@ -114,7 +114,7 @@ const commands = {
     FAVORITE_FLATS: {
         regex: userLang()?.FAVORITE_FLATS.regex,
         fn: async (msg) => {
-            lang.currLang = msg.from.language_code;
+            lang.currentLang = msg.from.language_code;
             const chatId = msg.chat.id;
 
             if (!msg.user) return;
@@ -173,7 +173,7 @@ const commands = {
     SEARCH: {
         regex: userLang()?.SEARCH.regex,
         fn: async (msg) => {
-            lang.currLang = msg.from.language_code;
+            lang.currentLang = msg.from.language_code;
             const chatId = msg.chat.id;
 
             const messageId = msg.message_id;

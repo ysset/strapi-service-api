@@ -12,12 +12,12 @@ module.exports = async ({ msg }) => {
         await strapi.entityService.create('api::telegram-user.telegram-user', {
             data: {
                 telegramID: msg.from.id,
-                language: lang.currLang,
+                language: lang.currentLang,
                 username: msg.from.username,
             },
         });
 
-    lang.currLang = msg.from.language_code;
+    lang.currentLang = msg.from.language_code;
 
     return user;
 };
