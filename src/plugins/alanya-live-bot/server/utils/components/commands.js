@@ -26,12 +26,13 @@ const commands = {
                 },
             });
             await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
-            if (lang.currentLang)
+            if (lang.currentLang) {
                 for (const command in commands) {
                     strapi.bots.alanyaBot.onText(commands[command].regex, (msg) =>
                         commands[command].fn({ ...msg, user })
                     );
                 }
+            }
         },
     },
 
