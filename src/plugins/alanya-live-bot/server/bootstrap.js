@@ -3,6 +3,7 @@
 const TgBot = require('node-telegram-bot-api');
 const bot = new TgBot('5260363790:AAH_slB9_2RRCEWWqaEBg9pmgyaWc5KFoVw', { polling: true });
 const { commands, inlineCallBacks } = require('./utils/components');
+const isUser = require('../../botUtils/userController');
 
 module.exports = async ({ strapi }) => {
     strapi.bots.alanyaBot = bot;
@@ -21,7 +22,8 @@ module.exports = async ({ strapi }) => {
 
     strapi.bots.alanyaBot.on('callback_query', async (query) => {
         query.data = JSON.parse(query.data);
-        return await inlineCallBacks[query.data.action](query);
+        const user = await isUser({ msg: query });
+        return await inlineCallBacks[query.data.action]({ ...query, user });
     });
 
     console.log('Alanya Live Bot Connected!');
