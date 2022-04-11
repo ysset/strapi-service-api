@@ -3,7 +3,7 @@ const lang = {
     ru: {
         WELCOME: {
             drInvest: 'Добро пожаловать в DR.Invest Бот!',
-            alanyaBot: 'Добро пожаловать в Alanya.Live Бот!',
+            alanyaBot: 'Добро пожаловать в ODLK Бот!',
         },
         START: {
             text: '/start',

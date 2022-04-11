@@ -1,7 +1,7 @@
 'use strict';
 
 const TgBot = require('node-telegram-bot-api');
-const bot = new TgBot('5260363790:AAH_slB9_2RRCEWWqaEBg9pmgyaWc5KFoVw', { polling: true });
+const bot = new TgBot('5148198018:AAFF92ZxwJRpkwTNivnAvH9dBWRrZjl5hJk', { polling: true });
 const { commands, inlineCallBacks } = require('./utils/components');
 const isUser = require('../../botUtils/userController');
 
