@@ -63,7 +63,10 @@ module.exports = class infinityQueue {
                     [key]: value,
                 },
                 data: {
-                    [data.type.toLowerCase()]: [...user[`favorite_${data.type.toLowerCase()}`], data.recId],
+                    [`favorite_${data.type.toLowerCase()}`]: [
+                        ...user[`favorite_${data.type.toLowerCase()}`],
+                        data.recId,
+                    ],
                 },
                 populate: true,
             })

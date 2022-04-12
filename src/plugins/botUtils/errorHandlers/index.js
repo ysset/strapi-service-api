@@ -4,7 +4,13 @@ module.exports = {
         NO_FLATS: async (chatId) =>
             strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FLATS, {
                 reply_markup: {
-                    keyboard: [[userLang().FAVORITE, userLang().REPEAT_SEARCH_FLATS, userLang().SEARCH_CARS]],
+                    keyboard: [
+                        [
+                            userLang().FAVORITE,
+                            userLang().REPEAT_SEARCH_FLATS,
+                            // userLang().SEARCH_CARS
+                        ],
+                    ],
                 },
             }),
         NO_CARS: async (chatId) =>

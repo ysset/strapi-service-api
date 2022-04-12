@@ -47,7 +47,12 @@ const commands = {
 
             return await strapi.bots.alanyaBot.sendMessage(chatId, 'Выберите подгруппу', {
                 reply_markup: {
-                    keyboard: [[userLang().FAVORITE_CARS, userLang().FAVORITE_FLATS]],
+                    keyboard: [
+                        [
+                            // userLang().FAVORITE_CARS,
+                            userLang().FAVORITE_FLATS,
+                        ],
+                    ],
                 },
             });
         },
@@ -117,13 +122,19 @@ const commands = {
         fn: async (msg) => {
             lang.currentLang = msg.from.language_code;
             const chatId = msg.chat.id;
+            msg.user = await isUser({ msg });
 
             if (!msg.user) return;
 
             if (msg.user.favorite_flats.length === 0) {
                 return await strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FAVORITE_NOW.flat, {
                     reply_markup: {
-                        keyboard: [[userLang().FAVORITE_CARS, userLang().SEARCH_FLATS]],
+                        keyboard: [
+                            [
+                                // userLang().FAVORITE_CARS,
+                                userLang().SEARCH_FLATS,
+                            ],
+                        ],
                         resize_keyboard: true,
                         one_time_keyboard: true,
                     },
@@ -182,7 +193,12 @@ const commands = {
 
             return await strapi.bots.alanyaBot.sendMessage(chatId, 'Выберите подгруппу', {
                 reply_markup: {
-                    keyboard: [[userLang().SEARCH_FLATS, userLang().SEARCH_CARS]],
+                    keyboard: [
+                        [
+                            userLang().SEARCH_FLATS,
+                            // userLang().SEARCH_CARS
+                        ],
+                    ],
                 },
             });
         },
@@ -192,6 +208,7 @@ const commands = {
         regex: userLang()?.SEARCH_FLATS.regex,
         fn: async (msg) => {
             const chatId = msg.chat.id;
+            msg.user = await isUser({ msg });
 
             if (!msg.user) return;
 
@@ -278,6 +295,7 @@ const commands = {
         regex: userLang()?.SEARCH_CARS.regex,
         fn: async (msg) => {
             const chatId = msg.chat.id;
+            msg.user = await isUser({ msg });
 
             if (!msg.user) return;
 
@@ -374,7 +392,6 @@ const inlineCallBacks = {
     },
     SAVE: async (query) => {
         if (!query.user) return;
-
         await recommendations.save({
             filter: {
                 where: {
@@ -387,7 +404,13 @@ const inlineCallBacks = {
             user: query.user,
         });
 
-        await strapi.bots.alanyaBot.sendMessage(query.message.chat.id, userLang().SAVED);
+        await strapi.bots.alanyaBot.sendMessage(query.message.chat.id, userLang().SAVED, {
+            reply_markup: {
+                keyboard: [[userLang().FAVORITE, userLang().SEARCH]],
+                resize_keyboard: true,
+                one_time_keyboard: true,
+            },
+        });
 
         return await commands[`SEARCH_${query.data.type}`].fn({
             ...query.message,
