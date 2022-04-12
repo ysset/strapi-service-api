@@ -228,7 +228,9 @@ const commands = {
             }
 
             const photo = recommendationFlat.layoutPhoto;
-            const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${photo[0].formats.medium.url}`;
+            const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${
+                photo[0].formats.medium ? photo[0].formats.medium.url : photo[0].formats.thumbnail.url
+            }`;
 
             await strapi.bots.alanyaBot.sendPhoto(chatId, photoUrl, {
                 reply_markup: {
