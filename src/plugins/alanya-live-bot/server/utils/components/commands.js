@@ -2,6 +2,7 @@ const { lang, userLang } = require('../../../../botUtils/botsLanguages');
 const infinityQueue = require('../../../../botUtils/botManager/recomendationManager');
 const { alanyaBot } = require('../../../../botUtils/errorHandlers');
 const isUser = require('../../../../botUtils/userController');
+const path = require('path');
 const fs = require('fs');
 const recommendations = new infinityQueue();
 
@@ -229,11 +230,15 @@ const commands = {
             }
 
             const photo = recommendationFlat.layoutPhoto;
-            const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${
+            let resolvedPath = path.resolve(`./index`);
+            resolvedPath = resolvedPath.split('/');
+            resolvedPath.pop();
+            resolvedPath = resolvedPath.join('/');
+            resolvedPath += `/public${
                 photo[0].formats.medium ? photo[0].formats.medium.url : photo[0].formats.thumbnail.url
             }`;
-
-            const stream = fs.createReadStream(photoUrl);
+            console.log(resolvedPath);
+            const stream = fs.createReadStream(resolvedPath);
 
             await strapi.bots.alanyaBot.sendPhoto(chatId, stream, {
                 reply_markup: {
@@ -320,10 +325,15 @@ const commands = {
             }
 
             const photo = recommendationCar.carPhoto;
-            const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${
+            let resolvedPath = path.resolve(`./index`);
+            resolvedPath = resolvedPath.split('/');
+            resolvedPath.pop();
+            resolvedPath = resolvedPath.join('/');
+            resolvedPath += `/public${
                 photo[0].formats.medium ? photo[0].formats.medium.url : photo[0].formats.thumbnail.url
             }`;
-            const stream = fs.createReadStream(photoUrl);
+            console.log(resolvedPath);
+            const stream = fs.createReadStream(resolvedPath);
 
             await strapi.bots.alanyaBot.sendPhoto(chatId, stream, {
                 reply_markup: {

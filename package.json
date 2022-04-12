@@ -22,6 +22,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.1.1",
     "fs": "^0.0.1-security",
+    "path": "^0.12.7",
     "prettier": "^2.4.1",
     "sqlite3": "5.0.2"
   },
