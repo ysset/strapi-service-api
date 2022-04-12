@@ -88,25 +88,32 @@ const commands = {
             });
 
             for (const car of cars) {
-                await strapi.bots.alanyaBot.sendPhoto(
-                    chatId,
-                    `/Users/ysset/WebstormProjects/tgBotStrapi/public${car.layoutPhoto[0].formats.medium.url}`,
-                    {
-                        reply_markup: {
-                            inline_keyboard: [
-                                [
-                                    {
-                                        ...userLang().WRITE_AGENT_INLINE,
-                                        callback_data: JSON.stringify({
-                                            action: 'WRITE_AGENT',
-                                            agentUsername: car.agent.agentUsername,
-                                        }),
-                                    },
-                                ],
+                let resolvedPath = path.resolve(`./index`);
+                resolvedPath = resolvedPath.split('/');
+                resolvedPath.pop();
+                resolvedPath = resolvedPath.join('/');
+                resolvedPath += `/public${
+                    car.layoutPhoto[0].formats.medium
+                        ? car.layoutPhoto[0].formats.medium.url
+                        : car.layoutPhoto[0].formats.thumbnail.url
+                }`;
+                console.log(resolvedPath);
+                const stream = fs.createReadStream(resolvedPath);
+                await strapi.bots.alanyaBot.sendPhoto(chatId, stream, {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [
+                                {
+                                    ...userLang().WRITE_AGENT_INLINE,
+                                    callback_data: JSON.stringify({
+                                        action: 'WRITE_AGENT',
+                                        agentUsername: car.agent.agentUsername,
+                                    }),
+                                },
                             ],
-                        },
-                    }
-                );
+                        ],
+                    },
+                });
             }
 
             await strapi.bots.alanyaBot.sendMessage(chatId, 'Ищем дальше?', {
@@ -153,25 +160,32 @@ const commands = {
             });
 
             for (const flat of flats) {
-                await strapi.bots.alanyaBot.sendPhoto(
-                    chatId,
-                    `/Users/ysset/WebstormProjects/tgBotStrapi/public${flat.layoutPhoto[0].formats.medium.url}`,
-                    {
-                        reply_markup: {
-                            inline_keyboard: [
-                                [
-                                    {
-                                        ...userLang().WRITE_AGENT_INLINE,
-                                        callback_data: JSON.stringify({
-                                            action: 'WRITE_AGENT',
-                                            agentUsername: flat.agent.agentUsername,
-                                        }),
-                                    },
-                                ],
+                let resolvedPath = path.resolve(`./index`);
+                resolvedPath = resolvedPath.split('/');
+                resolvedPath.pop();
+                resolvedPath = resolvedPath.join('/');
+                resolvedPath += `/public${
+                    flat.layoutPhoto[0].formats.medium
+                        ? flat.layoutPhoto[0].formats.medium.url
+                        : flat.layoutPhoto[0].formats.thumbnail.url
+                }`;
+                console.log(resolvedPath);
+                const stream = fs.createReadStream(resolvedPath);
+                await strapi.bots.alanyaBot.sendPhoto(chatId, stream, {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [
+                                {
+                                    ...userLang().WRITE_AGENT_INLINE,
+                                    callback_data: JSON.stringify({
+                                        action: 'WRITE_AGENT',
+                                        agentUsername: flat.agent.agentUsername,
+                                    }),
+                                },
                             ],
-                        },
-                    }
-                );
+                        ],
+                    },
+                });
             }
 
             await strapi.bots.alanyaBot.sendMessage(chatId, 'Ищем дальше?', {
