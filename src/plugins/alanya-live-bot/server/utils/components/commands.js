@@ -2,6 +2,7 @@ const { lang, userLang } = require('../../../../botUtils/botsLanguages');
 const infinityQueue = require('../../../../botUtils/botManager/recomendationManager');
 const { alanyaBot } = require('../../../../botUtils/errorHandlers');
 const isUser = require('../../../../botUtils/userController');
+const fs = require('fs');
 const recommendations = new infinityQueue();
 
 const commands = {
@@ -232,9 +233,9 @@ const commands = {
                 photo[0].formats.medium ? photo[0].formats.medium.url : photo[0].formats.thumbnail.url
             }`;
 
-            console.log(photoUrl);
+            const stream = fs.createReadStream(photoUrl);
 
-            await strapi.bots.alanyaBot.sendPhoto(chatId, photoUrl, {
+            await strapi.bots.alanyaBot.sendPhoto(chatId, stream, {
                 reply_markup: {
                     inline_keyboard: [
                         [
@@ -322,8 +323,9 @@ const commands = {
             const photoUrl = `/Users/ysset/WebstormProjects/tgBotStrapi/public${
                 photo[0].formats.medium ? photo[0].formats.medium.url : photo[0].formats.thumbnail.url
             }`;
+            const stream = fs.createReadStream(photoUrl);
 
-            await strapi.bots.alanyaBot.sendPhoto(chatId, photoUrl, {
+            await strapi.bots.alanyaBot.sendPhoto(chatId, stream, {
                 reply_markup: {
                     inline_keyboard: [
                         [
