@@ -232,6 +232,8 @@ const commands = {
                 photo[0].formats.medium ? photo[0].formats.medium.url : photo[0].formats.thumbnail.url
             }`;
 
+            console.log(photoUrl);
+
             await strapi.bots.alanyaBot.sendPhoto(chatId, photoUrl, {
                 reply_markup: {
                     inline_keyboard: [
