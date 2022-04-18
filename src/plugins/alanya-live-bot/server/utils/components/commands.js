@@ -12,7 +12,7 @@ const commands = {
         fn: async (msg) => {
             const chatId = msg.chat.id;
             const messageId = msg.message_id;
-
+            console.log(JSON.stringify(msg));
             const user = await isUser({ msg });
 
             Object.keys(commands).forEach((key) => {
@@ -281,6 +281,7 @@ const commands = {
                                     action: 'WRITE_AGENT',
                                     agentUsername: recommendationFlat.agent.agentUsername,
                                 }),
+                                // url: 'https://t.me/Katabxre',
                             },
                         ],
                     ],
@@ -448,7 +449,10 @@ const inlineCallBacks = {
             user: query.user,
         });
     },
-    WRITE_AGENT: {},
+    WRITE_AGENT: async (query) => {
+        console.log(query);
+        await strapi.bots.alanyaBot.forwardMessage('541464348', query.from.id, query.message.message_id);
+    },
 };
 
 /**
