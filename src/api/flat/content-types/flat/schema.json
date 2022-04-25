@@ -45,7 +45,7 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::telegram-user.telegram-user",
-      "inversedBy": "checked_flats"
+      "mappedBy": "checked_flats"
     }
   }
 }

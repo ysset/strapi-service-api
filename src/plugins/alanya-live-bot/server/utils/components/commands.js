@@ -1,7 +1,7 @@
 const { lang, userLang } = require('../../../../botUtils/botsLanguages');
 const infinityQueue = require('../../../../botUtils/botManager/recomendationManager');
 const { alanyaBot } = require('../../../../botUtils/errorHandlers');
-const isUser = require('../../../../botUtils/userController');
+const getUser = require('../../../../botUtils/userController');
 const path = require('path');
 const fs = require('fs');
 const recommendations = new infinityQueue();
@@ -12,14 +12,21 @@ const commands = {
         fn: async (msg) => {
             const chatId = msg.chat.id;
             const messageId = msg.message_id;
-            console.log(JSON.stringify(msg));
-            const user = await isUser({ msg });
+            const user = await getUser({ msg });
 
             Object.keys(commands).forEach((key) => {
                 commands[key].regex = userLang()[key].regex;
             });
 
             await strapi.bots.alanyaBot.clearTextListeners();
+            if (user.showPromo) {
+                await strapi.bots.alanyaBot.sendMessage(chatId, userLang().FIRST_TIME_START_PRESS.text);
+                await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
+                    data: {
+                        showPromo: false,
+                    },
+                });
+            }
             await strapi.bots.alanyaBot.sendMessage(chatId, userLang().WELCOME.alanyaBot, {
                 reply_markup: {
                     keyboard: [[userLang().FAVORITE, userLang().SEARCH]],
@@ -30,8 +37,8 @@ const commands = {
             await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
             if (lang.currentLang) {
                 for (const command in commands) {
-                    strapi.bots.alanyaBot.onText(commands[command].regex, (msg) =>
-                        commands[command].fn({ ...msg, user })
+                    strapi.bots.alanyaBot.onText(commands[command].regex, async (msg) =>
+                        commands[command].fn({ ...msg, user: await getUser({ msg }) })
                     );
                 }
             }
@@ -131,7 +138,6 @@ const commands = {
         fn: async (msg) => {
             lang.currentLang = msg.from.language_code;
             const chatId = msg.chat.id;
-            msg.user = await isUser({ msg });
 
             if (!msg.user) return;
 
@@ -224,7 +230,6 @@ const commands = {
         regex: userLang()?.SEARCH_FLATS.regex,
         fn: async (msg) => {
             const chatId = msg.chat.id;
-            msg.user = await isUser({ msg });
 
             if (!msg.user) return;
 
@@ -312,6 +317,7 @@ const commands = {
                 .catch((e) => {
                     console.log(e);
                 });
+            msg.user = await getUser({ msg });
             return await commands.SEARCH_FLATS.fn(msg);
         },
     },
@@ -320,7 +326,6 @@ const commands = {
         regex: userLang()?.SEARCH_CARS.regex,
         fn: async (msg) => {
             const chatId = msg.chat.id;
-            msg.user = await isUser({ msg });
 
             if (!msg.user) return;
 
@@ -403,6 +408,7 @@ const commands = {
                     keyboard: [[userLang().SEARCH_FLATS, userLang().SEARCH_CARS]],
                 },
             });
+            msg.user = await getUser({ msg });
             return await commands.SEARCH_CARS.fn(msg);
         },
     },

@@ -1,4 +1,4 @@
-const { lang } = require('../botsLanguages');
+const { lang, setUserLanguage } = require('../botsLanguages');
 
 module.exports = async ({ msg }) => {
     const user = await strapi.db.query('api::telegram-user.telegram-user').findOne({
@@ -17,7 +17,7 @@ module.exports = async ({ msg }) => {
             },
         });
 
-    lang.currentLang = msg.from.language_code;
+    setUserLanguage(msg);
 
     return user;
 };

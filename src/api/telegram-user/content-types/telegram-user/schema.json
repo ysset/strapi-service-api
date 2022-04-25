@@ -44,6 +44,10 @@
       "relation": "manyToMany",
       "target": "api::car.car",
       "inversedBy": "checked_users"
+    },
+    "showPromo": {
+      "type": "boolean",
+      "default": true
     }
   }
 }
