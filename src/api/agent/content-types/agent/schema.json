@@ -32,6 +32,9 @@
       "relation": "oneToMany",
       "target": "api::car.car",
       "mappedBy": "agent"
+    },
+    "telegramId": {
+      "type": "biginteger"
     }
   }
 }

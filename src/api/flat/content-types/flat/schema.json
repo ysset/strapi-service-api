@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "adress": {
+    "address": {
       "type": "string"
     },
     "apartmentArea": {
@@ -35,9 +35,9 @@
         "audios"
       ]
     },
-    "telegram_user": {
+    "liked_bies": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::telegram-user.telegram-user",
       "inversedBy": "favorite_flats"
     },

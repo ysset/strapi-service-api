@@ -21,12 +21,6 @@
     "language": {
       "type": "string"
     },
-    "favorite_flats": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::flat.flat",
-      "mappedBy": "telegram_user"
-    },
     "favorite_cars": {
       "type": "relation",
       "relation": "oneToMany",
@@ -48,6 +42,12 @@
     "showPromo": {
       "type": "boolean",
       "default": true
+    },
+    "favorite_flats": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::flat.flat",
+      "mappedBy": "liked_bies"
     }
   }
 }
