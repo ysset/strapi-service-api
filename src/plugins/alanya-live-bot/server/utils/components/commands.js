@@ -1,6 +1,6 @@
 const { lang, userLang } = require('../../../../botUtils/botsLanguages');
 const getUser = require('../../../../botUtils/userController');
-const callbacks = require('./commandsCallbackFunctions');
+const callbacks = require('./componentList');
 
 const commands = {
     START: {

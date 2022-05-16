@@ -1,7 +1,6 @@
 const { userLang } = require('../../../../botUtils/botsLanguages');
 const infinityQueue = require('../../../../botUtils/botManager/recomendationManager');
 const recommendations = new infinityQueue();
-const axios = require('axios');
 const {
     favorite,
     favoriteCars,
@@ -11,7 +10,9 @@ const {
     search,
     researchCars,
     searchCars,
-} = require('../components/keyBoardCommands');
+} = require('./keyboardCommands');
+
+const { writeAgent } = require('./inlineCommands');
 
 const commands = {
     FAVORITE: favorite,
@@ -64,34 +65,7 @@ const commands = {
                 user: query.user,
             });
         },
-        WRITE_AGENT: async (query) => {
-            const api = query.data.recommendationKey.split('/')[0];
-            const recommendationId = query.data.recommendationKey.split('/')[1];
-            const [recommendation] = await strapi.entityService.findMany(api, {
-                where: {
-                    id: recommendationId,
-                },
-                populate: '*',
-            });
-            console.log(query);
-            const userTelegramId = query.from.id;
-            const userFirstName = query.from.first_name;
-            const agentFirstName = recommendation.agent.agentUsername;
-            const agentTelegramId = recommendation.agent.telegramId;
-            const chatTitle = `Address: ${recommendation.address}`;
-            axios({
-                url: 'https://1337-ysset-telegramapi-2junh60whyn.ws-eu43.gitpod.io/api/create/flatchat',
-                method: 'POST',
-                data: {
-                    userId: userTelegramId,
-                    agentId: agentTelegramId,
-                    title: chatTitle,
-                    description: chatTitle,
-                    userFirstName,
-                    agentFirstName,
-                },
-            });
-        },
+        WRITE_AGENT: writeAgent,
     },
 };
 
