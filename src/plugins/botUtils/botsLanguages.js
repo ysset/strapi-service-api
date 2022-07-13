@@ -1,4 +1,7 @@
-const lang = {
+const localisation = {
+    set current(lang) {
+        this.currentLang = lang;
+    },
     currentLang: null,
     ru: {
         WELCOME: {
@@ -129,15 +132,10 @@ const lang = {
 };
 
 const userLang = () => {
-    if (lang.currentLang) return lang[lang.currentLang];
-};
-
-const setUserLanguage = (msg) => {
-    lang.currentLang = msg.from.language_code;
+    if (localisation.currentLang) return localisation[localisation.currentLang];
 };
 
 module.exports = {
     userLang,
-    lang,
-    setUserLanguage,
+    localisation,
 };

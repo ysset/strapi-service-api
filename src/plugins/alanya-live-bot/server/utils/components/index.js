@@ -1,4 +1,4 @@
-const { lang, userLang } = require('../../../../botUtils/botsLanguages');
+const { localisation, userLang } = require('../../../../botUtils/botsLanguages');
 const getUser = require('../../../../botUtils/userController');
 const callbacks = require('./componentList');
 
@@ -31,7 +31,7 @@ const index = {
                 },
             });
             await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
-            if (lang.currentLang) {
+            if (localisation.currentLang) {
                 for (const command in index) {
                     strapi.bots.alanyaBot.onText(index[command].regex, async (msg) =>
                         index[command].fn({ ...msg, user: await getUser({ msg }) })
