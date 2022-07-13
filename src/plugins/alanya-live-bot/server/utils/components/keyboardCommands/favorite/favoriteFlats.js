@@ -34,17 +34,23 @@ module.exports = async (msg) => {
 
     for (const flat of flats) {
         let resolvedPath = path.resolve('./index');
+        let arrayOfPhotos = [];
+
         resolvedPath = resolvedPath.split('/');
         resolvedPath.pop();
         resolvedPath = resolvedPath.join('/');
-        resolvedPath += `/public${
-            flat.layoutPhoto[0].formats.medium
-                ? flat.layoutPhoto[0].formats.medium.url
-                : flat.layoutPhoto[0].formats.thumbnail.url
-        }`;
-        console.log(resolvedPath);
-        const stream = fs.createReadStream(resolvedPath);
-        await strapi.bots.alanyaBot.sendPhoto(chatId, stream, {
+
+        flat.layoutPhoto.forEach((photo) => {
+            const path =
+                resolvedPath +
+                `/public${photo.formats.medium ? photo.formats.medium.url : photo.formats.thumbnail.url}`;
+            arrayOfPhotos.push({
+                type: 'photo',
+                media: fs.createReadStream(path),
+            });
+        });
+
+        await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos, {
             reply_markup: {
                 inline_keyboard: [
                     [
