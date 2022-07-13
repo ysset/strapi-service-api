@@ -25,9 +25,22 @@ const index = {
             }
             await strapi.bots.alanyaBot.sendMessage(chatId, userLang().WELCOME.alanyaBot, {
                 reply_markup: {
-                    keyboard: [[userLang().FAVORITE, userLang().SEARCH]],
-                    resize_keyboard: true,
-                    one_time_keyboard: true,
+                    inline_keyboard: [
+                        [
+                            {
+                                ...userLang().FAVORITE,
+                                callback_data: JSON.stringify({
+                                    action: 'FAVORITE',
+                                }),
+                            },
+                            {
+                                ...userLang().SEARCH,
+                                callback_data: JSON.stringify({
+                                    action: 'SEARCH',
+                                }),
+                            },
+                        ],
+                    ],
                 },
             });
             await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
@@ -41,34 +54,9 @@ const index = {
         },
     },
 
-    FAVORITE: {
-        regex: userLang()?.FAVORITE.regex,
-        fn: callbacks.FAVORITE,
-    },
-
     FAVORITE_CARS: {
         regex: userLang()?.FAVORITE_CARS.regex,
         fn: callbacks.FAVORITE_CARS,
-    },
-
-    FAVORITE_FLATS: {
-        regex: userLang()?.FAVORITE_FLATS.regex,
-        fn: callbacks.FAVORITE_FLATS,
-    },
-
-    SEARCH: {
-        regex: userLang()?.SEARCH.regex,
-        fn: callbacks.SEARCH,
-    },
-
-    SEARCH_FLATS: {
-        regex: userLang()?.SEARCH_FLATS.regex,
-        fn: callbacks.SEARCH_FLATS,
-    },
-
-    REPEAT_SEARCH_FLATS: {
-        regex: userLang()?.REPEAT_SEARCH_FLATS.regex,
-        fn: callbacks.REPEAT_SEARCH_FLATS,
     },
 
     SEARCH_CARS: {
@@ -83,9 +71,14 @@ const index = {
 };
 
 const inlineCallBacks = {
-    NEXT: callbacks.inlineCallBacks.NEXT,
-    SAVE: callbacks.inlineCallBacks.SAVE,
-    WRITE_AGENT: callbacks.inlineCallBacks.WRITE_AGENT,
+    NEXT: callbacks.NEXT,
+    SAVE: callbacks.SAVE,
+    WRITE_AGENT: callbacks.WRITE_AGENT,
+    SEARCH_FLATS: callbacks.SEARCH_FLATS,
+    REPEAT_SEARCH_FLATS: callbacks.REPEAT_SEARCH_FLATS,
+    FAVORITE: callbacks.FAVORITE,
+    FAVORITE_FLATS: callbacks.FAVORITE_FLATS,
+    SEARCH: callbacks.SEARCH,
 };
 
 /**

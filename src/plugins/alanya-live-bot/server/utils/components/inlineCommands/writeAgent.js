@@ -9,7 +9,6 @@ module.exports = async (query) => {
         },
         populate: '*',
     });
-    console.log(query);
     const userTelegramId = query.from.id;
     const userFirstName = query.from.first_name;
     const agentFirstName = recommendation.agent.agentUsername;

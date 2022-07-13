@@ -1,16 +1,19 @@
-const { localisation, userLang } = require('../../../../../../botUtils/botsLanguages');
+const { localisation, userLang } = require('../../../../../botUtils/botsLanguages');
 const path = require('path');
 
-module.exports = async (msg) => {
-    localisation.current = msg.from.language_code;
-    const chatId = msg.chat.id;
+module.exports = async (query) => {
+    localisation.current = query.from.language_code;
+    const chatId = query.message?.chat.id || query.chat.id;
+    const messageId = query.message_id;
 
-    if (!msg.user) return;
+    if (!query.user) return;
 
-    if (msg.user.favorite_flats.length === 0) {
-        return await strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FAVORITE_NOW.flat, {
+    if (query.user.favorite_flats.length === 0) {
+        return await strapi.bots.alanyaBot.editMessageText(userLang().NO_FAVORITE_NOW.flat, {
+            chat_id: chatId,
+            message_id: messageId,
             reply_markup: {
-                keyboard: [
+                inline_keyboard: [
                     [
                         // userLang().FAVORITE_CARS,
                         userLang().SEARCH_FLATS,
@@ -25,7 +28,7 @@ module.exports = async (msg) => {
     const flats = await strapi.db.query('api::flat.flat').findMany({
         where: {
             id: {
-                $in: msg.user.favorite_flats.map((el) => el.id),
+                $in: query.user.favorite_flats.map((el) => el.id),
             },
         },
         populate: true,
@@ -63,9 +66,16 @@ module.exports = async (msg) => {
 
     await strapi.bots.alanyaBot.sendMessage(chatId, 'Ищем дальше?', {
         reply_markup: {
-            keyboard: [[userLang().SEARCH_FLATS]],
-            resize_keyboard: true,
-            one_time_keyboard: true,
+            inline_keyboard: [
+                [
+                    {
+                        ...userLang().SEARCH_FLATS,
+                        callback_data: JSON.stringify({
+                            action: 'SEARCH_FLATS',
+                        }),
+                    },
+                ],
+            ],
         },
     });
 };

@@ -1,4 +1,4 @@
-const { localisation, userLang } = require('../../../../../../botUtils/botsLanguages');
+const { localisation, userLang } = require('../../../../../botUtils/botsLanguages');
 
 module.exports = async (msg) => {
     localisation.current = msg.from.language_code;

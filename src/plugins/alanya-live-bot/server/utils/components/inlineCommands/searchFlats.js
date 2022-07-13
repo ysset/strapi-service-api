@@ -1,15 +1,15 @@
-const { alanyaBot } = require('../../../../../../botUtils/errorHandlers');
+const { alanyaBot } = require('../../../../../botUtils/errorHandlers');
 const path = require('path');
-const { userLang } = require('../../../../../../botUtils/botsLanguages');
-const recommendations = require('../../../../../../botUtils/botManager/recomendationManager');
+const { userLang } = require('../../../../../botUtils/botsLanguages');
+const recommendations = require('../../../../../botUtils/botManager/recomendationManager');
 
-module.exports = async (msg) => {
-    const chatId = msg.chat.id;
+module.exports = async (query) => {
+    const chatId = query.message?.chat.id || query.chat.id;
 
-    if (!msg.user) return;
+    if (!query.user) return;
 
     const recommendationFlat = await recommendations.get({
-        user: msg.user,
+        user: query.user,
         filter: {
             type: 'FLATS',
             api: 'api::flat.flat',
@@ -69,7 +69,7 @@ module.exports = async (msg) => {
     });
     const params = {
         data: {
-            checked_flats: [...msg.user.checked_flats, recommendationFlat.id],
+            checked_flats: [...query.user.checked_flats, recommendationFlat.id],
         },
     };
     await strapi.entityService.update('api::telegram-user.telegram-user', 1, params).catch((e) => {

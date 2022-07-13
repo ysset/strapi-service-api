@@ -11,9 +11,17 @@ module.exports = async (msg) => {
     if (msg.user.favorite_cars.length === 0) {
         return await strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FAVORITE_NOW.car, {
             reply_markup: {
-                keyboard: [[userLang().FAVORITE_FLATS, userLang().SEARCH_CARS]],
-                resize_keyboard: true,
-                one_time_keyboard: true,
+                inline_keyboard: [
+                    [
+                        {
+                            ...userLang().FAVORITE_FLATS,
+                            callback_data: JSON.stringify({
+                                action: 'FAVORITE_FLATS',
+                            }),
+                        },
+                        // userLang().SEARCH_CARS,
+                    ],
+                ],
             },
         });
     }
