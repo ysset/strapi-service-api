@@ -25,18 +25,25 @@ module.exports = async (msg) => {
         return await alanyaBot.SERVER_ERROR(chatId);
     }
 
-    const photo = recommendationFlat.layoutPhoto;
     let resolvedPath = path.resolve('./index');
+    let arrayOfPhotos = [];
+
     resolvedPath = resolvedPath.split('/');
     resolvedPath.pop();
     resolvedPath = resolvedPath.join('/');
-    resolvedPath += `/public${
-        photo[0].formats.medium ? photo[0].formats.medium.url : photo[0].formats.thumbnail.url
-    }`;
-    console.log(resolvedPath);
-    const stream = fs.createReadStream(resolvedPath);
 
-    await strapi.bots.alanyaBot.sendPhoto(chatId, stream, {
+    recommendationFlat.layoutPhoto.forEach((photo) => {
+        const path =
+            resolvedPath +
+            `/public${photo.formats.medium ? photo.formats.medium.url : photo.formats.thumbnail.url}`;
+
+        arrayOfPhotos.push({
+            type: 'photo',
+            media: fs.createReadStream(path),
+        });
+    });
+
+    await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos, {
         reply_markup: {
             inline_keyboard: [
                 [
@@ -45,6 +52,7 @@ module.exports = async (msg) => {
                         callback_data: JSON.stringify({
                             action: 'SAVE',
                             type: 'FLATS',
+                            recId: recommendationFlat.id,
                         }),
                     },
                     {

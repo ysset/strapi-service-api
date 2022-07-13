@@ -40,21 +40,14 @@ module.exports = class infinityQueue {
      * @param user
      * @returns {Promise<void>}
      */
-    async save({
-        filter = {
-            where: {
-                key: String,
-                value: Object,
-            },
-            apiKey: String,
-        },
-        data,
-        user,
-    }) {
+    async save({ filter, data, user }) {
         const {
             where: { key, value },
             apiKey,
         } = filter;
+
+        const updateDataKey = `favorite_${data.type.toLowerCase()}`;
+        const updateData = [...user[`favorite_${data.type.toLowerCase()}`], data.recId];
 
         await strapi.db
             .query(apiKey)
@@ -62,12 +55,7 @@ module.exports = class infinityQueue {
                 where: {
                     [key]: value,
                 },
-                data: {
-                    [`favorite_${data.type.toLowerCase()}`]: [
-                        ...user[`favorite_${data.type.toLowerCase()}`],
-                        data.recId,
-                    ],
-                },
+                data: { [updateDataKey]: updateData },
                 populate: true,
             })
             .catch((e) => {
