@@ -1,6 +1,5 @@
 const { localisation, userLang } = require('../../../../../../botUtils/botsLanguages');
 const path = require('path');
-const fs = require('fs');
 
 module.exports = async (msg) => {
     localisation.current = msg.from.language_code;
@@ -31,28 +30,21 @@ module.exports = async (msg) => {
         },
         populate: true,
     });
-    console.log(flats);
+
     for (const flat of flats) {
         let resolvedPath = path.resolve('./index');
-        let arrayOfPhotos = [];
 
         resolvedPath = resolvedPath.split('/');
         resolvedPath.pop();
         resolvedPath = resolvedPath.join('/');
 
-        flat.layoutPhoto.forEach((photo) => {
-            const path =
-                resolvedPath +
-                `/public${photo.formats.medium ? photo.formats.medium.url : photo.formats.thumbnail.url}`;
-            arrayOfPhotos.push({
-                type: 'photo',
-                media: fs.createReadStream(path),
-            });
-        });
+        resolvedPath += `/public${
+            flat.layoutPhoto[0].formats.medium
+                ? flat.layoutPhoto[0].formats.medium.url
+                : flat.layoutPhoto[0].formats.thumbnail.url
+        }`;
 
-        arrayOfPhotos[0].caption = flat.caption;
-
-        await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos, {
+        await strapi.bots.alanyaBot.sendPhoto(chatId, resolvedPath, {
             reply_markup: {
                 inline_keyboard: [
                     [

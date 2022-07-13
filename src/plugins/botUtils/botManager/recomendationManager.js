@@ -1,6 +1,4 @@
-module.exports = class infinityQueue {
-    constructor() {}
-
+module.exports = {
     async get({ user, filter }) {
         const watched = {
             cars: user.checked_cars,
@@ -31,7 +29,7 @@ module.exports = class infinityQueue {
             return null;
         }
         return filteredByWatched[Math.floor(Math.random() * filteredByWatched.length)];
-    }
+    },
 
     /**
      *
@@ -61,5 +59,28 @@ module.exports = class infinityQueue {
             .catch((e) => {
                 console.log(e);
             });
-    }
+    },
+
+    async remove({ filter, data, user }) {
+        const {
+            where: { key, value },
+            apiKey,
+        } = filter;
+
+        const updateDataKey = `favorite_${data.type.toLowerCase()}`;
+        const updateData = [...user[`favorite_${data.type.toLowerCase()}`].filter((el) => el !== data.recId)];
+
+        await strapi.db
+            .query(apiKey)
+            .update({
+                where: {
+                    [key]: value,
+                },
+                data: { [updateDataKey]: updateData },
+                populate: true,
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    },
 };

@@ -2,8 +2,7 @@ const { alanyaBot } = require('../../../../../../botUtils/errorHandlers');
 const path = require('path');
 const fs = require('fs');
 const { userLang } = require('../../../../../../botUtils/botsLanguages');
-const infinityQueue = require('../../../../../../botUtils/botManager/recomendationManager');
-const recommendations = new infinityQueue();
+const recommendations = require('../../../../../../botUtils/botManager/recomendationManager');
 
 module.exports = async (msg) => {
     const chatId = msg.chat.id;
