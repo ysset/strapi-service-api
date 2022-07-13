@@ -6,13 +6,13 @@ module.exports = class infinityQueue {
             cars: user.checked_cars,
             flats: user.checked_flats,
         };
-        const favorite = {
-            cars: user.favorite_cars,
-            flats: user.favorite_flats,
-        };
-        if (!favorite[filter.type.toLowerCase()]) {
-            return null;
-        }
+        //const favorite = {
+        //    cars: user.favorite_cars,
+        //    flats: user.favorite_flats,
+        //};
+        //if (!favorite[filter.type.toLowerCase()]) {
+        //    return null;
+        //}
         if (!watched[filter.type.toLowerCase()]) {
             return null;
         }
@@ -20,11 +20,11 @@ module.exports = class infinityQueue {
             populate: '*',
         });
         // убираем из полного списка все что было сохранено пользователем
-        let filteredByFavorite = recommendations.filter((rec) => {
-            return !favorite[filter.type.toLowerCase()].some((favorite) => rec.id === favorite.id);
-        });
+        //let filteredByFavorite = recommendations.filter((rec) => {
+        //    return !favorite[filter.type.toLowerCase()].some((favorite) => rec.id === favorite.id);
+        //});
         // убираем из полного списка все что было просмотрено пользователем
-        let filteredByWatched = filteredByFavorite.filter((filtered) => {
+        let filteredByWatched = recommendations.filter((filtered) => {
             return !watched[filter.type.toLowerCase()].some((watched) => watched.id === filtered.id);
         });
         if (filteredByWatched.length === 0) {

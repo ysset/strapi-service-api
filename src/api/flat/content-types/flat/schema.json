@@ -46,6 +46,10 @@
       "relation": "manyToMany",
       "target": "api::telegram-user.telegram-user",
       "mappedBy": "checked_flats"
+    },
+    "caption": {
+      "type": "text",
+      "maxLength": 70
     }
   }
 }

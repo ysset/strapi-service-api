@@ -25,18 +25,19 @@ const commands = {
     REPEAT_SEARCH_CARS: researchCars,
     inlineCallBacks: {
         NEXT: async (query) => {
-            const chatId = query.message.chat.id;
-
             if (!query.user) return;
 
+            const chatId = query.message.chat.id;
+
             await strapi.bots.alanyaBot.deleteMessage(chatId, query.message.message_id);
-            console.log(`SEARCH_${query.data.type}`);
+
             return await commands[`SEARCH_${query.data.type}`]({
                 ...query.message,
                 from: query.from,
                 user: query.user,
             });
         },
+
         SAVE: async (query) => {
             if (!query.user) return;
             await recommendations.save({
@@ -65,6 +66,7 @@ const commands = {
                 user: query.user,
             });
         },
+
         WRITE_AGENT: writeAgent,
     },
 };

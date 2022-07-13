@@ -31,7 +31,7 @@ module.exports = async (msg) => {
         },
         populate: true,
     });
-
+    console.log(flats);
     for (const flat of flats) {
         let resolvedPath = path.resolve('./index');
         let arrayOfPhotos = [];
@@ -49,6 +49,8 @@ module.exports = async (msg) => {
                 media: fs.createReadStream(path),
             });
         });
+
+        arrayOfPhotos[0].caption = flat.caption;
 
         await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos, {
             reply_markup: {

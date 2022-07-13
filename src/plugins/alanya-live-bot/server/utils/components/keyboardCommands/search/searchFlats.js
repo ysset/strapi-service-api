@@ -26,24 +26,18 @@ module.exports = async (msg) => {
     }
 
     let resolvedPath = path.resolve('./index');
-    let arrayOfPhotos = [];
 
     resolvedPath = resolvedPath.split('/');
     resolvedPath.pop();
     resolvedPath = resolvedPath.join('/');
 
-    recommendationFlat.layoutPhoto.forEach((photo) => {
-        const path =
-            resolvedPath +
-            `/public${photo.formats.medium ? photo.formats.medium.url : photo.formats.thumbnail.url}`;
+    resolvedPath += `/public${
+        recommendationFlat.layoutPhoto[0].formats.medium
+            ? recommendationFlat.layoutPhoto[0].formats.medium.url
+            : recommendationFlat.layoutPhoto[0].formats.thumbnail.url
+    }`;
 
-        arrayOfPhotos.push({
-            type: 'photo',
-            media: fs.createReadStream(path),
-        });
-    });
-
-    await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos, {
+    await strapi.bots.alanyaBot.sendPhoto(chatId, resolvedPath, {
         reply_markup: {
             inline_keyboard: [
                 [
