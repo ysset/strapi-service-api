@@ -34,39 +34,42 @@ module.exports = async (query) => {
     arrayOfPhotos[0].caption = flat.caption;
 
     await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos);
-    const message = await strapi.bots.alanyaBot.sendMessage(
-        chatId,
-        userLang().CHOOSE_THE_ACTION.text(flat.id),
-        {
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        {
-                            ...userLang().WRITE_AGENT_INLINE,
-                            callback_data: JSON.stringify({
-                                action: 'WRITE_AGENT',
-                                agentUsername: flat.agent.agentUsername,
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...userLang().GO_BACK_ACTION,
-                            callback_data: JSON.stringify({
-                                action: 'FAVORITE',
-                            }),
-                        },
-                        {
-                            ...userLang().DELETE_ACTION,
-                            callback_data: JSON.stringify({
-                                action: 'DELETE_ACTION',
-                                agentUsername: flat.agent.agentUsername,
-                            }),
-                        },
-                    ],
+    await strapi.bots.alanyaBot.sendMessage(chatId, userLang().CHOOSE_THE_ACTION.text(flat.id), {
+        reply_markup: {
+            inline_keyboard: [
+                [
+                    {
+                        ...userLang().WRITE_AGENT_INLINE,
+                        callback_data: JSON.stringify({
+                            action: 'WRITE_AGENT',
+                            agentUsername: flat.agent.agentUsername,
+                        }),
+                    },
                 ],
-            },
-        }
-    );
-    console.log(message);
+                [
+                    {
+                        ...userLang().SEARCH_FLATS,
+                        callback_data: JSON.stringify({
+                            action: 'SEARCH_FLATS',
+                        }),
+                    },
+                ],
+                [
+                    {
+                        ...userLang().GO_BACK_ACTION,
+                        callback_data: JSON.stringify({
+                            action: 'FAVORITE',
+                        }),
+                    },
+                    {
+                        ...userLang().DELETE_ACTION,
+                        callback_data: JSON.stringify({
+                            action: 'DELETE_ACTION',
+                            agentUsername: flat.agent.agentUsername,
+                        }),
+                    },
+                ],
+            ],
+        },
+    });
 };

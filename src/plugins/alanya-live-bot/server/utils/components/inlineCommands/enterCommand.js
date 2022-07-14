@@ -13,6 +13,9 @@ module.exports = async (msg) => {
             },
         });
     }
+
+    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
+
     await strapi.bots.alanyaBot.sendMessage(chatId, userLang().WELCOME.alanyaBot, {
         reply_markup: {
             inline_keyboard: [
@@ -33,5 +36,4 @@ module.exports = async (msg) => {
             ],
         },
     });
-    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
 };

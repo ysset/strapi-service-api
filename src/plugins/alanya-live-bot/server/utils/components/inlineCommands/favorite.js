@@ -11,7 +11,6 @@ module.exports = async (query) => {
         reply_markup: {
             inline_keyboard: [
                 [
-                    // userLang().FAVORITE_CARS,
                     {
                         ...userLang().FAVORITE_FLATS,
                         callback_data: JSON.stringify({

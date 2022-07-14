@@ -53,17 +53,6 @@ const inlineCallBacks = {
     ENTER_COMMAND: callbacks.ENTER_COMMAND,
 };
 
-/**
- * to send mach photos
- */
-// for (let layout of photo.layoutPhoto) {
-//   arrOfPhoto.push({
-//     ...layout.formats.thumbnail,
-//     media: `/Users/ysset/WebstormProjects/tgBotStrapi/public${layout.formats.medium.url}`,
-//     type: 'photo'
-//   });
-// }
-
 module.exports = {
     commands: index,
     inlineCallBacks,

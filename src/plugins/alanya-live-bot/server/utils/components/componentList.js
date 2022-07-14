@@ -6,7 +6,6 @@ const { favoriteCars, researchCars, searchCars } = require('./keyboardCommands')
 const {
     writeAgent,
     save,
-    next,
     searchFlats,
     repeatSearchFlats,
     favoriteFlats,
@@ -17,17 +16,14 @@ const {
 } = require('./inlineCommands');
 
 const commands = {
+    //deprecated methods
     FAVORITE_CARS: favoriteCars,
-
     SEARCH_CARS: searchCars,
     REPEAT_SEARCH_CARS: researchCars,
+    //====
 
     // inlineCallBacks: {
-    NEXT: async (query) => {
-        await next(query);
-        console.log(query);
-        return commands.callCommand(query);
-    },
+    NEXT: async (query) => commands.callCommand(query),
     SAVE: async (query) => {
         await save(query);
         return commands.callCommand(query);

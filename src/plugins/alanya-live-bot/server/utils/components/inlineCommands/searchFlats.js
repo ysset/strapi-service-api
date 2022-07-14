@@ -2,6 +2,7 @@ const { alanyaBot } = require('../../../../../botUtils/errorHandlers');
 const path = require('path');
 const { userLang } = require('../../../../../botUtils/botsLanguages');
 const recommendations = require('../../../../../botUtils/botManager/recomendationManager');
+const fs = require('fs');
 
 module.exports = async (query) => {
     const chatId = query.message?.chat.id || query.chat.id;
@@ -35,7 +36,7 @@ module.exports = async (query) => {
             : recommendationFlat.layoutPhoto[0].formats.thumbnail.url
     }`;
 
-    await strapi.bots.alanyaBot.sendPhoto(chatId, resolvedPath, {
+    await strapi.bots.alanyaBot.sendPhoto(chatId, fs.createReadStream(resolvedPath), {
         reply_markup: {
             inline_keyboard: [
                 [
@@ -61,6 +62,14 @@ module.exports = async (query) => {
                         callback_data: JSON.stringify({
                             action: 'WRITE_AGENT',
                             recommendationKey: `api::flat.flat/${recommendationFlat.id}`,
+                        }),
+                    },
+                ],
+                [
+                    {
+                        ...userLang().GO_BACK_ACTION,
+                        callback_data: JSON.stringify({
+                            action: 'SEARCH',
                         }),
                     },
                 ],

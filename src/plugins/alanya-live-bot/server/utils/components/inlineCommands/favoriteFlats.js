@@ -1,5 +1,6 @@
 const { localisation, userLang } = require('../../../../../botUtils/botsLanguages');
 const path = require('path');
+const fs = require('fs');
 
 module.exports = async (query) => {
     localisation.current = query.from.language_code;
@@ -13,12 +14,7 @@ module.exports = async (query) => {
             chat_id: chatId,
             message_id: messageId,
             reply_markup: {
-                inline_keyboard: [
-                    [
-                        // userLang().FAVORITE_CARS,
-                        userLang().SEARCH_FLATS,
-                    ],
-                ],
+                inline_keyboard: [[userLang().SEARCH_FLATS]],
                 resize_keyboard: true,
                 one_time_keyboard: true,
             },
@@ -49,7 +45,7 @@ module.exports = async (query) => {
                 : flat.layoutPhoto[0].formats.thumbnail.url
         }`;
 
-        await strapi.bots.alanyaBot.sendPhoto(chatId, resolvedPath, {
+        await strapi.bots.alanyaBot.sendPhoto(chatId, fs.createReadStream(resolvedPath), {
             reply_markup: {
                 inline_keyboard: [
                     [
