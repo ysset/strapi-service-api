@@ -18,10 +18,10 @@ module.exports = async (query) => {
     });
 
     if (!recommendationFlat) {
-        return await alanyaBot.NO_FLATS(chatId);
+        return await alanyaBot.NO_FLATS({ chatId, localisation });
     }
     if (!recommendationFlat.agent.agentUsername) {
-        return await alanyaBot.SERVER_ERROR(chatId);
+        return await alanyaBot.SERVER_ERROR({ chatId, localisation });
     }
 
     let resolvedPath = path.resolve('./index');

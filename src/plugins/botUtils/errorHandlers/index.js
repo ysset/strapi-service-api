@@ -1,19 +1,18 @@
-const { userLang } = require('../botsLanguages');
 module.exports = {
     alanyaBot: {
-        NO_FLATS: async (chatId) =>
-            strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FLATS, {
+        NO_FLATS: async ({ chatId, localisation }) =>
+            strapi.bots.alanyaBot.sendMessage(chatId, localisation?.NO_FLATS, {
                 reply_markup: {
                     inline_keyboard: [
                         [
                             {
-                                ...userLang().FAVORITE,
+                                ...localisation?.FAVORITE,
                                 callback_data: JSON.stringify({
                                     action: 'FAVORITE',
                                 }),
                             },
                             {
-                                ...userLang().REPEAT_SEARCH_FLATS,
+                                ...localisation?.REPEAT_SEARCH_FLATS,
                                 callback_data: JSON.stringify({
                                     action: 'REPEAT_SEARCH_FLATS',
                                 }),
@@ -23,16 +22,31 @@ module.exports = {
                     ],
                 },
             }),
-        NO_CARS: async (chatId) =>
-            strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_CARS, {
+        NO_CARS: async ({ chatId, localisation }) =>
+            strapi.bots.alanyaBot.sendMessage(chatId, localisation?.NO_CARS, {
                 reply_markup: {
-                    keyboard: [[userLang().FAVORITE, userLang().REPEAT_SEARCH_CARS, userLang().SEARCH_FLATS]],
+                    keyboard: [
+                        [
+                            localisation?.FAVORITE,
+                            localisation?.REPEAT_SEARCH_CARS,
+                            localisation?.SEARCH_FLATS,
+                        ],
+                    ],
                 },
             }),
-        SERVER_ERROR: async (chatId) =>
-            strapi.bots.alanyaBot.sendMessage(chatId, userLang().SERVER_ERROR, {
+        SERVER_ERROR: async ({ chatId, localisation }) =>
+            strapi.bots.alanyaBot.sendMessage(chatId, localisation?.SERVER_ERROR, {
                 reply_markup: {
-                    keyboard: [[userLang().FAVORITE]],
+                    keyboard: [
+                        [
+                            {
+                                ...localisation?.FAVORITE,
+                                callback_data: JSON.stringify({
+                                    action: 'FAVORITE',
+                                }),
+                            },
+                        ],
+                    ],
                 },
             }),
     },

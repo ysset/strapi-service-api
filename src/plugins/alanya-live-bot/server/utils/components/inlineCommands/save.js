@@ -18,7 +18,7 @@ module.exports = async (query) => {
 
     await strapi.bots.alanyaBot.sendMessage(query.message.chat.id, localisation?.SAVED, {
         reply_markup: {
-            keyboard: [
+            inline_keyboard: [
                 [
                     {
                         ...localisation?.FAVORITE,
