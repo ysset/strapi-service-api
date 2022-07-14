@@ -1,4 +1,3 @@
-const { userLang } = require('../../../../../botUtils/botsLanguages');
 const fs = require('fs');
 
 const path = require('path');
@@ -6,7 +5,7 @@ const path = require('path');
 module.exports = async (query) => {
     if (!query.user) return;
 
-    const localisation = userLang(query.user.language);
+    const localisation = query.localisation;
     const chatId = query.message?.chat.id || query.chat.id;
     const [UId, entityId] = query.data.flat.split('/');
     const arrayOfPhotos = [];

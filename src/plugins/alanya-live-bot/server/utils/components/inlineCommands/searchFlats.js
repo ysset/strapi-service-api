@@ -1,12 +1,11 @@
 const { alanyaBot } = require('../../../../../botUtils/errorHandlers');
 const path = require('path');
-const { userLang } = require('../../../../../botUtils/botsLanguages');
 const recommendations = require('../../../../../botUtils/botManager/recomendationManager');
 const fs = require('fs');
 
 module.exports = async (query) => {
     const chatId = query.message?.chat.id || query.chat.id;
-    const localisation = userLang(query.user.language);
+    const localisation = query.localisation;
 
     if (!query.user) return;
 

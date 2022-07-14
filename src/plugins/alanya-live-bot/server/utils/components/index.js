@@ -7,7 +7,6 @@ const index = {
         regex: /\/start/,
         fn: async (msg) => {
             await getUser({ msg });
-            console.log(msg);
             const localisation = userLang(msg.from.language_code);
 
             Object.keys(index).forEach((key) => {

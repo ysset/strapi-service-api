@@ -1,8 +1,5 @@
-const { userLang } = require('../../../../../botUtils/botsLanguages');
-
 module.exports = async (query) => {
-    console.log(query);
-    const localisation = userLang(query.user.language);
+    const localisation = query.localisation;
     const chatId = query.message?.chat.id || query.chat.id;
     const messageId = query.message?.message_id || query.message_id;
 

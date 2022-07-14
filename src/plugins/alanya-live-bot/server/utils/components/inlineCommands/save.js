@@ -1,9 +1,8 @@
-const { userLang } = require('../../../../../botUtils/botsLanguages');
 const recommendations = require('../../../../../botUtils/botManager/recomendationManager');
 
 module.exports = async (query) => {
     if (!query.user) return;
-    const localisation = userLang(query.user.language);
+    const localisation = query.localisation;
 
     await recommendations.save({
         filter: {
