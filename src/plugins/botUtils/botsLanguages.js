@@ -14,13 +14,9 @@ const localisation = {
         SAVED: 'Добавлено в избранное',
         FAVORITE: {
             text: 'Сохраненные❤️',
-            // regex: /Сохраненные❤️/,
-            // description: 'Избранные товары.',
         },
         FAVORITE_FLATS: {
             text: 'Недвижимость ❤️',
-            // regex: /Недвижимость ❤️/,
-            // description: 'Квартиры которые вам понравились.',
         },
         FAVORITE_CARS: {
             text: 'Машины ❤️',
@@ -29,13 +25,9 @@ const localisation = {
         },
         SEARCH: {
             text: 'Поиск 🔍',
-            // regex: /Поиск 🔍/,
-            // description: 'Избранные товары.',
         },
         SEARCH_FLATS: {
             text: 'Недвижимость 🔍',
-            //regex: /Недвижимость 🔍/,
-            //description: 'Найдите себе уютный уголок!',
         },
         SEARCH_CARS: {
             text: 'Машины 🔍',
@@ -44,8 +36,6 @@ const localisation = {
         },
         REPEAT_SEARCH_FLATS: {
             text: 'Искать Недвижимость заново',
-            // regex: /Искать Недвижимость заново/,
-            // description: 'Начать поиск сначала',
         },
         REPEAT_SEARCH_CARS: {
             text: 'Искать машины заново',
@@ -141,6 +131,7 @@ const localisation = {
 
 const userLang = (lang) => {
     if (lang) return localisation[lang];
+    return localisation.ru;
 };
 
 module.exports = {
