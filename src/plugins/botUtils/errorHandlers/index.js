@@ -4,10 +4,20 @@ module.exports = {
         NO_FLATS: async (chatId) =>
             strapi.bots.alanyaBot.sendMessage(chatId, userLang().NO_FLATS, {
                 reply_markup: {
-                    keyboard: [
+                    inline_keyboard: [
                         [
-                            userLang().FAVORITE,
-                            userLang().REPEAT_SEARCH_FLATS,
+                            {
+                                ...userLang().FAVORITE,
+                                callback_data: JSON.stringify({
+                                    action: 'FAVORITE',
+                                }),
+                            },
+                            {
+                                ...userLang().REPEAT_SEARCH_FLATS,
+                                callback_data: JSON.stringify({
+                                    action: 'REPEAT_SEARCH_FLATS',
+                                }),
+                            },
                             // userLang().SEARCH_CARS
                         ],
                     ],
@@ -25,10 +35,5 @@ module.exports = {
                     keyboard: [[userLang().FAVORITE]],
                 },
             }),
-    },
-    drInvest: {
-        NO_FLATS: async (chatId) => strapi.bots.drInvest.sendMessage(chatId, userLang().NO_FLATS),
-        NO_CARS: async (chatId) => strapi.bots.drInvest.sendMessage(chatId, userLang().NO_CARS),
-        SERVER_ERROR: async (chatId) => strapi.bots.drInvest.sendMessage(chatId, userLang().SERVER_ERROR),
     },
 };
