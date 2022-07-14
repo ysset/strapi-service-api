@@ -1,7 +1,8 @@
-const { localisation, userLang } = require('../../../../../botUtils/botsLanguages');
+const { userLang } = require('../../../../../botUtils/botsLanguages');
 
 module.exports = async (query) => {
-    localisation.current = query.from.language_code;
+    console.log(query);
+    const localisation = userLang(query.user.language);
     const chatId = query.message?.chat.id || query.chat.id;
     const messageId = query.message?.message_id || query.message_id;
 
@@ -12,7 +13,7 @@ module.exports = async (query) => {
             inline_keyboard: [
                 [
                     {
-                        ...userLang().FAVORITE_FLATS,
+                        ...localisation?.FAVORITE_FLATS,
                         callback_data: JSON.stringify({
                             action: 'FAVORITE_FLATS',
                         }),
@@ -20,7 +21,7 @@ module.exports = async (query) => {
                 ],
                 [
                     {
-                        ...userLang().GO_BACK_ACTION,
+                        ...localisation?.GO_BACK_ACTION,
                         callback_data: JSON.stringify({
                             action: 'ENTER_COMMAND',
                         }),

@@ -6,6 +6,7 @@ const fs = require('fs');
 
 module.exports = async (query) => {
     const chatId = query.message?.chat.id || query.chat.id;
+    const localisation = userLang(query.user.language);
 
     if (!query.user) return;
 
@@ -41,7 +42,7 @@ module.exports = async (query) => {
             inline_keyboard: [
                 [
                     {
-                        ...userLang().SAVE_INLINE,
+                        ...localisation?.SAVE_INLINE,
                         callback_data: JSON.stringify({
                             action: 'SAVE',
                             type: 'FLATS',
@@ -49,7 +50,7 @@ module.exports = async (query) => {
                         }),
                     },
                     {
-                        ...userLang().NEXT_INLINE,
+                        ...localisation?.NEXT_INLINE,
                         callback_data: JSON.stringify({
                             action: 'NEXT',
                             type: 'FLATS',
@@ -58,7 +59,7 @@ module.exports = async (query) => {
                 ],
                 [
                     {
-                        ...userLang().WRITE_AGENT_INLINE,
+                        ...localisation?.WRITE_AGENT_INLINE,
                         callback_data: JSON.stringify({
                             action: 'WRITE_AGENT',
                             recommendationKey: `api::flat.flat/${recommendationFlat.id}`,
@@ -67,7 +68,7 @@ module.exports = async (query) => {
                 ],
                 [
                     {
-                        ...userLang().GO_BACK_ACTION,
+                        ...localisation?.GO_BACK_ACTION,
                         callback_data: JSON.stringify({
                             action: 'SEARCH',
                         }),

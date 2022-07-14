@@ -3,6 +3,7 @@ const recommendations = require('../../../../../botUtils/botManager/recomendatio
 
 module.exports = async (query) => {
     if (!query.user) return;
+    const localisation = userLang(query.user.language);
 
     await recommendations.save({
         filter: {
@@ -16,9 +17,24 @@ module.exports = async (query) => {
         user: query.user,
     });
 
-    await strapi.bots.alanyaBot.sendMessage(query.message.chat.id, userLang().SAVED, {
+    await strapi.bots.alanyaBot.sendMessage(query.message.chat.id, localisation?.SAVED, {
         reply_markup: {
-            keyboard: [[userLang().FAVORITE, userLang().SEARCH]],
+            keyboard: [
+                [
+                    {
+                        ...localisation?.FAVORITE,
+                        callback_data: JSON.stringify({
+                            action: 'FAVORITE',
+                        }),
+                    },
+                    {
+                        ...localisation?.SEARCH,
+                        callback_data: JSON.stringify({
+                            action: 'SEARCH',
+                        }),
+                    },
+                ],
+            ],
             resize_keyboard: true,
             one_time_keyboard: true,
         },
