@@ -5,7 +5,6 @@ const localisation = {
     currentLang: null,
     ru: {
         WELCOME: {
-            drInvest: 'Добро пожаловать в DR.Invest Бот!',
             alanyaBot: 'Добро пожаловать в ODLK Бот!',
         },
         START: {
@@ -18,8 +17,8 @@ const localisation = {
         SAVED: 'Добавлено в избранное',
         FAVORITE: {
             text: 'Сохраненные❤️',
-            regex: /Сохраненные❤️/,
-            description: 'Избранные товары.',
+            // regex: /Сохраненные❤️/,
+            // description: 'Избранные товары.',
         },
         FAVORITE_FLATS: {
             text: 'Недвижимость ❤️',
@@ -63,6 +62,18 @@ const localisation = {
         UN_AUTHORIZE: 'Кажется мы не смогли найти избранные квартиры, пожалуйста перезапустите бота!',
         WRITE_AGENT_INLINE: {
             text: 'Связаться с агентом',
+        },
+        CHOOSE_THE_ACTION: {
+            text: (flatId) => `Квартира номер: ${flatId} \nВыберите действие:`,
+        },
+        GO_BACK_ACTION: {
+            text: '<<Назад',
+        },
+        DELETE_ACTION: {
+            text: 'Удалить из избранного',
+        },
+        FULL_DESCRIPTION: {
+            text: 'Подробное описание',
         },
         SAVE_INLINE: {
             text: 'Сохранить',

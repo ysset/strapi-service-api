@@ -6,44 +6,13 @@ const index = {
     START: {
         regex: /\/start/,
         fn: async (msg) => {
-            const chatId = msg.chat.id;
-            const messageId = msg.message_id;
-            const user = await getUser({ msg });
+            await getUser({ msg });
 
             Object.keys(index).forEach((key) => {
                 index[key].regex = userLang()[key].regex;
             });
 
             await strapi.bots.alanyaBot.clearTextListeners();
-            if (user.showPromo) {
-                await strapi.bots.alanyaBot.sendMessage(chatId, userLang().FIRST_TIME_START_PRESS.text);
-                await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
-                    data: {
-                        showPromo: false,
-                    },
-                });
-            }
-            await strapi.bots.alanyaBot.sendMessage(chatId, userLang().WELCOME.alanyaBot, {
-                reply_markup: {
-                    inline_keyboard: [
-                        [
-                            {
-                                ...userLang().FAVORITE,
-                                callback_data: JSON.stringify({
-                                    action: 'FAVORITE',
-                                }),
-                            },
-                            {
-                                ...userLang().SEARCH,
-                                callback_data: JSON.stringify({
-                                    action: 'SEARCH',
-                                }),
-                            },
-                        ],
-                    ],
-                },
-            });
-            await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
             if (localisation.currentLang) {
                 for (const command in index) {
                     strapi.bots.alanyaBot.onText(index[command].regex, async (msg) =>
@@ -51,6 +20,7 @@ const index = {
                     );
                 }
             }
+            return inlineCallBacks.ENTER_COMMAND(msg);
         },
     },
 
@@ -78,7 +48,9 @@ const inlineCallBacks = {
     REPEAT_SEARCH_FLATS: callbacks.REPEAT_SEARCH_FLATS,
     FAVORITE: callbacks.FAVORITE,
     FAVORITE_FLATS: callbacks.FAVORITE_FLATS,
+    FULL_DESCRIPTION: callbacks.FULL_DESCRIPTION,
     SEARCH: callbacks.SEARCH,
+    ENTER_COMMAND: callbacks.ENTER_COMMAND,
 };
 
 /**

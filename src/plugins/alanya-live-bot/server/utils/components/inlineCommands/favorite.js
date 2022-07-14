@@ -19,6 +19,14 @@ module.exports = async (query) => {
                         }),
                     },
                 ],
+                [
+                    {
+                        ...userLang().GO_BACK_ACTION,
+                        callback_data: JSON.stringify({
+                            action: 'ENTER_COMMAND',
+                        }),
+                    },
+                ],
             ],
         },
     });

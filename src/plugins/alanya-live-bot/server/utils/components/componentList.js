@@ -1,3 +1,6 @@
+/**
+ *  ~deprecated~
+ */
 const { favoriteCars, researchCars, searchCars } = require('./keyboardCommands');
 
 const {
@@ -9,6 +12,8 @@ const {
     favoriteFlats,
     favorite,
     search,
+    fullDescription,
+    enterCommand,
 } = require('./inlineCommands');
 
 const commands = {
@@ -33,6 +38,8 @@ const commands = {
     FAVORITE_FLATS: favoriteFlats,
     FAVORITE: favorite,
     SEARCH: search,
+    FULL_DESCRIPTION: fullDescription,
+    ENTER_COMMAND: enterCommand,
     // },
 
     callCommand: async (query) =>
