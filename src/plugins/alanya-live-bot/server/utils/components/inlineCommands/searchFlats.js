@@ -1,11 +1,11 @@
 const { alanyaBot } = require('../../../../../botUtils/errorHandlers');
 const path = require('path');
-const { userLang } = require('../../../../../botUtils/botsLanguages');
 const recommendations = require('../../../../../botUtils/botManager/recomendationManager');
 const fs = require('fs');
 
 module.exports = async (query) => {
     const chatId = query.message?.chat.id || query.chat.id;
+    const localisation = query.localisation;
 
     if (!query.user) return;
 
@@ -18,10 +18,10 @@ module.exports = async (query) => {
     });
 
     if (!recommendationFlat) {
-        return await alanyaBot.NO_FLATS(chatId);
+        return await alanyaBot.NO_FLATS({ chatId, localisation });
     }
     if (!recommendationFlat.agent.agentUsername) {
-        return await alanyaBot.SERVER_ERROR(chatId);
+        return await alanyaBot.SERVER_ERROR({ chatId, localisation });
     }
 
     let resolvedPath = path.resolve('./index');
@@ -41,7 +41,7 @@ module.exports = async (query) => {
             inline_keyboard: [
                 [
                     {
-                        ...userLang().SAVE_INLINE,
+                        ...localisation?.SAVE_INLINE,
                         callback_data: JSON.stringify({
                             action: 'SAVE',
                             type: 'FLATS',
@@ -49,7 +49,7 @@ module.exports = async (query) => {
                         }),
                     },
                     {
-                        ...userLang().NEXT_INLINE,
+                        ...localisation?.NEXT_INLINE,
                         callback_data: JSON.stringify({
                             action: 'NEXT',
                             type: 'FLATS',
@@ -58,7 +58,7 @@ module.exports = async (query) => {
                 ],
                 [
                     {
-                        ...userLang().WRITE_AGENT_INLINE,
+                        ...localisation?.WRITE_AGENT_INLINE,
                         callback_data: JSON.stringify({
                             action: 'WRITE_AGENT',
                             recommendationKey: `api::flat.flat/${recommendationFlat.id}`,
@@ -67,7 +67,7 @@ module.exports = async (query) => {
                 ],
                 [
                     {
-                        ...userLang().GO_BACK_ACTION,
+                        ...localisation?.GO_BACK_ACTION,
                         callback_data: JSON.stringify({
                             action: 'SEARCH',
                         }),

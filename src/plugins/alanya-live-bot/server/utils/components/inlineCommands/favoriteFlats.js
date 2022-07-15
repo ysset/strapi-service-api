@@ -1,20 +1,28 @@
-const { localisation, userLang } = require('../../../../../botUtils/botsLanguages');
 const path = require('path');
 const fs = require('fs');
 
 module.exports = async (query) => {
-    localisation.current = query.from.language_code;
     const chatId = query.message?.chat.id || query.chat.id;
     const messageId = query.message?.message_id || query.message_id;
+    const localisation = query.localisation;
 
     if (!query.user) return;
 
     if (query.user.favorite_flats.length === 0) {
-        return await strapi.bots.alanyaBot.editMessageText(userLang().NO_FAVORITE_NOW.flat, {
+        return await strapi.bots.alanyaBot.editMessageText(localisation?.NO_FAVORITE_NOW.flat, {
             chat_id: chatId,
             message_id: messageId,
             reply_markup: {
-                inline_keyboard: [[userLang().SEARCH_FLATS]],
+                inline_keyboard: [
+                    [
+                        {
+                            ...localisation?.SEARCH_FLATS,
+                            callback_data: JSON.stringify({
+                                action: 'SEARCH_FLATS',
+                            }),
+                        },
+                    ],
+                ],
                 resize_keyboard: true,
                 one_time_keyboard: true,
             },
@@ -50,7 +58,7 @@ module.exports = async (query) => {
                 inline_keyboard: [
                     [
                         {
-                            ...userLang().WRITE_AGENT_INLINE,
+                            ...localisation?.WRITE_AGENT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'WRITE_AGENT',
                                 agentUsername: flat.agent.agentUsername,
@@ -59,14 +67,14 @@ module.exports = async (query) => {
                     ],
                     [
                         {
-                            ...userLang().FULL_DESCRIPTION,
+                            ...localisation?.FULL_DESCRIPTION,
                             callback_data: JSON.stringify({
                                 action: 'FULL_DESCRIPTION',
                                 flat: `api::flat.flat/${flat.id}`,
                             }),
                         },
                         {
-                            ...userLang().DELETE_ACTION,
+                            ...localisation?.DELETE_ACTION,
                             callback_data: JSON.stringify({
                                 action: 'DELETE_ACTION',
                                 agentUsername: flat.agent.agentUsername,
@@ -83,13 +91,13 @@ module.exports = async (query) => {
             inline_keyboard: [
                 [
                     {
-                        ...userLang().SEARCH_FLATS,
+                        ...localisation?.SEARCH_FLATS,
                         callback_data: JSON.stringify({
                             action: 'SEARCH_FLATS',
                         }),
                     },
                     {
-                        ...userLang().GO_BACK_ACTION,
+                        ...localisation?.GO_BACK_ACTION,
                         callback_data: JSON.stringify({
                             action: 'FAVORITE',
                         }),

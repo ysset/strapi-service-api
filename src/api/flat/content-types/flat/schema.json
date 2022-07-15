@@ -12,8 +12,9 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "address": {
-      "type": "string"
+    "adress": {
+      "type": "string",
+      "regex": "^[a-zA-Z]{3,}[\\\\/]{1}[a-zA-Z]{3,}"
     },
     "apartmentArea": {
       "type": "biginteger"
@@ -49,7 +50,54 @@
     },
     "caption": {
       "type": "text",
-      "maxLength": 70
+      "maxLength": 100
+    },
+    "title": {
+      "type": "string"
+    },
+    "shortCaption": {
+      "type": "text",
+      "maxLength": 30
+    },
+    "action": {
+      "type": "enumeration",
+      "enum": [
+        "sell",
+        "rent"
+      ]
+    },
+    "locationUrl": {
+      "type": "string",
+      "regex": "([h][t]{2}[p][s][:][\\/]{2}[g][o]{2}[\\.][g][l][\\/][maps]{4}[\\/]|[h][t]{2}[p][s][:][\\/]{2}[y][a][n][d][e][x][\\.][r][u][\\/][m][a][p][s][\\/]|[h][t]{2}[p][s][:][\\/]{2}[g][o][\\.][2][g][i][s][\\.][c][o][m][\\/])"
+    },
+    "cost": {
+      "type": "integer"
+    },
+    "rooms": {
+      "type": "string"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "flat",
+        "house",
+        "complex"
+      ],
+      "required": true
+    },
+    "metersFromTheSea": {
+      "type": "integer"
+    },
+    "allTerretoryArea": {
+      "type": "integer",
+      "required": false
+    },
+    "complexArea": {
+      "type": "integer"
+    },
+    "constructionCompletionDate": {
+      "type": "date",
+      "required": false
     }
   }
 }

@@ -1,4 +1,3 @@
-const { localisation, userLang } = require('../../../../../botUtils/botsLanguages');
 const fs = require('fs');
 
 const path = require('path');
@@ -6,7 +5,7 @@ const path = require('path');
 module.exports = async (query) => {
     if (!query.user) return;
 
-    localisation.current = query.from.language_code;
+    const localisation = query.localisation;
     const chatId = query.message?.chat.id || query.chat.id;
     const [UId, entityId] = query.data.flat.split('/');
     const arrayOfPhotos = [];
@@ -34,12 +33,12 @@ module.exports = async (query) => {
     arrayOfPhotos[0].caption = flat.caption;
 
     await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos);
-    await strapi.bots.alanyaBot.sendMessage(chatId, userLang().CHOOSE_THE_ACTION.text(flat.id), {
+    await strapi.bots.alanyaBot.sendMessage(chatId, localisation?.CHOOSE_THE_ACTION.text(flat.id), {
         reply_markup: {
             inline_keyboard: [
                 [
                     {
-                        ...userLang().WRITE_AGENT_INLINE,
+                        ...localisation?.WRITE_AGENT_INLINE,
                         callback_data: JSON.stringify({
                             action: 'WRITE_AGENT',
                             agentUsername: flat.agent.agentUsername,
@@ -48,7 +47,7 @@ module.exports = async (query) => {
                 ],
                 [
                     {
-                        ...userLang().SEARCH_FLATS,
+                        ...localisation?.SEARCH_FLATS,
                         callback_data: JSON.stringify({
                             action: 'SEARCH_FLATS',
                         }),
@@ -56,13 +55,13 @@ module.exports = async (query) => {
                 ],
                 [
                     {
-                        ...userLang().GO_BACK_ACTION,
+                        ...localisation?.GO_BACK_ACTION,
                         callback_data: JSON.stringify({
                             action: 'FAVORITE',
                         }),
                     },
                     {
-                        ...userLang().DELETE_ACTION,
+                        ...localisation?.DELETE_ACTION,
                         callback_data: JSON.stringify({
                             action: 'DELETE_ACTION',
                             agentUsername: flat.agent.agentUsername,

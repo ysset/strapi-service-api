@@ -1,4 +1,4 @@
-const { localisation, userLang } = require('../../../../botUtils/botsLanguages');
+const { userLang } = require('../../../../botUtils/botsLanguages');
 const getUser = require('../../../../botUtils/userController');
 const callbacks = require('./componentList');
 
@@ -7,9 +7,10 @@ const index = {
         regex: /\/start/,
         fn: async (msg) => {
             await getUser({ msg });
+            const localisation = userLang(msg.from.language_code);
 
             Object.keys(index).forEach((key) => {
-                index[key].regex = userLang()[key].regex;
+                index[key].regex = localisation[key].regex;
             });
 
             await strapi.bots.alanyaBot.clearTextListeners();
@@ -25,17 +26,17 @@ const index = {
     },
 
     FAVORITE_CARS: {
-        regex: userLang()?.FAVORITE_CARS.regex,
+        regex: (localisation) => localisation?.FAVORITE_CARS.regex,
         fn: callbacks.FAVORITE_CARS,
     },
 
     SEARCH_CARS: {
-        regex: userLang()?.SEARCH_CARS.regex,
+        regex: (localisation) => localisation?.SEARCH_CARS.regex,
         fn: callbacks.SEARCH_CARS,
     },
 
     REPEAT_SEARCH_CARS: {
-        regex: userLang()?.REPEAT_SEARCH_CARS.regex,
+        regex: (localisation) => localisation?.REPEAT_SEARCH_CARS.regex,
         fn: callbacks.REPEAT_SEARCH_CARS,
     },
 };
