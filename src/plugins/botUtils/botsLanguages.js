@@ -130,7 +130,7 @@ const localisation = {
 };
 
 const userLang = (lang) => {
-    if (lang) return localisation[lang];
+    if (localisation[lang]) return localisation[lang];
     return localisation.ru;
 };
 
