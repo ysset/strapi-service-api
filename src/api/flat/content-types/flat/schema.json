@@ -72,6 +72,32 @@
     },
     "cost": {
       "type": "integer"
+    },
+    "rooms": {
+      "type": "string"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "flat",
+        "house",
+        "complex"
+      ],
+      "required": true
+    },
+    "metersFromTheSea": {
+      "type": "integer"
+    },
+    "allTerretoryArea": {
+      "type": "integer",
+      "required": false
+    },
+    "complexArea": {
+      "type": "integer"
+    },
+    "constructionCompletionDate": {
+      "type": "date",
+      "required": false
     }
   }
 }
