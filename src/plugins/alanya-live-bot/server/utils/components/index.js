@@ -24,21 +24,6 @@ const index = {
             return inlineCallBacks.ENTER_COMMAND(msg);
         },
     },
-
-    FAVORITE_CARS: {
-        regex: (localisation) => localisation?.FAVORITE_CARS.regex,
-        fn: callbacks.FAVORITE_CARS,
-    },
-
-    SEARCH_CARS: {
-        regex: (localisation) => localisation?.SEARCH_CARS.regex,
-        fn: callbacks.SEARCH_CARS,
-    },
-
-    REPEAT_SEARCH_CARS: {
-        regex: (localisation) => localisation?.REPEAT_SEARCH_CARS.regex,
-        fn: callbacks.REPEAT_SEARCH_CARS,
-    },
 };
 
 const inlineCallBacks = {

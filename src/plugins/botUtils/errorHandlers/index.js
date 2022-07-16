@@ -22,18 +22,7 @@ module.exports = {
                     ],
                 },
             }),
-        NO_CARS: async ({ chatId, localisation }) =>
-            strapi.bots.alanyaBot.sendMessage(chatId, localisation?.NO_CARS, {
-                reply_markup: {
-                    keyboard: [
-                        [
-                            localisation?.FAVORITE,
-                            localisation?.REPEAT_SEARCH_CARS,
-                            localisation?.SEARCH_FLATS,
-                        ],
-                    ],
-                },
-            }),
+
         SERVER_ERROR: async ({ chatId, localisation }) =>
             strapi.bots.alanyaBot.sendMessage(chatId, localisation?.SERVER_ERROR, {
                 reply_markup: {

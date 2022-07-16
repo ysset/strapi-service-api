@@ -1,7 +1,6 @@
 /**
  *  ~deprecated~
  */
-const { favoriteCars, researchCars, searchCars } = require('./keyboardCommands');
 
 const {
     writeAgent,
@@ -16,13 +15,6 @@ const {
 } = require('./inlineCommands');
 
 const commands = {
-    //deprecated methods
-    FAVORITE_CARS: favoriteCars,
-    SEARCH_CARS: searchCars,
-    REPEAT_SEARCH_CARS: researchCars,
-    //====
-
-    // inlineCallBacks: {
     NEXT: async (query) => commands.callCommand(query),
     SAVE: async (query) => {
         await save(query);
@@ -36,7 +28,6 @@ const commands = {
     SEARCH: search,
     FULL_DESCRIPTION: fullDescription,
     ENTER_COMMAND: enterCommand,
-    // },
 
     callCommand: async (query) =>
         await commands[`SEARCH_${query.data.type}`]({

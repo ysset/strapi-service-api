@@ -1,13 +1,12 @@
 module.exports = {
     WELCOME: {
-        alanyaBot: 'Welcome to ODLK Bot!',
+        alanyaBot: 'Welcome to Xatta Bot!',
     },
     START: {
         text: '/start',
         regex: /\/start/,
     },
     NO_FLATS: 'Unfortunately the flats are over(',
-    NO_CARS: 'Unfortunately the cars are over(',
     SERVER_ERROR: 'Sorry, an error occurred, please try again or later!',
     SAVED: 'Added to favorites',
     FAVORITE: {
@@ -16,29 +15,14 @@ module.exports = {
     FAVORITE_FLATS: {
         text: 'Property ❤️',
     },
-    FAVORITE_CARS: {
-        text: 'Cars ❤️',
-        regex: /Cars ❤️/,
-        description: 'Cars you like.',
-    },
     SEARCH: {
         text: 'Search 🔍',
     },
     SEARCH_FLATS: {
         text: 'Property 🔍',
     },
-    SEARCH_CARS: {
-        text: 'Cars 🔍',
-        regex: /Cars 🔍/,
-        description: 'Find the car of your dreams!',
-    },
     REPEAT_SEARCH_FLATS: {
         text: 'Search Properties again',
-    },
-    REPEAT_SEARCH_CARS: {
-        text: 'Search for cars again',
-        regex: /Search for cars again/,
-        description: 'Restart search',
     },
     NO_FAVORITE_NOW: {
         flat: "You don't have any real estate saved yet!",
