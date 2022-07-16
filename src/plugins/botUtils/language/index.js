@@ -1,10 +1,12 @@
 const ru = require('./ru');
 const en = require('./en');
+const ch = require('./ch');
 
 const localisation = {
     currentLang: null,
     ru,
     en,
+    ch,
 };
 
 const userLang = (lang) => {

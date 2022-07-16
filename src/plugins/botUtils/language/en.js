@@ -12,6 +12,9 @@ module.exports = {
     FAVORITE: {
         text: 'Saved❤️',
     },
+    SELECT_SUBGROUP: {
+        text: 'Select subgroup',
+    },
     FAVORITE_FLATS: {
         text: 'Property ❤️',
     },

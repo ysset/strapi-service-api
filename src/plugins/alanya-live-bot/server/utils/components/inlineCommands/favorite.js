@@ -3,7 +3,7 @@ module.exports = async (query) => {
     const chatId = query.message?.chat.id || query.chat.id;
     const messageId = query.message?.message_id || query.message_id;
 
-    return await strapi.bots.alanyaBot.editMessageText('Выберите подгруппу', {
+    return await strapi.bots.alanyaBot.editMessageText(localisation.SELECT_SUBGROUP.text, {
         chat_id: chatId,
         message_id: messageId,
         reply_markup: {
