@@ -1,4 +1,3 @@
-const { userLang } = require('../../../../botUtils/language');
 const getUser = require('../../../../botUtils/userController');
 const callbacks = require('./componentList');
 
@@ -6,21 +5,9 @@ const index = {
     START: {
         regex: /\/start/,
         fn: async (msg) => {
-            await getUser({ msg });
-            const localisation = userLang(msg.from.language_code);
-
-            Object.keys(index).forEach((key) => {
-                index[key].regex = localisation[key].regex;
-            });
-
+            //Always clear your text listeners to avoid conflicts
             await strapi.bots.alanyaBot.clearTextListeners();
-            if (localisation.currentLang) {
-                for (const command in index) {
-                    strapi.bots.alanyaBot.onText(index[command].regex, async (msg) =>
-                        index[command].fn({ ...msg, user: await getUser({ msg }) })
-                    );
-                }
-            }
+            await getUser({ msg });
             return inlineCallBacks.ENTER_COMMAND(msg);
         },
     },
