@@ -2,7 +2,7 @@
 const TgBot = require('node-telegram-bot-api');
 const botApiKey = '5319870017:AAEYdqXOsmTh3doopKyBZIAKiJoMg5nxeYg';
 const bot = new TgBot(botApiKey, { polling: true });
-const { commands, inlineCallBacks } = require('./utils/components');
+const { commands, inlineCallBacks } = require('./bot/components');
 const isUser = require('../../botUtils/userController');
 const { userLang } = require('../../botUtils/language');
 
