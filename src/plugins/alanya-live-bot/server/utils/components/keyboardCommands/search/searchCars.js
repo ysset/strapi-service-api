@@ -1,7 +1,7 @@
 const { alanyaBot } = require('../../../../../../botUtils/errorHandlers');
 const path = require('path');
 const fs = require('fs');
-const { userLang } = require('../../../../../../botUtils/botsLanguages');
+const { userLang } = require('../../../../../../botUtils/language');
 const recommendations = require('../../../../../../botUtils/botManager/recomendationManager');
 
 module.exports = async (msg) => {

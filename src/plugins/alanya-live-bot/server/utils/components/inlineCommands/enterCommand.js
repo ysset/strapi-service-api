@@ -1,4 +1,4 @@
-const { userLang } = require('../../../../../botUtils/botsLanguages');
+const { userLang } = require('../../../../../botUtils/language');
 const getUser = require('../../../../../botUtils/userController/index');
 
 module.exports = async (msg) => {

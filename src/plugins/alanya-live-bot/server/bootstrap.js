@@ -4,7 +4,7 @@ const botApiKey = '5319870017:AAEYdqXOsmTh3doopKyBZIAKiJoMg5nxeYg';
 const bot = new TgBot(botApiKey, { polling: true });
 const { commands, inlineCallBacks } = require('./utils/components');
 const isUser = require('../../botUtils/userController');
-const { userLang } = require('../../botUtils/botsLanguages');
+const { userLang } = require('../../botUtils/language');
 
 module.exports = async ({ strapi }) => {
     strapi.bots.alanyaBot = bot;

@@ -1,4 +1,4 @@
-const { localisation, userLang } = require('../../../../../../botUtils/botsLanguages');
+const { localisation, userLang } = require('../../../../../../botUtils/language');
 const path = require('path');
 const fs = require('fs');
 
