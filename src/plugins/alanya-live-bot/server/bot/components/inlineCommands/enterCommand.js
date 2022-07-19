@@ -1,5 +1,5 @@
-const { userLang } = require('../../../../../botUtils/language');
-const getUser = require('../../../../../botUtils/userController/index');
+const { userLang } = require('../../../../botUtils/language');
+const getUser = require('../../../../botUtils/userController/index');
 
 module.exports = async (msg) => {
     const chatId = msg.message?.chat.id || msg.chat.id;

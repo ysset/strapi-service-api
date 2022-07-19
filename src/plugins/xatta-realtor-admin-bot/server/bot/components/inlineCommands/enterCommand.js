@@ -1,5 +1,5 @@
-const { userLang } = require('../../../../../botUtils/language');
-const getUser = require('../../../../../botUtils/userController/index');
+const { userLang } = require('../../../../botUtils/language');
+const getUser = require('../../../../botUtils/userController/index');
 
 module.exports = async (msg) => {
     const messageId = msg.message?.message_id || msg.message_id;
@@ -11,18 +11,18 @@ module.exports = async (msg) => {
         reply_markup: {
             inline_keyboard: [
                 [
-                    {
-                        ...localisation?.FAVORITE,
-                        callback_data: JSON.stringify({
-                            action: 'FAVORITE',
-                        }),
-                    },
-                    {
-                        ...localisation?.SEARCH,
-                        callback_data: JSON.stringify({
-                            action: 'SEARCH',
-                        }),
-                    },
+                    // {
+                    //     ...localisation?.FAVORITE,
+                    //     callback_data: JSON.stringify({
+                    //         action: 'FAVORITE',
+                    //     }),
+                    // },
+                    // {
+                    //     ...localisation?.SEARCH,
+                    //     callback_data: JSON.stringify({
+                    //         action: 'SEARCH',
+                    //     }),
+                    // },
                 ],
             ],
         },

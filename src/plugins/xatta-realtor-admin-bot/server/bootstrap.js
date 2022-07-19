@@ -5,8 +5,8 @@ const TgBot = require('node-telegram-bot-api');
 const bot = new TgBot(process.env.XATTA_ADMIN_BOT_API_KEY, { polling: true });
 
 const { commands, inlineCallBacks } = require('./bot/components');
-const isUser = require('../../botUtils/userController');
-const { userLang } = require('../../botUtils/language');
+const getUser = require('../botUtils/userController');
+const { userLang } = require('../botUtils/language');
 
 module.exports = async ({ strapi }) => {
     strapi.bot = bot;
@@ -25,7 +25,7 @@ module.exports = async ({ strapi }) => {
 
     strapi.bot.on('callback_query', async (query) => {
         query.data = JSON.parse(query.data);
-        const user = await isUser({ msg: query });
+        const user = await getUser({ msg: query });
         const localisation = userLang(user.language);
         return await inlineCallBacks[query.data.action]({ ...query, user, localisation });
     });

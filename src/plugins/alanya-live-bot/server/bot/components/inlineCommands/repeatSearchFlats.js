@@ -1,4 +1,4 @@
-const getUser = require('../../../../../botUtils/userController');
+const getUser = require('../../../../botUtils/userController');
 const searchFlatsFunc = require('./searchFlats');
 
 module.exports = async (query) => {

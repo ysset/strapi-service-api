@@ -1,6 +1,6 @@
-const { alanyaBot } = require('../../../../../botUtils/errorHandlers');
+const { alanyaBot } = require('../../../../botUtils/errorHandlers');
 const path = require('path');
-const recommendations = require('../../../../../botUtils/botManager/recomendationManager');
+const recommendations = require('../../../../botUtils/botManager/recomendationManager');
 const fs = require('fs');
 
 module.exports = async (query) => {
