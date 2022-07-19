@@ -6,7 +6,7 @@ const index = {
         regex: /\/start/,
         fn: async (msg) => {
             //Always clear your text listeners to avoid conflicts
-            await strapi.bot.clearTextListeners();
+            await strapi.bots.admin.clearTextListeners();
             await getUser({ msg });
             return inlineCallBacks.ENTER_COMMAND(msg);
         },

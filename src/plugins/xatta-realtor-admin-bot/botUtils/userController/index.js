@@ -1,5 +1,5 @@
 module.exports = async ({ msg }) => {
-    const user = await strapi.db.query('api::telegram-user.telegram-user').findOne({
+    const user = await strapi.db.query('api::agent.agent').findOne({
         where: {
             telegramID: msg.from.id,
         },
@@ -7,11 +7,11 @@ module.exports = async ({ msg }) => {
     });
 
     if (!user)
-        await strapi.entityService.create('api::telegram-user.telegram-user', {
+        await strapi.entityService.create('api::agent.agent', {
             data: {
                 telegramID: msg.from.id,
                 language: msg.from.language_code,
-                username: msg.from.username,
+                agentUsername: msg.from.username,
             },
         });
 

@@ -37,14 +37,15 @@
       "inversedBy": "cars"
     },
     "carPhoto": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
     },
     "telegram_user": {
       "type": "relation",
@@ -57,6 +58,12 @@
       "relation": "manyToMany",
       "target": "api::telegram-user.telegram-user",
       "mappedBy": "checked_cars"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "cars"
     }
   }
 }

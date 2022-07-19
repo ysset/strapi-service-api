@@ -33,13 +33,10 @@
       "target": "api::car.car",
       "mappedBy": "agent"
     },
-    "telegramId": {
+    "telegramID": {
       "type": "biginteger"
     },
     "language": {
-      "type": "string"
-    },
-    "chatID": {
       "type": "string"
     }
   }

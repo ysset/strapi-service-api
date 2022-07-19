@@ -9,8 +9,8 @@ const getUser = require('../botUtils/userController');
 const { userLang } = require('../botUtils/language');
 
 module.exports = async ({ strapi }) => {
-    strapi.bot = bot;
-    await strapi.bots.alanyaBot.setMyCommands([
+    strapi.bots.admin = bot;
+    await strapi.bots.admin.setMyCommands([
         {
             command: '/start',
             description: 'start',
@@ -21,16 +21,16 @@ module.exports = async ({ strapi }) => {
         },
     ]);
 
-    strapi.bot.onText(commands.START.regex, commands.START.fn);
+    strapi.bots.admin.onText(commands.START.regex, commands.START.fn);
 
-    strapi.bot.on('callback_query', async (query) => {
+    strapi.bots.admin.on('callback_query', async (query) => {
         query.data = JSON.parse(query.data);
         const user = await getUser({ msg: query });
         const localisation = userLang(user.language);
         return await inlineCallBacks[query.data.action]({ ...query, user, localisation });
     });
 
-    strapi.bot.on('polling_error', (msg) => console.log(msg));
+    strapi.bots.admin.on('polling_error', (msg) => console.log(msg));
 
     console.log('Xatta admin is ready!');
 };

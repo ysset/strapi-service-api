@@ -63,7 +63,25 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "userTgId": {
+    "telegramUsername": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string"
+    },
+    "flats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::flat.flat",
+      "mappedBy": "user"
+    },
+    "cars": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::car.car",
+      "mappedBy": "user"
+    },
+    "telegramID": {
       "type": "biginteger"
     }
   }

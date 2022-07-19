@@ -5,9 +5,9 @@ module.exports = async (msg) => {
     const messageId = msg.message?.message_id || msg.message_id;
     const user = await getUser({ msg });
     const localisation = userLang(msg.from.language_code);
-    await strapi.bots.alanyaBot.deleteMessage(user.telegramID, messageId);
+    await strapi.bots.admin.deleteMessage(user.telegramID, messageId);
 
-    await strapi.bots.alanyaBot.sendMessage(user.telegramID, localisation?.WELCOME, {
+    await strapi.bots.admin.sendMessage(user.telegramID, localisation?.WELCOME, {
         reply_markup: {
             inline_keyboard: [
                 [

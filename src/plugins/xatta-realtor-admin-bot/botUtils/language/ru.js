@@ -1,3 +1,3 @@
 module.exports = {
-    WELCOME: 'Добро пожаловать в Xatta Бот!',
+    WELCOME: 'Xatta admin bot готов к работе!',
 };
