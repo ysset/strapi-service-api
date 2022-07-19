@@ -8,7 +8,8 @@
     "kind": "plugin"
   },
   "dependencies": {
-    "node-telegram-bot-api": "^0.56.0"
+    "node-telegram-bot-api": "^0.56.0",
+    "dotenv": "^16.0.1"
   },
   "author": {
     "name": "A Strapi developer"

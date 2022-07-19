@@ -1,6 +1,8 @@
 'use strict';
+process.env.NTBA_FIX_319 = 1;
+
 const TgBot = require('node-telegram-bot-api');
-const botApiKey = '5319870017:AAEYdqXOsmTh3doopKyBZIAKiJoMg5nxeYg';
+const botApiKey = process.env.BOT_API_KEY;
 const bot = new TgBot(botApiKey, { polling: true });
 const { commands, inlineCallBacks } = require('./bot/components');
 const isUser = require('../../botUtils/userController');
@@ -27,6 +29,8 @@ module.exports = async ({ strapi }) => {
         const localisation = userLang(user.language);
         return await inlineCallBacks[query.data.action]({ ...query, user, localisation });
     });
+
+    strapi.bots.alanyaBot.on('polling_error', (msg) => console.log(msg));
 
     console.log('Alanya Live Bot Connected!');
 };
