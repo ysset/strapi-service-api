@@ -5,8 +5,8 @@ const localisation = {
 };
 
 const userLang = (lang) => {
-    if (localisation[lang]) return localisation[lang];
-    return localisation.en;
+    // if (localisation[lang]) return localisation[lang];
+    return localisation.ru;
 };
 
 module.exports = {

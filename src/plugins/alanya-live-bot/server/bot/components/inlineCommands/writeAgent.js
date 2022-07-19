@@ -1,29 +1,18 @@
-const axios = require('axios');
-
 module.exports = async (query) => {
     const [api, recommendationId] = query.data.recommendationKey.split('/');
-
-    const [recommendation] = await strapi.entityService.findMany(api, {
-        where: {
-            id: recommendationId,
-        },
+    const recommendation = await strapi.entityService.findOne(api, recommendationId, {
         populate: '*',
     });
     const userTelegramId = query.from.id;
     const userFirstName = query.from.first_name;
-    const agentFirstName = recommendation.agent.agentUsername;
+    const agentUsername = recommendation.agent.agentUsername;
     const agentTelegramId = recommendation.agent.telegramId;
-    const chatTitle = `Address: ${recommendation.address}`;
-    axios({
-        url: 'https://1337-ysset-telegramapi-2junh60whyn.ws-eu43.gitpod.io/api/create/flatchat',
-        method: 'POST',
-        data: {
-            userId: userTelegramId,
-            agentId: agentTelegramId,
-            title: chatTitle,
-            description: chatTitle,
-            userFirstName,
-            agentFirstName,
-        },
-    });
+
+    const text = `${userFirstName} вот ссылка на риелтора https://t.me/${agentUsername}. \nПожалуйста напишите ему =)`;
+    const realtorMessage = ` ${agentUsername} пользователь https://t.me/${query.from.username} интересуется вашей квартирой.`;
+    const orderInfo = ` Квартира: \nid: ${recommendation.id} \nНазвание: ${recommendation.title} \nЦена: ${recommendation.cost} \nАдрес: ${recommendation.address} \nРасположение: ${recommendation.locationUrl} \n${recommendation.action} ${recommendation.type}, комнат: ${recommendation.rooms}`;
+
+    await strapi.bots.alanyaBot.sendMessage(userTelegramId, text);
+
+    await strapi.bots.alanyaBot.sendMessage(agentTelegramId, `${realtorMessage} ${orderInfo}`);
 };

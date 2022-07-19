@@ -35,6 +35,12 @@
     },
     "telegramId": {
       "type": "biginteger"
+    },
+    "language": {
+      "type": "string"
+    },
+    "chatID": {
+      "type": "string"
     }
   }
 }
