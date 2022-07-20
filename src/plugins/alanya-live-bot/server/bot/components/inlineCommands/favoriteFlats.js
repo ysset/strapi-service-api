@@ -61,7 +61,7 @@ module.exports = async (query) => {
                             ...localisation?.WRITE_AGENT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'WRITE_AGENT',
-                                agentUsername: flat.agent.agentUsername,
+                                recommendationKey: `api::flat.flat/${flat.id}`,
                             }),
                         },
                     ],
@@ -77,7 +77,7 @@ module.exports = async (query) => {
                             ...localisation?.DELETE_ACTION,
                             callback_data: JSON.stringify({
                                 action: 'DELETE_ACTION',
-                                agentUsername: flat.agent.agentUsername,
+                                username: flat.agent.username,
                             }),
                         },
                     ],

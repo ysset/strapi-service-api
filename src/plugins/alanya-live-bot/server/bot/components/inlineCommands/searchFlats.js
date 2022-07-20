@@ -20,7 +20,7 @@ module.exports = async (query) => {
     if (!recommendationFlat) {
         return await alanyaBot.NO_FLATS({ chatId, localisation });
     }
-    if (!recommendationFlat.agent.agentUsername) {
+    if (!recommendationFlat.agent.username) {
         return await alanyaBot.SERVER_ERROR({ chatId, localisation });
     }
 
