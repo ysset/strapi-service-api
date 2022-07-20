@@ -47,7 +47,6 @@ module.exports = async ({ strapi }) => {
             console.log(e);
         }
     });
-
     strapi.bots.admin.on('polling_error', (msg) => console.log(msg));
 
     console.log('Xatta admin is ready!');

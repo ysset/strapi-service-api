@@ -75,14 +75,14 @@
       "target": "api::flat.flat",
       "mappedBy": "user"
     },
-    "cars": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::car.car",
-      "mappedBy": "user"
-    },
     "telegramID": {
       "type": "biginteger"
+    },
+    "agent": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::agent.agent",
+      "inversedBy": "admin"
     }
   }
 }
