@@ -1,7 +1,5 @@
 module.exports = {
-    WELCOME: {
-        alanyaBot: '欢迎来到 Xatta Bot!',
-    },
+    WELCOME: '欢迎来到 Xatta Bot!',
     START: {
         text: '/开始',
         regex: /\/start/,
@@ -28,9 +26,7 @@ module.exports = {
     REPEAT_SEARCH_FLATS: {
         text: '再次搜索属性',
     },
-    NO_FAVORITE_NOW: {
-        flat: '您还没有保存任何不动产！',
-    },
+    NO_FAVORITE_NOW: '您还没有保存任何不动产！',
     UN_AUTHORIZE: '我们似乎找不到特色公寓，请重启机器人！',
     WRITE_AGENT_INLINE: {
         text: '联系人',

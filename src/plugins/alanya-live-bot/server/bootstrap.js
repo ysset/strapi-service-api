@@ -24,13 +24,21 @@ module.exports = async ({ strapi }) => {
     strapi.bots.alanyaBot.onText(commands.START.regex, commands.START.fn);
 
     strapi.bots.alanyaBot.on('callback_query', async (query) => {
-        query.data = JSON.parse(query.data);
-        const user = await isUser({ msg: query });
-        const localisation = userLang(user.language);
-        return await inlineCallBacks[query.data.action]({ ...query, user, localisation });
+        try {
+            query.data = JSON.parse(query.data);
+            const user = await isUser({ msg: query });
+            const localisation = userLang(user.language);
+            console.log(`${query.data.action} ${user.id}`);
+            console.time();
+            await inlineCallBacks[query.data.action]({ ...query, user, localisation });
+            console.timeEnd();
+            console.log('<=====>');
+        } catch (e) {
+            console.error(e);
+        }
     });
 
-    strapi.bots.alanyaBot.on('polling_error', (msg) => console.log(msg));
+    strapi.bots.alanyaBot.on('polling_error', (msg) => console.log('polling_error', msg));
 
     console.log('Alanya Live Bot Connected!');
 };

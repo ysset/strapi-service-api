@@ -1,7 +1,5 @@
 module.exports = {
-    WELCOME: {
-        alanyaBot: 'Добро пожаловать в Xatta Бот!',
-    },
+    WELCOME: 'Добро пожаловать в Xatta Бот!',
     START: {
         text: '/start',
         regex: /\/start/,
@@ -28,9 +26,7 @@ module.exports = {
     REPEAT_SEARCH_FLATS: {
         text: 'Искать Недвижимость заново',
     },
-    NO_FAVORITE_NOW: {
-        flat: 'У вас пока нет сохраненной недвижимости!',
-    },
+    NO_FAVORITE_NOW: 'У вас пока нет сохраненной недвижимости!',
     UN_AUTHORIZE: 'Кажется мы не смогли найти избранные квартиры, пожалуйста перезапустите бота!',
     WRITE_AGENT_INLINE: {
         text: 'Связаться с агентом',

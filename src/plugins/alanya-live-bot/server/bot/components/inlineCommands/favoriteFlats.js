@@ -9,7 +9,7 @@ module.exports = async (query) => {
     if (!query.user) return;
 
     if (query.user.favorite_flats.length === 0) {
-        return await strapi.bots.alanyaBot.editMessageText(localisation?.NO_FAVORITE_NOW.flat, {
+        return await strapi.bots.alanyaBot.editMessageText(localisation?.NO_FAVORITE_NOW, {
             chat_id: chatId,
             message_id: messageId,
             reply_markup: {
@@ -19,6 +19,14 @@ module.exports = async (query) => {
                             ...localisation?.SEARCH_FLATS,
                             callback_data: JSON.stringify({
                                 action: 'SEARCH_FLATS',
+                            }),
+                        },
+                    ],
+                    [
+                        {
+                            ...localisation?.GO_BACK_ACTION,
+                            callback_data: JSON.stringify({
+                                action: 'FAVORITE',
                             }),
                         },
                     ],

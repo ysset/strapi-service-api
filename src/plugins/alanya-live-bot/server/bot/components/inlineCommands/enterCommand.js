@@ -18,7 +18,7 @@ module.exports = async (msg) => {
 
     await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
 
-    await strapi.bots.alanyaBot.sendMessage(chatId, localisation?.WELCOME.alanyaBot, {
+    await strapi.bots.alanyaBot.sendMessage(chatId, localisation?.WELCOME, {
         reply_markup: {
             inline_keyboard: [
                 [
