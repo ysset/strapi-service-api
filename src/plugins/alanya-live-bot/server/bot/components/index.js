@@ -24,6 +24,7 @@ const inlineCallBacks = {
     FULL_DESCRIPTION: callbacks.FULL_DESCRIPTION,
     SEARCH: callbacks.SEARCH,
     ENTER_COMMAND: callbacks.ENTER_COMMAND,
+    DELETE_ACTION: callbacks.DELETE_ACTION,
 };
 
 module.exports = {

@@ -7,6 +7,7 @@ const fullDescriptionFunc = require('./fullDescription');
 const favoriteFunc = require('./favorite');
 const searchFunc = require('./search');
 const enterCommandFunc = require('./enterCommand');
+const deleteFunc = require('./delete');
 
 module.exports = {
     writeAgent: writeAgentFunc,
@@ -18,4 +19,5 @@ module.exports = {
     search: searchFunc,
     fullDescription: fullDescriptionFunc,
     enterCommand: enterCommandFunc,
+    deleteCommand: deleteFunc,
 };

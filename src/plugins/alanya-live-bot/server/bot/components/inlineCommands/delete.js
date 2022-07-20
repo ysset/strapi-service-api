@@ -8,8 +8,7 @@ module.exports = async (query) => {
     await recommendations.remove({
         filter: {
             where: {
-                key: 'telegramID',
-                value: query.from.id,
+                telegramID: query.from.id,
             },
             apiKey: 'api::telegram-user.telegram-user',
         },

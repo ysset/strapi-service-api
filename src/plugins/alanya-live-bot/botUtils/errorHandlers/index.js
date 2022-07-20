@@ -21,12 +21,13 @@ module.exports = {
                         ],
                     ],
                 },
-            }),
+            });
+        },
 
         SERVER_ERROR: async ({ chatId, localisation }) =>
             strapi.bots.alanyaBot.sendMessage(chatId, localisation?.SERVER_ERROR, {
                 reply_markup: {
-                    keyboard: [
+                    inline_keyboard: [
                         [
                             {
                                 ...localisation?.FAVORITE,

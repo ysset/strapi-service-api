@@ -77,7 +77,8 @@ module.exports = async (query) => {
                             ...localisation?.DELETE_ACTION,
                             callback_data: JSON.stringify({
                                 action: 'DELETE_ACTION',
-                                username: flat.agent.username,
+                                type: 'FLATS',
+                                flatId: flat.id,
                             }),
                         },
                     ],

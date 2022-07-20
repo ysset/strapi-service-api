@@ -39,20 +39,15 @@ module.exports = {
      * @returns {Promise<void>}
      */
     async save({ filter, data, user }) {
-        const {
-            where: { key, value },
-            apiKey,
-        } = filter;
+        const { where, apiKey } = filter;
 
         const updateDataKey = `favorite_${data.type.toLowerCase()}`;
-        const updateData = [...user[`favorite_${data.type.toLowerCase()}`], data.recId];
+        const updateData = [...user[`favorite_${data.type.toLowerCase()}`], data.flatId];
 
         await strapi.db
             .query(apiKey)
             .update({
-                where: {
-                    [key]: value,
-                },
+                where,
                 data: { [updateDataKey]: updateData },
                 populate: true,
             })
@@ -62,20 +57,14 @@ module.exports = {
     },
 
     async remove({ filter, data, user }) {
-        const {
-            where: { key, value },
-            apiKey,
-        } = filter;
-
+        const { where, apiKey } = filter;
         const updateDataKey = `favorite_${data.type.toLowerCase()}`;
-        const updateData = [...user[`favorite_${data.type.toLowerCase()}`].filter((el) => el !== data.recId)];
+        const updateData = user[`favorite_${data.type.toLowerCase()}`].filter((el) => el.id !== data.flatId);
 
         await strapi.db
             .query(apiKey)
             .update({
-                where: {
-                    [key]: value,
-                },
+                where,
                 data: { [updateDataKey]: updateData },
                 populate: true,
             })

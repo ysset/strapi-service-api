@@ -12,6 +12,7 @@ const {
     search,
     fullDescription,
     enterCommand,
+    deleteCommand,
 } = require('./inlineCommands');
 
 const commands = {
@@ -28,10 +29,11 @@ const commands = {
     SEARCH: search,
     FULL_DESCRIPTION: fullDescription,
     ENTER_COMMAND: enterCommand,
+    DELETE_ACTION: deleteCommand,
 
     callCommand: async (query) =>
         await commands[`SEARCH_${query.data.type}`]({
-            ...query.message,
+            ...query,
             from: query.from,
             user: query.user,
         }),

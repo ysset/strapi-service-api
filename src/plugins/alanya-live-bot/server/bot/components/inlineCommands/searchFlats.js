@@ -5,22 +5,22 @@ const fs = require('fs');
 
 module.exports = async (query) => {
     const chatId = query.message?.chat.id || query.chat.id;
+    const messageId = query.message?.message_id || query.message_id;
     const localisation = query.localisation;
 
     if (!query.user) return;
 
-    const recommendationFlat = await recommendations.get({
+    const flat = await recommendations.get({
         user: query.user,
         filter: {
             type: 'FLATS',
             api: 'api::flat.flat',
         },
     });
-
-    if (!recommendationFlat) {
-        return await alanyaBot.NO_FLATS({ chatId, localisation });
+    if (!flat) {
+        return await alanyaBot.NO_FLATS({ chatId, messageId, localisation });
     }
-    if (!recommendationFlat.agent.username) {
+    if (!flat.agent.username) {
         return await alanyaBot.SERVER_ERROR({ chatId, localisation });
     }
 
@@ -31,9 +31,9 @@ module.exports = async (query) => {
     resolvedPath = resolvedPath.join('/');
 
     resolvedPath += `/public${
-        recommendationFlat.layoutPhoto[0].formats.medium
-            ? recommendationFlat.layoutPhoto[0].formats.medium.url
-            : recommendationFlat.layoutPhoto[0].formats.thumbnail.url
+        flat.layoutPhoto[0].formats.medium
+            ? flat.layoutPhoto[0].formats.medium.url
+            : flat.layoutPhoto[0].formats.thumbnail.url
     }`;
 
     await strapi.bots.alanyaBot.sendPhoto(chatId, fs.createReadStream(resolvedPath), {
@@ -45,7 +45,7 @@ module.exports = async (query) => {
                         callback_data: JSON.stringify({
                             action: 'SAVE',
                             type: 'FLATS',
-                            recId: recommendationFlat.id,
+                            flatId: flat.id,
                         }),
                     },
                     {
@@ -61,7 +61,7 @@ module.exports = async (query) => {
                         ...localisation?.WRITE_AGENT_INLINE,
                         callback_data: JSON.stringify({
                             action: 'WRITE_AGENT',
-                            recommendationKey: `api::flat.flat/${recommendationFlat.id}`,
+                            recommendationKey: `api::flat.flat/${flat.id}`,
                         }),
                     },
                 ],
@@ -78,7 +78,7 @@ module.exports = async (query) => {
     });
     const params = {
         data: {
-            checked_flats: [...query.user.checked_flats, recommendationFlat.id],
+            checked_flats: [...query.user.checked_flats, flat.id],
         },
     };
     await strapi.entityService.update('api::telegram-user.telegram-user', 1, params).catch((e) => {
