@@ -12,13 +12,10 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string"
-    },
     "ownerName": {
       "type": "string"
     },
-    "agentUsername": {
+    "username": {
       "type": "string"
     },
     "flats": {

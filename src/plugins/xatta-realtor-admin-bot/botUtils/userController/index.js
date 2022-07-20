@@ -11,7 +11,7 @@ module.exports = async ({ msg }) => {
             data: {
                 telegramID: msg.from.id,
                 language: msg.from.language_code,
-                agentUsername: msg.from.username,
+                username: msg.from.username,
             },
         });
 

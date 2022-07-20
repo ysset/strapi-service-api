@@ -1,12 +1,8 @@
 const { userLang } = require('../../../../botUtils/language');
 const getUser = require('../../../../botUtils/userController/index');
+const createNewAuthor = require('../../../../botUtils/userController/createNewAuthor');
 
-module.exports = async (msg) => {
-    const messageId = msg.message?.message_id || msg.message_id;
-    const user = await getUser({ msg });
-    const localisation = userLang(msg.from.language_code);
-    await strapi.bots.admin.deleteMessage(user.telegramID, messageId);
-
+const sendWelcomMessage = async ({ user, localisation }) => {
     await strapi.bots.admin.sendMessage(user.telegramID, localisation?.WELCOME, {
         reply_markup: {
             inline_keyboard: [
@@ -27,4 +23,15 @@ module.exports = async (msg) => {
             ],
         },
     });
+};
+
+module.exports = async (msg) => {
+    const user = await getUser({ msg });
+    const localisation = userLang(user.language);
+    const messageId = msg.message?.message_id || msg.message_id;
+    await strapi.bots.admin.deleteMessage(user.telegramID, messageId);
+
+    await createNewAuthor(msg);
+
+    return sendWelcomMessage({ user, localisation });
 };
