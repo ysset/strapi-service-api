@@ -16,7 +16,7 @@ module.exports = async (msg) => {
                 resolve();
             };
             eventStorage.createEvent({ telegramID, event });
-        });
+        }).then(() => eventStorage.clearEvents(telegramID));
     }
 
     if (!email) {
@@ -31,7 +31,7 @@ module.exports = async (msg) => {
                 resolve();
             };
             eventStorage.createEvent({ telegramID, event });
-        });
+        }).then(() => eventStorage.clearEvents(telegramID));
     }
 
     if (!admin) {
@@ -49,6 +49,5 @@ module.exports = async (msg) => {
                 createdBy: admin.id,
             },
         });
-        console.log(admin);
     }
 };
