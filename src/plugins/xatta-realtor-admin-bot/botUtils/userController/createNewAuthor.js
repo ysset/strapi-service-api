@@ -47,6 +47,7 @@ module.exports = async (msg) => {
         await strapi.entityService.update('api::agent.agent', id, {
             data: {
                 createdBy: admin.id,
+                admin: admin.id,
             },
         });
     }

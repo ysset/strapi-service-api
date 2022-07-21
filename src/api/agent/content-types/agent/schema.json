@@ -36,8 +36,7 @@
     "admin": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "agent"
+      "target": "admin::user"
     }
   }
 }

@@ -77,12 +77,6 @@
     },
     "telegramID": {
       "type": "biginteger"
-    },
-    "agent": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::agent.agent",
-      "inversedBy": "admin"
     }
   }
 }
