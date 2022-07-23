@@ -31,20 +31,23 @@ module.exports = async ({ strapi }) => {
             const localisation = userLang(user.language);
             return await inlineCallBacks[query.data.action]({ ...query, user, localisation });
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
     });
 
     // text listener
     // must call user event
-    strapi.bots.admin.on('text', async (msg) => {
+    strapi.bots.admin.on('message', async (msg) => {
         try {
-            if (eventStorage.isEvent(msg.from.id)) {
+            if (
+                (!msg.entities || msg?.entities[0].type !== 'bot_command') &&
+                eventStorage.isEvent(msg.from.id)
+            ) {
                 const event = eventStorage.callEvent(msg.from.id);
                 await event(msg);
             }
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
     });
     strapi.bots.admin.on('polling_error', (msg) => console.log(msg));
