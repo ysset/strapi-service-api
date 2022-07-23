@@ -10,25 +10,31 @@ module.exports = async (msg) => {
         });
     }
 
-    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
-    await strapi.bots.alanyaBot.sendMessage(chatId, localisation?.WELCOME, {
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        ...localisation?.FAVORITE,
-                        callback_data: JSON.stringify({
-                            action: 'FAVORITE',
-                        }),
-                    },
-                    {
-                        ...localisation?.SEARCH,
-                        callback_data: JSON.stringify({
-                            action: 'SEARCH',
-                        }),
-                    },
-                ],
-            ],
-        },
+    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId).catch((e) => {
+        console.error(e);
     });
+    await strapi.bots.alanyaBot
+        .sendMessage(chatId, localisation?.WELCOME, {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            ...localisation?.FAVORITE,
+                            callback_data: JSON.stringify({
+                                action: 'FAVORITE',
+                            }),
+                        },
+                        {
+                            ...localisation?.SEARCH,
+                            callback_data: JSON.stringify({
+                                action: 'SEARCH',
+                            }),
+                        },
+                    ],
+                ],
+            },
+        })
+        .catch((e) => {
+            console.error(e);
+        });
 };

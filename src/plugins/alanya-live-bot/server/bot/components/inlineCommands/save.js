@@ -2,39 +2,48 @@ const recommendations = require('../../../../botUtils/botManager/recomendationMa
 
 module.exports = async (query) => {
     if (!query.user) return;
-    const localisation = query.localisation;
 
-    await recommendations.save({
-        filter: {
-            where: {
-                telegramID: query.from.id,
+    const { localisation, chatId, user, data } = query;
+
+    await recommendations
+        .save({
+            filter: {
+                where: {
+                    telegramID: query.from.id,
+                },
+                apiKey: 'api::telegram-user.telegram-user',
             },
-            apiKey: 'api::telegram-user.telegram-user',
-        },
-        data: query.data,
-        user: query.user,
-    });
+            data,
+            user,
+        })
+        .catch((e) => {
+            console.error(e);
+        });
 
-    await strapi.bots.alanyaBot.sendMessage(query.message.chat.id, localisation?.SAVED, {
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        ...localisation?.FAVORITE,
-                        callback_data: JSON.stringify({
-                            action: 'FAVORITE',
-                        }),
-                    },
-                    {
-                        ...localisation?.SEARCH,
-                        callback_data: JSON.stringify({
-                            action: 'SEARCH',
-                        }),
-                    },
+    await strapi.bots.alanyaBot
+        .sendMessage(chatId, localisation?.SAVED, {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            ...localisation?.FAVORITE,
+                            callback_data: JSON.stringify({
+                                action: 'FAVORITE',
+                            }),
+                        },
+                        {
+                            ...localisation?.SEARCH,
+                            callback_data: JSON.stringify({
+                                action: 'SEARCH',
+                            }),
+                        },
+                    ],
                 ],
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
-        },
-    });
+                resize_keyboard: true,
+                one_time_keyboard: true,
+            },
+        })
+        .catch((e) => {
+            console.error(e);
+        });
 };

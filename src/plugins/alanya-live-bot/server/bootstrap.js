@@ -16,7 +16,9 @@ module.exports = async ({ strapi }) => {
         try {
             query.data = JSON.parse(query.data);
             const data = await modifyRequestWithUserData({ msg: query });
-            await inlineCallBacks[query.data.action](data);
+            await inlineCallBacks[query.data.action](data).catch((e) => {
+                console.error(e);
+            });
         } catch (e) {
             console.error(e);
         }
