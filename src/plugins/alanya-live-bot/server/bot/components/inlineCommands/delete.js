@@ -2,9 +2,7 @@ const recommendations = require('../../../../botUtils/botManager/recomendationMa
 
 module.exports = async (query) => {
     if (!query.user) return;
-
     const chatId = query.message.chat.id;
-
     await recommendations.remove({
         filter: {
             where: {
@@ -15,6 +13,5 @@ module.exports = async (query) => {
         data: query.data,
         user: query.user,
     });
-
     await strapi.bots.alanyaBot.deleteMessage(chatId, query.message.message_id);
 };
