@@ -1,7 +1,14 @@
 const getUser = require('./index');
 const eventStorage = require('./eventStorage');
 
-const updateAgent = async ({ telegramID, agentID: id, dbKey, regex }) =>
+/**
+ * @param telegramID
+ * @param id
+ * @param dbKey
+ * @param regex
+ * @returns {Promise<unknown>}
+ */
+const createEventToUpdateAgent = async ({ telegramID, agentID: id, dbKey, regex }) =>
     new Promise((resolve) => {
         const event = async (msg) => {
             if (msg.text.match(regex)) {
@@ -18,47 +25,69 @@ const updateAgent = async ({ telegramID, agentID: id, dbKey, regex }) =>
         eventStorage.createEvent({ telegramID, event });
     });
 
+/**
+ * @param msg
+ * @returns {Promise<void>}
+ */
 module.exports = async (msg) => {
-    const { ownerName, telegramID, email, id, admin } = await getUser({ msg });
+    const {
+        user: { ownerName, telegramID, email, id, admin },
+        localisation,
+    } = msg;
 
+    /**
+     * Get username and save
+     */
     if (!ownerName) {
-        await strapi.bots.admin.sendMessage(telegramID, 'Please submit a name that will be visible to users');
-        await updateAgent({
+        await strapi.bots.admin.sendMessage(telegramID, localisation.GET_USERNAME);
+        await createEventToUpdateAgent({
             telegramID,
             agentID: id,
             dbKey: 'ownerName',
             regex: /[А-Яа-я\w]/,
-        }).then(() => eventStorage.clearEvents(telegramID));
+        });
+        eventStorage.clearEvents(telegramID);
     }
 
+    /**
+     * Get user email and save
+     */
     if (!email) {
-        await strapi.bots.admin.sendMessage(telegramID, 'Please enter your email');
-        await updateAgent({
+        await strapi.bots.admin.sendMessage(telegramID, localisation.GET_USER_EMAIL);
+        await createEventToUpdateAgent({
             telegramID,
             agentID: id,
             dbKey: 'email',
             regex: /^[a-zA-Z\d]+(?:\.[a-zA-Z\d]+)*@[a-zA-Z]+\.?(?:\.[a-zA-Z\d]+)+$/,
-        }).then(() => eventStorage.clearEvents(telegramID));
+        });
+        eventStorage.clearEvents(telegramID);
     }
 
+    /**
+     * Create new author in admin panel
+     */
     if (!admin) {
+        //actualise current user
         const user = await getUser({ msg });
+        //create author
         const admin = await strapi.admin.services.user.create({
             firstname: user.ownerName,
             username: user.username,
             email: user.email,
             roles: [3],
         });
+
         await strapi.entityService.update('api::agent.agent', id, {
             data: {
                 createdBy: admin.id,
                 admin: admin.id,
             },
         });
+        //complete registration if admin is created
         if (admin) {
             await strapi.bots.admin.sendMessage(
                 telegramID,
-                `Welcome to xatta, now you have access to admin panel.\nhttp://xatta.ru//admin/auth/register?registrationToken=${admin.registrationToken}`
+                localisation.COMPLETE_ADMIN_REGISTRATION(admin.registrationToken)
             );
         }
     }

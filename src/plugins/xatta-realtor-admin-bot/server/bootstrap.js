@@ -1,43 +1,31 @@
 'use strict';
+//connection lost fix
 process.env.NTBA_FIX_319 = 1;
 
+// Connect to bot API
 const TgBot = require('node-telegram-bot-api');
 const bot = new TgBot(process.env.XATTA_ADMIN_BOT_API_KEY, { polling: true });
 
-const { commands, inlineCallBacks } = require('./bot/components');
-const getUser = require('../botUtils/userController');
-const { userLang } = require('../botUtils/language');
+const { commands } = require('./bot/components');
+const modifyRequestWithUserData = require('../botUtils/userController');
 const eventStorage = require('../botUtils/userController/eventStorage');
 
-module.exports = async ({ strapi }) => {
+/**
+ * @param strapi
+ */
+module.exports = ({ strapi }) => {
     strapi.bots.admin = bot;
-    await strapi.bots.admin.setMyCommands([
-        {
-            command: '/start',
-            description: 'start',
-        },
-        {
-            command: '/help',
-            description: 'start',
-        },
-    ]);
+    /**
+     * Event listener for bots commands like /start
+     */
+    strapi.bots.admin.onText(commands.START.regex, async (msg) =>
+        commands.START.fn(await modifyRequestWithUserData({ msg }))
+    );
 
-    strapi.bots.admin.onText(commands.START.regex, commands.START.fn);
-
-    strapi.bots.admin.on('callback_query', async (query) => {
-        try {
-            query.data = JSON.parse(query.data);
-            const user = await getUser({ msg: query });
-            const localisation = userLang(user.language);
-            return await inlineCallBacks[query.data.action]({ ...query, user, localisation });
-        } catch (e) {
-            console.error(e);
-        }
-    });
-
-    // text listener
-    // must call user event
-    strapi.bots.admin.on('message', async (msg) => {
+    /**
+     * Text listener, check and call current user event
+     */
+    strapi.bots.admin.on('text', async (msg) => {
         try {
             if (
                 (!msg.entities || msg?.entities[0].type !== 'bot_command') &&
@@ -50,6 +38,10 @@ module.exports = async ({ strapi }) => {
             console.error(e);
         }
     });
+
+    /**
+     * Error handling
+     */
     strapi.bots.admin.on('polling_error', (msg) => console.log(msg));
 
     console.log('Xatta admin is ready!');
