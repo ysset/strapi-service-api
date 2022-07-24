@@ -12,13 +12,10 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string"
-    },
     "ownerName": {
       "type": "string"
     },
-    "agentUsername": {
+    "username": {
       "type": "string"
     },
     "flats": {
@@ -27,14 +24,19 @@
       "target": "api::flat.flat",
       "mappedBy": "agent"
     },
-    "cars": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::car.car",
-      "mappedBy": "agent"
-    },
-    "telegramId": {
+    "telegramID": {
       "type": "biginteger"
+    },
+    "language": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "admin": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
     }
   }
 }

@@ -21,22 +21,10 @@
     "language": {
       "type": "string"
     },
-    "favorite_cars": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::car.car",
-      "mappedBy": "telegram_user"
-    },
     "checked_flats": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::flat.flat",
-      "inversedBy": "checked_users"
-    },
-    "checked_cars": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::car.car",
       "inversedBy": "checked_users"
     },
     "showPromo": {

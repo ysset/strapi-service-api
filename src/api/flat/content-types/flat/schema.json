@@ -12,9 +12,10 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "adress": {
+    "address": {
       "type": "string",
-      "regex": "^[a-zA-Z]{3,}[\\\\/]{1}[a-zA-Z]{3,}"
+      "regex": "^[a-zA-Z]{3,}[\\\\/]{1}[a-zA-Z]{3,}",
+      "required": true
     },
     "apartmentArea": {
       "type": "biginteger"
@@ -53,7 +54,8 @@
       "maxLength": 100
     },
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "shortCaption": {
       "type": "text",
@@ -64,17 +66,21 @@
       "enum": [
         "sell",
         "rent"
-      ]
+      ],
+      "required": true
     },
     "locationUrl": {
       "type": "string",
-      "regex": "([h][t]{2}[p][s][:][\\/]{2}[g][o]{2}[\\.][g][l][\\/][maps]{4}[\\/]|[h][t]{2}[p][s][:][\\/]{2}[y][a][n][d][e][x][\\.][r][u][\\/][m][a][p][s][\\/]|[h][t]{2}[p][s][:][\\/]{2}[g][o][\\.][2][g][i][s][\\.][c][o][m][\\/])"
+      "regex": "([h][t]{2}[p][s][:][\\/]{2}[g][o]{2}[\\.][g][l][\\/][maps]{4}[\\/]|[h][t]{2}[p][s][:][\\/]{2}[y][a][n][d][e][x][\\.][r][u][\\/][m][a][p][s][\\/]|[h][t]{2}[p][s][:][\\/]{2}[g][o][\\.][2][g][i][s][\\.][c][o][m][\\/])",
+      "required": true
     },
     "cost": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "rooms": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "type": {
       "type": "enumeration",
@@ -98,6 +104,12 @@
     "constructionCompletionDate": {
       "type": "date",
       "required": false
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "flats"
     }
   }
 }
