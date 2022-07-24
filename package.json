@@ -6,6 +6,7 @@
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
+    "prod": "pm2 start yarn -- start",
     "build": "strapi build",
     "strapi": "strapi"
   },
