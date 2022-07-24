@@ -40,6 +40,9 @@ module.exports = {
     DELETE_ACTION: {
         text: 'Удалить из избранного',
     },
+    DELETED: {
+        text: 'Квартира удалена из избранного.',
+    },
     FULL_DESCRIPTION: {
         text: 'Подробное описание',
     },

@@ -2,29 +2,28 @@ const { alanyaBot } = require('../../../../botUtils/errorHandlers');
 const path = require('path');
 const recommendations = require('../../../../botUtils/botManager/recomendationManager');
 const fs = require('fs');
+const { getUser } = require('../../../../botUtils/userController');
 
 module.exports = async (query) => {
     const { localisation, chatId, messageId } = query;
+    const { user } = await getUser(query);
 
-    if (!query.user) return;
+    if (!user) return;
 
     const flat = await recommendations.get({
-        user: query.user,
+        user,
         filter: {
             type: 'FLATS',
             api: 'api::flat.flat',
         },
     });
-    if (!flat) {
-        return await alanyaBot.NO_FLATS({ chatId, messageId, localisation });
-    }
-    if (!flat.agent?.username) {
-        return await alanyaBot.SERVER_ERROR({ chatId, localisation });
-    }
+
+    if (!flat) return await alanyaBot.NO_FLATS({ chatId, messageId, localisation });
+    if (!flat.agent?.username) return await alanyaBot.SERVER_ERROR({ chatId, localisation });
 
     const params = {
         data: {
-            checked_flats: [...query.user.checked_flats, flat.id],
+            checked_flats: [...user.checked_flats, flat.id],
         },
     };
 
@@ -82,7 +81,8 @@ module.exports = async (query) => {
         .catch((e) => {
             console.error(e);
         });
-    await strapi.entityService.update('api::telegram-user.telegram-user', 1, params).catch((e) => {
+
+    await strapi.entityService.update('api::telegram-user.telegram-user', user.id, params).catch((e) => {
         console.error(e);
     });
 };

@@ -1,9 +1,11 @@
 const recommendations = require('../../../../botUtils/botManager/recomendationManager');
+const { getUser } = require('../../../../botUtils/userController');
 
 module.exports = async (query) => {
-    if (!query.user) return;
+    const { user } = await getUser(query);
+    const { chatId, data, localisation, messageId } = query;
 
-    const { chatId, data, user, localisation, messageId } = query;
+    if (!user) return;
 
     await recommendations.remove({
         filter: {
@@ -16,10 +18,10 @@ module.exports = async (query) => {
         user,
     });
 
+    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
+
     return await strapi.bots.alanyaBot
-        .editMessageText(localisation.SELECT_SUBGROUP.text, {
-            chat_id: chatId,
-            message_id: messageId,
+        .sendMessage(chatId, localisation.DELETED.text, {
             reply_markup: {
                 inline_keyboard: [
                     [

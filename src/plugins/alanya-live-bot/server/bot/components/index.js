@@ -1,4 +1,4 @@
-const getUser = require('../../../botUtils/userController');
+const { modifyRequestWithUserData } = require('../../../botUtils/userController');
 const callbacks = require('./componentList');
 
 const index = {
@@ -7,7 +7,7 @@ const index = {
         fn: async (msg) => {
             //Always clear your text listeners to avoid conflicts
             await strapi.bots.alanyaBot.clearTextListeners();
-            await getUser({ msg });
+            await modifyRequestWithUserData({ msg });
             return inlineCallBacks.ENTER_COMMAND(msg);
         },
     },

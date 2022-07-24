@@ -39,6 +39,9 @@ module.exports = {
     DELETE_ACTION: {
         text: 'Remove from favorites',
     },
+    DELETED: {
+        text: 'The apartment has been removed from favorites.',
+    },
     FULL_DESCRIPTION: {
         text: 'Detailed description',
     },

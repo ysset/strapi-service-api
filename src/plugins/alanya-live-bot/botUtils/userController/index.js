@@ -2,23 +2,37 @@ const { userLang } = require('../../botUtils/language');
 
 /**
  * @param msg
- * @returns {Promise<*&{chatId: *, localisation: *, messageId: *, user: *}>}
+ * @returns {Promise<{chatId: *, messageId: *, user: *}>}
  */
-module.exports = async ({ msg }) => {
+const getUser = async (msg) => {
     const chatId = msg.message?.chat.id || msg.chat.id;
     const messageId = msg.message?.message_id || msg.message_id;
-
-    let user = await strapi.db
+    const userID = msg.from.id;
+    const user = await strapi.db
         .query('api::telegram-user.telegram-user')
         .findOne({
             where: {
-                telegramID: msg.from.id,
+                telegramID: userID,
             },
             populate: true,
         })
         .catch((e) => {
             console.error(e);
         });
+
+    return {
+        chatId,
+        messageId,
+        user,
+    };
+};
+
+/**
+ * @param msg
+ * @returns {Promise<*&{chatId: *, localisation: *, messageId: *, user: *}>}
+ */
+const modifyRequestWithUserData = async ({ msg }) => {
+    let { user, messageId, chatId } = await getUser(msg);
 
     if (!user)
         user = await strapi.entityService
@@ -40,4 +54,11 @@ module.exports = async ({ msg }) => {
         messageId,
         chatId,
     };
+};
+/**
+ * @type {{modifyRequestWithUserData: (function({msg: *}): Promise<*&{chatId: *, localisation: *, messageId: *, user: *}>), getUser: (function(*): Promise<{chatId: *, messageId: *, user: *}>)}}
+ */
+module.exports = {
+    modifyRequestWithUserData,
+    getUser,
 };

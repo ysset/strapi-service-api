@@ -1,4 +1,3 @@
-const getUser = require('../../../../botUtils/userController');
 const searchFlatsFunc = require('./searchFlats');
 
 module.exports = async (query) => {
@@ -23,7 +22,6 @@ module.exports = async (query) => {
             console.error(e);
         });
 
-    query.user = await getUser({ msg: query });
     return await searchFlatsFunc(query).catch((e) => {
         console.error(e);
     });

@@ -40,6 +40,9 @@ module.exports = {
     DELETE_ACTION: {
         text: '从收藏夹中删除',
     },
+    DELETED: {
+        text: '该公寓已从收藏夹中删除。',
+    },
     FULL_DESCRIPTION: {
         text: '详细说明',
     },

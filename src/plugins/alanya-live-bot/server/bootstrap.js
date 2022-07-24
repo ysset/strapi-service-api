@@ -5,7 +5,7 @@ const TgBot = require('node-telegram-bot-api');
 const bot = new TgBot(process.env.BOT_API_KEY, { polling: true });
 
 const { commands, inlineCallBacks } = require('./bot/components');
-const modifyRequestWithUserData = require('../botUtils/userController');
+const { modifyRequestWithUserData } = require('../botUtils/userController');
 
 module.exports = async ({ strapi }) => {
     strapi.bots.alanyaBot = bot;
