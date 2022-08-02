@@ -18,9 +18,7 @@ module.exports = async (query) => {
         console.error(e);
     });
 
-    await strapi.bots.alanyaBot
-        .sendMessage(agentTelegramId, `${realtorMessage}\n\n${orderInfo}`)
-        .catch((e) => {
-            console.error(e);
-        });
+    await strapi.bots.admin.sendMessage(agentTelegramId, `${realtorMessage}\n\n${orderInfo}`).catch((e) => {
+        console.error(e);
+    });
 };

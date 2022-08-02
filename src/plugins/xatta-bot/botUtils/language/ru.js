@@ -41,6 +41,23 @@ module.exports = {
                 locationUrl ? ` \nРасположение: ${locationUrl}` : ''
             } \n${getMoneyWays} ${housingType} ${rooms ? `\nКомнаты: ${rooms}` : ''} `,
     },
+    HOUSING_FULL_DESCRIPTION: ({
+        title,
+        id,
+        cost,
+        city,
+        housingArea,
+        rooms,
+        locationUrl,
+        caption,
+        metersFromTheSea,
+        constructionCompletionDate,
+    }) =>
+        `${title}/id: ${id} \nЦена: ${cost} | Город: ${city} ${
+            housingArea ? `\nПлощадь ${housingArea} м2 |` : ''
+        } ${rooms ? `Комнаты: ${rooms}` : ''} \nРасположение: ${locationUrl} ${
+            metersFromTheSea ? `\nДо моря: ${metersFromTheSea} м` : ''
+        } ${constructionCompletionDate ? `\nДата сдачи: ${constructionCompletionDate}` : ''} \n\n${caption}`,
     CHOOSE_THE_ACTION: {
         text: (flatId) => `Квартира номер: ${flatId} \nВыберите действие:`,
     },
