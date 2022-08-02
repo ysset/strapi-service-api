@@ -31,7 +31,7 @@ module.exports = async (query) => {
         });
     });
 
-    arrayOfPhotos[0].caption = flat.caption || '';
+    arrayOfPhotos[0].caption = localisation.HOUSING_FULL_DESCRIPTION(flat);
 
     await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch((e) => {
         console.error(e);

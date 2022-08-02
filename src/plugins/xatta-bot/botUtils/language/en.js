@@ -40,6 +40,25 @@ module.exports = {
                 locationUrl ? ` \nLocation: ${locationUrl}` : ''
             } \n${getMoneyWays} ${housingType} ${rooms ? `\nRooms: ${rooms}` : ''} `,
     },
+    HOUSING_FULL_DESCRIPTION: ({
+        title,
+        id,
+        cost,
+        city,
+        housingArea,
+        rooms,
+        locationUrl,
+        caption,
+        metersFromTheSea,
+        constructionCompletionDate,
+    }) =>
+        `${title}/id: ${id} \nPrice: ${cost} | City: ${city} ${
+            housingArea ? `\nArea ${housingArea} m2 |` : ''
+        } ${rooms ? `Rooms: ${rooms}` : ''} \nLocation: ${locationUrl} ${
+            metersFromTheSea ? `\nTo sea: ${metersFromTheSea} m` : ''
+        } ${
+            constructionCompletionDate ? `\nCompletion Date: ${constructionCompletionDate}` : ''
+        } \n\n${caption}`,
     CHOOSE_THE_ACTION: {
         text: (flatId) => `Apartment number: ${flatId} \nSelect action:`,
     },
