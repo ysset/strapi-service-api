@@ -11,7 +11,7 @@ module.exports = {
     FAVORITE: {
         text: 'Сохраненные❤️',
     },
-    FAVORITE_FLATS: {
+    FAVORITE_HOUSINGS: {
         text: 'Недвижимость ❤️',
     },
     SEARCH: {
@@ -30,6 +30,16 @@ module.exports = {
     UN_AUTHORIZE: 'Кажется мы не смогли найти избранные квартиры, пожалуйста перезапустите бота!',
     WRITE_AGENT_INLINE: {
         text: 'Связаться с агентом',
+    },
+    WRITE_AGENT: {
+        userText: (username, agentUsername) =>
+            `${username} вот ссылка на риелтора https://t.me/${agentUsername}. \nПожалуйста напишите ему =) `,
+        realtorText: (username, agentUsername) =>
+            `${agentUsername} пользователь https://t.me/${username} интересуется вашей квартирой. `,
+        orderInfo: ({ id, title, cost, city, district, locationUrl, getMoneyWays, housingType, rooms }) =>
+            `Квартира: \nid: ${id} \nНазвание: ${title} \nЦена: ${cost} \nАдрес: ${city} ${district}${
+                locationUrl ? ` \nРасположение: ${locationUrl}` : ''
+            } \n${getMoneyWays} ${housingType} ${rooms ? `\nКомнаты: ${rooms}` : ''} `,
     },
     CHOOSE_THE_ACTION: {
         text: (flatId) => `Квартира номер: ${flatId} \nВыберите действие:`,

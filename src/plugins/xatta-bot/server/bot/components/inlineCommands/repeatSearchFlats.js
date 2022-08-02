@@ -5,7 +5,7 @@ module.exports = async (query) => {
 
     const params = {
         data: {
-            checked_flats: [],
+            watchedHousings: [],
         },
     };
 

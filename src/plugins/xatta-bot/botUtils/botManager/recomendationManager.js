@@ -5,8 +5,8 @@ module.exports = {
      * @returns {Promise<null|array>}
      */
     async get({ user, filter }) {
-        const watched = user.checked_flats;
-        const favorite = user.favorite_flats;
+        const watched = user.watchedHousings;
+        const favorite = user.favoriteHousings;
 
         if (!favorite || !watched) {
             return null;
@@ -39,7 +39,7 @@ module.exports = {
             .query(apiKey)
             .update({
                 where,
-                data: { favorite_flats: [...user.favorite_flats, data.flatId] },
+                data: { favoriteHousings: [...user.favoriteHousings, data.flatId] },
                 populate: true,
             })
             .catch((e) => {
@@ -55,13 +55,13 @@ module.exports = {
      */
     async remove({ filter, data, user }) {
         const { where, apiKey } = filter;
-        const updateData = user.favorite_flats.filter((el) => el.id !== data.flatId);
+        const updateData = user.favoriteHousings.filter((el) => el.id !== data.flatId);
 
         return await strapi.db
             .query(apiKey)
             .update({
                 where,
-                data: { favorite_flats: updateData },
+                data: { favoriteHousings: updateData },
                 populate: true,
             })
             .catch((e) => {

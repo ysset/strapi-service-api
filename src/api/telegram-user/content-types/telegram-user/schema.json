@@ -21,21 +21,21 @@
     "language": {
       "type": "string"
     },
-    "checked_flats": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::flat.flat",
-      "inversedBy": "checked_users"
-    },
     "showPromo": {
       "type": "boolean",
       "default": true
     },
-    "favorite_flats": {
+    "watchedHousings": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::flat.flat",
-      "mappedBy": "liked_bies"
+      "target": "api::housing.housing",
+      "mappedBy": "watchedUsers"
+    },
+    "favoriteHousings": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::housing.housing",
+      "mappedBy": "favoriteUsers"
     }
   }
 }

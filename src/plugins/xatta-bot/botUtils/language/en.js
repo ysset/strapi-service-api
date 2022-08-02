@@ -13,7 +13,7 @@ module.exports = {
     SELECT_SUBGROUP: {
         text: 'Select subgroup',
     },
-    FAVORITE_FLATS: {
+    FAVORITE_HOUSINGS: {
         text: 'Property ❤️',
     },
     SEARCH: {
@@ -29,6 +29,16 @@ module.exports = {
     UN_AUTHORIZE: "It seems we couldn't find the featured apartments, please restart the bot!",
     WRITE_AGENT_INLINE: {
         text: 'Contact agent',
+    },
+    WRITE_AGENT: {
+        userText: (username, agentUsername) =>
+            `${username} here is a link to the realtor https://t.me/${agentUsername}. \nPlease text him =) `,
+        realtorText: (username, agentUsername) =>
+            `${agentUsername} user https://t.me/${username} is interested in your apartment. `,
+        orderInfo: ({ id, title, cost, city, district, locationUrl, getMoneyWays, housingType, rooms }) =>
+            `Apartment: \nid: ${id} \nName: ${title} \nPrice: ${cost} \nAddress: ${city} ${district}${
+                locationUrl ? ` \nLocation: ${locationUrl}` : ''
+            } \n${getMoneyWays} ${housingType} ${rooms ? `\nRooms: ${rooms}` : ''} `,
     },
     CHOOSE_THE_ACTION: {
         text: (flatId) => `Apartment number: ${flatId} \nSelect action:`,

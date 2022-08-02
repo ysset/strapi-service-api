@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * flat router.
+ * housing router.
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::flat.flat');
+module.exports = createCoreRouter('api::housing.housing');

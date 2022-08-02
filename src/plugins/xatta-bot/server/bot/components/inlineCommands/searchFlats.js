@@ -14,7 +14,7 @@ module.exports = async (query) => {
         user,
         filter: {
             type: 'FLATS',
-            api: 'api::flat.flat',
+            api: 'api::housing.housing',
         },
     });
 
@@ -23,7 +23,7 @@ module.exports = async (query) => {
 
     const params = {
         data: {
-            checked_flats: [...user.checked_flats, flat.id],
+            watchedHousings: [...user.watchedHousings, flat.id],
         },
     };
 
@@ -63,7 +63,7 @@ module.exports = async (query) => {
                             ...localisation?.WRITE_AGENT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'WRITE_AGENT',
-                                recommendationKey: `api::flat.flat/${flat.id}`,
+                                rec: `api::housing.housing/${flat.id}`,
                             }),
                         },
                     ],

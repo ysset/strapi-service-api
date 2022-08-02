@@ -9,9 +9,9 @@ module.exports = async (query) => {
                 inline_keyboard: [
                     [
                         {
-                            ...localisation?.FAVORITE_FLATS,
+                            ...localisation?.FAVORITE_HOUSINGS,
                             callback_data: JSON.stringify({
-                                action: 'FAVORITE_FLATS',
+                                action: 'FAVORITE_HOUSINGS',
                             }),
                         },
                     ],

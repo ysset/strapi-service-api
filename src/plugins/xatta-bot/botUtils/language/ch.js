@@ -14,7 +14,7 @@ module.exports = {
     SELECT_SUBGROUP: {
         text: '选择子组',
     },
-    FAVORITE_FLATS: {
+    FAVORITE_HOUSINGS: {
         text: '物业❤️',
     },
     SEARCH: {
@@ -30,6 +30,16 @@ module.exports = {
     UN_AUTHORIZE: '我们似乎找不到特色公寓，请重启机器人！',
     WRITE_AGENT_INLINE: {
         text: '联系人',
+    },
+    WRITE_AGENT: {
+        userText: (username, agentUsername) =>
+            `${username} 这里是房地产经纪人 https://t.me/${agentUsername} 的链接。 \n请给他发短信 =) `,
+        realtorText: (username, agentUsername) =>
+            `${agentUsername} 用户 https://t.me/${username} 对您的公寓感兴趣。 `,
+        orderInfo: ({ id, title, cost, city, district, locationUrl, getMoneyWays, housingType, rooms }) =>
+            `公寓：\nid：${id} \n名称：${title} \n价格：${cost} \n地址：${city} ${district}${
+                locationUrl ? ` \n位置：${locationUrl}` : ''
+            } \n${getMoneyWays} ${housingType} ${rooms ? `\n房间：${rooms}` : ''}`,
     },
     CHOOSE_THE_ACTION: {
         text: (flatId) => `公寓号：${flatId} \n选择操作：`,

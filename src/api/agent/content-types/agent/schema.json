@@ -18,12 +18,6 @@
     "username": {
       "type": "string"
     },
-    "flats": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::flat.flat",
-      "mappedBy": "agent"
-    },
     "telegramID": {
       "type": "biginteger"
     },
@@ -37,6 +31,12 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "admin::user"
+    },
+    "housings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::housing.housing",
+      "mappedBy": "agent"
     }
   }
 }

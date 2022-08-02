@@ -2,7 +2,7 @@ const writeAgentFunc = require('./writeAgent');
 const saveFunc = require('./save');
 const searchFlatsFunc = require('./searchFlats');
 const repeatSearchFlatsFunc = require('./repeatSearchFlats');
-const favoriteFlatsFunc = require('./favoriteFlats');
+const favoriteHousingsFunc = require('./favoriteHousings');
 const fullDescriptionFunc = require('./fullDescription');
 const favoriteFunc = require('./favorite');
 const searchFunc = require('./search');
@@ -14,7 +14,7 @@ module.exports = {
     save: saveFunc,
     searchFlats: searchFlatsFunc,
     repeatSearchFlats: repeatSearchFlatsFunc,
-    favoriteFlats: favoriteFlatsFunc,
+    favoriteHousings: favoriteHousingsFunc,
     favorite: favoriteFunc,
     search: searchFunc,
     fullDescription: fullDescriptionFunc,

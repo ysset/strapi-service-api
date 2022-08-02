@@ -1,5 +1,4 @@
 const fs = require('fs');
-
 const path = require('path');
 
 module.exports = async (query) => {
@@ -46,7 +45,7 @@ module.exports = async (query) => {
                             ...localisation?.WRITE_AGENT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'WRITE_AGENT',
-                                agentUsername: flat.agent.username,
+                                rec: `api::housing.housing/${flat.id}`,
                             }),
                         },
                     ],

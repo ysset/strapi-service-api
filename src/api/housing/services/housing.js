@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * flat service.
+ * housing service.
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::flat.flat');
+module.exports = createCoreService('api::housing.housing');
