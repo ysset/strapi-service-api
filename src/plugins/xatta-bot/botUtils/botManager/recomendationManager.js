@@ -13,6 +13,9 @@ module.exports = {
         }
 
         const recommendations = await strapi.entityService.findMany(filter.api, {
+            filters: {
+                housingType: filter.housingType,
+            },
             populate: '*',
         });
 
