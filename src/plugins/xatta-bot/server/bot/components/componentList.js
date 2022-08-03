@@ -13,6 +13,7 @@ const {
     fullDescription,
     enterCommand,
     deleteCommand,
+    deleteCurrentMessage,
 } = require('./inlineCommands');
 
 const commands = {
@@ -30,13 +31,16 @@ const commands = {
     FULL_DESCRIPTION: fullDescription,
     ENTER_COMMAND: enterCommand,
     DELETE_ACTION: deleteCommand,
+    DELETE_MESSAGE: deleteCurrentMessage,
 
-    callCommand: async (query) =>
+    callCommand: async (query) => {
+        await commands.DELETE_MESSAGE(query);
         await commands[`SEARCH_${query.data.type}`]({
             ...query,
             from: query.from,
             user: query.user,
-        }),
+        });
+    },
 };
 
 module.exports = commands;

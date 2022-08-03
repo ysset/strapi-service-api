@@ -8,6 +8,7 @@ const favoriteFunc = require('./favorite');
 const searchFunc = require('./search');
 const enterCommandFunc = require('./enterCommand');
 const deleteFunc = require('./delete');
+const deleteCurrentMessageFunc = require('./deleteCurrentMessage');
 
 module.exports = {
     writeAgent: writeAgentFunc,
@@ -20,4 +21,5 @@ module.exports = {
     fullDescription: fullDescriptionFunc,
     enterCommand: enterCommandFunc,
     deleteCommand: deleteFunc,
+    deleteCurrentMessage: deleteCurrentMessageFunc,
 };

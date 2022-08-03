@@ -1,11 +1,12 @@
-const { alanyaBot } = require('../../../../botUtils/errorHandlers');
 const path = require('path');
-const recommendations = require('../../../../botUtils/botManager/recomendationManager');
 const fs = require('fs');
+
 const { getUser } = require('../../../../botUtils/userController');
+const { alanyaBot } = require('../../../../botUtils/errorHandlers');
+const recommendations = require('../../../../botUtils/botManager/recomendationManager');
 
 module.exports = async (query) => {
-    const { localisation, chatId, messageId } = query;
+    const { localisation, chatId, messageId, data } = query;
     const { user } = await getUser(query);
 
     if (!user) return;
@@ -15,6 +16,7 @@ module.exports = async (query) => {
         filter: {
             type: 'FLATS',
             api: 'api::housing.housing',
+            housingType: data.type,
         },
     });
 

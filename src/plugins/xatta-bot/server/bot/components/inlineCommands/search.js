@@ -11,9 +11,26 @@ module.exports = async (query) => {
                 inline_keyboard: [
                     [
                         {
-                            ...localisation.SEARCH_FLATS,
+                            text: 'Apartments',
                             callback_data: JSON.stringify({
                                 action: 'SEARCH_FLATS',
+                                type: 'apartment',
+                            }),
+                        },
+                        {
+                            text: 'Villa',
+                            callback_data: JSON.stringify({
+                                action: 'SEARCH_FLATS',
+                                type: 'villa',
+                            }),
+                        },
+                    ],
+                    [
+                        {
+                            text: 'Complex',
+                            callback_data: JSON.stringify({
+                                action: 'SEARCH_FLATS',
+                                type: 'complex',
                             }),
                         },
                     ],

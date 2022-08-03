@@ -68,7 +68,7 @@ module.exports = async (msg) => {
      */
     if (!admin) {
         //actualise current user
-        const user = await getUser({ msg });
+        const { user } = await getUser({ msg });
         //create author
         const admin = await strapi.admin.services.user.create({
             firstname: user.ownerName,
