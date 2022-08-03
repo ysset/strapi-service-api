@@ -1,8 +1,9 @@
-const { alanyaBot } = require('../../../../botUtils/errorHandlers');
 const path = require('path');
-const recommendations = require('../../../../botUtils/botManager/recomendationManager');
 const fs = require('fs');
+
 const { getUser } = require('../../../../botUtils/userController');
+const { alanyaBot } = require('../../../../botUtils/errorHandlers');
+const recommendations = require('../../../../botUtils/botManager/recomendationManager');
 
 module.exports = async (query) => {
     const { localisation, chatId, messageId, data } = query;

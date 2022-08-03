@@ -12,6 +12,7 @@ module.exports = {
             return null;
         }
 
+        // TODO if we have 100,000,000 fields, we will have to do optimization
         const recommendations = await strapi.entityService.findMany(filter.api, {
             filters: {
                 housingType: filter.housingType,

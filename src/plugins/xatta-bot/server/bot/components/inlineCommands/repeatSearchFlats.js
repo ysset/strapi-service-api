@@ -1,4 +1,5 @@
-const deleteMessage = require('./deleteCurrentMessage');
+const deleteCurrentMessage = require('./deleteCurrentMessage');
+const search = require('./search');
 
 module.exports = async (query) => {
     await strapi.entityService
@@ -13,5 +14,6 @@ module.exports = async (query) => {
         .catch((e) => {
             console.error(e);
         });
-    await deleteMessage(query);
+    await deleteCurrentMessage(query);
+    await search(query);
 };

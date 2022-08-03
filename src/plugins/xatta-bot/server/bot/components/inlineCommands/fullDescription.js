@@ -36,6 +36,7 @@ module.exports = async (query) => {
     await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch((e) => {
         console.error(e);
     });
+
     await strapi.bots.alanyaBot
         .sendMessage(chatId, localisation?.CHOOSE_THE_ACTION.text(flat.id), {
             reply_markup: {

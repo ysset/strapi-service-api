@@ -16,7 +16,7 @@ module.exports = {
                             {
                                 ...localisation?.GO_BACK_ACTION,
                                 callback_data: JSON.stringify({
-                                    action: 'DELETE_MESSAGE',
+                                    action: 'ENTER_COMMAND',
                                 }),
                             },
                         ],
