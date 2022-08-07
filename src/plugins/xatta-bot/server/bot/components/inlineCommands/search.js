@@ -1,9 +1,7 @@
 module.exports = async (query) => {
     const { localisation, chatId, messageId } = query;
 
-    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId).catch((e) => {
-        console.error(e);
-    });
+    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId).catch(console.error);
 
     return await strapi.bots.alanyaBot
         .sendMessage(chatId, 'Выберите подгруппу', {
