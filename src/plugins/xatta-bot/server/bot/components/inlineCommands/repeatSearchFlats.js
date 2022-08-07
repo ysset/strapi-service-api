@@ -14,6 +14,6 @@ module.exports = async (query) => {
         .catch((e) => {
             console.error(e);
         });
-    await deleteCurrentMessage(query);
+    // await deleteCurrentMessage(query);
     await search(query);
 };

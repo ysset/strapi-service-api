@@ -29,7 +29,7 @@ module.exports = async (query) => {
                             {
                                 ...localisation?.SEARCH_FLATS,
                                 callback_data: JSON.stringify({
-                                    action: 'SEARCH_FLATS',
+                                    action: 'SEARCH',
                                 }),
                             },
                         ],
