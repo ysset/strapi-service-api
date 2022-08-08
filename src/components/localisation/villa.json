@@ -12,7 +12,8 @@
       "enum": [
         "ru",
         "en"
-      ]
+      ],
+      "required": true
     },
     "title": {
       "type": "string",
@@ -35,7 +36,7 @@
     },
     "layout": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "area": {
       "required": true,

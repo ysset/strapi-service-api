@@ -12,7 +12,8 @@
       "enum": [
         "ru",
         "en"
-      ]
+      ],
+      "required": true
     },
     "title": {
       "type": "string",
@@ -45,7 +46,7 @@
     },
     "paymentMethod": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "apartments": {
       "type": "component",
