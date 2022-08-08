@@ -72,10 +72,20 @@ module.exports = async (query) => {
                     ],
                     [
                         {
+                            ...localisation?.FULL_DESCRIPTION,
+                            callback_data: JSON.stringify({
+                                action: 'FULL_DESCRIPTION',
+                                flat: `api::${api}.${api}/${recLocalisation.id}`,
+                            }),
+                        },
+                    ],
+                    [
+                        {
                             ...localisation?.WRITE_AGENT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'WRITE_AGENT',
-                                rec: `api::${api}.${api}/${recLocalisation.id}`,
+                                api: data.api,
+                                flatId: recLocalisation.id,
                             }),
                         },
                     ],

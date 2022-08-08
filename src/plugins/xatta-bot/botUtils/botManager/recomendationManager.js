@@ -30,6 +30,7 @@ module.exports = {
      */
     async save({ filter, data, user }) {
         const { where, apiKey } = filter;
+        console.log(data.api);
         const favoriteObjects = user[`favorite${data.api}`];
 
         return await strapi.db

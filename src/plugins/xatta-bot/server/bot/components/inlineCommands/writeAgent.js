@@ -8,10 +8,14 @@ module.exports = async (query) => {
         user,
     } = query;
 
-    const { api, flatId } = query.data;
-    const recommendation = await strapi.entityService.findOne(api, flatId, {
-        populate: '*',
-    });
+    const { api, flatId } = data;
+    const recommendation = await strapi.entityService.findOne(
+        `api::${api.toLowerCase()}.${api.toLowerCase()}`,
+        flatId,
+        {
+            populate: '*',
+        }
+    );
 
     const agentUsername = recommendation.agent.username;
     const agentTelegramId = recommendation.agent.telegramID;
