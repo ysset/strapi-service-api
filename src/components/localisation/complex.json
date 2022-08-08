@@ -1,0 +1,72 @@
+{
+  "collectionName": "components_localisation_complexes",
+  "info": {
+    "displayName": "complex",
+    "icon": "building",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "language": {
+      "type": "enumeration",
+      "enum": [
+        "ru",
+        "en"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50
+    },
+    "caption": {
+      "type": "text",
+      "required": true,
+      "maxLength": 150
+    },
+    "city": {
+      "type": "string",
+      "required": true,
+      "maxLength": 20
+    },
+    "district": {
+      "type": "string",
+      "maxLength": 30,
+      "required": true
+    },
+    "metersFromTheSea": {
+      "type": "integer"
+    },
+    "ComplexArea": {
+      "type": "integer"
+    },
+    "initialFee": {
+      "type": "decimal"
+    },
+    "paymentMethod": {
+      "type": "string",
+      "required": true
+    },
+    "apartments": {
+      "type": "component",
+      "repeatable": true,
+      "component": "apartments.apartment"
+    },
+    "infrastructure": {
+      "displayName": "additional",
+      "type": "component",
+      "repeatable": true,
+      "component": "addtionals.additional"
+    },
+    "apartmentEquipment": {
+      "type": "component",
+      "repeatable": true,
+      "component": "addtionals.additional"
+    },
+    "constructionCompletionDate": {
+      "type": "string",
+      "regex": "^[0-9]{2}[.][0-9]{4}$",
+      "required": true
+    }
+  }
+}

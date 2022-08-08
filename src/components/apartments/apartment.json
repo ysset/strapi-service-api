@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_apartments_apartments",
+  "info": {
+    "displayName": "apartment",
+    "icon": "home"
+  },
+  "options": {},
+  "attributes": {
+    "layout": {
+      "type": "string",
+      "required": true
+    },
+    "area": {
+      "type": "integer",
+      "required": true
+    }
+  }
+}

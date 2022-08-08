@@ -8,24 +8,34 @@ const recommendations = require('../../../../botUtils/botManager/recomendationMa
 module.exports = async (query) => {
     const { localisation, chatId, messageId, data } = query;
     const { user } = await getUser(query);
+    const api = data.api.toLowerCase();
 
     if (!user) return;
 
-    const flat = await recommendations.get({
+    const recommendation = await recommendations.get({
         user,
         filter: {
             type: 'FLATS',
-            api: 'api::housing.housing',
-            housingType: data.type,
+            api: `api::${api}.${api}`,
         },
     });
 
-    if (!flat) return await alanyaBot.NO_FLATS({ chatId, messageId, localisation });
-    if (!flat.agent?.username) return await alanyaBot.SERVER_ERROR({ chatId, localisation });
+    if (!recommendation) return await alanyaBot.NO_FLATS({ chatId, messageId, localisation });
+
+    let recLocalisation = {
+        ...recommendation,
+        localisation: recommendation.localisation.find((rec) => rec.language === localisation.lang),
+    };
+
+    if (!recLocalisation.localisation)
+        recLocalisation.localisation = recommendation.localisation.find((rec) => rec.language === 'en');
+
+    if (!recLocalisation.agent?.username) return await alanyaBot.SERVER_ERROR({ chatId, localisation });
+    const watchedObjects = user[`watched${data.api}`];
 
     const params = {
         data: {
-            watchedHousings: [...user.watchedHousings, flat.id],
+            [`watched${data.api}`]: [...watchedObjects, recLocalisation.id],
         },
     };
 
@@ -34,9 +44,9 @@ module.exports = async (query) => {
     resolvedPath.pop();
     resolvedPath = resolvedPath.join('/');
     resolvedPath += `/public${
-        flat.layoutPhoto[0].formats.medium
-            ? flat.layoutPhoto[0].formats.medium.url
-            : flat.layoutPhoto[0].formats.thumbnail.url
+        recLocalisation.layoutPhoto[0].formats.medium
+            ? recLocalisation.layoutPhoto[0].formats.medium.url
+            : recLocalisation.layoutPhoto[0].formats.thumbnail.url
     }`;
 
     await strapi.bots.alanyaBot
@@ -48,15 +58,15 @@ module.exports = async (query) => {
                             ...localisation?.SAVE_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'SAVE',
-                                type: 'FLATS',
-                                flatId: flat.id,
+                                api: data.api,
+                                flatId: recLocalisation.id,
                             }),
                         },
                         {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'NEXT',
-                                type: 'FLATS',
+                                api: data.api,
                             }),
                         },
                     ],
@@ -65,7 +75,7 @@ module.exports = async (query) => {
                             ...localisation?.WRITE_AGENT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'WRITE_AGENT',
-                                rec: `api::housing.housing/${flat.id}`,
+                                rec: `api::${api}.${api}/${recLocalisation.id}`,
                             }),
                         },
                     ],

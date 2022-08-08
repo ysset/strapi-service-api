@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "villas",
+  "info": {
+    "singularName": "villa",
+    "pluralName": "villas",
+    "displayName": "Villa",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "localisations": {
+      "type": "component",
+      "repeatable": true,
+      "component": "localisation.villa",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "agent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::agent.agent",
+      "inversedBy": "villas"
+    },
+    "layoutPhoto": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "required": true
+    },
+    "watchedUsers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::telegram-user.telegram-user",
+      "mappedBy": "watchedVilla"
+    },
+    "favoriteUsers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "favoriteVilla"
+    }
+  }
+}

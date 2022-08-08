@@ -5,7 +5,8 @@ module.exports = async (query) => {
     await strapi.entityService
         .update('api::telegram-user.telegram-user', query.user.id, {
             data: {
-                watchedHousings: [],
+                watchedComplex: [],
+                watchedVilla: [],
             },
         })
         .catch((e) => {

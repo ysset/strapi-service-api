@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_addtionals_additionals",
+  "info": {
+    "displayName": "additional",
+    "icon": "asterisk"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    }
+  }
+}

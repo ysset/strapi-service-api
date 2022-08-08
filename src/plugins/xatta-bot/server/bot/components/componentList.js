@@ -35,7 +35,7 @@ const commands = {
 
     callCommand: async (query) => {
         await commands.DELETE_MESSAGE(query);
-        await commands[`SEARCH_${query.data.type}`]({
+        await commands.SEARCH_FLATS({
             ...query,
             from: query.from,
             user: query.user,

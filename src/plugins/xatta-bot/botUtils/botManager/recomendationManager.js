@@ -5,18 +5,11 @@ module.exports = {
      * @returns {Promise<null|array>}
      */
     async get({ user, filter }) {
-        const watched = user.watchedHousings;
-        const favorite = user.favoriteHousings;
-
-        if (!favorite || !watched) {
-            return null;
-        }
+        const watched = [...user.watchedComplex, user.watchedVilla];
+        const favorite = [...user.favoriteComplex, user.favoriteVilla];
 
         // TODO if we have 100,000,000 fields, we will have to do optimization
         const recommendations = await strapi.entityService.findMany(filter.api, {
-            filters: {
-                housingType: filter.housingType,
-            },
             populate: '*',
         });
 
@@ -24,9 +17,7 @@ module.exports = {
             .filter((rec) => !favorite.some((favorite) => rec.id === favorite.id)) //delete all favorites
             .filter((filtered) => !watched.some((watched) => watched.id === filtered.id)); //delete all watched
 
-        if (filtered.length === 0) {
-            return null;
-        }
+        if (filtered.length === 0) return null;
 
         return filtered[Math.floor(Math.random() * filtered.length)];
     },

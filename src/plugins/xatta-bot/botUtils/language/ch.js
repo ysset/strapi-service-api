@@ -1,4 +1,5 @@
 module.exports = {
+    lang: 'ch',
     WELCOME: '欢迎来到 Xatta Bot!',
     START: {
         text: '/开始',
