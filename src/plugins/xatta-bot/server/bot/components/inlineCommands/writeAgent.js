@@ -61,13 +61,13 @@ module.exports = async (query) => {
                         {
                             ...localisation.GO_BACK_ACTION,
                             callback_data: JSON.stringify({
-                                action: 'SEARCH',
+                                action: 'ENTER_COMMAND',
                             }),
                         },
                         {
                             text: 'Continue searching?',
                             callback_data: JSON.stringify({
-                                action: 'SEARCH_FLATS',
+                                action: 'SEARCH',
                             }),
                         },
                     ],

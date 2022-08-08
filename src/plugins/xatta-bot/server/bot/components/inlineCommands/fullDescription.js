@@ -5,10 +5,10 @@ module.exports = async (query) => {
     if (!query.user) return;
 
     const { localisation, chatId } = query;
-    const [UId, entityId] = query.data.flat.split('/');
+    const [flatApi, flatId] = query.data.flat.split('/');
     const arrayOfPhotos = [];
     const flat = await strapi.entityService
-        .findOne(UId, entityId, {
+        .findOne(flatApi, flatId, {
             populate: '*',
         })
         .catch((e) => {
@@ -31,7 +31,11 @@ module.exports = async (query) => {
         });
     });
 
-    arrayOfPhotos[0].caption = localisation.HOUSING_FULL_DESCRIPTION(flat);
+    let recLocalisation = flat.localisation.find((rec) => rec.language === localisation.lang);
+
+    if (!recLocalisation) recLocalisation = flat.localisation.find((rec) => rec.language === 'en');
+
+    arrayOfPhotos[0].caption = localisation.HOUSING_FULL_DESCRIPTION(recLocalisation);
 
     await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch((e) => {
         console.error(e);
