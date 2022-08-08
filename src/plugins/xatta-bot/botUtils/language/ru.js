@@ -37,10 +37,10 @@ module.exports = {
             `${username} вот ссылка на риелтора https://t.me/${agentUsername}. \nПожалуйста напишите ему =) `,
         realtorText: (username, agentUsername) =>
             `${agentUsername} пользователь https://t.me/${username} интересуется вашей квартирой. `,
-        orderInfo: ({ id, title, cost, city, district, locationUrl, getMoneyWays, housingType, rooms }) =>
+        orderInfo: ({ id, title, cost, city, district, locationUrl, paymentMethod }) =>
             `Квартира: \nid: ${id} \nНазвание: ${title} \nЦена: ${cost} \nАдрес: ${city} ${district}${
                 locationUrl ? ` \nРасположение: ${locationUrl}` : ''
-            } \n${getMoneyWays} ${housingType} ${rooms ? `\nКомнаты: ${rooms}` : ''} `,
+            } \n${paymentMethod}`,
     },
     HOUSING_FULL_DESCRIPTION: ({
         title,

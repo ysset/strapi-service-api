@@ -109,7 +109,8 @@ module.exports = async (query) => {
                                 ...localisation?.WRITE_AGENT_INLINE,
                                 callback_data: JSON.stringify({
                                     action: 'WRITE_AGENT',
-                                    rec: `${flat.api}/${flat.id}`,
+                                    api: flat.api,
+                                    flatId: flat.id,
                                 }),
                             },
                         ],

@@ -37,10 +37,10 @@ module.exports = {
             `${username} 这里是房地产经纪人 https://t.me/${agentUsername} 的链接。 \n请给他发短信 =) `,
         realtorText: (username, agentUsername) =>
             `${agentUsername} 用户 https://t.me/${username} 对您的公寓感兴趣。 `,
-        orderInfo: ({ id, title, cost, city, district, locationUrl, getMoneyWays, housingType, rooms }) =>
+        orderInfo: ({ id, title, cost, city, district, locationUrl, paymentMethod }) =>
             `公寓：\nid：${id} \n名称：${title} \n价格：${cost} \n地址：${city} ${district}${
                 locationUrl ? ` \n位置：${locationUrl}` : ''
-            } \n${getMoneyWays} ${housingType} ${rooms ? `\n房间：${rooms}` : ''}`,
+            } \n${paymentMethod}`,
     },
     CHOOSE_THE_ACTION: {
         text: (flatId) => `公寓号：${flatId} \n选择操作：`,

@@ -8,18 +8,26 @@ module.exports = async (query) => {
         user,
     } = query;
 
-    const [api, recommendationId] = query.data.rec.split('/');
-    const recommendation = await strapi.entityService.findOne(api, recommendationId, {
+    const { api, flatId } = query.data;
+    const recommendation = await strapi.entityService.findOne(api, flatId, {
         populate: '*',
     });
 
     const agentUsername = recommendation.agent.username;
     const agentTelegramId = recommendation.agent.telegramID;
 
+    let recLocalisation = {
+        ...recommendation,
+        localisation: recommendation.localisation.find((rec) => rec.language === localisation.lang),
+    };
+
+    if (!recLocalisation.localisation)
+        recLocalisation.localisation = recommendation.localisation.find((rec) => rec.language === 'en');
+
     //get localisation
     const userMessage = localisation.WRITE_AGENT.userText(username, agentUsername);
     const realtorMessage = localisation.WRITE_AGENT.realtorText(username, agentUsername);
-    const orderInfo = localisation.WRITE_AGENT.orderInfo(recommendation);
+    const orderInfo = localisation.WRITE_AGENT.orderInfo(recLocalisation.localisation);
 
     //save current housing
     await recommendations
