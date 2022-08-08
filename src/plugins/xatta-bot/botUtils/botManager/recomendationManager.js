@@ -48,15 +48,18 @@ module.exports = {
      * @param user
      * @returns {Promise<*>}
      */
-    async remove({ filter, data, user }) {
+    async remove({ filter, flatTable, flatId, user }) {
         const { where, apiKey } = filter;
-        const updateData = user.favoriteHousings.filter((el) => el.id !== data.flatId);
+        const flat = await strapi.entityService.findOne(`api::${flatTable}.${flatTable}`, flatId, {
+            populate: '*',
+        });
+        const updateData = flat.favoriteUsers.filter((el) => el.id !== user.id);
 
         return await strapi.db
             .query(apiKey)
             .update({
                 where,
-                data: { favoriteHousings: updateData },
+                data: { favoriteUsers: updateData },
                 populate: true,
             })
             .catch((e) => {

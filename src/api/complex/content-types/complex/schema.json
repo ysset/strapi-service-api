@@ -33,17 +33,17 @@
       "inversedBy": "complexes"
     },
     "layoutPhoto": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
       "allowedTypes": [
         "images"
       ],
-      "type": "media",
-      "multiple": true,
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
-      },
-      "required": true
+      }
     },
     "watchedUsers": {
       "type": "relation",
