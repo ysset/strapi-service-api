@@ -16,7 +16,7 @@
     }
   },
   "attributes": {
-    "localisations": {
+    "localisation": {
       "type": "component",
       "repeatable": true,
       "component": "localisation.villa",
