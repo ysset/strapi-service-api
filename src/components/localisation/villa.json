@@ -17,12 +17,12 @@
     "title": {
       "type": "string",
       "required": true,
-      "maxLength": 50
+      "maxLength": 150
     },
     "caption": {
       "type": "text",
       "required": true,
-      "maxLength": 150
+      "maxLength": 300
     },
     "city": {
       "type": "string",

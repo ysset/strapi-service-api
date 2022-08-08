@@ -53,7 +53,7 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::villa.villa",
-      "inversedBy": "favoriteUsers"
+      "mappedBy": "favoriteUsers"
     },
     "favoriteComplex": {
       "type": "relation",
