@@ -30,16 +30,16 @@ module.exports = {
      */
     async save({ filter, data, user }) {
         const { where, apiKey } = filter;
+        const favoriteObjects = user[`favorite${data.api}`];
+
         return await strapi.db
             .query(apiKey)
             .update({
                 where,
-                data: { favoriteHousings: [...user.favoriteHousings, data.flatId] },
+                data: { [`favorite${data.api}`]: [...favoriteObjects, data.flatId] },
                 populate: true,
             })
-            .catch((e) => {
-                console.log(e);
-            });
+            .catch(console.error);
     },
 
     /**
