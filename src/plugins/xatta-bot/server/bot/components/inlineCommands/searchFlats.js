@@ -65,7 +65,8 @@ module.exports = async (query) => {
                             ...localisation?.FULL_DESCRIPTION,
                             callback_data: JSON.stringify({
                                 action: 'FULL_DESCRIPTION',
-                                flat: `${api}/${recLocalisation.id}`,
+                                table,
+                                flatId: recLocalisation.id,
                             }),
                         },
                     ],

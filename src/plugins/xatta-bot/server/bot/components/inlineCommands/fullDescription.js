@@ -2,13 +2,17 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = async (query) => {
-    if (!query.user) return;
+    const {
+        localisation,
+        chatId,
+        data: { table, flatId },
+    } = query;
 
-    const { localisation, chatId } = query;
-    const [flatApi, flatId] = query.data.flat.split('/');
+    const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
     const arrayOfPhotos = [];
+
     const flat = await strapi.entityService
-        .findOne(flatApi, flatId, {
+        .findOne(api, flatId, {
             populate: '*',
         })
         .catch((e) => {
@@ -50,8 +54,8 @@ module.exports = async (query) => {
                             ...localisation?.WRITE_AGENT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'WRITE_AGENT',
-                                api: flatApi,
-                                flatId: flat.id,
+                                table,
+                                flatId,
                             }),
                         },
                     ],
@@ -75,7 +79,7 @@ module.exports = async (query) => {
                             callback_data: JSON.stringify({
                                 action: 'DELETE_ACTION',
                                 type: 'FLATS',
-                                flatId: flat.id,
+                                flatId,
                             }),
                         },
                     ],
