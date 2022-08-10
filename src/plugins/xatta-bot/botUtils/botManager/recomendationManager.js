@@ -9,9 +9,15 @@ module.exports = {
         const favorite = [...user.favoriteComplex, ...user.favoriteVilla];
         // TODO if we have 100,000,000 fields, we will have to do optimization
         const recommendations = await strapi.entityService.findMany(api, {
+            filters: {
+                localisation: {
+                    language: {
+                        $eq: user.language,
+                    },
+                },
+            },
             populate: '*',
         });
-        console.log(watched, favorite, recommendations);
 
         let filtered = recommendations
             .filter((rec) => !favorite.some((favorite) => rec.id === favorite.id)) //delete all favorites

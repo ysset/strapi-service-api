@@ -8,6 +8,7 @@ const getUser = async (msg) => {
     const chatId = msg.message?.chat.id || msg.chat.id;
     const messageId = msg.message?.message_id || msg.message_id;
     const userID = msg.from.id;
+
     const user = await strapi.db
         .query('api::telegram-user.telegram-user')
         .findOne({
