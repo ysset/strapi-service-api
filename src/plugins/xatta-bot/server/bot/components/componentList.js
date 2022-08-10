@@ -18,10 +18,7 @@ const {
 
 const commands = {
     NEXT: async (query) => commands.callCommand(query),
-    SAVE: async (query) => {
-        await save(query);
-        return await commands.callCommand(query);
-    },
+    SAVE: save,
     WRITE_AGENT: writeAgent,
     FAVORITE_HOUSINGS: favoriteHousings,
     FAVORITE: favorite,

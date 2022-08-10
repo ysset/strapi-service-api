@@ -11,13 +11,11 @@ module.exports = async (query) => {
         chatId,
         data: { table },
     } = query;
+
     const { user } = await getUser(query);
     const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
 
-    const recommendation = await recommendations.get({
-        user,
-        api,
-    });
+    const recommendation = await recommendations.get({ user, api });
 
     if (!recommendation) return await alanyaBot.NO_FLATS({ chatId, localisation, table });
 

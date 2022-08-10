@@ -20,6 +20,12 @@ module.exports = {
                                     action: 'ENTER_COMMAND',
                                 }),
                             },
+                            {
+                                ...localisation?.FAVORITE,
+                                callback_data: JSON.stringify({
+                                    action: 'FAVORITE_HOUSINGS',
+                                }),
+                            },
                         ],
                     ],
                 },
