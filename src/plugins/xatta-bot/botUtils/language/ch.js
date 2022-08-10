@@ -47,7 +47,6 @@ module.exports = {
     },
     HOUSING_FULL_DESCRIPTION: ({
         title,
-        id,
         cost,
         city,
         housingArea,
@@ -57,11 +56,9 @@ module.exports = {
         metersFromTheSea,
         constructionCompletionDate,
     }) =>
-        `${title}/id: ${id} \nPrice: ${cost} | City: ${city} ${
-            housingArea ? `\nArea ${housingArea} m2 |` : ''
-        } ${rooms ? `Rooms: ${rooms}` : ''} \nLocation: ${locationUrl} ${
-            metersFromTheSea ? `\nTo sea: ${metersFromTheSea} m` : ''
-        } ${
+        `${title} \nPrice: ${cost} | City: ${city} ${housingArea ? `\nArea ${housingArea} m2 |` : ''} ${
+            rooms ? `Rooms: ${rooms}` : ''
+        } \nLocation: ${locationUrl} ${metersFromTheSea ? `\nTo sea: ${metersFromTheSea} m` : ''} ${
             constructionCompletionDate ? `\nCompletion Date: ${constructionCompletionDate}` : ''
         } \n\n${caption}`,
     GO_BACK_ACTION: {
