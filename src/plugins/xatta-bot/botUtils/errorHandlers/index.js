@@ -31,9 +31,9 @@ module.exports = {
                     inline_keyboard: [
                         [
                             {
-                                ...localisation?.FAVORITE,
+                                ...localisation?.GO_BACK_ACTION,
                                 callback_data: JSON.stringify({
-                                    action: 'FAVORITE',
+                                    action: 'ENTER_COMMAND',
                                 }),
                             },
                         ],

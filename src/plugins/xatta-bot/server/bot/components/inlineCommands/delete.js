@@ -4,17 +4,19 @@ const { getUser } = require('../../../../botUtils/userController');
 module.exports = async (query) => {
     const { user } = await getUser(query);
     const { chatId, data, localisation, messageId } = query;
+    const [flatTable, flatId] = data.flatInfo.split('/');
 
     if (!user) return;
 
     await recommendations.remove({
         filter: {
             where: {
-                telegramID: query.from.id,
+                id: flatId,
             },
-            apiKey: 'api::telegram-user.telegram-user',
+            apiKey: `api::${flatTable}.${flatTable}`,
         },
-        data,
+        flatTable,
+        flatId,
         user,
     });
 

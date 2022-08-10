@@ -1,0 +1,73 @@
+{
+  "collectionName": "components_localisation_villas",
+  "info": {
+    "displayName": "Villa",
+    "icon": "home",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "language": {
+      "type": "enumeration",
+      "enum": [
+        "ru",
+        "en"
+      ],
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 150
+    },
+    "caption": {
+      "type": "text",
+      "required": true,
+      "maxLength": 300
+    },
+    "city": {
+      "type": "string",
+      "required": true,
+      "maxLength": 30
+    },
+    "ditrict": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "layout": {
+      "type": "string",
+      "required": false
+    },
+    "area": {
+      "required": true,
+      "type": "integer"
+    },
+    "constructionCompletionDate": {
+      "type": "string",
+      "regex": "^[0-9]{2}[.][0-9]{4}$",
+      "required": true
+    },
+    "initialFee": {
+      "type": "decimal"
+    },
+    "paymentMethod": {
+      "type": "string"
+    },
+    "metersFromTheSea": {
+      "type": "integer"
+    },
+    "adjacentTerritory": {
+      "type": "float"
+    },
+    "infrastructure": {
+      "type": "component",
+      "repeatable": true,
+      "component": "addtionals.additional"
+    },
+    "apartmentEquipment": {
+      "type": "component",
+      "repeatable": true,
+      "component": "addtionals.additional"
+    }
+  }
+}

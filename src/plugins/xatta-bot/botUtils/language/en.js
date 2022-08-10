@@ -1,4 +1,5 @@
 module.exports = {
+    lang: 'en',
     WELCOME: 'Welcome to Xatta Bot!',
     START: {
         text: '/start',
@@ -35,10 +36,10 @@ module.exports = {
             `${username} here is a link to the realtor https://t.me/${agentUsername}. \nPlease text him =) `,
         realtorText: (username, agentUsername) =>
             `${agentUsername} user https://t.me/${username} is interested in your apartment. `,
-        orderInfo: ({ id, title, cost, city, district, locationUrl, getMoneyWays, housingType, rooms }) =>
+        orderInfo: ({ id, title, cost, city, district, locationUrl, paymentMethod }) =>
             `Apartment: \nid: ${id} \nName: ${title} \nPrice: ${cost} \nAddress: ${city} ${district}${
                 locationUrl ? ` \nLocation: ${locationUrl}` : ''
-            } \n${getMoneyWays} ${housingType} ${rooms ? `\nRooms: ${rooms}` : ''} `,
+            } \n${paymentMethod}`,
     },
     HOUSING_FULL_DESCRIPTION: ({
         title,

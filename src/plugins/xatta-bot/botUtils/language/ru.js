@@ -1,4 +1,5 @@
 module.exports = {
+    lang: 'ru',
     WELCOME: 'Добро пожаловать в Xatta Бот!',
     START: {
         text: '/start',
@@ -36,15 +37,15 @@ module.exports = {
             `${username} вот ссылка на риелтора https://t.me/${agentUsername}. \nПожалуйста напишите ему =) `,
         realtorText: (username, agentUsername) =>
             `${agentUsername} пользователь https://t.me/${username} интересуется вашей квартирой. `,
-        orderInfo: ({ id, title, cost, city, district, locationUrl, getMoneyWays, housingType, rooms }) =>
+        orderInfo: ({ id, title, cost, city, district, locationUrl, paymentMethod }) =>
             `Квартира: \nid: ${id} \nНазвание: ${title} \nЦена: ${cost} \nАдрес: ${city} ${district}${
                 locationUrl ? ` \nРасположение: ${locationUrl}` : ''
-            } \n${getMoneyWays} ${housingType} ${rooms ? `\nКомнаты: ${rooms}` : ''} `,
+            } \n${paymentMethod}`,
     },
     HOUSING_FULL_DESCRIPTION: ({
         title,
         id,
-        cost,
+        initialFee,
         city,
         housingArea,
         rooms,
@@ -53,9 +54,9 @@ module.exports = {
         metersFromTheSea,
         constructionCompletionDate,
     }) =>
-        `${title}/id: ${id} \nЦена: ${cost} | Город: ${city} ${
+        `${title}/id: ${id} \nЦена: ${initialFee} | Город: ${city} ${
             housingArea ? `\nПлощадь ${housingArea} м2 |` : ''
-        } ${rooms ? `Комнаты: ${rooms}` : ''} \nРасположение: ${locationUrl} ${
+        } ${rooms ? `Комнаты: ${rooms}` : ''} ${locationUrl ? `\nРасположение: ${locationUrl}` : ''} ${
             metersFromTheSea ? `\nДо моря: ${metersFromTheSea} м` : ''
         } ${constructionCompletionDate ? `\nДата сдачи: ${constructionCompletionDate}` : ''} \n\n${caption}`,
     CHOOSE_THE_ACTION: {

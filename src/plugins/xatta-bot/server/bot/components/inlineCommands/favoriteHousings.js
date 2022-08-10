@@ -2,23 +2,56 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports = async (query) => {
-    const { localisation, messageId, chatId } = query;
-    const flats = await strapi.db
-        .query('api::housing.housing')
-        .findMany({
-            where: {
-                id: {
-                    $in: query.user.favoriteHousings.map((el) => el.id),
-                },
-            },
-            populate: true,
-        })
-        .catch((e) => {
-            console.error(e);
-        });
+    const { localisation, messageId, chatId, user } = query;
 
-    if (!query.user) return;
-    if (query.user.favoriteHousings.length === 0)
+    if (!user) return;
+
+    const flats = [
+        await strapi.db
+            .query('api::complex.complex')
+            .findMany({
+                where: {
+                    id: {
+                        $in: user.favoriteComplex.map((el) => el.id),
+                    },
+                },
+                populate: true,
+            })
+            .then((res) => {
+                res.forEach((el) => {
+                    el.api = 'api::complex.complex';
+                    el.table = 'complex';
+                });
+                return res;
+            })
+            .catch((e) => {
+                console.error(e);
+            }),
+        await strapi.db
+            .query('api::villa.villa')
+            .findMany({
+                where: {
+                    id: {
+                        $in: user.favoriteVilla.map((el) => el.id),
+                    },
+                },
+                populate: true,
+            })
+            .then((res) => {
+                res.forEach((el) => {
+                    el.api = 'api::villa.villa';
+                    el.table = 'villa';
+                });
+                return res;
+            })
+            .catch((e) => {
+                console.error(e);
+            }),
+    ];
+
+    const favoriteHousings = flats.flat(1);
+
+    if (favoriteHousings.length === 0)
         return await strapi.bots.alanyaBot
             .editMessageText(localisation?.NO_FAVORITE_NOW, {
                 chat_id: chatId,
@@ -29,7 +62,7 @@ module.exports = async (query) => {
                             {
                                 ...localisation?.SEARCH_FLATS,
                                 callback_data: JSON.stringify({
-                                    action: 'SEARCH_FLATS',
+                                    action: 'SEARCH',
                                 }),
                             },
                         ],
@@ -54,7 +87,7 @@ module.exports = async (query) => {
         console.error(e);
     });
 
-    for (const flat of flats) {
+    for (const flat of favoriteHousings) {
         let resolvedPath = path.resolve('./index');
 
         resolvedPath = resolvedPath.split('/');
@@ -76,7 +109,8 @@ module.exports = async (query) => {
                                 ...localisation?.WRITE_AGENT_INLINE,
                                 callback_data: JSON.stringify({
                                     action: 'WRITE_AGENT',
-                                    rec: `api::housing.housing/${flat.id}`,
+                                    api: flat.api,
+                                    flatId: flat.id,
                                 }),
                             },
                         ],
@@ -85,15 +119,14 @@ module.exports = async (query) => {
                                 ...localisation?.FULL_DESCRIPTION,
                                 callback_data: JSON.stringify({
                                     action: 'FULL_DESCRIPTION',
-                                    flat: `api::housing.housing/${flat.id}`,
+                                    flat: `${flat.api}/${flat.id}`,
                                 }),
                             },
                             {
                                 ...localisation?.DELETE_ACTION,
                                 callback_data: JSON.stringify({
                                     action: 'DELETE_ACTION',
-                                    type: 'FLATS',
-                                    flatId: flat.id,
+                                    flatInfo: `${flat.table}/${flat.id}`,
                                 }),
                             },
                         ],

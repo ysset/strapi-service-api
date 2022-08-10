@@ -37,6 +37,18 @@
       "relation": "oneToMany",
       "target": "api::housing.housing",
       "mappedBy": "agent"
+    },
+    "complexes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::complex.complex",
+      "mappedBy": "agent"
+    },
+    "villas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::villa.villa",
+      "mappedBy": "agent"
     }
   }
 }

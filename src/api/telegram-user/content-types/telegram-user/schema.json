@@ -36,6 +36,30 @@
       "relation": "manyToMany",
       "target": "api::housing.housing",
       "mappedBy": "favoriteUsers"
+    },
+    "watchedComplex": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::complex.complex",
+      "inversedBy": "watchedUsers"
+    },
+    "watchedVilla": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::villa.villa",
+      "inversedBy": "watchedUsers"
+    },
+    "favoriteVilla": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::villa.villa",
+      "mappedBy": "favoriteUsers"
+    },
+    "favoriteComplex": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::complex.complex",
+      "mappedBy": "favoriteUsers"
     }
   }
 }
