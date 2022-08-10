@@ -17,7 +17,6 @@ const {
 } = require('./inlineCommands');
 
 const commands = {
-    NEXT: async (query) => commands.callCommand(query),
     SAVE: save,
     WRITE_AGENT: writeAgent,
     FAVORITE_HOUSINGS: favoriteHousings,
@@ -35,15 +34,6 @@ const commands = {
     ENTER_COMMAND: enterCommand,
     DELETE_ACTION: deleteCommand,
     DELETE_MESSAGE: deleteCurrentMessage,
-
-    callCommand: async (query) => {
-        await commands.DELETE_MESSAGE(query);
-        await commands.SEARCH_FLATS({
-            ...query,
-            from: query.from,
-            user: query.user,
-        });
-    },
 };
 
 module.exports = commands;

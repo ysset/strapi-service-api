@@ -55,7 +55,7 @@ module.exports = async (query) => {
                         {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
-                                action: 'NEXT',
+                                action: 'SEARCH_FLATS',
                                 table,
                             }),
                         },
