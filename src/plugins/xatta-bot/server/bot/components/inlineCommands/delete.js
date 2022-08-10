@@ -4,18 +4,16 @@ const { getUser } = require('../../../../botUtils/userController');
 module.exports = async (query) => {
     const { user } = await getUser(query);
     const { chatId, data, localisation, messageId } = query;
-    const [flatTable, flatId] = data.flatInfo.split('/');
+    const { table, flatId } = data;
 
     if (!user) return;
 
     await recommendations.remove({
-        filter: {
-            where: {
-                id: flatId,
-            },
-            apiKey: `api::${flatTable}.${flatTable}`,
+        where: {
+            id: flatId,
         },
-        flatTable,
+        apiKey: `api::${table}.${table}`,
+        table,
         flatId,
         user,
     });
@@ -28,9 +26,9 @@ module.exports = async (query) => {
                 inline_keyboard: [
                     [
                         {
-                            ...localisation?.FAVORITE_HOUSINGS,
+                            ...localisation?.SEARCH,
                             callback_data: JSON.stringify({
-                                action: 'FAVORITE_HOUSINGS',
+                                action: 'SEARCH',
                             }),
                         },
                     ],

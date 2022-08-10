@@ -1,7 +1,5 @@
 module.exports = async (query) => {
-    const { localisation, chatId, messageId } = query;
-
-    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId).catch(console.error);
+    const { localisation, chatId } = query;
 
     return await strapi.bots.alanyaBot
         .sendMessage(chatId, 'Выберите подгруппу', {
@@ -12,7 +10,7 @@ module.exports = async (query) => {
                             text: 'Villa',
                             callback_data: JSON.stringify({
                                 action: 'SEARCH_FLATS',
-                                api: 'Villa',
+                                table: 'Villa',
                             }),
                         },
                     ],
@@ -21,7 +19,7 @@ module.exports = async (query) => {
                             text: 'Complex',
                             callback_data: JSON.stringify({
                                 action: 'SEARCH_FLATS',
-                                api: 'Complex',
+                                table: 'Complex',
                             }),
                         },
                     ],

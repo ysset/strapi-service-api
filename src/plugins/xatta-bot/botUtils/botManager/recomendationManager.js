@@ -1,17 +1,17 @@
 module.exports = {
     /**
      * @param user
-     * @param filter
-     * @returns {Promise<null|array>}
+     * @param api
+     * @returns {Promise<null|*>}
      */
-    async get({ user, filter }) {
-        const watched = [...user.watchedComplex, user.watchedVilla];
-        const favorite = [...user.favoriteComplex, user.favoriteVilla];
-
+    async get({ user, api }) {
+        const watched = [...user.watchedComplex, ...user.watchedVilla];
+        const favorite = [...user.favoriteComplex, ...user.favoriteVilla];
         // TODO if we have 100,000,000 fields, we will have to do optimization
-        const recommendations = await strapi.entityService.findMany(filter.api, {
+        const recommendations = await strapi.entityService.findMany(api, {
             populate: '*',
         });
+        console.log(watched, favorite, recommendations);
 
         let filtered = recommendations
             .filter((rec) => !favorite.some((favorite) => rec.id === favorite.id)) //delete all favorites
@@ -23,35 +23,36 @@ module.exports = {
     },
 
     /**
-     * @param filter
-     * @param data
+     * @param where
+     * @param apiKey
+     * @param table
+     * @param flatId
      * @param user
-     * @returns {Promise<*>}
+     * @returns {Promise<any>}
      */
-    async save({ filter, data, user }) {
-        const { where, apiKey } = filter;
-        console.log(data.api);
-        const favoriteObjects = user[`favorite${data.api}`];
+    async save({ where, apiKey, data: { table, flatId }, user }) {
+        const favoriteObjects = user[`favorite${table}`];
 
         return await strapi.db
             .query(apiKey)
             .update({
                 where,
-                data: { [`favorite${data.api}`]: [...favoriteObjects, data.flatId] },
+                data: { [`favorite${table}`]: [...favoriteObjects, flatId] },
                 populate: true,
             })
             .catch(console.error);
     },
 
     /**
-     * @param filter
-     * @param data
+     * @param table
+     * @param flatId
      * @param user
-     * @returns {Promise<*>}
+     * @param where
+     * @param apiKey
+     * @returns {Promise<any>}
      */
-    async remove({ filter, flatTable, flatId, user }) {
-        const { where, apiKey } = filter;
-        const flat = await strapi.entityService.findOne(`api::${flatTable}.${flatTable}`, flatId, {
+    async remove({ table, flatId, user, where, apiKey }) {
+        const flat = await strapi.entityService.findOne(`api::${table}.${table}`, flatId, {
             populate: '*',
         });
         const updateData = flat.favoriteUsers.filter((el) => el.id !== user.id);
