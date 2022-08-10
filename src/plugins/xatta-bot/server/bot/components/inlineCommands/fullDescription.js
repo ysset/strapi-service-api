@@ -61,25 +61,16 @@ module.exports = async (query) => {
                     ],
                     [
                         {
-                            ...localisation?.SEARCH_FLATS,
+                            text: 'Continue searching?',
                             callback_data: JSON.stringify({
                                 action: 'SEARCH_FLATS',
+                                table,
                             }),
                         },
-                    ],
-                    [
                         {
                             ...localisation?.GO_BACK_ACTION,
                             callback_data: JSON.stringify({
-                                action: 'FAVORITE',
-                            }),
-                        },
-                        {
-                            ...localisation?.DELETE_ACTION,
-                            callback_data: JSON.stringify({
-                                action: 'DELETE_ACTION',
-                                type: 'FLATS',
-                                flatId,
+                                action: 'ENTER_COMMAND',
                             }),
                         },
                     ],
