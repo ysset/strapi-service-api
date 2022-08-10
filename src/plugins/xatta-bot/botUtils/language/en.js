@@ -54,7 +54,7 @@ module.exports = {
     }) =>
         `${title}\nPrice: ${cost} | City: ${city} ${housingArea ? `\nArea ${housingArea} m2 |` : ''} ${
             rooms ? `Rooms: ${rooms}` : ''
-        } \nLocation: ${locationUrl} ${metersFromTheSea ? `\nTo sea: ${metersFromTheSea} m` : ''} ${
+        } ${metersFromTheSea ? `\nTo sea: ${metersFromTheSea} m` : ''} ${
             constructionCompletionDate ? `\nCompletion Date: ${constructionCompletionDate}` : ''
         } \n\n${caption}`,
     CHOOSE_THE_ACTION: {
