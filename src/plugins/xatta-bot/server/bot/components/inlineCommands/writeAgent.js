@@ -6,16 +6,13 @@ module.exports = async (query) => {
         localisation,
         data,
         user,
+        chatId,
+        messageId,
     } = query;
 
-    const { api, flatId } = data;
-    const recommendation = await strapi.entityService.findOne(
-        `api::${api.toLowerCase()}.${api.toLowerCase()}`,
-        flatId,
-        {
-            populate: '*',
-        }
-    );
+    const { table, flatId } = data;
+    const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
+    const recommendation = await strapi.entityService.findOne(api, flatId, { populate: '*' });
 
     const agentUsername = recommendation.agent.username;
     const agentTelegramId = recommendation.agent.telegramID;
@@ -36,18 +33,37 @@ module.exports = async (query) => {
     //save current housing
     await recommendations
         .save({
-            filter: {
-                where: {
-                    telegramID: query.from.id,
-                },
-                apiKey: 'api::telegram-user.telegram-user',
+            where: {
+                telegramID: query.from.id,
             },
+            apiKey: 'api::telegram-user.telegram-user',
             data,
             user,
         })
         .catch((e) => {
             console.error(e);
         });
+
+    await strapi.bots.alanyaBot.editMessageReplyMarkup(
+        {
+            inline_keyboard: [
+                [
+                    {
+                        ...localisation?.FULL_DESCRIPTION,
+                        callback_data: JSON.stringify({
+                            action: 'FULL_DESCRIPTION',
+                            table,
+                            flatId: recLocalisation.id,
+                        }),
+                    },
+                ],
+            ],
+        },
+        {
+            chat_id: chatId,
+            message_id: messageId,
+        }
+    );
 
     await strapi.bots.alanyaBot
         .sendMessage(userTelegramId, `${userMessage}\n\n${orderInfo}`)
@@ -71,7 +87,8 @@ module.exports = async (query) => {
                         {
                             text: 'Continue searching?',
                             callback_data: JSON.stringify({
-                                action: 'SEARCH',
+                                action: 'SEARCH_FLATS',
+                                table,
                             }),
                         },
                     ],

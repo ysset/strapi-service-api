@@ -109,7 +109,7 @@ module.exports = async (query) => {
                                 ...localisation?.WRITE_AGENT_INLINE,
                                 callback_data: JSON.stringify({
                                     action: 'WRITE_AGENT',
-                                    api: flat.api,
+                                    table: flat.table,
                                     flatId: flat.id,
                                 }),
                             },
@@ -119,14 +119,16 @@ module.exports = async (query) => {
                                 ...localisation?.FULL_DESCRIPTION,
                                 callback_data: JSON.stringify({
                                     action: 'FULL_DESCRIPTION',
-                                    flat: `${flat.api}/${flat.id}`,
+                                    table: flat.table,
+                                    flatId: flat.id,
                                 }),
                             },
                             {
                                 ...localisation?.DELETE_ACTION,
                                 callback_data: JSON.stringify({
                                     action: 'DELETE_ACTION',
-                                    flatInfo: `${flat.table}/${flat.id}`,
+                                    table: flat.table,
+                                    flatId: flat.id,
                                 }),
                             },
                         ],
