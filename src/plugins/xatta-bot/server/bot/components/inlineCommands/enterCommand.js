@@ -18,7 +18,7 @@ module.exports = async (msg) => {
                         {
                             ...localisation?.FAVORITE,
                             callback_data: JSON.stringify({
-                                action: 'FAVORITE',
+                                action: 'FAVORITE_HOUSINGS',
                             }),
                         },
                         {

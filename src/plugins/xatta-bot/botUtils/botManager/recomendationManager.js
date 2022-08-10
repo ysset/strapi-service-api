@@ -23,14 +23,14 @@ module.exports = {
     },
 
     /**
-     * @param filter
-     * @param data
+     * @param where
+     * @param apiKey
+     * @param table
+     * @param flatId
      * @param user
-     * @returns {Promise<*>}
+     * @returns {Promise<any>}
      */
-    async save({ filter, data: { table, flatId }, user }) {
-        const { where, apiKey } = filter;
-        console.log(table);
+    async save({ where, apiKey, data: { table, flatId }, user }) {
         const favoriteObjects = user[`favorite${table}`];
 
         return await strapi.db
@@ -44,14 +44,15 @@ module.exports = {
     },
 
     /**
-     * @param filter
-     * @param data
+     * @param table
+     * @param flatId
      * @param user
-     * @returns {Promise<*>}
+     * @param where
+     * @param apiKey
+     * @returns {Promise<any>}
      */
-    async remove({ filter, flatTable, flatId, user }) {
-        const { where, apiKey } = filter;
-        const flat = await strapi.entityService.findOne(`api::${flatTable}.${flatTable}`, flatId, {
+    async remove({ table, flatId, user, where, apiKey }) {
+        const flat = await strapi.entityService.findOne(`api::${table}.${table}`, flatId, {
             populate: '*',
         });
         const updateData = flat.favoriteUsers.filter((el) => el.id !== user.id);

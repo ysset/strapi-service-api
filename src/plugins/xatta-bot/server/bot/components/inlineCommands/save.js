@@ -10,12 +10,10 @@ module.exports = async (query) => {
 
     await recommendations
         .save({
-            filter: {
-                where: {
-                    telegramID: query.from.id,
-                },
-                apiKey: 'api::telegram-user.telegram-user',
+            where: {
+                telegramID: query.from.id,
             },
+            apiKey: 'api::telegram-user.telegram-user',
             data,
             user,
         })
