@@ -1,6 +1,6 @@
 module.exports = {
     alanyaBot: {
-        NO_FLATS: async ({ chatId, localisation }) => {
+        NO_FLATS: async ({ chatId, localisation, table }) => {
             await strapi.bots.alanyaBot.sendMessage(chatId, localisation?.NO_FLATS, {
                 reply_markup: {
                     inline_keyboard: [
@@ -9,6 +9,7 @@ module.exports = {
                                 ...localisation?.REPEAT_SEARCH_FLATS,
                                 callback_data: JSON.stringify({
                                     action: 'REPEAT_SEARCH_FLATS',
+                                    table,
                                 }),
                             },
                         ],

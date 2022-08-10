@@ -6,21 +6,20 @@ const { alanyaBot } = require('../../../../botUtils/errorHandlers');
 const recommendations = require('../../../../botUtils/botManager/recomendationManager');
 
 module.exports = async (query) => {
-    const { localisation, chatId, messageId, data } = query;
+    const {
+        localisation,
+        chatId,
+        data: { table },
+    } = query;
     const { user } = await getUser(query);
-    const api = data.api.toLowerCase();
-
-    if (!user) return;
+    const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
 
     const recommendation = await recommendations.get({
         user,
-        filter: {
-            type: 'FLATS',
-            api: `api::${api}.${api}`,
-        },
+        api,
     });
 
-    if (!recommendation) return await alanyaBot.NO_FLATS({ chatId, messageId, localisation });
+    if (!recommendation) return await alanyaBot.NO_FLATS({ chatId, localisation, table });
 
     let recLocalisation = {
         ...recommendation,
@@ -31,13 +30,6 @@ module.exports = async (query) => {
         recLocalisation.localisation = recommendation.localisation.find((rec) => rec.language === 'en');
 
     if (!recLocalisation.agent?.username) return await alanyaBot.SERVER_ERROR({ chatId, localisation });
-    const watchedObjects = user[`watched${data.api}`];
-
-    const params = {
-        data: {
-            [`watched${data.api}`]: [...watchedObjects, recLocalisation.id],
-        },
-    };
 
     let resolvedPath = path.resolve('./index');
     resolvedPath = resolvedPath.split('/');
@@ -58,7 +50,7 @@ module.exports = async (query) => {
                             ...localisation?.SAVE_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'SAVE',
-                                api: data.api,
+                                table,
                                 flatId: recLocalisation.id,
                             }),
                         },
@@ -66,7 +58,7 @@ module.exports = async (query) => {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'NEXT',
-                                api: data.api,
+                                table,
                             }),
                         },
                     ],
@@ -75,7 +67,7 @@ module.exports = async (query) => {
                             ...localisation?.FULL_DESCRIPTION,
                             callback_data: JSON.stringify({
                                 action: 'FULL_DESCRIPTION',
-                                flat: `api::${api}.${api}/${recLocalisation.id}`,
+                                flat: `${api}/${recLocalisation.id}`,
                             }),
                         },
                     ],
@@ -84,7 +76,7 @@ module.exports = async (query) => {
                             ...localisation?.WRITE_AGENT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'WRITE_AGENT',
-                                api: data.api,
+                                table,
                                 flatId: recLocalisation.id,
                             }),
                         },
@@ -103,6 +95,13 @@ module.exports = async (query) => {
         .catch((e) => {
             console.error(e);
         });
+
+    const watchedObjects = user[`watched${table}`];
+    const params = {
+        data: {
+            [`watched${table}`]: [...watchedObjects, recLocalisation.id],
+        },
+    };
 
     await strapi.entityService.update('api::telegram-user.telegram-user', user.id, params).catch((e) => {
         console.error(e);

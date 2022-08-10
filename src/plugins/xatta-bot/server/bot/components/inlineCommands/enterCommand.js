@@ -1,5 +1,5 @@
 module.exports = async (msg) => {
-    const { user, localisation, messageId, chatId } = msg;
+    const { user, localisation, chatId } = msg;
 
     if (user.showPromo) {
         await strapi.bots.alanyaBot.sendMessage(chatId, localisation?.FIRST_TIME_START_PRESS.text);
@@ -10,9 +10,6 @@ module.exports = async (msg) => {
         });
     }
 
-    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId).catch((e) => {
-        console.error(e);
-    });
     await strapi.bots.alanyaBot
         .sendMessage(chatId, localisation?.WELCOME, {
             reply_markup: {

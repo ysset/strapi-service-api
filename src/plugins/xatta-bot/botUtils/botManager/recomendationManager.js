@@ -1,17 +1,17 @@
 module.exports = {
     /**
      * @param user
-     * @param filter
-     * @returns {Promise<null|array>}
+     * @param api
+     * @returns {Promise<null|*>}
      */
-    async get({ user, filter }) {
-        const watched = [...user.watchedComplex, user.watchedVilla];
-        const favorite = [...user.favoriteComplex, user.favoriteVilla];
-
+    async get({ user, api }) {
+        const watched = [...user.watchedComplex, ...user.watchedVilla];
+        const favorite = [...user.favoriteComplex, ...user.favoriteVilla];
         // TODO if we have 100,000,000 fields, we will have to do optimization
-        const recommendations = await strapi.entityService.findMany(filter.api, {
+        const recommendations = await strapi.entityService.findMany(api, {
             populate: '*',
         });
+        console.log(watched, favorite, recommendations);
 
         let filtered = recommendations
             .filter((rec) => !favorite.some((favorite) => rec.id === favorite.id)) //delete all favorites
@@ -28,16 +28,16 @@ module.exports = {
      * @param user
      * @returns {Promise<*>}
      */
-    async save({ filter, data, user }) {
+    async save({ filter, data: { table, flatId }, user }) {
         const { where, apiKey } = filter;
-        console.log(data.api);
-        const favoriteObjects = user[`favorite${data.api}`];
+        console.log(table);
+        const favoriteObjects = user[`favorite${table}`];
 
         return await strapi.db
             .query(apiKey)
             .update({
                 where,
-                data: { [`favorite${data.api}`]: [...favoriteObjects, data.flatId] },
+                data: { [`favorite${table}`]: [...favoriteObjects, flatId] },
                 populate: true,
             })
             .catch(console.error);
