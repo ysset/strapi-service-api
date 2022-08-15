@@ -17,7 +17,7 @@ module.exports = async (msg) => {
                     [
                         {
                             text: 'Bot control panel',
-                            web_app: { url: 'http://192.168.1.174:3000' },
+                            web_app: { url: process.env.WEB_APP_URL },
                         },
                     ],
                 ],
