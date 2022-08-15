@@ -41,9 +41,6 @@
     "ComplexArea": {
       "type": "integer"
     },
-    "initialFee": {
-      "type": "decimal"
-    },
     "paymentMethod": {
       "type": "string",
       "required": false
@@ -51,7 +48,8 @@
     "apartments": {
       "type": "component",
       "repeatable": true,
-      "component": "apartments.apartment"
+      "component": "apartments.apartment",
+      "required": true
     },
     "infrastructure": {
       "displayName": "additional",
@@ -67,6 +65,17 @@
     "constructionCompletionDate": {
       "type": "string",
       "regex": "^[0-9]{2}[.][0-9]{4}$",
+      "required": true
+    },
+    "initialFee": {
+      "type": "string",
+      "required": true,
+      "regex": "^\\d+%$",
+      "maxLength": 4,
+      "default": "100%"
+    },
+    "cost": {
+      "type": "decimal",
       "required": true
     }
   }

@@ -6,18 +6,12 @@ const { alanyaBot } = require('../../../../botUtils/errorHandlers');
 const recommendations = require('../../../../botUtils/botManager/recomendationManager');
 
 module.exports = async (query) => {
-    const {
-        localisation,
-        chatId,
-        data: { table },
-    } = query;
-
+    const { localisation, chatId, filters } = query;
     const { user } = await getUser(query);
-    const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
 
-    const recommendation = await recommendations.get({ user, api });
+    const recommendation = await recommendations.get({ user, filters });
 
-    if (!recommendation) return await alanyaBot.NO_FLATS({ chatId, localisation, table });
+    if (!recommendation) return await alanyaBot.NO_FLATS({ chatId, localisation });
 
     let recLocalisation = {
         ...recommendation,
@@ -48,7 +42,7 @@ module.exports = async (query) => {
                             ...localisation?.SAVE_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'SAVE',
-                                table,
+                                table: recLocalisation.table,
                                 flatId: recLocalisation.id,
                             }),
                         },
@@ -56,7 +50,7 @@ module.exports = async (query) => {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'SEARCH_FLATS',
-                                table,
+                                table: recLocalisation.table,
                             }),
                         },
                     ],
@@ -65,7 +59,7 @@ module.exports = async (query) => {
                             ...localisation?.FULL_DESCRIPTION,
                             callback_data: JSON.stringify({
                                 action: 'FULL_DESCRIPTION',
-                                table,
+                                table: recLocalisation.table,
                                 flatId: recLocalisation.id,
                             }),
                         },
@@ -75,7 +69,7 @@ module.exports = async (query) => {
                             ...localisation?.WRITE_AGENT_INLINE,
                             callback_data: JSON.stringify({
                                 action: 'WRITE_AGENT',
-                                table,
+                                table: recLocalisation.table,
                                 flatId: recLocalisation.id,
                             }),
                         },
@@ -95,10 +89,10 @@ module.exports = async (query) => {
             console.error(e);
         });
 
-    const watchedObjects = user[`watched${table}`];
+    const watchedObjects = user[`watched${recLocalisation.table}`];
     const params = {
         data: {
-            [`watched${table}`]: [...watchedObjects, recLocalisation.id],
+            [`watched${recLocalisation.table}`]: [...watchedObjects, recLocalisation.id],
         },
     };
 

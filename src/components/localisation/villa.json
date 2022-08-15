@@ -30,9 +30,10 @@
       "required": true,
       "maxLength": 30
     },
-    "ditrict": {
+    "district": {
       "type": "string",
-      "maxLength": 50
+      "maxLength": 50,
+      "required": true
     },
     "layout": {
       "type": "string",

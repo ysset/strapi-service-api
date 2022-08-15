@@ -1,10 +1,8 @@
 module.exports = async (query) => {
-    const { localisation, messageId, chatId } = query;
+    const { localisation, chatId } = query;
 
     return await strapi.bots.alanyaBot
-        .editMessageText(localisation.SELECT_SUBGROUP.text, {
-            chat_id: chatId,
-            message_id: messageId,
+        .sendMessage(chatId, localisation.SELECT_SUBGROUP.text, {
             reply_markup: {
                 inline_keyboard: [
                     [
