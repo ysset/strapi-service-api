@@ -1,6 +1,9 @@
 module.exports = {
     lang: 'en',
     WELCOME: 'Welcome to Xatta Bot!',
+    CONTROL_PANEL: {
+        text: 'control panel',
+    },
     START: {
         text: '/start',
         regex: /\/start/,
@@ -47,7 +50,6 @@ module.exports = {
         city,
         housingArea,
         rooms,
-        locationUrl,
         caption,
         metersFromTheSea,
         constructionCompletionDate,

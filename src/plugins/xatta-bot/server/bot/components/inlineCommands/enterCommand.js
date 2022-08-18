@@ -16,7 +16,7 @@ module.exports = async (msg) => {
                 keyboard: [
                     [
                         {
-                            text: 'Bot control panel',
+                            ...localisation.CONTROL_PANEL,
                             web_app: { url: process.env.WEB_APP_URL },
                         },
                     ],

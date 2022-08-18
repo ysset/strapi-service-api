@@ -1,6 +1,9 @@
 module.exports = {
     lang: 'ru',
     WELCOME: 'Добро пожаловать в Xatta Бот!',
+    CONTROL_PANEL: {
+        text: 'Панель управления',
+    },
     START: {
         text: '/start',
         regex: /\/start/,

@@ -1,6 +1,9 @@
 module.exports = {
     lang: 'ch',
     WELCOME: '欢迎来到 Xatta Bot!',
+    CONTROL_PANEL: {
+        text: '控制面板',
+    },
     START: {
         text: '/开始',
         regex: /\/start/,
