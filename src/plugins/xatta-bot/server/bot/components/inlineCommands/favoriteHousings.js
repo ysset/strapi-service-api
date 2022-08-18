@@ -6,6 +6,8 @@ module.exports = async (query) => {
 
     if (!user) return;
 
+    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId).catch(console.error);
+
     const flats = [
         await strapi.db
             .query('api::complex.complex')
@@ -24,9 +26,7 @@ module.exports = async (query) => {
                 });
                 return res;
             })
-            .catch((e) => {
-                console.error(e);
-            }),
+            .catch(console.error),
         await strapi.db
             .query('api::villa.villa')
             .findMany({
@@ -44,48 +44,15 @@ module.exports = async (query) => {
                 });
                 return res;
             })
-            .catch((e) => {
-                console.error(e);
-            }),
+            .catch(console.error),
     ];
-
     const favoriteHousings = flats.flat(1);
 
-    if (favoriteHousings.length === 0)
+    if (favoriteHousings.length === 0) {
         return await strapi.bots.alanyaBot
-            .editMessageText(localisation?.NO_FAVORITE_NOW, {
-                chat_id: chatId,
-                message_id: messageId,
-                reply_markup: {
-                    inline_keyboard: [
-                        [
-                            {
-                                ...localisation?.SEARCH_FLATS,
-                                callback_data: JSON.stringify({
-                                    action: 'SEARCH',
-                                }),
-                            },
-                        ],
-                        [
-                            {
-                                ...localisation?.GO_BACK_ACTION,
-                                callback_data: JSON.stringify({
-                                    action: 'FAVORITE',
-                                }),
-                            },
-                        ],
-                    ],
-                    resize_keyboard: true,
-                    one_time_keyboard: true,
-                },
-            })
-            .catch((e) => {
-                console.error(e);
-            });
-
-    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId).catch((e) => {
-        console.error(e);
-    });
+            .sendMessage(chatId, localisation?.NO_FAVORITE_NOW)
+            .catch(console.error);
+    }
 
     for (const flat of favoriteHousings) {
         let resolvedPath = path.resolve('./index');
@@ -135,33 +102,6 @@ module.exports = async (query) => {
                     ],
                 },
             })
-            .catch((e) => {
-                console.error(e);
-            });
+            .catch(console.error);
     }
-
-    await strapi.bots.alanyaBot
-        .sendMessage(chatId, 'Выберите действие', {
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        {
-                            ...localisation?.SEARCH_FLATS,
-                            callback_data: JSON.stringify({
-                                action: 'SEARCH_FLATS',
-                            }),
-                        },
-                        {
-                            ...localisation?.GO_BACK_ACTION,
-                            callback_data: JSON.stringify({
-                                action: 'FAVORITE',
-                            }),
-                        },
-                    ],
-                ],
-            },
-        })
-        .catch((e) => {
-            console.error(e);
-        });
 };

@@ -20,30 +20,5 @@ module.exports = async (query) => {
 
     await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
 
-    return await strapi.bots.alanyaBot
-        .sendMessage(chatId, localisation.DELETED.text, {
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        {
-                            ...localisation?.SEARCH,
-                            callback_data: JSON.stringify({
-                                action: 'SEARCH',
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...localisation?.GO_BACK_ACTION,
-                            callback_data: JSON.stringify({
-                                action: 'ENTER_COMMAND',
-                            }),
-                        },
-                    ],
-                ],
-            },
-        })
-        .catch((e) => {
-            console.error(e);
-        });
+    return await strapi.bots.alanyaBot.sendMessage(chatId, localisation.DELETED.text).catch(console.error);
 };

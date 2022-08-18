@@ -1,9 +1,12 @@
-'use strict';
-
-/**
- * telegram-user router.
- */
-
-const { createCoreRouter } = require('@strapi/strapi').factories;
-
-module.exports = createCoreRouter('api::telegram-user.telegram-user');
+module.exports = {
+    routes: [
+        {
+            method: 'POST',
+            path: '/user-filters',
+            handler: 'telegram-user.userFilters',
+            config: {
+                policies: [],
+            },
+        },
+    ],
+};

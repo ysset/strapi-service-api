@@ -13,19 +13,11 @@ module.exports = async (msg) => {
     await strapi.bots.alanyaBot
         .sendMessage(chatId, localisation?.WELCOME, {
             reply_markup: {
-                inline_keyboard: [
+                keyboard: [
                     [
                         {
-                            ...localisation?.FAVORITE,
-                            callback_data: JSON.stringify({
-                                action: 'FAVORITE_HOUSINGS',
-                            }),
-                        },
-                        {
-                            ...localisation?.SEARCH,
-                            callback_data: JSON.stringify({
-                                action: 'SEARCH',
-                            }),
+                            ...localisation.CONTROL_PANEL,
+                            web_app: { url: process.env.WEB_APP_URL },
                         },
                     ],
                 ],

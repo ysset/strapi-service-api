@@ -4,6 +4,31 @@
  * agent router.
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
-
-module.exports = createCoreRouter('api::agent.agent');
+module.exports = {
+    routes: [
+        {
+            method: 'GET',
+            path: '/cities',
+            handler: 'agent.getCities',
+            config: {
+                policies: [],
+            },
+        },
+        {
+            method: 'GET',
+            path: '/districts',
+            handler: 'agent.getDistricts',
+            config: {
+                policies: [],
+            },
+        },
+        {
+            method: 'GET',
+            path: '/layouts',
+            handler: 'agent.getLayouts',
+            config: {
+                policies: [],
+            },
+        },
+    ],
+};

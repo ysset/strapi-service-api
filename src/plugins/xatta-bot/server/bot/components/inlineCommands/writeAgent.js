@@ -40,60 +40,36 @@ module.exports = async (query) => {
             data,
             user,
         })
-        .catch((e) => {
-            console.error(e);
-        });
-
-    await strapi.bots.alanyaBot.editMessageReplyMarkup(
-        {
-            inline_keyboard: [
-                [
-                    {
-                        ...localisation?.FULL_DESCRIPTION,
-                        callback_data: JSON.stringify({
-                            action: 'FULL_DESCRIPTION',
-                            table,
-                            flatId: recLocalisation.id,
-                        }),
-                    },
-                ],
-            ],
-        },
-        {
-            chat_id: chatId,
-            message_id: messageId,
-        }
-    );
+        .catch(console.error);
 
     await strapi.bots.alanyaBot
-        .sendMessage(userTelegramId, `${userMessage}\n\n${orderInfo}`)
-        .catch((e) => console.error(e));
-
-    await strapi.bots.admin
-        .sendMessage(agentTelegramId, `${realtorMessage}\n\n${orderInfo}`)
-        .catch((e) => console.error(e));
-
-    await strapi.bots.alanyaBot
-        .sendMessage(userTelegramId, 'Choose the action', {
-            reply_markup: {
+        .editMessageReplyMarkup(
+            {
                 inline_keyboard: [
                     [
                         {
-                            ...localisation.GO_BACK_ACTION,
+                            ...localisation?.FULL_DESCRIPTION,
                             callback_data: JSON.stringify({
-                                action: 'ENTER_COMMAND',
-                            }),
-                        },
-                        {
-                            text: 'Continue searching?',
-                            callback_data: JSON.stringify({
-                                action: 'SEARCH_FLATS',
+                                action: 'FULL_DESCRIPTION',
                                 table,
+                                flatId: recLocalisation.id,
                             }),
                         },
                     ],
                 ],
             },
-        })
-        .catch((e) => console.log(e));
+            {
+                chat_id: chatId,
+                message_id: messageId,
+            }
+        )
+        .catch(console.error);
+
+    await strapi.bots.alanyaBot
+        .sendMessage(userTelegramId, `${userMessage}\n\n${orderInfo}`)
+        .catch(console.error);
+
+    await strapi.bots.admin
+        .sendMessage(agentTelegramId, `${realtorMessage}\n\n${orderInfo}`)
+        .catch(console.error);
 };

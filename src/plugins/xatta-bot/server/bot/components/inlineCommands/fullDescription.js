@@ -11,13 +11,7 @@ module.exports = async (query) => {
     const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
     const arrayOfPhotos = [];
 
-    const flat = await strapi.entityService
-        .findOne(api, flatId, {
-            populate: '*',
-        })
-        .catch((e) => {
-            console.error(e);
-        });
+    const flat = await strapi.entityService.findOne(api, flatId, { populate: '*' }).catch(console.error);
 
     let resolvedPath = path.resolve('./index');
     resolvedPath = resolvedPath.split('/');
@@ -41,9 +35,7 @@ module.exports = async (query) => {
 
     arrayOfPhotos[0].caption = localisation.HOUSING_FULL_DESCRIPTION(recLocalisation);
 
-    await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch((e) => {
-        console.error(e);
-    });
+    await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch(console.error);
 
     await strapi.bots.alanyaBot
         .sendMessage(chatId, localisation?.CHOOSE_THE_ACTION.text(flat.id), {
@@ -59,25 +51,8 @@ module.exports = async (query) => {
                             }),
                         },
                     ],
-                    [
-                        {
-                            text: 'Continue searching?',
-                            callback_data: JSON.stringify({
-                                action: 'SEARCH_FLATS',
-                                table,
-                            }),
-                        },
-                        {
-                            ...localisation?.GO_BACK_ACTION,
-                            callback_data: JSON.stringify({
-                                action: 'ENTER_COMMAND',
-                            }),
-                        },
-                    ],
                 ],
             },
         })
-        .catch((e) => {
-            console.error(e);
-        });
+        .catch(console.error);
 };

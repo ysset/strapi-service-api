@@ -1,15 +1,9 @@
-/**
- *  ~deprecated~
- */
-
 const {
     writeAgent,
     save,
     searchFlats,
     repeatSearchFlats,
     favoriteHousings,
-    favorite,
-    search,
     fullDescription,
     enterCommand,
     deleteCommand,
@@ -20,11 +14,6 @@ const commands = {
     SAVE: save,
     WRITE_AGENT: writeAgent,
     FAVORITE_HOUSINGS: favoriteHousings,
-    FAVORITE: favorite,
-    SEARCH: async (query) => {
-        await deleteCurrentMessage(query);
-        return await search(query);
-    },
     SEARCH_FLATS: async (query) => {
         await deleteCurrentMessage(query);
         return await searchFlats(query);
