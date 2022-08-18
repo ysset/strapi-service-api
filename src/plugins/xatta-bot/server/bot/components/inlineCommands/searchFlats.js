@@ -74,14 +74,6 @@ module.exports = async (query) => {
                             }),
                         },
                     ],
-                    [
-                        {
-                            ...localisation?.GO_BACK_ACTION,
-                            callback_data: JSON.stringify({
-                                action: 'SEARCH',
-                            }),
-                        },
-                    ],
                 ],
             },
         })

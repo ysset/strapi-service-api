@@ -12,20 +12,6 @@ module.exports = {
                                 }),
                             },
                         ],
-                        [
-                            {
-                                ...localisation?.GO_BACK_ACTION,
-                                callback_data: JSON.stringify({
-                                    action: 'ENTER_COMMAND',
-                                }),
-                            },
-                            {
-                                ...localisation?.FAVORITE,
-                                callback_data: JSON.stringify({
-                                    action: 'FAVORITE_HOUSINGS',
-                                }),
-                            },
-                        ],
                     ],
                 },
             });

@@ -2,7 +2,7 @@
 process.env.NTBA_FIX_319 = 1;
 
 const TgBot = require('node-telegram-bot-api');
-const bot = new TgBot(process.env.BOT_API_KEY + '/test', { polling: true });
+const bot = new TgBot(process.env.BOT_API_KEY, { polling: true });
 
 const { commands, inlineCallBacks } = require('./bot/components');
 const { modifyRequestWithUserData } = require('../botUtils/userController');
@@ -33,7 +33,7 @@ module.exports = async ({ strapi }) => {
             const data = JSON.parse(query.web_app_data.data);
 
             if (data.favorite) {
-                return inlineCallBacks.FAVORITE(await modifyRequestWithUserData({ msg: query }));
+                return inlineCallBacks.FAVORITE_HOUSINGS(await modifyRequestWithUserData({ msg: query }));
             }
 
             const parsedData = {

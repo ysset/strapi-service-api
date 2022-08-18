@@ -35,14 +35,22 @@ module.exports = {
      * @returns {Promise<null|*>}
      */
     async get({ user, filters: userFilters }) {
+        let filtered = [];
         if (!userFilters) userFilters = user.filters;
+        const watched = { Complex: user.watchedComplex, Villa: user.watchedVilla };
+        const favorite = { Complex: user.favoriteComplex, Villa: user.favoriteVilla };
         const reqData = userFilters.tables.map((table) => ({
             api: `api::${table.toLowerCase()}.${table.toLowerCase()}`,
-            table: table,
+            table,
         }));
 
-        const watched = [...user.watchedComplex, ...user.watchedVilla];
-        const favorite = [...user.favoriteComplex, ...user.favoriteVilla];
+        // Updating current user filters, it's ok to be synchronous
+        strapi.entityService
+            .update('api::telegram-user.telegram-user', user.id, {
+                data: { filters: JSON.stringify(userFilters) },
+            })
+            .catch(console.error);
+
         // TODO if we have 100,000,000 fields, we will have to do optimization
         const dataArray = reqData.flatMap(async ({ api, table }) => ({
             [table]: await strapi.entityService
@@ -60,23 +68,22 @@ module.exports = {
                 .catch(console.error),
         }));
         let recommendations = await Promise.all(dataArray);
-        let filtered = [];
 
         for (let table of userFilters.tables) {
             recommendations.forEach((rec) => {
                 if (rec[table])
                     filtered.push(
                         rec[table]
-                            .filter((rec) => !favorite.some((favorite) => rec.id === favorite.id)) //delete all favorites
-                            .filter((filtered) => !watched.some((watched) => watched.id === filtered.id)) //delete all watched
+                            .filter((rec) => !favorite[table].some((favorite) => rec.id === favorite.id)) //delete all favorites
+                            .filter(
+                                (filtered) => !watched[table].some((watched) => watched.id === filtered.id)
+                            ) //delete all watched
                     );
             });
         }
 
         filtered = filtered.flat();
-        await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
-            data: { filters: JSON.stringify(userFilters) },
-        });
+
         if (filtered.length === 0) return null;
 
         return filtered[Math.floor(Math.random() * filtered.length)];
@@ -112,9 +119,7 @@ module.exports = {
      * @returns {Promise<any>}
      */
     async remove({ table, flatId, user, where, apiKey }) {
-        const flat = await strapi.entityService.findOne(`api::${table}.${table}`, flatId, {
-            populate: '*',
-        });
+        const flat = await strapi.entityService.findOne(`api::${table}.${table}`, flatId, { populate: '*' });
         const updateData = flat.favoriteUsers.filter((el) => el.id !== user.id);
 
         return await strapi.db
