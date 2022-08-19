@@ -42,7 +42,12 @@ module.exports = async ({ strapi }) => {
             return inlineCallBacks.SEARCH_FLATS(parsedData);
         }
 
-        if (query.text === 'start' || query.text === 'старт') {
+        if (
+            query.text === 'start' ||
+            query.text === 'старт' ||
+            query.text === 'Start' ||
+            query.text === 'Старт'
+        ) {
             return commands.START.fn(await modifyRequestWithUserData({ msg: query })).catch(console.error);
         }
     });
