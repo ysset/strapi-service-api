@@ -77,6 +77,14 @@
     "cost": {
       "type": "decimal",
       "required": true
+    },
+    "DeveloperName": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "complexName": {
+      "type": "string",
+      "maxLength": 100
     }
   }
 }
