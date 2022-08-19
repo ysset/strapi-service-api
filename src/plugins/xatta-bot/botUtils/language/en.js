@@ -1,6 +1,6 @@
 module.exports = {
     lang: 'en',
-    WELCOME: 'Welcome to Xatta Bot!',
+    WELCOME: 'I turn on the mode of an exciting conversation!',
     CONTROL_PANEL: {
         text: 'control panel',
     },
