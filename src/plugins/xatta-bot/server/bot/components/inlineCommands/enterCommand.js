@@ -24,7 +24,18 @@ module.exports = async (msg) => {
                 resize_keyboard: true,
             },
         })
-        .catch((e) => {
-            console.error(e);
-        });
+        .catch(console.error);
+
+    await strapi.bots.alanyaBot
+        .setChatMenuButton({
+            chat_id: chatId,
+            menu_button: JSON.stringify({
+                type: 'web_app',
+                text: localisation.MENU_BUTTON,
+                web_app: {
+                    url: process.env.WEB_APP_URL,
+                },
+            }),
+        })
+        .catch(console.error);
 };

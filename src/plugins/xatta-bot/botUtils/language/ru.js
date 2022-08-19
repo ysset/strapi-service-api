@@ -1,6 +1,7 @@
 module.exports = {
     lang: 'ru',
     WELCOME: 'Включаю режим увлекательной беседы!',
+    MENU_BUTTON: 'Меню',
     CONTROL_PANEL: {
         text: 'Панель управления',
     },

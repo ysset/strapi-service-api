@@ -1,6 +1,7 @@
 module.exports = {
     lang: 'en',
     WELCOME: 'I turn on the mode of an exciting conversation!',
+    MENU_BUTTON: 'Menu',
     CONTROL_PANEL: {
         text: 'control panel',
     },

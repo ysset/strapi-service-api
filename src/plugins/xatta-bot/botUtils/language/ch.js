@@ -1,6 +1,7 @@
 module.exports = {
     lang: 'ch',
     WELCOME: '我打开激动人心的对话模式！',
+    MENU_BUTTON: '菜单',
     CONTROL_PANEL: {
         text: '控制面板',
     },
