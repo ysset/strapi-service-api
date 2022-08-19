@@ -18,9 +18,7 @@ module.exports = async ({ strapi }) => {
         try {
             query.data = JSON.parse(query.data);
             const data = await modifyRequestWithUserData({ msg: query });
-            await inlineCallBacks[query.data.action](data).catch((e) => {
-                console.error(e);
-            });
+            await inlineCallBacks[query.data.action](data).catch(console.error);
         } catch (e) {
             console.error(e);
         }
@@ -42,6 +40,10 @@ module.exports = async ({ strapi }) => {
             };
 
             return inlineCallBacks.SEARCH_FLATS(parsedData);
+        }
+
+        if (query.text === 'start' || query.text === 'старт') {
+            return commands.START.fn(await modifyRequestWithUserData({ msg: query })).catch(console.error);
         }
     });
 
