@@ -21,6 +21,7 @@ module.exports = async (msg) => {
                         },
                     ],
                 ],
+                resize_keyboard: true,
             },
         })
         .catch((e) => {
