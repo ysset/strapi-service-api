@@ -1,6 +1,6 @@
 const configureFilters = ({ user, userFilters, table }) => {
-    const filters = { localisation: { $and: [] } };
-    filters.localisation.$and.push({ language: { $eq: user.language } });
+    const filters = { localisation: { $and: [{ language: user.language }] } };
+
     if (userFilters.cities.length) filters.localisation.$and.push({ city: { $in: userFilters.cities } });
     if (userFilters.prices.length)
         filters.localisation.$and.push({
