@@ -5,8 +5,7 @@ module.exports = async (query) => {
     const { localisation, messageId, chatId, user } = query;
 
     if (!user) return;
-
-    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId).catch(console.error);
+    if (messageId) strapi.bots.alanyaBot.deleteMessage(chatId, messageId).catch(console.error);
 
     const flats = [
         await strapi.db

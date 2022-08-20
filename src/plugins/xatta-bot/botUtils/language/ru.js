@@ -3,7 +3,7 @@ module.exports = {
     WELCOME: 'Включаю режим увлекательной беседы!',
     MENU_BUTTON: 'Меню',
     CONTROL_PANEL: {
-        text: 'Панель управления',
+        text: 'Поиск по фильтрам',
     },
     START: {
         text: '/start',

@@ -30,16 +30,13 @@ module.exports = async ({ strapi }) => {
         if (query.web_app_data) {
             const data = JSON.parse(query.web_app_data.data);
 
-            if (data.favorite) {
+            if (data.favorite)
                 return inlineCallBacks.FAVORITE_HOUSINGS(await modifyRequestWithUserData({ msg: query }));
-            }
 
-            const parsedData = {
+            return inlineCallBacks.SEARCH_FLATS({
                 filters: data,
                 ...(await modifyRequestWithUserData({ msg: query })),
-            };
-
-            return inlineCallBacks.SEARCH_FLATS(parsedData);
+            });
         }
 
         if (

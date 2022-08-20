@@ -5,7 +5,6 @@ const { userLang } = require('../../botUtils/language');
  * @returns {Promise<{chatId: *, messageId: *, user: *}>}
  */
 const getUser = async (msg) => {
-    const chatId = msg.message?.chat.id || msg.chat.id;
     const messageId = msg.message?.message_id || msg.message_id;
     const userID = msg.from.id;
 
@@ -22,7 +21,7 @@ const getUser = async (msg) => {
         });
 
     return {
-        chatId,
+        chatId: userID,
         messageId,
         user,
     };
