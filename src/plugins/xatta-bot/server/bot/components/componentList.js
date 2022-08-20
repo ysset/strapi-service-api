@@ -14,10 +14,7 @@ const commands = {
     SAVE: save,
     WRITE_AGENT: writeAgent,
     FAVORITE_HOUSINGS: favoriteHousings,
-    SEARCH_FLATS: async (query) => {
-        await deleteCurrentMessage(query);
-        return await searchFlats(query);
-    },
+    SEARCH_FLATS: searchFlats,
     REPEAT_SEARCH_FLATS: repeatSearchFlats,
     FULL_DESCRIPTION: fullDescription,
     ENTER_COMMAND: enterCommand,

@@ -36,10 +36,12 @@
       "required": true
     },
     "metersFromTheSea": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
-    "ComplexArea": {
-      "type": "integer"
+    "area": {
+      "type": "integer",
+      "required": true
     },
     "paymentMethod": {
       "type": "string",
@@ -55,36 +57,33 @@
       "displayName": "additional",
       "type": "component",
       "repeatable": true,
-      "component": "addtionals.additional"
+      "component": "addtionals.additional",
+      "required": true
     },
     "apartmentEquipment": {
       "type": "component",
       "repeatable": true,
-      "component": "addtionals.additional"
+      "component": "addtionals.additional",
+      "required": true
     },
     "constructionCompletionDate": {
       "type": "string",
       "regex": "^[0-9]{2}[.][0-9]{4}$",
       "required": true
     },
-    "initialFee": {
-      "type": "string",
-      "required": true,
-      "regex": "^\\d+%$",
-      "maxLength": 4,
-      "default": "100%"
-    },
     "cost": {
       "type": "decimal",
       "required": true
     },
-    "DeveloperName": {
+    "developerName": {
       "type": "string",
-      "maxLength": 100
+      "maxLength": 100,
+      "required": true
     },
-    "complexName": {
+    "name": {
       "type": "string",
-      "maxLength": 100
+      "maxLength": 100,
+      "required": true
     }
   }
 }

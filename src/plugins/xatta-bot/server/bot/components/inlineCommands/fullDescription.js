@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const deleteMessage = require('./deleteCurrentMessage');
 
 module.exports = async (query) => {
     const {
@@ -11,7 +12,20 @@ module.exports = async (query) => {
     const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
     const arrayOfPhotos = [];
 
-    const flat = await strapi.entityService.findOne(api, flatId, { populate: '*' }).catch(console.error);
+    const flat = await strapi.entityService
+        .findOne(api, flatId, {
+            populate: {
+                localisation: {
+                    populate: {
+                        apartments: true,
+                        infrastructure: true,
+                        apartmentEquipment: true,
+                    },
+                },
+                layoutPhoto: true,
+            },
+        })
+        .catch(console.error);
 
     let resolvedPath = path.resolve('./index');
     resolvedPath = resolvedPath.split('/');
@@ -33,7 +47,10 @@ module.exports = async (query) => {
 
     if (!recLocalisation) recLocalisation = flat.localisation.find((rec) => rec.language === 'en');
 
-    arrayOfPhotos[0].caption = localisation.HOUSING_FULL_DESCRIPTION(recLocalisation);
+    arrayOfPhotos[0].caption = localisation.HOUSING_FULL_DESCRIPTION({
+        ...recLocalisation,
+        locationUrl: flat.locationUrl,
+    });
 
     await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch(console.error);
 
@@ -50,9 +67,18 @@ module.exports = async (query) => {
                                 flatId,
                             }),
                         },
+                        {
+                            ...localisation?.NEXT_INLINE,
+                            callback_data: JSON.stringify({
+                                action: 'SEARCH_FLATS',
+                                table: recLocalisation.table,
+                            }),
+                        },
                     ],
                 ],
             },
         })
         .catch(console.error);
+
+    deleteMessage(query);
 };

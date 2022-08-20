@@ -46,20 +46,29 @@ module.exports = {
             } \n${paymentMethod}`,
     },
     HOUSING_FULL_DESCRIPTION: ({
-        title,
+        name,
+        developerName,
         cost,
+        apartments,
         city,
-        housingArea,
-        rooms,
-        caption,
+        district,
         metersFromTheSea,
+        locationUrl,
+        caption,
+        area,
+        infrastructure,
+        apartmentEquipment,
         constructionCompletionDate,
-    }) =>
-        `${title}\nPrice: ${cost} | City: ${city} ${housingArea ? `\nArea ${housingArea} m2 |` : ''} ${
-            rooms ? `Rooms: ${rooms}` : ''
-        } ${metersFromTheSea ? `\nTo sea: ${metersFromTheSea} m` : ''} ${
-            constructionCompletionDate ? `\nCompletion Date: ${constructionCompletionDate}` : ''
-        } \n\n${caption}`,
+    }) => {
+        apartments = apartments?.map((el) => el.layout + ' ');
+        infrastructure = infrastructure?.map((el) => el.title + '\n');
+        apartmentEquipment = apartmentEquipment?.map((el) => el.title + '\n');
+        const main = `Name: ${name}\nDeveloper: ${developerName}\nPrice from: ${cost}\n${
+            apartments ? `Layouts: ${apartments}` : ''
+        }\nAddress: ${city} ${district}\nTo the sea: ${metersFromTheSea}\nOn the map: ${locationUrl}`;
+        const second = `\nDescription: ${caption}\nArea: ${area}\nAmenities: ${infrastructure}\nFittings and furniture: ${apartmentEquipment}\n\nCompletion date: ${constructionCompletionDate}`;
+        return main + second;
+    },
     CHOOSE_THE_ACTION: {
         text: (flatId) => `Apartment id: ${flatId} \nSelect action:`,
     },
