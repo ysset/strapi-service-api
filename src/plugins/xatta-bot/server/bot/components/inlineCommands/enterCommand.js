@@ -13,7 +13,7 @@ module.exports = async (msg) => {
     await strapi.bots.alanyaBot
         .sendMessage(chatId, localisation?.WELCOME, {
             reply_markup: {
-                keyboard: [
+                inline_keyboard: [
                     [
                         {
                             ...localisation.CONTROL_PANEL,

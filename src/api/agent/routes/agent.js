@@ -8,7 +8,7 @@ module.exports = {
     routes: [
         {
             method: 'GET',
-            path: '/cities',
+            path: '/cities/:language',
             handler: 'agent.getCities',
             config: {
                 policies: [],

@@ -2,17 +2,41 @@
   "collectionName": "components_apartments_apartments",
   "info": {
     "displayName": "apartment",
-    "icon": "home"
+    "icon": "home",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "layout": {
-      "type": "string",
-      "required": true
+      "type": "enumeration",
+      "enum": [
+        " 1+1",
+        " 1.5+1",
+        " 2+1",
+        " 2.5+1",
+        " 3+1",
+        " 3.5+1",
+        " 4+1",
+        " 5+1",
+        " 1+1 Duplex",
+        " 2+1 Duplex",
+        " 3+1 Duplex",
+        " 4+1 Duplex",
+        " 5+1 Duplex",
+        " 1+1 Garden Duplex",
+        " 2+1 Garden Duplex",
+        " 3+1 Garden Duplex",
+        " 4+1 Garden Duplex",
+        " 5+1 Garden Duplex",
+        " 1+1 Penthouse",
+        " 2+1 Penthouse",
+        " 3+1 Penthouse",
+        " 4+1 Penthouse",
+        " 5+1 Penthouse"
+      ]
     },
     "area": {
-      "type": "integer",
-      "required": true
+      "type": "integer"
     }
   }
 }

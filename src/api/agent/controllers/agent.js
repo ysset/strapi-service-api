@@ -18,11 +18,17 @@ const getData = async ({ api, field }) => {
 };
 
 module.exports = createCoreController('api::agent.agent', {
-    getCities: async () => {
+    getCities: async (ctx) => {
+        const { language } = ctx.params;
         const complexCities = await getData({ api: 'api::complex.complex', field: 'city' });
         const villaCities = await getData({ api: 'api::villa.villa', field: 'city' });
-        // return list of original values
-        return [...new Set([...complexCities, ...villaCities])];
+        const cities = [...new Set([...complexCities, ...villaCities])];
+        switch (language) {
+            case 'ru':
+                return cities.filter((city) => city.match(/[А-Яа-я]+/));
+            case 'en':
+                return cities.filter((city) => city.match(/[A-Za-z]+/));
+        }
     },
 
     getDistricts: async () => {
