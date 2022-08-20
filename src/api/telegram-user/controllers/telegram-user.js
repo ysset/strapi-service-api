@@ -2,9 +2,6 @@
 
 const { inlineCallBacks } = require('../../../plugins/xatta-bot/server/bot/components/index');
 const { modifyRequestWithUserData } = require('../../../plugins/xatta-bot/botUtils/userController/index');
-/**
- *  telegram-user controller
- */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 

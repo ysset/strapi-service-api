@@ -6,7 +6,7 @@ const { userLang } = require('../../botUtils/language');
  */
 const getUser = async (msg) => {
     const messageId = msg.message?.message_id || msg.message_id;
-    const userID = msg.from.id;
+    const userID = msg.from?.id;
 
     const user = await strapi.db
         .query('api::telegram-user.telegram-user')
@@ -16,9 +16,7 @@ const getUser = async (msg) => {
             },
             populate: true,
         })
-        .catch((e) => {
-            console.error(e);
-        });
+        .catch(console.error);
 
     return {
         chatId: userID,
