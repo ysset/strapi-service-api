@@ -21,16 +21,13 @@ module.exports = createCoreController('api::telegram-user.telegram-user', {
     },
 
     async userFavorites(ctx) {
-        const msg = ctx.request.body;
-        console.log(msg);
-        return inlineCallBacks.FAVORITE_HOUSINGS(await modifyRequestWithUserData({ msg }));
+        return inlineCallBacks.FAVORITE_HOUSINGS(await modifyRequestWithUserData({ msg: ctx.request.body }));
     },
 
     async search(ctx) {
-        const msg = ctx.request.body;
         return inlineCallBacks.SEARCH_FLATS({
-            filters: msg.filters,
-            ...(await modifyRequestWithUserData({ msg })),
+            filters: ctx.request.body.filters,
+            ...(await modifyRequestWithUserData({ msg: ctx.request.body })),
         });
     },
 });
