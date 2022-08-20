@@ -6,8 +6,13 @@
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-const getData = async ({ api, field }) => {
+const getData = async ({ api, field, language }) => {
     const res = await strapi.entityService.findMany(api, {
+        filters: {
+            localisation: {
+                language,
+            },
+        },
         populate: {
             localisation: {
                 fields: field,
@@ -20,26 +25,26 @@ const getData = async ({ api, field }) => {
 module.exports = createCoreController('api::agent.agent', {
     getCities: async (ctx) => {
         const { language } = ctx.params;
-        const complexCities = await getData({ api: 'api::complex.complex', field: 'city' });
-        const villaCities = await getData({ api: 'api::villa.villa', field: 'city' });
-        const cities = [...new Set([...complexCities, ...villaCities])];
-        switch (language) {
-            case 'ru':
-                return cities.filter((city) => city.match(/[А-Яа-я]+/));
-            case 'en':
-                return cities.filter((city) => city.match(/[A-Za-z]+/));
-        }
+        const complexCities = await getData({ api: 'api::complex.complex', field: 'city', language });
+        const villaCities = await getData({ api: 'api::villa.villa', field: 'city', language });
+        return [...new Set([...complexCities, ...villaCities])];
     },
 
-    getDistricts: async () => {
-        const complexDistricts = await getData({ api: 'api::complex.complex', field: 'district' });
-        const villaDistricts = await getData({ api: 'api::villa.villa', field: 'district' });
-        // return list of original values
+    getDistricts: async (ctx) => {
+        const { language } = ctx.params;
+        const complexDistricts = await getData({ api: 'api::complex.complex', field: 'district', language });
+        const villaDistricts = await getData({ api: 'api::villa.villa', field: 'district', language });
         return [...new Set([...complexDistricts, ...villaDistricts])];
     },
 
-    getLayouts: async () => {
+    getLayouts: async (ctx) => {
+        const { language } = ctx.params;
         const complexes = await strapi.entityService.findMany('api::complex.complex', {
+            filters: {
+                localisation: {
+                    language,
+                },
+            },
             populate: {
                 localisation: {
                     populate: {
@@ -52,7 +57,6 @@ module.exports = createCoreController('api::agent.agent', {
         });
         const apartments = complexes.flatMap((el) => el.localisation[0].apartments);
         const layouts = apartments.map((el) => el.layout);
-        // return list of original values
         return [...new Set(layouts)];
     },
 });

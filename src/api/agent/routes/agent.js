@@ -16,7 +16,7 @@ module.exports = {
         },
         {
             method: 'GET',
-            path: '/districts',
+            path: '/districts/:language',
             handler: 'agent.getDistricts',
             config: {
                 policies: [],
@@ -24,7 +24,7 @@ module.exports = {
         },
         {
             method: 'GET',
-            path: '/layouts',
+            path: '/layouts/:language',
             handler: 'agent.getLayouts',
             config: {
                 policies: [],
