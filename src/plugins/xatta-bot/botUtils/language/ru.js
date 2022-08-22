@@ -47,21 +47,29 @@ module.exports = {
             } \n${paymentMethod}`,
     },
     HOUSING_FULL_DESCRIPTION: ({
-        title,
-        initialFee,
+        name,
+        developerName,
+        cost,
+        apartments,
         city,
-        housingArea,
-        rooms,
+        district,
+        metersFromTheSea,
         locationUrl,
         caption,
-        metersFromTheSea,
+        area,
+        infrastructure,
+        apartmentEquipment,
         constructionCompletionDate,
-    }) =>
-        `${title} \nЦена: ${initialFee} | Город: ${city} ${
-            housingArea ? `\nПлощадь ${housingArea} м2 |` : ''
-        } ${rooms ? `Комнаты: ${rooms}` : ''} ${locationUrl ? `\nРасположение: ${locationUrl}` : ''} ${
-            metersFromTheSea ? `\nДо моря: ${metersFromTheSea} м` : ''
-        } ${constructionCompletionDate ? `\nДата сдачи: ${constructionCompletionDate}` : ''} \n\n${caption}`,
+    }) => {
+        apartments = apartments?.map((el) => el.layout + ' ');
+        infrastructure = infrastructure?.map((el) => el.title + '\n');
+        apartmentEquipment = apartmentEquipment?.map((el) => el.title + '\n');
+        const main = `Название: ${name}\nЗастройщик: ${developerName}\nЦена от: ${cost}\n${
+            apartments ? `Планировки: ${apartments}` : ''
+        }\nАдрес: ${city} ${district}\nДо моря: ${metersFromTheSea}\nНа карте: ${locationUrl}`;
+        const second = `\nОписание: ${caption}\nПлощадь: ${area}\nУдобства: ${infrastructure}\nФурнитура и мебель: ${apartmentEquipment}\n\nДата окончания строительства: ${constructionCompletionDate}`;
+        return main + second;
+    },
     CHOOSE_THE_ACTION: {
         text: (flatId) => `Id квартиры: ${flatId} \nВыберите действие:`,
     },

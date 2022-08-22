@@ -25,18 +25,6 @@
       "type": "boolean",
       "default": true
     },
-    "watchedHousings": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::housing.housing",
-      "mappedBy": "watchedUsers"
-    },
-    "favoriteHousings": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::housing.housing",
-      "mappedBy": "favoriteUsers"
-    },
     "watchedComplex": {
       "type": "relation",
       "relation": "manyToMany",

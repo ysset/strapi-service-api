@@ -2,12 +2,14 @@
   "collectionName": "components_addtionals_additionals",
   "info": {
     "displayName": "additional",
-    "icon": "asterisk"
+    "icon": "asterisk",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     }
   }
 }

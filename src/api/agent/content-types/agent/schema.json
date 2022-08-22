@@ -32,12 +32,6 @@
       "relation": "oneToOne",
       "target": "admin::user"
     },
-    "housings": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::housing.housing",
-      "mappedBy": "agent"
-    },
     "complexes": {
       "type": "relation",
       "relation": "oneToMany",
