@@ -22,6 +22,7 @@ const inlineCallBacks = {
     ENTER_COMMAND: callbacks.ENTER_COMMAND,
     DELETE_ACTION: callbacks.DELETE_ACTION,
     DELETE_MESSAGE: callbacks.DELETE_MESSAGE,
+    NEXT_FLAT: callbacks.NEXT_FLAT,
 };
 
 module.exports = {
