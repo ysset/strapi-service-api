@@ -33,7 +33,6 @@ module.exports = (plugin) => {
         });
         if (agent) sanitizedBody.agent = agent.id;
         // ====
-        console.log(sanitizedBody, user, agent);
 
         const entity = await entityManager.create(sanitizedBody, model);
 
