@@ -71,12 +71,6 @@
     },
     "telegramID": {
       "type": "biginteger"
-    },
-    "housings": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::housing.housing",
-      "mappedBy": "user"
     }
   }
 }
