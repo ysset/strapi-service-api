@@ -22,9 +22,10 @@ module.exports = createCoreController('api::telegram-user.telegram-user', {
     },
 
     async search(ctx) {
-        return inlineCallBacks.SEARCH_FLATS({
+        inlineCallBacks.SEARCH_FLATS({
             filters: ctx.request.body.filters,
             ...(await modifyRequestWithUserData({ msg: ctx.request.body })),
         });
+        return {};
     },
 });
