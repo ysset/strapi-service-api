@@ -15,11 +15,11 @@ const getData = async ({ api, field, language }) => {
         },
         populate: {
             localisation: {
-                fields: field,
+                fields: ['language', field],
             },
         },
     });
-    return res.map((el) => el.localisation[0][field]);
+    return res.map((el) => el.localisation.find((el) => el.language === language)[field]);
 };
 
 module.exports = createCoreController('api::agent.agent', {
@@ -55,7 +55,9 @@ module.exports = createCoreController('api::agent.agent', {
                 },
             },
         });
-        const apartments = complexes.flatMap((el) => el.localisation[0].apartments);
+        const apartments = complexes.flatMap(
+            (el) => el.localisation.find((el) => el.language === language)?.apartments
+        );
         const layouts = apartments.map((el) => el.layout);
         return [...new Set(layouts)];
     },
