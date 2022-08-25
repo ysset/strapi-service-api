@@ -1,6 +1,17 @@
 module.exports = {
     lang: 'en',
-    WELCOME: 'I turn on the mode of an exciting conversation!',
+    WELCOME:
+        'Hello!\n' +
+        '\n' +
+        'Introducing a smart directory for selecting real estate in Turkey!\n' +
+        '\n' +
+        'Your choice of luxury villas and apartments in new buildings directly from developers!\n' +
+        '\n' +
+        'Our goal is to bring together all the properties in this directory to help you comfortably buy a new home in Turkey!\n' +
+        '\n' +
+        'Press Start to get started.\n' +
+        '\n' +
+        'For cooperation @oknemzuk_gelo',
     MENU_BUTTON: 'Menu',
     CONTROL_PANEL: {
         text: 'control panel',
