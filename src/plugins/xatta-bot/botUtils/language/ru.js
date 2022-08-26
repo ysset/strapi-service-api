@@ -36,7 +36,7 @@ module.exports = {
     NO_FAVORITE_NOW: 'У вас пока нет сохраненной недвижимости!',
     UN_AUTHORIZE: 'Кажется мы не смогли найти избранные квартиры, пожалуйста перезапустите бота!',
     WRITE_AGENT_INLINE: {
-        text: 'Связаться с агентом',
+        text: 'Связаться с застройщиком',
     },
     WRITE_AGENT: {
         userText: (username, agentUsername) =>
