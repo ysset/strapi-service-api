@@ -39,7 +39,7 @@ module.exports = async (query) => {
                         callback_data: JSON.stringify({
                             action: 'WRITE_AGENT',
                             table,
-                            flatId: flatId,
+                            flatId,
                         }),
                     },
                 ],
@@ -59,7 +59,7 @@ module.exports = async (query) => {
                         {
                             ...localisation?.FAVORITE,
                             callback_data: JSON.stringify({
-                                action: 'FAVORITE',
+                                action: 'FAVORITE_HOUSINGS',
                             }),
                         },
                     ],

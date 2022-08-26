@@ -4,6 +4,8 @@ const searchFlatsFunc = require('./searchFlats');
 const repeatSearchFlatsFunc = require('./repeatSearchFlats');
 const favoriteHousingsFunc = require('./favoriteHousings');
 const fullDescriptionFunc = require('./fullDescription');
+const favoriteFullDescriptionFunc = require('./favoriteFullDescription');
+const searchFullDescriptionFunc = require('./searchFullDescription');
 const enterCommandFunc = require('./enterCommand');
 const deleteFunc = require('./delete');
 const deleteCurrentMessageFunc = require('./deleteCurrentMessage');
@@ -15,6 +17,8 @@ module.exports = {
     searchFlats: searchFlatsFunc,
     repeatSearchFlats: repeatSearchFlatsFunc,
     favoriteHousings: favoriteHousingsFunc,
+    favoriteFullDescription: favoriteFullDescriptionFunc,
+    searchFullDescription: searchFullDescriptionFunc,
     fullDescription: fullDescriptionFunc,
     enterCommand: enterCommandFunc,
     deleteCommand: deleteFunc,

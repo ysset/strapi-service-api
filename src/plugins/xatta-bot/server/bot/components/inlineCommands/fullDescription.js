@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const deleteMessage = require('./deleteCurrentMessage');
 
 module.exports = async (query) => {
     const {
@@ -59,33 +58,4 @@ module.exports = async (query) => {
     for (let arrayOfPhotos of arrayOfArrayOfPhotos) {
         await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch(console.error);
     }
-
-    await strapi.bots.alanyaBot
-        .sendMessage(chatId, localisation?.CHOOSE_THE_ACTION.text(flat.id), {
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        {
-                            ...localisation?.WRITE_AGENT_INLINE,
-                            callback_data: JSON.stringify({
-                                action: 'WRITE_AGENT',
-                                table,
-                                flatId,
-                            }),
-                        },
-                        {
-                            ...localisation?.NEXT_INLINE,
-                            callback_data: JSON.stringify({
-                                action: 'NEXT_FLAT',
-                                table,
-                                flatId,
-                            }),
-                        },
-                    ],
-                ],
-            },
-        })
-        .catch(console.error);
-
-    deleteMessage(query);
 };

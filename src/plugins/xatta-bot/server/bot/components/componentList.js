@@ -9,6 +9,8 @@ const {
     deleteCommand,
     deleteCurrentMessage,
     nextFlat,
+    searchFullDescription,
+    favoriteFullDescription,
 } = require('./inlineCommands');
 
 const commands = {
@@ -21,6 +23,8 @@ const commands = {
     },
     REPEAT_SEARCH_FLATS: repeatSearchFlats,
     FULL_DESCRIPTION: fullDescription,
+    SEARCH_FULL_DESCRIPTION: searchFullDescription,
+    FAVORITE_FULL_DESCRIPTION: favoriteFullDescription,
     ENTER_COMMAND: enterCommand,
     DELETE_ACTION: deleteCommand,
     DELETE_MESSAGE: deleteCurrentMessage,

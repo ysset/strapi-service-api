@@ -94,7 +94,7 @@ module.exports = async (query) => {
                             {
                                 ...localisation?.FULL_DESCRIPTION,
                                 callback_data: JSON.stringify({
-                                    action: 'FULL_DESCRIPTION',
+                                    action: 'FFD',
                                     table: flat.table,
                                     flatId: flat.id,
                                 }),
