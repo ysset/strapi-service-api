@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const actions = require('../actions');
 
 module.exports = async (query) => {
     const { localisation, messageId, chatId, user } = query;
@@ -74,7 +75,7 @@ module.exports = async (query) => {
                             {
                                 ...localisation?.WRITE_AGENT_INLINE,
                                 callback_data: JSON.stringify({
-                                    action: 'WRITE_AGENT',
+                                    action: actions.FAVORITE_WRITE_AGENT,
                                     table: flat.table,
                                     flatId: flat.id,
                                 }),
@@ -84,7 +85,7 @@ module.exports = async (query) => {
                             {
                                 ...localisation?.DELETE_ACTION,
                                 callback_data: JSON.stringify({
-                                    action: 'DELETE_ACTION',
+                                    action: actions.DELETE_ACTION,
                                     table: flat.table,
                                     flatId: flat.id,
                                 }),
@@ -94,7 +95,7 @@ module.exports = async (query) => {
                             {
                                 ...localisation?.FULL_DESCRIPTION,
                                 callback_data: JSON.stringify({
-                                    action: 'FFD',
+                                    action: actions.FAVORITE_FULL_DESCRIPTION,
                                     table: flat.table,
                                     flatId: flat.id,
                                 }),

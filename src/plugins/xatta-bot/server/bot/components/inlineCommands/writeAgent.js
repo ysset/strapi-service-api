@@ -6,8 +6,6 @@ module.exports = async (query) => {
         localisation,
         data,
         user,
-        chatId,
-        messageId,
     } = query;
 
     const { table, flatId } = data;
@@ -40,29 +38,6 @@ module.exports = async (query) => {
             data,
             user,
         })
-        .catch(console.error);
-
-    await strapi.bots.alanyaBot
-        .editMessageReplyMarkup(
-            {
-                inline_keyboard: [
-                    [
-                        {
-                            ...localisation?.FULL_DESCRIPTION,
-                            callback_data: JSON.stringify({
-                                action: 'FULL_DESCRIPTION',
-                                table,
-                                flatId: recLocalisation.id,
-                            }),
-                        },
-                    ],
-                ],
-            },
-            {
-                chat_id: chatId,
-                message_id: messageId,
-            }
-        )
         .catch(console.error);
 
     await strapi.bots.alanyaBot

@@ -1,4 +1,5 @@
 const searchFlats = require('./searchFlats');
+const actions = require('../actions');
 
 module.exports = async (query) => {
     const { table, flatId } = query.data;
@@ -10,7 +11,7 @@ module.exports = async (query) => {
                     {
                         ...localisation?.WRITE_AGENT_INLINE,
                         callback_data: JSON.stringify({
-                            action: 'WRITE_AGENT',
+                            action: actions.SEARCH_WRITE_AGENT,
                             table,
                             flatId,
                         }),

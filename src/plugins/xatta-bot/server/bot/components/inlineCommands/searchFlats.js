@@ -4,6 +4,7 @@ const fs = require('fs');
 const { getUser } = require('../../../../botUtils/userController');
 const { alanyaBot } = require('../../../../botUtils/errorHandlers');
 const recommendations = require('../../../../botUtils/botManager/recomendationManager');
+const actions = require('../actions');
 
 module.exports = async (query) => {
     const { localisation, chatId, filters } = query;
@@ -52,7 +53,7 @@ module.exports = async (query) => {
                         {
                             ...localisation?.SAVE_INLINE,
                             callback_data: JSON.stringify({
-                                action: 'SAVE',
+                                action: actions.SAVE,
                                 table: recLocalisation.table,
                                 flatId: recLocalisation.id,
                             }),
@@ -60,7 +61,7 @@ module.exports = async (query) => {
                         {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
-                                action: 'SEARCH_FLATS',
+                                action: actions.SEARCH_FLATS,
                                 table: recLocalisation.table,
                             }),
                         },
@@ -69,7 +70,7 @@ module.exports = async (query) => {
                         {
                             ...localisation?.FULL_DESCRIPTION,
                             callback_data: JSON.stringify({
-                                action: 'SFD',
+                                action: actions.SEARCH_FULL_DESCRIPTION,
                                 table: recLocalisation.table,
                                 flatId: recLocalisation.id,
                             }),
@@ -79,7 +80,7 @@ module.exports = async (query) => {
                         {
                             ...localisation?.WRITE_AGENT_INLINE,
                             callback_data: JSON.stringify({
-                                action: 'WRITE_AGENT',
+                                action: actions.SEARCH_WRITE_AGENT,
                                 table: recLocalisation.table,
                                 flatId: recLocalisation.id,
                             }),
@@ -99,7 +100,7 @@ module.exports = async (query) => {
         },
     };
 
-    await strapi.entityService.update('api::telegram-user.telegram-user', user.id, params).catch((e) => {
-        console.error(e);
-    });
+    await strapi.entityService
+        .update('api::telegram-user.telegram-user', user.id, params)
+        .catch(console.error);
 };

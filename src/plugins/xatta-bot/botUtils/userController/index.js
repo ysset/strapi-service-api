@@ -41,9 +41,7 @@ const modifyRequestWithUserData = async ({ msg }) => {
                     username: msg.from.username,
                 },
             })
-            .catch((e) => {
-                console.error(e);
-            });
+            .catch(console.error);
 
     return {
         ...msg,

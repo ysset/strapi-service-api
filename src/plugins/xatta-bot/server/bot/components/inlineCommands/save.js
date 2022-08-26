@@ -1,5 +1,6 @@
 const recommendations = require('../../../../botUtils/botManager/recomendationManager');
 const searchFlats = require('./searchFlats');
+const actions = require('../actions');
 
 module.exports = async (query) => {
     if (!query.user) return;
@@ -28,7 +29,7 @@ module.exports = async (query) => {
                     {
                         ...localisation?.FULL_DESCRIPTION,
                         callback_data: JSON.stringify({
-                            action: 'FULL_DESCRIPTION',
+                            action: actions.SEARCH_FULL_DESCRIPTION,
                             flat: `api::${table.toLowerCase()}.${table.toLowerCase()}/${flatId}`,
                         }),
                     },
@@ -37,7 +38,7 @@ module.exports = async (query) => {
                     {
                         ...localisation?.WRITE_AGENT_INLINE,
                         callback_data: JSON.stringify({
-                            action: 'WRITE_AGENT',
+                            action: actions.SEARCH_WRITE_AGENT,
                             table,
                             flatId,
                         }),
@@ -59,7 +60,7 @@ module.exports = async (query) => {
                         {
                             ...localisation?.FAVORITE,
                             callback_data: JSON.stringify({
-                                action: 'FAVORITE_HOUSINGS',
+                                action: actions.FAVORITE_HOUSINGS,
                             }),
                         },
                     ],

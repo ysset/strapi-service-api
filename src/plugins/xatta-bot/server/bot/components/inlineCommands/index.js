@@ -1,4 +1,6 @@
 const writeAgentFunc = require('./writeAgent');
+const searchWriteAgentFunc = require('./favoriteWriteAgent');
+const favoriteWriteAgentFunc = require('./searchWriteAgent');
 const saveFunc = require('./save');
 const searchFlatsFunc = require('./searchFlats');
 const repeatSearchFlatsFunc = require('./repeatSearchFlats');
@@ -13,6 +15,8 @@ const nextFlatFunc = require('./nextFlat');
 
 module.exports = {
     writeAgent: writeAgentFunc,
+    favoriteWriteAgent: favoriteWriteAgentFunc,
+    searchWriteAgent: searchWriteAgentFunc,
     save: saveFunc,
     searchFlats: searchFlatsFunc,
     repeatSearchFlats: repeatSearchFlatsFunc,

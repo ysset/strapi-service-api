@@ -1,5 +1,6 @@
 const fullDescription = require('./fullDescription');
 const deleteMessage = require('./deleteCurrentMessage');
+const actions = require('../actions');
 
 module.exports = async (query) => {
     const {
@@ -17,7 +18,7 @@ module.exports = async (query) => {
                         {
                             ...localisation?.WRITE_AGENT_INLINE,
                             callback_data: JSON.stringify({
-                                action: 'WRITE_AGENT',
+                                action: actions.SEARCH_WRITE_AGENT,
                                 table,
                                 flatId,
                             }),
@@ -27,7 +28,7 @@ module.exports = async (query) => {
                         {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
-                                action: 'NEXT_FLAT',
+                                action: actions.NEXT_FLAT,
                                 table,
                                 flatId,
                             }),
