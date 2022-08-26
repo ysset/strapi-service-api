@@ -82,17 +82,19 @@ module.exports = async (query) => {
                         ],
                         [
                             {
-                                ...localisation?.FULL_DESCRIPTION,
+                                ...localisation?.DELETE_ACTION,
                                 callback_data: JSON.stringify({
-                                    action: 'FULL_DESCRIPTION',
+                                    action: 'DELETE_ACTION',
                                     table: flat.table,
                                     flatId: flat.id,
                                 }),
                             },
+                        ],
+                        [
                             {
-                                ...localisation?.DELETE_ACTION,
+                                ...localisation?.FULL_DESCRIPTION,
                                 callback_data: JSON.stringify({
-                                    action: 'DELETE_ACTION',
+                                    action: 'FULL_DESCRIPTION',
                                     table: flat.table,
                                     flatId: flat.id,
                                 }),
