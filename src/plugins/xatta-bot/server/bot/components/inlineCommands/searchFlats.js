@@ -7,12 +7,23 @@ const recommendations = require('../../../../botUtils/botManager/recomendationMa
 
 module.exports = async (query) => {
     const { localisation, chatId, filters } = query;
-    const { user } = await getUser(query);
+    let { user } = await getUser(query);
 
-    const recommendation = await recommendations.get({ user, filters });
+    let recommendation = await recommendations.get({ user, filters });
 
-    if (!recommendation) return await alanyaBot.NO_FLATS({ chatId, localisation });
-
+    if (!recommendation) {
+        user = await strapi.entityService
+            .update('api::telegram-user.telegram-user', query.user.id, {
+                data: {
+                    watchedComplex: [],
+                    watchedVilla: [],
+                },
+                populate: '*',
+            })
+            .catch(console.log);
+        console.log(user);
+        recommendation = await recommendations.get({ user, filters });
+    }
     let recLocalisation = {
         ...recommendation,
         localisation: recommendation.localisation.find((rec) => rec.language === localisation.lang),
