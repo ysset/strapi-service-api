@@ -15,11 +15,6 @@
       ],
       "required": true
     },
-    "title": {
-      "type": "string",
-      "required": true,
-      "maxLength": 150
-    },
     "caption": {
       "type": "text",
       "required": true,

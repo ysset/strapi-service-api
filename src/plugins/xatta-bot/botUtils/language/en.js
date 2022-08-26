@@ -41,8 +41,8 @@ module.exports = {
             `${username} here is a link to the realtor https://t.me/${agentUsername}. \nPlease text him =) `,
         realtorText: (username, agentUsername) =>
             `${agentUsername} user https://t.me/${username} is interested in your apartment. `,
-        orderInfo: ({ id, title, cost, city, district, locationUrl, paymentMethod }) =>
-            `Apartment: \nid: ${id} \nName: ${title} \nPrice: ${cost} \nAddress: ${city} ${district}${
+        orderInfo: ({ id, name, cost, city, district, locationUrl, paymentMethod }) =>
+            `Apartment: \nid: ${id} \nName: ${name} \nPrice: ${cost} \nAddress: ${city} ${district}${
                 locationUrl ? ` \nLocation: ${locationUrl}` : ''
             } \n${paymentMethod}`,
     },
@@ -90,63 +90,5 @@ module.exports = {
     },
     NEXT_INLINE: {
         text: 'Next',
-    },
-    FIRST_TIME_START_PRESS: {
-        text:
-            'Catalogue-bot for selecting real estate\n' +
-            '\n' +
-            '\n' +
-            '\n' +
-            ' • Why would you need me?\n' +
-            '\n' +
-            "I'll make it easy for you to choose any property.\n" +
-            "Now you won't need to scroll through profile telegram channels for a long time, trying to save your favorite options somewhere, just press the 'Next➡'️ button to view it, if you like some apartment, the 'Save❤️' button\n" +
-            '\n' +
-            'You can look for an apartment for yourself, see the prices for housing in Alanya, immediately book and buy the option you like.\n' +
-            '\n' +
-            ' • What can I do?\n' +
-            '\n' +
-            'More about commands\n' +
-            '\n' +
-            'Would you like to explore the catalog? — Press "Search🔍"\n' +
-            '\n' +
-            'Review favorite options? — "Saved❤️"\n' +
-            '\n' +
-            'Missing command buttons? - Click on the icon to the left of the microphone\n' +
-            '\n' +
-            'Keep your favorite apartment? - "Save❤️" (When you save an apartment, it disappears from the general list and appears in the "Saved❤️" tab)\n' +
-            '\n' +
-            'Go to the next apartment? - "Next➡️"\n' +
-            '\n' +
-            'Contact the seller? - "Contact📶"\n' +
-            '\n' +
-            'Need help? - Press "Menu", then "Help".\n' +
-            '\n' +
-            '\n' +
-            'Also, I have a handy segmentation.\n' +
-            '\n' +
-            ' 1. Under construction.\n' +
-            '\n' +
-            'Do you want to invest in real estate? \n' +
-            'Then feel free to choose this item, we add the best real estate options from the foundation pit to the final finish.\n' +
-            '\n' +
-            '2. New buildings.\n' +
-            '\n' +
-            'Do you want to buy an apartment in a new house?\n' +
-            "Here's the best option for you, from singles to duplexes.\n" +
-            '\n' +
-            ' 3. Resale.\n' +
-            '\n' +
-            'If you want to buy an apartment on a budget, study this market segment. Sometimes, real diamonds appear here)\n' +
-            '\n' +
-            '4. Villas.\n' +
-            '\n' +
-            'Elite real estate. \n' +
-            'In addition to the obvious advantages like owning a territory and a swimming pool, you will have the opportunity to get Turkish citizenship almost instantly.\n' +
-            '\n' +
-            '\n' +
-            'Ability to contact the seller directly from the bot.\n' +
-            '\n' +
-            'Have you chosen an apartment for yourself? - You can safely click on the "Contact📶" button. A chat will open where you can clarify any details you are interested in and agree on the purchase of real estate.\n',
     },
 };
