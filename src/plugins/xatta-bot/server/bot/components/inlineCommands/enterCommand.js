@@ -1,14 +1,5 @@
 module.exports = async (msg) => {
-    const { user, localisation, chatId } = msg;
-
-    if (user.showPromo) {
-        await strapi.bots.alanyaBot.sendMessage(chatId, localisation?.FIRST_TIME_START_PRESS.text);
-        await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
-            data: {
-                showPromo: false,
-            },
-        });
-    }
+    const { localisation, chatId } = msg;
 
     await strapi.bots.alanyaBot
         .sendMessage(chatId, localisation?.WELCOME, {
