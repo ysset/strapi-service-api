@@ -73,7 +73,12 @@ module.exports = {
         return main + second;
     },
     CHOOSE_THE_ACTION: {
-        text: (flatId) => `Id квартиры: ${flatId} \nВыберите действие:`,
+        text: (flatId) => {
+            if (flatId < 10) return `Id квартиры: #000${flatId} \nВыберите действие:`;
+            if (flatId > 10 && flatId < 100) return `Id квартиры: #00${flatId} \nВыберите действие:`;
+            if (flatId > 100 && flatId < 1000) return `Id квартиры: #0${flatId} \nВыберите действие:`;
+            return `Id квартиры: #${flatId} \nВыберите действие:`;
+        },
     },
     GO_BACK_ACTION: {
         text: '<<Назад',
