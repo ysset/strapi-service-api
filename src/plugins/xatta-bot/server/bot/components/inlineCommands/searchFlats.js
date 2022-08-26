@@ -21,7 +21,7 @@ module.exports = async (query) => {
                 populate: '*',
             })
             .catch(console.log);
-        console.log(user);
+
         recommendation = await recommendations.get({ user, filters });
     }
     let recLocalisation = {

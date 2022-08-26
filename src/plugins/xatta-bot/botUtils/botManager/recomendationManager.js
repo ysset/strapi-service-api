@@ -38,7 +38,6 @@ module.exports = {
         let filtered = [];
         if (!userFilters) userFilters = user.filters;
         const watched = { Complex: user.watchedComplex, Villa: user.watchedVilla };
-        const favorite = { Complex: user.favoriteComplex, Villa: user.favoriteVilla };
         const reqData = userFilters.tables.map((table) => ({
             api: `api::${table.toLowerCase()}.${table.toLowerCase()}`,
             table,
@@ -73,16 +72,14 @@ module.exports = {
             recommendations.forEach((rec) => {
                 if (rec[table])
                     filtered.push(
-                        rec[table]
-                            .filter((rec) => !favorite[table].some((favorite) => rec.id === favorite.id)) //delete all favorites
-                            .filter(
-                                (filtered) => !watched[table].some((watched) => watched.id === filtered.id)
-                            ) //delete all watched
+                        rec[table].filter(
+                            (filtered) => !watched[table].some((watched) => watched.id === filtered.id)
+                        ) //delete all watched
                     );
             });
         }
 
-        filtered = filtered.flat();
+        filtered = filtered.flat(1);
 
         if (filtered.length === 0) return null;
 
