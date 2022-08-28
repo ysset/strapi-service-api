@@ -94,23 +94,23 @@ module.exports = {
         infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
         apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
         return (
-            `Комплекс: ${name} \n` +
-            `Застройщик: ${developerName} \n` +
-            `Цена от € ${cost} \n ` +
-            `Город: ${city} \n` +
-            `Район: ${district} \n ` +
-            `Геолокация: ${locationUrl} \n ` +
-            `До Средиземного моря: ${metersFromTheSea}м \n ` +
-            `${apartments ? `Планировки: \n${apartments}` : ''} \n` +
+            `Комплекс: ${name} \n\n` +
+            `Застройщик: ${developerName} \n\n` +
+            `Цена от € ${cost} \n\n` +
+            `Город: ${city} \n\n` +
+            `Район: ${district} \n\n` +
+            `Геолокация: ${locationUrl} \n\n` +
+            `До Средиземного моря: ${metersFromTheSea}м \n` +
+            `${apartments ? `\nПланировки: \n${apartments} \n\n` : ''}` +
             `Описание комплекса: \n` +
-            `${caption} Площадь территории комплекса: ${area}. Фурнитура апартаментов: ${apartmentEquipment} \n ` +
+            `${caption} Площадь территории комплекса: ${area}. Фурнитура апартаментов: ${apartmentEquipment} \n\n` +
             `Инфраструктура комплекса: \n` +
-            `${infrastructure} \n` +
+            `${infrastructure} \n\n` +
             `Сдача объекта: ${constructionCompletionDate}`
         );
     },
     CHOOSE_THE_ACTION: {
-        text: (flatId) => `Id квартиры: ${beautifyId(flatId)} \nВыберите действие:`,
+        text: (flatId) => `ID: ${beautifyId(flatId)} \nВыберите действие:`,
     },
     GO_BACK_ACTION: {
         text: '<<Назад',
