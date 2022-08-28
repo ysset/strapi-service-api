@@ -21,7 +21,7 @@ module.exports = async (query) => {
                     ],
                     [
                         {
-                            ...localisation.SEARCH,
+                            ...localisation.COMPLETE_SEARCHING,
                             callback_data: JSON.stringify({
                                 action: actions.SEARCH_FLATS,
                                 table,

@@ -1,3 +1,5 @@
+const beautifyId = require('./beautifyId');
+
 module.exports = {
     lang: 'ru',
     WELCOME:
@@ -24,8 +26,8 @@ module.exports = {
     SEARCH: {
         text: 'Поиск 🔍',
     },
-    SEARCH_FLATS: {
-        text: 'Недвижимость 🔍',
+    COMPLETE_SEARCHING: {
+        text: 'Продолжить поиск 🔍',
     },
     SELECT_SUBGROUP: {
         text: 'Выберите подгруппу',
@@ -39,14 +41,29 @@ module.exports = {
         text: 'Связаться с застройщиком',
     },
     WRITE_AGENT: {
-        userText: (username, agentUsername) =>
-            `${username} вот ссылка на риелтора https://t.me/${agentUsername}. \nПожалуйста напишите ему =) `,
-        realtorText: (username, agentUsername) =>
-            `${agentUsername} пользователь https://t.me/${username} интересуется вашей квартирой. `,
-        orderInfo: ({ id, name, cost, city, district, locationUrl, paymentMethod }) =>
-            `Квартира: \nid: ${id} \nНазвание: ${name} \nЦена: ${cost} \nАдрес: ${city} ${district}${
-                locationUrl ? ` \nРасположение: ${locationUrl}` : ''
-            } \n${paymentMethod}`,
+        userText: ({ agentUsername, flatId, developerName, city, district }) =>
+            `Здравствуйте! \n` +
+            '\n' +
+            'Благодарим Вас за использование нашего сервиса!\n' +
+            '\n' +
+            `ID: ${beautifyId(flatId)} \n` +
+            `Комплекс:\n` +
+            `Застройщик: ${developerName} \n` +
+            `Город: ${city} \n` +
+            `Район: ${district} \n` +
+            `Менеджер компании «${developerName}» https://t.me//${agentUsername} ответит на любой ваш вопрос!`,
+        realtorText: ({ username, flatId, developerName, city, district }) =>
+            'Здравствуйте! \n' +
+            '\n' +
+            `Пользователь https://t.me/${username} интересуется данным объектом \n` +
+            '\n' +
+            `ID: ${beautifyId(flatId)} \n` +
+            'Комплекс: \n' +
+            `Застройщик: ${developerName} \n` +
+            `Город: ${city} \n` +
+            `Район: ${district} \n` +
+            '\n' +
+            'Пожалуйста, ответьте ему от лица застройщика как можно скорее!',
     },
     HOUSING_FULL_DESCRIPTION: ({
         name,
@@ -63,12 +80,8 @@ module.exports = {
         apartmentEquipment,
         constructionCompletionDate,
     }) => {
-        // 1+1 Duplex
-        // 1+1 Garden Duplex
-        // 1+1 Penthouse
         apartments = apartments
             ?.map(({ layout = String }) => {
-                console.log(layout, layout.includes('Duplex'));
                 if (layout.includes('Duplex')) {
                     if (layout.includes('Garden')) {
                         return 'Гарден-дуплекс' + layout.replace('Garden Duplex', '');
@@ -80,27 +93,24 @@ module.exports = {
             .join('\n');
         infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
         apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
-        const main = `Комплекс: ${name}
-        \nЗастройщик: ${developerName}
-        \nЦена от € ${cost}
-        \nГород: ${city} 
-        \nРайон: ${district}
-        \nГеолокация: ${locationUrl}
-        \nДо Средиземного моря: ${metersFromTheSea}м
-        \n${apartments ? `Планировки: \n${apartments}` : ''}`;
-        const second = `
-        \nОписание комплекса:\n${caption} Площадь территории комплекса: ${area}. Фурнитура апартаментов: ${apartmentEquipment}
-        \nИнфраструктура комплекса: \n${infrastructure}
-        \nСдача объекта: ${constructionCompletionDate}`;
-        return main + second;
+        return (
+            `Комплекс: ${name} \n` +
+            `Застройщик: ${developerName} \n` +
+            `Цена от € ${cost} \n ` +
+            `Город: ${city} \n` +
+            `Район: ${district} \n ` +
+            `Геолокация: ${locationUrl} \n ` +
+            `До Средиземного моря: ${metersFromTheSea}м \n ` +
+            `${apartments ? `Планировки: \n${apartments}` : ''} \n` +
+            `Описание комплекса: \n` +
+            `${caption} Площадь территории комплекса: ${area}. Фурнитура апартаментов: ${apartmentEquipment} \n ` +
+            `Инфраструктура комплекса: \n` +
+            `${infrastructure} \n` +
+            `Сдача объекта: ${constructionCompletionDate}`
+        );
     },
     CHOOSE_THE_ACTION: {
-        text: (flatId) => {
-            if (flatId < 10) return `Id квартиры: #000${flatId} \nВыберите действие:`;
-            if (flatId > 10 && flatId < 100) return `Id квартиры: #00${flatId} \nВыберите действие:`;
-            if (flatId > 100 && flatId < 1000) return `Id квартиры: #0${flatId} \nВыберите действие:`;
-            return `Id квартиры: #${flatId} \nВыберите действие:`;
-        },
+        text: (flatId) => `Id квартиры: ${beautifyId(flatId)} \nВыберите действие:`,
     },
     GO_BACK_ACTION: {
         text: '<<Назад',

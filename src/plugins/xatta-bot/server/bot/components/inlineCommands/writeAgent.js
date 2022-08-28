@@ -10,23 +10,18 @@ module.exports = async (query) => {
 
     const { table, flatId } = data;
     const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
-    const recommendation = await strapi.entityService.findOne(api, flatId, { populate: '*' });
+    const flat = await strapi.entityService.findOne(api, flatId, { populate: '*' });
 
-    const agentUsername = recommendation.agent.username;
-    const agentTelegramId = recommendation.agent.telegramID;
+    const agentUsername = flat.agent.username;
+    const agentTelegramId = flat.agent.telegramID;
 
-    let recLocalisation = {
-        ...recommendation,
-        localisation: recommendation.localisation.find((rec) => rec.language === localisation.lang),
-    };
+    let recLocalisation = flat.localisation.find((rec) => rec.language === localisation.lang);
 
-    if (!recLocalisation.localisation)
-        recLocalisation.localisation = recommendation.localisation.find((rec) => rec.language === 'en');
+    if (!recLocalisation) recLocalisation = flat.localisation.find((rec) => rec.language === 'en');
 
     //get localisation
-    const userMessage = localisation.WRITE_AGENT.userText(username, agentUsername);
-    const realtorMessage = localisation.WRITE_AGENT.realtorText(username, agentUsername);
-    const orderInfo = localisation.WRITE_AGENT.orderInfo(recLocalisation.localisation);
+    const userMessage = localisation.WRITE_AGENT.userText({ agentUsername, flatId, ...recLocalisation });
+    const realtorMessage = localisation.WRITE_AGENT.realtorText({ username, flatId, ...recLocalisation });
 
     //save current housing
     await recommendations
@@ -40,11 +35,6 @@ module.exports = async (query) => {
         })
         .catch(console.error);
 
-    await strapi.bots.alanyaBot
-        .sendMessage(userTelegramId, `${userMessage}\n\n${orderInfo}`)
-        .catch(console.error);
-
-    await strapi.bots.admin
-        .sendMessage(agentTelegramId, `${realtorMessage}\n\n${orderInfo}`)
-        .catch(console.error);
+    await strapi.bots.alanyaBot.sendMessage(userTelegramId, userMessage).catch(console.error);
+    await strapi.bots.admin.sendMessage(agentTelegramId, realtorMessage).catch(console.error);
 };
