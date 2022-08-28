@@ -63,13 +63,35 @@ module.exports = {
         apartmentEquipment,
         constructionCompletionDate,
     }) => {
-        apartments = apartments?.map((el) => el.layout + ' ');
-        infrastructure = infrastructure?.map((el) => el.title + '\n');
-        apartmentEquipment = apartmentEquipment?.map((el) => el.title + '\n');
-        const main = `Название: ${name}\nЗастройщик: ${developerName}\nЦена от: ${cost}\n${
-            apartments ? `Планировки: ${apartments}` : ''
-        }\nАдрес: ${city} ${district}\nДо моря: ${metersFromTheSea}\nНа карте: ${locationUrl}`;
-        const second = `\nОписание: ${caption}\nПлощадь: ${area}\nУдобства: ${infrastructure}\nФурнитура и мебель: ${apartmentEquipment}\n\nДата окончания строительства: ${constructionCompletionDate}`;
+        // 1+1 Duplex
+        // 1+1 Garden Duplex
+        // 1+1 Penthouse
+        apartments = apartments
+            ?.map(({ layout = String }) => {
+                console.log(layout, layout.includes('Duplex'));
+                if (layout.includes('Duplex')) {
+                    if (layout.includes('Garden')) {
+                        return 'Гарден-дуплекс' + layout.replace('Garden Duplex', '');
+                    }
+                    return 'Дуплекс' + layout.replace('Duplex', '');
+                }
+                return 'Апартаменты' + layout;
+            })
+            .join('\n');
+        infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
+        apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
+        const main = `Комплекс: ${name}
+        \nЗастройщик: ${developerName}
+        \nЦена от € ${cost}
+        \nГород: ${city} 
+        \nРайон: ${district}
+        \nГеолокация: ${locationUrl}
+        \nДо Средиземного моря: ${metersFromTheSea}м
+        \n${apartments ? `Планировки: \n${apartments}` : ''}`;
+        const second = `
+        \nОписание комплекса:\n${caption} Площадь территории комплекса: ${area}. Фурнитура апартаментов: ${apartmentEquipment}
+        \nИнфраструктура комплекса: \n${infrastructure}
+        \nСдача объекта: ${constructionCompletionDate}`;
         return main + second;
     },
     CHOOSE_THE_ACTION: {

@@ -18,6 +18,7 @@ module.exports = async ({ strapi }) => {
         try {
             query.data = JSON.parse(query.data);
             const data = await modifyRequestWithUserData({ msg: query });
+            //debug shit
             console.log(
                 '===START====>',
                 '\nACTION',
