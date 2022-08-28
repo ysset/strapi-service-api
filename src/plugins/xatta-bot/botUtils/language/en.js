@@ -3,7 +3,12 @@ const beautifyId = require('./beautifyId');
 module.exports = {
     lang: 'en',
     WELCOME:
-        'At your choice, all new buildings directly from the developer. For a comfortable search, use filters!',
+        'Hello!\n' +
+        'Introducing a smart directory for selecting real estate in Turkey!\n' +
+        'Your choice of luxury villas and apartments in new buildings directly from developers!\n' +
+        'Our goal is to bring together all the properties in this directory to help you comfortably buy a new home in Turkey!\n' +
+        'Press Start to get started.\n' +
+        'For cooperation @oknemzuk_gelo',
     MENU_BUTTON: 'Menu',
     CONTROL_PANEL: {
         text: 'control panel',
