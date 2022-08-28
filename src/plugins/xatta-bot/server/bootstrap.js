@@ -19,15 +19,9 @@ module.exports = async ({ strapi }) => {
             query.data = JSON.parse(query.data);
             const data = await modifyRequestWithUserData({ msg: query });
             //debug shit
-            console.log(
-                '===START====>',
-                '\nACTION',
-                query.data.action,
-                '\nUSER_ID: ',
-                data.user.id,
-                '\n===END====>'
-            );
+            console.log('===START====>', '\nACTION', query.data.action, '\nUSER_ID: ', data.user.id);
             await inlineCallBacks[query.data.action](data).catch(console.error);
+            console.log('\n===END====>');
         } catch (e) {
             console.error(e);
         }
