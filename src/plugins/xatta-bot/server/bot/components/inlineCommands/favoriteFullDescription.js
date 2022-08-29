@@ -8,10 +8,10 @@ module.exports = async (query) => {
         chatId,
         data: { table, flatId },
     } = query;
-    await fullDescription(query);
+    const caption = await fullDescription(query);
 
     await strapi.bots.alanyaBot
-        .sendMessage(chatId, localisation?.CHOOSE_THE_ACTION.text(flatId), {
+        .sendMessage(chatId, caption, {
             reply_markup: {
                 inline_keyboard: [
                     [

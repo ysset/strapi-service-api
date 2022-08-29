@@ -50,7 +50,7 @@ module.exports = async (query) => {
 
     if (!recLocalisation) recLocalisation = flat.localisation.find((rec) => rec.language === 'en');
 
-    arrayOfArrayOfPhotos[arrayOfArrayOfPhotos.length - 1][0].caption = localisation.HOUSING_FULL_DESCRIPTION({
+    const caption = localisation.HOUSING_FULL_DESCRIPTION({
         ...recLocalisation,
         locationUrl: flat.locationUrl,
     });
@@ -58,4 +58,6 @@ module.exports = async (query) => {
     for (let arrayOfPhotos of arrayOfArrayOfPhotos) {
         await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch(console.error);
     }
+
+    return caption;
 };
