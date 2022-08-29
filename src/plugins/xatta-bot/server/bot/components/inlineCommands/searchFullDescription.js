@@ -24,6 +24,8 @@ module.exports = async (query) => {
                                 flatId,
                             }),
                         },
+                    ],
+                    [
                         {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
