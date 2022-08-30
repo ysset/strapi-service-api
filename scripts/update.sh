@@ -6,7 +6,9 @@ cd src/plugins/xatta-bot/
 yarn
 cd ../xatta-realtor-admin-bot
 yarn
-cd ../../..
-docker-compose up --no-start
-docker-compose start DB
+cd ../
+if [ $1 == -d ]; then
+  docker-compose up --no-start
+  docker-compose start DB
+fi
 pm2 start server.js
