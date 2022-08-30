@@ -1,4 +1,5 @@
 const beautifyId = require('./beautifyId');
+const beautifyMonth = require('./getMonth');
 
 module.exports = {
     lang: 'ru',
@@ -102,6 +103,7 @@ module.exports = {
             .join('\n');
         infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
         apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
+        const [month, year] = constructionCompletionDate.split('.');
         return (
             `Комплекс: ${name} \n\n` +
             `Застройщик: ${developerName} \n\n` +
@@ -115,7 +117,7 @@ module.exports = {
             `${caption} Площадь территории комплекса: ${area}. Фурнитура апартаментов: ${apartmentEquipment} \n\n` +
             `Инфраструктура комплекса: \n` +
             `${infrastructure} \n\n` +
-            `Сдача объекта: ${constructionCompletionDate}`
+            `${month <= 12 && year ? `Сдача объекта: ${beautifyMonth('ru', month)} ${year}` : ''} `
         );
     },
     CHOOSE_THE_ACTION: {
