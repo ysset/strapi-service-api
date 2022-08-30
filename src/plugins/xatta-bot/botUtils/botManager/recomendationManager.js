@@ -37,7 +37,6 @@ module.exports = {
     async get({ user, filters: userFilters }) {
         let filtered = [];
         if (!userFilters) userFilters = user.filters;
-        console.log(userFilters);
         const watched = { Complex: user.watchedComplex, Villa: user.watchedVilla };
         const reqData = userFilters.tables.map((table) => ({
             api: `api::${table.toLowerCase()}.${table.toLowerCase()}`,
