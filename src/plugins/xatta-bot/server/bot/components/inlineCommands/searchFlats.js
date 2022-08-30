@@ -105,4 +105,6 @@ module.exports = async (query) => {
     await strapi.entityService
         .update('api::telegram-user.telegram-user', user.id, params)
         .catch(console.error);
+
+    return { ok: true };
 };

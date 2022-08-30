@@ -1,6 +1,7 @@
 'use strict';
 
 const { inlineCallBacks } = require('../../../plugins/xatta-bot/server/bot/components/index');
+const searchFlats = require('../../../plugins/xatta-bot/server/bot/components/inlineCommands/searchFlats');
 const { modifyRequestWithUserData } = require('../../../plugins/xatta-bot/botUtils/userController/index');
 
 const { createCoreController } = require('@strapi/strapi').factories;
@@ -22,10 +23,9 @@ module.exports = createCoreController('api::telegram-user.telegram-user', {
     },
 
     async search(ctx) {
-        inlineCallBacks.SEARCH_FLATS({
+        return searchFlats({
             filters: ctx.request.body.filters,
             ...(await modifyRequestWithUserData({ msg: ctx.request.body })),
         });
-        return {};
     },
 });

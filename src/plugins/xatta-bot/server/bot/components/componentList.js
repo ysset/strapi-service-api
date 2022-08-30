@@ -19,9 +19,10 @@ const commands = {
     SAVE: save,
     WRITE_AGENT: writeAgent,
     FAVORITE_HOUSINGS: favoriteHousings,
-    SEARCH_FLATS: async (query) => {
-        deleteCurrentMessage(query);
-        await searchFlats(query);
+    SEARCH_FLATS: (query) => {
+        deleteCurrentMessage(query)
+            .then((success) => success && searchFlats(query).catch(console.error))
+            .catch(console.error);
     },
     REPEAT_SEARCH_FLATS: repeatSearchFlats,
     FULL_DESCRIPTION: fullDescription,
