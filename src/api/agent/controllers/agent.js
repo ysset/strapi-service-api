@@ -22,12 +22,34 @@ const getData = async ({ api, field, language }) => {
     return res.map((el) => el.localisation.find((el) => el.language === language)[field]);
 };
 
+const handleDeveloperComplexes = async (language) => {
+    return await strapi.entityService.findMany('api::complex.complex', {
+        filters: { localisation: { language } },
+        populate: { localisation: { populate: { apartments: { fields: 'layout' } } } },
+    });
+};
+
+const handleOwnerComplexes = async (language) => {
+    return await strapi.entityService.findMany('api::owner-apartment.owner-apartment', {
+        filters: { localisation: { language } },
+        populate: { localisation: { layout: true } },
+    });
+};
+
 module.exports = createCoreController('api::agent.agent', {
     getCities: async (ctx) => {
         const { language } = ctx.params;
         const complexCities = await getData({ api: 'api::complex.complex', field: 'city', language });
         const villaCities = await getData({ api: 'api::villa.villa', field: 'city', language });
-        return [...new Set([...complexCities, ...villaCities])];
+        const ownerCities = await getData({
+            api: 'api::owner-apartment.owner-apartment',
+            field: 'city',
+            language,
+        });
+        return {
+            developer: [...new Set([...complexCities, ...villaCities])],
+            owner: [...new Set(ownerCities)],
+        };
     },
 
     getDistricts: async (ctx) => {
@@ -39,26 +61,16 @@ module.exports = createCoreController('api::agent.agent', {
 
     getLayouts: async (ctx) => {
         const { language } = ctx.params;
-        const complexes = await strapi.entityService.findMany('api::complex.complex', {
-            filters: {
-                localisation: {
-                    language,
-                },
-            },
-            populate: {
-                localisation: {
-                    populate: {
-                        apartments: {
-                            fields: 'layout',
-                        },
-                    },
-                },
-            },
-        });
-        const apartments = complexes.flatMap(
+        const developComplexes = await handleDeveloperComplexes(language);
+        const ownerComplexes = await handleOwnerComplexes(language);
+        const developerApartments = developComplexes.flatMap(
             (el) => el.localisation.find((el) => el.language === language)?.apartments
         );
-        const layouts = apartments.map((el) => el.layout);
-        return [...new Set(layouts)];
+        const ownerLocalisation = ownerComplexes.flatMap((el) =>
+            el.localisation.find((el) => el.language === language)
+        );
+        const developerLayouts = developerApartments.map((el) => el.layout);
+        const ownerLayouts = ownerLocalisation.map((el) => el.layout);
+        return { developer: [...new Set(developerLayouts)], owner: [...new Set(ownerLayouts)] };
     },
 });
