@@ -51,6 +51,18 @@
     },
     "filters": {
       "type": "json"
+    },
+    "watchedOwnerApartments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::owner-apartment.owner-apartment",
+      "inversedBy": "watchedUsers"
+    },
+    "favoriteOwnerApartments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::owner-apartment.owner-apartment",
+      "inversedBy": "favoriteUsers"
     }
   }
 }

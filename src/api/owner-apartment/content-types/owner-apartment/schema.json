@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "owner_apartments",
+  "info": {
+    "singularName": "owner-apartment",
+    "pluralName": "owner-apartments",
+    "displayName": "owner apartment",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "localisation": {
+      "displayName": "Owner",
+      "type": "component",
+      "repeatable": true,
+      "component": "localisation.owner"
+    },
+    "agent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::agent.agent",
+      "inversedBy": "ownerApartments"
+    },
+    "watchedUsers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "watchedOwnerApartments"
+    },
+    "favoriteUsers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "favoriteOwnerApartments"
+    },
+    "layoutPhoto": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "locationUrl": {
+      "type": "string",
+      "regex": "([h][t]{2}[p][s][:][\\/]{2}[g][o]{2}[\\.][g][l][\\/][maps]{4}[\\/]|[h][t]{2}[p][s][:][\\/]{2}[y][a][n][d][e][x][\\.][r][u][\\/][m][a][p][s][\\/]|[h][t]{2}[p][s][:][\\/]{2}[g][o][\\.][2][g][i][s][\\.][c][o][m][\\/])"
+    }
+  }
+}

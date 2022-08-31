@@ -43,6 +43,12 @@
       "relation": "oneToMany",
       "target": "api::villa.villa",
       "mappedBy": "agent"
+    },
+    "ownerApartments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::owner-apartment.owner-apartment",
+      "mappedBy": "agent"
     }
   }
 }
