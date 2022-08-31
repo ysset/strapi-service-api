@@ -38,6 +38,12 @@ module.exports = async (query) => {
 
     if (!recLocalisation.agent?.username) return await alanyaBot.SERVER_ERROR({ chatId, localisation });
 
+    if (!recLocalisation.layoutPhoto || recLocalisation.layoutPhoto.length === 0)
+        return await alanyaBot.SERVER_ERROR({
+            chatId,
+            localisation,
+        });
+
     let resolvedPath = path.resolve('./index');
     resolvedPath = resolvedPath.split('/');
     resolvedPath.pop();

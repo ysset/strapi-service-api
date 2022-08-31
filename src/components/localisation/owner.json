@@ -12,7 +12,8 @@
       "enum": [
         "ru",
         "en"
-      ]
+      ],
+      "required": true
     },
     "code": {
       "type": "string",
@@ -55,11 +56,13 @@
         " 3+1 Penthouse",
         " 4+1 Penthouse",
         " 5+1 Penthouse"
-      ]
+      ],
+      "required": true
     },
     "yearOfConstruction": {
       "type": "string",
-      "regex": "^[0-9]{4}$"
+      "regex": "^[0-9]{4}$",
+      "required": true
     },
     "area": {
       "type": "integer",
@@ -95,7 +98,8 @@
       "required": true
     },
     "cost": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true
     },
     "infrastructure": {
       "type": "component",

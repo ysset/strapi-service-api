@@ -52,16 +52,16 @@
     "filters": {
       "type": "json"
     },
-    "watchedOwnerApartments": {
+    "watchedOwner": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::owner-apartment.owner-apartment",
+      "target": "api::owner.owner",
       "inversedBy": "watchedUsers"
     },
-    "favoriteOwnerApartments": {
+    "favoriteOwner": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::owner-apartment.owner-apartment",
+      "target": "api::owner.owner",
       "inversedBy": "favoriteUsers"
     }
   }

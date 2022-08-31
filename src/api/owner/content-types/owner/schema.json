@@ -1,11 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "owner_apartments",
+  "collectionName": "owners",
   "info": {
-    "singularName": "owner-apartment",
-    "pluralName": "owner-apartments",
-    "displayName": "owner apartment",
-    "description": ""
+    "singularName": "owner",
+    "pluralName": "owners",
+    "displayName": "Owner"
   },
   "options": {
     "draftAndPublish": true
@@ -13,7 +12,6 @@
   "pluginOptions": {},
   "attributes": {
     "localisation": {
-      "displayName": "Owner",
       "type": "component",
       "repeatable": true,
       "component": "localisation.owner"
@@ -22,30 +20,32 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::agent.agent",
-      "inversedBy": "ownerApartments"
+      "inversedBy": "owners"
     },
     "watchedUsers": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::telegram-user.telegram-user",
-      "inversedBy": "watchedOwnerApartments"
+      "inversedBy": "watchedOwner"
     },
     "favoriteUsers": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::telegram-user.telegram-user",
-      "inversedBy": "favoriteOwnerApartments"
+      "inversedBy": "favoriteOwner"
     },
     "layoutPhoto": {
       "allowedTypes": [
         "images"
       ],
       "type": "media",
-      "multiple": true
+      "multiple": true,
+      "required": true
     },
     "locationUrl": {
       "type": "string",
-      "regex": "([h][t]{2}[p][s][:][\\/]{2}[g][o]{2}[\\.][g][l][\\/][maps]{4}[\\/]|[h][t]{2}[p][s][:][\\/]{2}[y][a][n][d][e][x][\\.][r][u][\\/][m][a][p][s][\\/]|[h][t]{2}[p][s][:][\\/]{2}[g][o][\\.][2][g][i][s][\\.][c][o][m][\\/])"
+      "regex": "([h][t]{2}[p][s][:][\\/]{2}[g][o]{2}[\\.][g][l][\\/][maps]{4}[\\/]|[h][t]{2}[p][s][:][\\/]{2}[y][a][n][d][e][x][\\.][r][u][\\/][m][a][p][s][\\/]|[h][t]{2}[p][s][:][\\/]{2}[g][o][\\.][2][g][i][s][\\.][c][o][m][\\/])",
+      "required": true
     }
   }
 }

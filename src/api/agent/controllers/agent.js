@@ -30,7 +30,7 @@ const handleDeveloperComplexes = async (language) => {
 };
 
 const handleOwnerComplexes = async (language) => {
-    return await strapi.entityService.findMany('api::owner-apartment.owner-apartment', {
+    return await strapi.entityService.findMany('api::owner.owner', {
         filters: { localisation: { language } },
         populate: { localisation: { layout: true } },
     });
@@ -42,7 +42,7 @@ module.exports = createCoreController('api::agent.agent', {
         const complexCities = await getData({ api: 'api::complex.complex', field: 'city', language });
         const villaCities = await getData({ api: 'api::villa.villa', field: 'city', language });
         const ownerCities = await getData({
-            api: 'api::owner-apartment.owner-apartment',
+            api: 'api::owner.owner',
             field: 'city',
             language,
         });
