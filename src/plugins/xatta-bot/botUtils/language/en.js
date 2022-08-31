@@ -23,7 +23,7 @@ module.exports = {
         text: '/start',
         regex: /\/start/,
     },
-    NO_FLATS: 'Unfortunately the flats are over(',
+    NO_FLATS: 'Sorry, no results were found for your search, please change your filters',
     SERVER_ERROR: 'Sorry, an error occurred, please try again or later!',
     SAVED: 'Added to favorites',
     FAVORITE: {
