@@ -36,7 +36,8 @@ module.exports = {
      */
     async get({ user, filters: userFilters }) {
         let filtered = [];
-        if (!userFilters) userFilters = user.filters;
+        if (!userFilters) userFilters = user.filters.last;
+
         const watched = { Complex: user.watchedComplex, Villa: user.watchedVilla };
         const reqData = userFilters.tables.map((table) => ({
             api: `api::${table.toLowerCase()}.${table.toLowerCase()}`,
@@ -44,9 +45,19 @@ module.exports = {
         }));
 
         // Updating current user filters, it's ok to be synchronous
+        const dbFilters = await strapi.entityService.findOne('api::telegram-user.telegram-user', user.id, {
+            fields: ['filters'],
+        });
+
         strapi.entityService
             .update('api::telegram-user.telegram-user', user.id, {
-                data: { filters: JSON.stringify(userFilters) },
+                data: {
+                    filters: JSON.stringify({
+                        ...dbFilters.filters,
+                        [userFilters.type]: userFilters,
+                        last: userFilters,
+                    }),
+                },
             })
             .catch(console.error);
 
@@ -73,7 +84,7 @@ module.exports = {
                 if (rec[table])
                     filtered.push(
                         rec[table].filter(
-                            (filtered) => !watched[table].some((watched) => watched.id === filtered.id)
+                            (filtered) => !watched[table]?.some((watched) => watched.id === filtered.id)
                         ) //delete all watched
                     );
             });

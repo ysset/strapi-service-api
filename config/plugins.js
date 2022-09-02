@@ -3,8 +3,8 @@ module.exports = {
         enabled: true,
         resolve: './src/plugins/xatta-bot',
     },
-    'xatta-realtor-admin-bot': {
-        enabled: true,
-        resolve: './src/plugins/xatta-realtor-admin-bot',
-    },
+    // 'xatta-realtor-admin-bot': {
+    //     enabled: true,
+    //     resolve: './src/plugins/xatta-realtor-admin-bot',
+    // },
 };

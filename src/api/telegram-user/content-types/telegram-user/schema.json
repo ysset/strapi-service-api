@@ -51,6 +51,18 @@
     },
     "filters": {
       "type": "json"
+    },
+    "watchedOwner": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::owner.owner",
+      "inversedBy": "watchedUsers"
+    },
+    "favoriteOwner": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::owner.owner",
+      "inversedBy": "favoriteUsers"
     }
   }
 }

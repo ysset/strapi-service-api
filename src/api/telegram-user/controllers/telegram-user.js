@@ -15,7 +15,7 @@ module.exports = createCoreController('api::telegram-user.telegram-user', {
             fields: ['filters'],
         });
         if (!user) return;
-        return user;
+        return user.filters;
     },
 
     async userFavorites(ctx) {
