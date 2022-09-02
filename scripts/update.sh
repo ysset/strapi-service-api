@@ -11,4 +11,4 @@ if [ $1 == -d ]; then
   docker-compose up --no-start
   docker-compose start DB
 fi
-pm2 start server.js
+pm2 start test.server.js

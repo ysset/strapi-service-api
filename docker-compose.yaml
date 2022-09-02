@@ -1,20 +1,20 @@
 version: '3'
 services:
-  DB:
+  TEST_DB:
     image: 'postgres:latest'
     ports:
       - 5432:5432
     environment:
       POSTGRES_USER: "develop"
       POSTGRES_PASSWORD: "developpass"
-      POSTGRES_DB: "xattaBot"
+      POSTGRES_DB: "testXattaBot"
 
-  keycloak:
+  test_keycloak:
     image: quay.io/keycloak/keycloak:12.0.4
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: postgres
-      DB_DATABASE: xattaBot
+      DB_DATABASE: testXattaBot
       DB_USER: develop
       DB_PASSWORD: developpass
       KEYCLOAK_USER: admin
