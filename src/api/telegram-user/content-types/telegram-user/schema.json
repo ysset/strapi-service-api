@@ -56,13 +56,13 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::owner.owner",
-      "inversedBy": "watchedUsers"
+      "mappedBy": "watchedUsers"
     },
     "favoriteOwner": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::owner.owner",
-      "inversedBy": "favoriteUsers"
+      "mappedBy": "favoriteUsers"
     }
   }
 }

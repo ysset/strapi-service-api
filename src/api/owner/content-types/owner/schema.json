@@ -4,7 +4,8 @@
   "info": {
     "singularName": "owner",
     "pluralName": "owners",
-    "displayName": "Owner"
+    "displayName": "Owner",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -35,12 +36,12 @@
       "inversedBy": "favoriteOwner"
     },
     "layoutPhoto": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": true,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "locationUrl": {
       "type": "string",
