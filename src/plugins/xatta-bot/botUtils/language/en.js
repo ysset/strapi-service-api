@@ -88,25 +88,34 @@ module.exports = {
         infrastructure,
         apartmentEquipment,
         constructionCompletionDate,
+        yearOfConstruction,
     }) => {
         apartments = apartments?.map((el) => el.layout.trim()).join('\n');
         infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
         apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
-        const [month, year] = constructionCompletionDate.split('.');
+        const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
+        const [monthOwner, yearOwner] = yearOfConstruction && yearOfConstruction.split('.');
+
         return (
             `Complex: ${name} \n` +
             `Developer: ${developerName} \n` +
             `Price from € ${cost} \n ` +
             `City: ${city} \n` +
             `District: ${district} \n ` +
-            `Geolocation: ${locationUrl} \n ` +
             `To the Mediterranean Sea: ${metersFromTheSea}m \n ` +
             `${apartments ? `Layouts: \n${apartments}` : ''} \n` +
             `Complex description: \n` +
             `${caption} Area of the complex: ${area}. Apartment furnishings: ${apartmentEquipment} \n ` +
             `Complex infrastructure: \n` +
             `${infrastructure}\n` +
-            `${month <= 12 && year ? `Object handover: ${beautifyMonth('en', month)} ${year}` : ''} `
+            `${
+                month && month <= 12 && year ? `Object handover: ${beautifyMonth('en', month)} ${year}` : ''
+            } ` +
+            `${
+                monthOwner && month <= 12 && yearOwner
+                    ? `Object handover: ${beautifyMonth('en', monthOwner)} ${yearOwner}`
+                    : ''
+            } `
         );
     },
     CHOOSE_THE_ACTION: {

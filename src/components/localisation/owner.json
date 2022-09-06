@@ -94,14 +94,9 @@
       "repeatable": true,
       "component": "addtionals.additional"
     },
-    "aidat": {
-      "type": "string",
-      "required": true,
-      "maxLength": 100
-    },
     "neighborhood": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "type": {
       "type": "enumeration",

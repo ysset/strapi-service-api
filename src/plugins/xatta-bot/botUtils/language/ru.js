@@ -88,6 +88,7 @@ module.exports = {
         infrastructure,
         apartmentEquipment,
         constructionCompletionDate,
+        yearOfConstruction,
     }) => {
         apartments = apartments
             ?.map(({ layout = String }) => {
@@ -100,23 +101,28 @@ module.exports = {
                 return 'Апартаменты' + layout;
             })
             .join('\n');
+
         infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
         apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
-        const [month, year] = constructionCompletionDate.split('.');
+        const [month, year] = constructionCompletionDate ? constructionCompletionDate.split('.') : [];
+        const yearOwner = yearOfConstruction && yearOfConstruction;
+
         return (
-            `Комплекс: ${name} \n\n` +
-            `Застройщик: ${developerName} \n\n` +
+            `${name ? `Комплекс: ${name} \n\n` : ''}` +
+            `${developerName ? `Застройщик: ${developerName} \n\n` : ''}` +
             `Цена от € ${cost} \n\n` +
             `Город: ${city} \n\n` +
             `Район: ${district} \n\n` +
-            `Геолокация: ${locationUrl} \n\n` +
             `До Средиземного моря: ${metersFromTheSea}м \n` +
             `${apartments ? `\nПланировки: \n${apartments} \n\n` : ''}` +
             `Описание комплекса: \n` +
-            `${caption} Площадь территории комплекса: ${area}. Фурнитура апартаментов: ${apartmentEquipment} \n\n` +
+            `${caption ? `${caption} ` : ''}Площадь территории комплекса: ${area}. ${
+                apartmentEquipment ? `Фурнитура апартаментов: ${apartmentEquipment} \n\n` : ''
+            }` +
             `Инфраструктура комплекса: \n` +
             `${infrastructure} \n\n` +
-            `${month <= 12 && year ? `Сдача объекта: ${beautifyMonth('ru', month)} ${year}` : ''} `
+            `${month && month <= 12 && year ? `Сдача объекта: ${beautifyMonth('ru', month)} ${year}` : ''} ` +
+            `${yearOwner && yearOwner ? `Год постройки: ${yearOwner}` : ''} `
         );
     },
     CHOOSE_THE_ACTION: {
