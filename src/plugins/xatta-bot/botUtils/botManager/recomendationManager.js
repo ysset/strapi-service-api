@@ -17,12 +17,18 @@ const configureFilters = ({ user, userFilters, table }) => {
                 },
             ],
         });
-    if (userFilters.layouts.length && table !== 'Villa')
+    if (userFilters.layouts.length && table !== 'Villa' && table !== 'Owner')
         filters.localisation.$and.push({
             apartments: {
                 layout: {
                     $in: userFilters.layouts,
                 },
+            },
+        });
+    if (userFilters.layouts.length && table === 'Owner')
+        filters.localisation.$and.push({
+            layout: {
+                $in: userFilters.layouts,
             },
         });
     return filters;
