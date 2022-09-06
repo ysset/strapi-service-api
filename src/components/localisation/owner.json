@@ -68,10 +68,6 @@
       "type": "integer",
       "required": true
     },
-    "floor": {
-      "type": "integer",
-      "required": true
-    },
     "heatingType": {
       "type": "string",
       "required": true,
@@ -106,6 +102,19 @@
     "neighborhood": {
       "type": "string",
       "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "Villa",
+        "Apartment"
+      ]
+    },
+    "floors": {
+      "displayName": "floors",
+      "type": "component",
+      "repeatable": true,
+      "component": "apartments.floors"
     }
   }
 }
