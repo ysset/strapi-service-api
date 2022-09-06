@@ -82,7 +82,6 @@ module.exports = {
         city,
         district,
         metersFromTheSea,
-        locationUrl,
         caption,
         area,
         infrastructure,
@@ -112,8 +111,8 @@ module.exports = {
             `${developerName ? `Застройщик: ${developerName} \n\n` : ''}` +
             `Цена от € ${cost} \n\n` +
             `Город: ${city} \n\n` +
-            `Район: ${district} \n\n` +
-            `До Средиземного моря: ${metersFromTheSea}м \n` +
+            `${district ? `Район: ${district} \n\n` : ''}` +
+            `${metersFromTheSea ? `До Средиземного моря: ${metersFromTheSea}м \n` : ''}` +
             `${apartments ? `\nПланировки: \n${apartments} \n\n` : ''}` +
             `Описание комплекса: \n` +
             `${caption ? `${caption} ` : ''}Площадь территории комплекса: ${area}. ${

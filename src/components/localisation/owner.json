@@ -27,7 +27,7 @@
     },
     "district": {
       "type": "string",
-      "required": true,
+      "required": false,
       "maxLength": 30
     },
     "layout": {
@@ -83,7 +83,7 @@
     },
     "metersFromTheSea": {
       "type": "integer",
-      "required": true
+      "required": false
     },
     "cost": {
       "type": "decimal",

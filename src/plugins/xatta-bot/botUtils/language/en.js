@@ -82,7 +82,6 @@ module.exports = {
         city,
         district,
         metersFromTheSea,
-        locationUrl,
         caption,
         area,
         infrastructure,
@@ -101,8 +100,8 @@ module.exports = {
             `Developer: ${developerName} \n` +
             `Price from € ${cost} \n ` +
             `City: ${city} \n` +
-            `District: ${district} \n ` +
-            `To the Mediterranean Sea: ${metersFromTheSea}m \n ` +
+            `${district ? `District: ${district} \n` : ''}` +
+            `${metersFromTheSea ? `To the Mediterranean Sea: ${metersFromTheSea}m \n` : ''}` +
             `${apartments ? `Layouts: \n${apartments}` : ''} \n` +
             `Complex description: \n` +
             `${caption} Area of the complex: ${area}. Apartment furnishings: ${apartmentEquipment} \n ` +
