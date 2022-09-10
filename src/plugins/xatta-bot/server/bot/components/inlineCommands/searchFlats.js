@@ -90,7 +90,7 @@ module.exports = async (query) => {
                     ],
                     [
                         {
-                            ...localisation?.WRITE_AGENT_INLINE,
+                            ...localisation?.WRITE_INLINE[table],
                             callback_data: JSON.stringify({
                                 action: actions.SEARCH_WRITE_AGENT,
                                 table: recLocalisation.table,

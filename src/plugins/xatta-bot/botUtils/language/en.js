@@ -47,7 +47,15 @@ module.exports = {
     NO_FAVORITE_NOW: "You don't have any real estate saved yet!",
     UN_AUTHORIZE: "It seems we couldn't find the featured apartments, please restart the bot!",
     WRITE_AGENT_INLINE: {
-        text: 'Contact developer',
+        text: 'Contact',
+    },
+    WRITE_INLINE: {
+        complex: {
+            text: 'Contact с developer',
+        },
+        owner: {
+            text: 'Contact с owner',
+        },
     },
     WRITE_AGENT: {
         userText: ({ agentUsername, flatId, developerName, city, district }) =>

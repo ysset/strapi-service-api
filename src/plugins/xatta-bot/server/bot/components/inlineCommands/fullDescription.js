@@ -54,6 +54,7 @@ module.exports = async (query) => {
     const caption = localisation.HOUSING_FULL_DESCRIPTION[table]({
         ...recLocalisation,
         locationUrl: flat.locationUrl,
+        table,
     });
 
     for (let arrayOfPhotos of arrayOfArrayOfPhotos) {
