@@ -72,7 +72,18 @@ module.exports = {
             [table]: await strapi.entityService
                 .findMany(api, {
                     filters: configureFilters({ user, userFilters, table }),
-                    populate: '*',
+                    populate: {
+                        localisation: {
+                            populate: {
+                                apartments: true,
+                                infrastructure: true,
+                                apartmentEquipment: true,
+                                floors: true,
+                            },
+                        },
+                        layoutPhoto: true,
+                        agent: true,
+                    },
                 })
                 .then((r) =>
                     r.map((el) => {

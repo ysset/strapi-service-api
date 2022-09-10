@@ -1,5 +1,17 @@
 const beautifyId = require('./beautifyId');
 
+const translateApartments = (apartments) =>
+    apartments
+        ?.map(({ layout = String, area = Number }) => {
+            if (layout.includes('Duplex')) {
+                if (layout.includes('Garden')) {
+                    return 'Гарден-дуплекс' + layout.replace('Garden Duplex', '') + `${area} м²`;
+                }
+                return 'Дуплекс' + layout.replace('Duplex', '') + `${area} м²`;
+            }
+            return `Апартаменты:\n${layout.trim()} ${area} м²`;
+        })
+        .join('\n');
 module.exports = {
     lang: 'ru',
     WELCOME: {
@@ -89,17 +101,7 @@ module.exports = {
             apartmentEquipment,
             constructionCompletionDate,
         }) => {
-            apartments = apartments
-                ?.map(({ layout = String, area = Number }) => {
-                    if (layout.includes('Duplex')) {
-                        if (layout.includes('Garden')) {
-                            return 'Гарден-дуплекс' + layout.replace('Garden Duplex', '') + ` ${area} м²`;
-                        }
-                        return 'Дуплекс' + layout.replace('Duplex', '') + ` ${area} м²`;
-                    }
-                    return 'Апартаменты' + layout + ` ${area} м²`;
-                })
-                .join('\n');
+            apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
             apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
             return (
@@ -154,6 +156,23 @@ module.exports = {
                 '\n' +
                 `До Средиземного моря: ${metersFromTheSea}м\n`
             );
+        },
+    },
+    SHORT_DESCRIPTION: {
+        owner: ({ layout, area, floors, city, district, cost }) => {
+            floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' и ' : '');
+            cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+            return (
+                `Апартаменты${layout}, ${area} м², ${floors} этаж.\n` +
+                `${city}, район ${district}.\n` +
+                '\n' +
+                `${cost} €\n`
+            );
+        },
+        complex: ({ apartments, city, district, cost }) => {
+            apartments = translateApartments(apartments);
+            cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+            return `${apartments}\n` + `${city}, район ${district}.\n` + '\n' + `${cost} €\n`;
         },
     },
     CHOOSE_THE_ACTION: {

@@ -158,6 +158,23 @@ module.exports = {
             );
         },
     },
+    SHORT_DESCRIPTION: {
+        owner: ({ layout, area, floors, city, district, cost }) => {
+            floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' and ' : '');
+            cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+            return (
+                `Apartments${layout}, ${area} м², ${floors} floor.\n` +
+                `${city}, district ${district}.\n` +
+                '\n' +
+                `${cost} €\n`
+            );
+        },
+        complex: ({ apartments, city, district, cost }) => {
+            apartments = apartments?.map(({ layout, area }) => layout.trim() + ` ${area} м²`).join('\n');
+            cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+            return `Apartments:\n${apartments}\n` + `${city}, district ${district}.\n` + '\n' + `${cost} €\n`;
+        },
+    },
     CHOOSE_THE_ACTION: {
         text: (flatId) => `Apartment id: ${beautifyId(flatId)} \nSelect action:`,
     },
