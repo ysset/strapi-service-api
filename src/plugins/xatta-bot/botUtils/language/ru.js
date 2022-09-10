@@ -1,5 +1,4 @@
 const beautifyId = require('./beautifyId');
-const beautifyMonth = require('./getMonth');
 
 module.exports = {
     lang: 'ru',
@@ -74,55 +73,88 @@ module.exports = {
             '\n' +
             'Пожалуйста, ответьте ему от лица застройщика как можно скорее!',
     },
-    HOUSING_FULL_DESCRIPTION: ({
-        name,
-        developerName,
-        cost,
-        apartments,
-        city,
-        district,
-        metersFromTheSea,
-        caption,
-        area,
-        infrastructure,
-        apartmentEquipment,
-        constructionCompletionDate,
-        yearOfConstruction,
-    }) => {
-        apartments = apartments
-            ?.map(({ layout = String }) => {
-                if (layout.includes('Duplex')) {
-                    if (layout.includes('Garden')) {
-                        return 'Гарден-дуплекс' + layout.replace('Garden Duplex', '');
+    HOUSING_FULL_DESCRIPTION: {
+        complex: ({
+            name,
+            developerName,
+            cost,
+            apartments,
+            city,
+            district,
+            metersFromTheSea,
+            locationUrl,
+            caption,
+            area,
+            infrastructure,
+            apartmentEquipment,
+            constructionCompletionDate,
+        }) => {
+            apartments = apartments
+                ?.map(({ layout = String, area = Number }) => {
+                    if (layout.includes('Duplex')) {
+                        if (layout.includes('Garden')) {
+                            return 'Гарден-дуплекс' + layout.replace('Garden Duplex', '') + ` ${area} м²`;
+                        }
+                        return 'Дуплекс' + layout.replace('Duplex', '') + ` ${area} м²`;
                     }
-                    return 'Дуплекс' + layout.replace('Duplex', '');
-                }
-                return 'Апартаменты' + layout;
-            })
-            .join('\n');
-
-        infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
-        apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
-        const [month, year] = constructionCompletionDate ? constructionCompletionDate.split('.') : [];
-        const yearOwner = yearOfConstruction && yearOfConstruction;
-
-        return (
-            `${name ? `Комплекс: ${name} \n\n` : ''}` +
-            `${developerName ? `Застройщик: ${developerName} \n\n` : ''}` +
-            `Цена от € ${cost} \n\n` +
-            `Город: ${city} \n\n` +
-            `${district ? `Район: ${district} \n\n` : ''}` +
-            `${metersFromTheSea ? `До Средиземного моря: ${metersFromTheSea}м \n` : ''}` +
-            `${apartments ? `\nПланировки: \n${apartments} \n\n` : ''}` +
-            `Описание комплекса: \n` +
-            `${caption ? `${caption} ` : ''}Площадь территории комплекса: ${area}. ${
-                apartmentEquipment ? `Фурнитура апартаментов: ${apartmentEquipment} \n\n` : ''
-            }` +
-            `Инфраструктура комплекса: \n` +
-            `${infrastructure} \n\n` +
-            `${month && month <= 12 && year ? `Сдача объекта: ${beautifyMonth('ru', month)} ${year}` : ''} ` +
-            `${yearOwner && yearOwner ? `Год постройки: ${yearOwner}` : ''} `
-        );
+                    return 'Апартаменты' + layout + ` ${area} м²`;
+                })
+                .join('\n');
+            infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
+            apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
+            return (
+                `Комплекс: ${name} \n\n` +
+                `Застройщик: ${developerName} \n\n` +
+                `Цена от € ${cost} \n\n` +
+                `Город: ${city} \n\n` +
+                `Район: ${district} \n\n` +
+                `Геолокация: ${locationUrl} \n\n` +
+                `До Средиземного моря: ${metersFromTheSea}м \n` +
+                `${apartments ? `\nПланировки: \n${apartments} \n\n` : ''}` +
+                `Описание комплекса: \n` +
+                `${caption} Площадь территории комплекса: ${area}. Фурнитура апартаментов: ${apartmentEquipment} \n\n` +
+                `Инфраструктура комплекса: \n` +
+                `${infrastructure} \n\n` +
+                `Сдача объекта: ${constructionCompletionDate}`
+            );
+        },
+        owner: ({
+            cost,
+            code,
+            city,
+            district,
+            neighborhood,
+            layout,
+            area,
+            floors,
+            heatingType,
+            furniture,
+            yearOfConstruction,
+            infrastructure,
+            metersFromTheSea,
+        }) => {
+            infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
+            floors = floors?.map((el) => el.floor).join(' и ');
+            return (
+                `Цена: ${cost}\n` +
+                '\n' +
+                `Код: ${code}\n` +
+                '\n' +
+                `Город: ${city}\n` +
+                `Район: ${district}\n` +
+                `Микрорайон: ${neighborhood}\n` +
+                '\n' +
+                `Апартаменты: ${layout}, ${area} м²\n` +
+                `Этаж: ${floors}\n` +
+                `Отопление: ${heatingType}\n` +
+                `Мебель: ${furniture}\n` +
+                `Год постройки: ${yearOfConstruction}\n` +
+                '\n' +
+                `Инфраструктура комплекса: ${infrastructure}\n` +
+                '\n' +
+                `До Средиземного моря: ${metersFromTheSea}м\n`
+            );
+        },
     },
     CHOOSE_THE_ACTION: {
         text: (flatId) => `ID: ${beautifyId(flatId)} \nВыберите действие:`,

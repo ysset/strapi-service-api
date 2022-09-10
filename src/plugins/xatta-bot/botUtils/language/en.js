@@ -74,48 +74,89 @@ module.exports = {
             '\n' +
             'Please answer him on behalf of the developer as soon as possible!',
     },
-    HOUSING_FULL_DESCRIPTION: ({
-        name,
-        developerName,
-        cost,
-        apartments,
-        city,
-        district,
-        metersFromTheSea,
-        caption,
-        area,
-        infrastructure,
-        apartmentEquipment,
-        constructionCompletionDate,
-        yearOfConstruction,
-    }) => {
-        apartments = apartments?.map((el) => el.layout.trim()).join('\n');
-        infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
-        apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
-        const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
-        const [monthOwner, yearOwner] = yearOfConstruction && yearOfConstruction.split('.');
+    HOUSING_FULL_DESCRIPTION: {
+        complex: ({
+            name,
+            developerName,
+            cost,
+            apartments,
+            city,
+            district,
+            metersFromTheSea,
+            caption,
+            area,
+            infrastructure,
+            apartmentEquipment,
+            constructionCompletionDate,
+            yearOfConstruction,
+        }) => {
+            apartments = apartments?.map((el) => el.layout.trim()).join('\n');
+            infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
+            apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
+            const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
+            const [monthOwner, yearOwner] = yearOfConstruction && yearOfConstruction.split('.');
 
-        return (
-            `Complex: ${name} \n` +
-            `Developer: ${developerName} \n` +
-            `Price from € ${cost} \n ` +
-            `City: ${city} \n` +
-            `${district ? `District: ${district} \n` : ''}` +
-            `${metersFromTheSea ? `To the Mediterranean Sea: ${metersFromTheSea}m \n` : ''}` +
-            `${apartments ? `Layouts: \n${apartments}` : ''} \n` +
-            `Complex description: \n` +
-            `${caption} Area of the complex: ${area}. Apartment furnishings: ${apartmentEquipment} \n ` +
-            `Complex infrastructure: \n` +
-            `${infrastructure}\n` +
-            `${
-                month && month <= 12 && year ? `Object handover: ${beautifyMonth('en', month)} ${year}` : ''
-            } ` +
-            `${
-                monthOwner && month <= 12 && yearOwner
-                    ? `Object handover: ${beautifyMonth('en', monthOwner)} ${yearOwner}`
-                    : ''
-            } `
-        );
+            return (
+                `Complex: ${name} \n` +
+                `Developer: ${developerName} \n` +
+                `Price from € ${cost} \n ` +
+                `City: ${city} \n` +
+                `${district ? `District: ${district} \n` : ''}` +
+                `${metersFromTheSea ? `To the Mediterranean Sea: ${metersFromTheSea}m \n` : ''}` +
+                `${apartments ? `Layouts: \n${apartments}` : ''} \n` +
+                `Complex description: \n` +
+                `${caption} Area of the complex: ${area}. Apartment furnishings: ${apartmentEquipment} \n ` +
+                `Complex infrastructure: \n` +
+                `${infrastructure}\n` +
+                `${
+                    month && month <= 12 && year
+                        ? `Object handover: ${beautifyMonth('en', month)} ${year}`
+                        : ''
+                } ` +
+                `${
+                    monthOwner && month <= 12 && yearOwner
+                        ? `Object handover: ${beautifyMonth('en', monthOwner)} ${yearOwner}`
+                        : ''
+                } `
+            );
+        },
+        owner: ({
+            cost,
+            code,
+            city,
+            district,
+            neighborhood,
+            layout,
+            area,
+            floors,
+            heatingType,
+            furniture,
+            yearOfConstruction,
+            infrastructure,
+            metersFromTheSea,
+        }) => {
+            infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
+            floors = floors?.map((el) => el.floor).join(' и ');
+            return (
+                `Price: ${cost}\n` +
+                '\n' +
+                `Code: ${code}\n` +
+                '\n' +
+                `City: ${city}\n` +
+                `District: ${district}\n` +
+                `Neighborhood: ${neighborhood}\n` +
+                '\n' +
+                `Apartments: ${layout}, ${area} м²\n` +
+                `Floor: ${floors}\n` +
+                `Heating type: ${heatingType}\n` +
+                `Furniture: ${furniture}\n` +
+                `Year of construction: ${yearOfConstruction}\n` +
+                '\n' +
+                `Infrastructure: ${infrastructure}\n` +
+                '\n' +
+                `Meters from the sea: ${metersFromTheSea}м\n`
+            );
+        },
     },
     CHOOSE_THE_ACTION: {
         text: (flatId) => `Apartment id: ${beautifyId(flatId)} \nSelect action:`,
