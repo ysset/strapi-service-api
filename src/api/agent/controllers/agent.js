@@ -7,7 +7,7 @@
 const { createCoreController } = require('@strapi/strapi').factories;
 
 const getData = async ({ api, field, language }) => {
-    const res = await strapi.entityService.findMany(api, {
+    let res = await strapi.entityService.findMany(api, {
         filters: {
             localisation: {
                 language,
@@ -17,8 +17,10 @@ const getData = async ({ api, field, language }) => {
             localisation: {
                 fields: ['language', field],
             },
+            agent: true,
         },
     });
+    res = res.filter((el) => el.agent);
     return res.map((el) => el.localisation.find((el) => el.language === language)[field]);
 };
 
