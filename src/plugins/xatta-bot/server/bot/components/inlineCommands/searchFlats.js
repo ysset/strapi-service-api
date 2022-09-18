@@ -53,7 +53,6 @@ module.exports = async (query) => {
     }`;
 
     const table = recLocalisation.table.toLowerCase();
-    console.log(recLocalisation);
     const caption = localisation.SHORT_DESCRIPTION[table](recLocalisation.localisation);
 
     await strapi.bots.alanyaBot
