@@ -1,9 +1,8 @@
 module.exports = async (msg) => {
     const { localisation, chatId } = msg;
 
-    await strapi.bots.alanyaBot.sendMessage(chatId, localisation?.WELCOME.first);
     await strapi.bots.alanyaBot
-        .sendMessage(chatId, localisation?.WELCOME.second, {
+        .sendMessage(chatId, localisation?.WELCOME, {
             reply_markup: {
                 inline_keyboard: [
                     [
