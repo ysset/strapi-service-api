@@ -20,7 +20,11 @@ module.exports = async (query) => {
     if (!recLocalisation) recLocalisation = flat.localisation.find((rec) => rec.language === 'en');
 
     //get localisation
-    const userMessage = localisation.WRITE_AGENT.userText({ agentUsername, flatId, ...recLocalisation });
+    const userMessage = localisation.WRITE_AGENT.userText[table.toLowerCase()]({
+        agentUsername,
+        flatId,
+        ...recLocalisation,
+    });
     const realtorMessage = localisation.WRITE_AGENT.realtorText({ username, flatId, ...recLocalisation });
 
     //save current housing

@@ -1,7 +1,11 @@
 const configureFilters = ({ user, userFilters, table }) => {
+    // language
     const filters = { localisation: { $and: [{ language: user.language }] } };
-
+    // housing type
+    if (userFilters.housings) filters.localisation.$and.push({ type: { $in: userFilters.housings } });
+    // cities
     if (userFilters.cities.length) filters.localisation.$and.push({ city: { $in: userFilters.cities } });
+    //price
     if (userFilters.prices.length)
         filters.localisation.$and.push({
             $and: [
@@ -17,6 +21,7 @@ const configureFilters = ({ user, userFilters, table }) => {
                 },
             ],
         });
+    // layout
     if (userFilters.layouts.length && table !== 'Villa' && table !== 'Owner')
         filters.localisation.$and.push({
             apartments: {
@@ -72,7 +77,18 @@ module.exports = {
             [table]: await strapi.entityService
                 .findMany(api, {
                     filters: configureFilters({ user, userFilters, table }),
-                    populate: '*',
+                    populate: {
+                        localisation: {
+                            populate: {
+                                apartments: true,
+                                infrastructure: true,
+                                apartmentEquipment: true,
+                                floors: true,
+                            },
+                        },
+                        layoutPhoto: true,
+                        agent: true,
+                    },
                 })
                 .then((r) =>
                     r.map((el) => {

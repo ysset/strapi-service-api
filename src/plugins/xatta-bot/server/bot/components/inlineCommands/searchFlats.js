@@ -25,7 +25,6 @@ module.exports = async (query) => {
 
         recommendation = await recommendations.get({ user, filters });
     }
-
     if (!recommendation) return await alanyaBot.NO_FLATS({ chatId, localisation });
 
     let recLocalisation = {
@@ -33,8 +32,7 @@ module.exports = async (query) => {
         localisation: recommendation.localisation.find((rec) => rec.language === localisation.lang),
     };
 
-    if (!recLocalisation.localisation)
-        recLocalisation.localisation = recommendation.localisation.find((rec) => rec.language === 'en');
+    if (!recLocalisation.localisation) return await alanyaBot.NO_FLATS({ chatId, localisation });
 
     if (!recLocalisation.agent?.username) return await alanyaBot.SERVER_ERROR({ chatId, localisation });
 
@@ -54,8 +52,12 @@ module.exports = async (query) => {
             : recLocalisation.layoutPhoto[0].formats.thumbnail.url
     }`;
 
+    const table = recLocalisation.table.toLowerCase();
+    const caption = localisation.SHORT_DESCRIPTION[table](recLocalisation.localisation);
+
     await strapi.bots.alanyaBot
         .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
+            caption,
             reply_markup: {
                 inline_keyboard: [
                     [
@@ -87,7 +89,7 @@ module.exports = async (query) => {
                     ],
                     [
                         {
-                            ...localisation?.WRITE_AGENT_INLINE,
+                            ...localisation?.WRITE_INLINE[table],
                             callback_data: JSON.stringify({
                                 action: actions.SEARCH_WRITE_AGENT,
                                 table: recLocalisation.table,

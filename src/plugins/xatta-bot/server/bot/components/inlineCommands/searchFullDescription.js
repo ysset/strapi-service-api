@@ -17,7 +17,7 @@ module.exports = async (query) => {
                 inline_keyboard: [
                     [
                         {
-                            ...localisation?.WRITE_AGENT_INLINE,
+                            ...localisation?.WRITE_INLINE[caption.table],
                             callback_data: JSON.stringify({
                                 action: actions.SEARCH_WRITE_AGENT,
                                 table,

@@ -67,17 +67,20 @@ module.exports = async (query) => {
                 : flat.layoutPhoto[0].formats.thumbnail.url
         }`;
 
+        const table = flat.table;
+        const flatId = flat.id;
+
         await strapi.bots.alanyaBot
             .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
                 reply_markup: {
                     inline_keyboard: [
                         [
                             {
-                                ...localisation?.WRITE_AGENT_INLINE,
+                                ...localisation?.WRITE_INLINE[table.toLowerCase()],
                                 callback_data: JSON.stringify({
                                     action: actions.FAVORITE_WRITE_AGENT,
-                                    table: flat.table,
-                                    flatId: flat.id,
+                                    table,
+                                    flatId,
                                 }),
                             },
                         ],
@@ -86,8 +89,8 @@ module.exports = async (query) => {
                                 ...localisation?.DELETE_ACTION,
                                 callback_data: JSON.stringify({
                                     action: actions.DELETE_ACTION,
-                                    table: flat.table,
-                                    flatId: flat.id,
+                                    table,
+                                    flatId,
                                 }),
                             },
                         ],
@@ -96,8 +99,8 @@ module.exports = async (query) => {
                                 ...localisation?.FULL_DESCRIPTION,
                                 callback_data: JSON.stringify({
                                     action: actions.FAVORITE_FULL_DESCRIPTION,
-                                    table: flat.table,
-                                    flatId: flat.id,
+                                    table,
+                                    flatId,
                                 }),
                             },
                         ],

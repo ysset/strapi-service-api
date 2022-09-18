@@ -2,13 +2,13 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = async (query) => {
-    const {
+    let {
         localisation,
         chatId,
         data: { table, flatId },
     } = query;
-
-    const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
+    table = table.toLowerCase();
+    const api = `api::${table}.${table}`;
     const arrayOfArrayOfPhotos = [];
 
     const flat = await strapi.entityService
@@ -19,6 +19,7 @@ module.exports = async (query) => {
                         apartments: true,
                         infrastructure: true,
                         apartmentEquipment: true,
+                        floors: true,
                     },
                 },
                 layoutPhoto: true,
@@ -50,9 +51,10 @@ module.exports = async (query) => {
 
     if (!recLocalisation) recLocalisation = flat.localisation.find((rec) => rec.language === 'en');
 
-    const caption = localisation.HOUSING_FULL_DESCRIPTION({
+    const caption = localisation.HOUSING_FULL_DESCRIPTION[table]({
         ...recLocalisation,
         locationUrl: flat.locationUrl,
+        table,
     });
 
     for (let arrayOfPhotos of arrayOfArrayOfPhotos) {
