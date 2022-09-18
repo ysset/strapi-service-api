@@ -49,17 +49,33 @@ module.exports = {
         },
     },
     WRITE_AGENT: {
-        userText: ({ agentUsername, flatId, developerName, city, district }) =>
-            `Hello! \n` +
-            '\n' +
-            'Thank you for using our service!\n' +
-            '\n' +
-            `ID: ${beautifyId(flatId)} \n` +
-            `Complex:\n` +
-            `Developer: ${developerName} \n` +
-            `City: ${city} \n` +
-            `District: ${district} \n` +
-            `The manager of the company "${developerName}" https://t.me//${agentUsername} will answer any of your questions!`,
+        userText: {
+            complex: ({ agentUsername, flatId, developerName, city, district }) =>
+                `Hello! \n` +
+                '\n' +
+                'Thank you for using our service!\n' +
+                '\n' +
+                `ID: ${beautifyId(flatId)} \n` +
+                `Complex:\n` +
+                `Developer: ${developerName} \n` +
+                `City: ${city} \n` +
+                `District: ${district} \n` +
+                `The manager of the company "${developerName}" https://t.me/${agentUsername} will answer any of your questions!`,
+            owner: ({ agentUsername, layout, area, city, district, neighborhood }) =>
+                'Hello! \n' +
+                '\n' +
+                'Thank you for using our service!\n' +
+                '\n' +
+                '\n' +
+                `Apartments: ${layout}, ${area} m²\n` +
+                '\n' +
+                `City: ${city} \n` +
+                `District: ${district} \n` +
+                `Neighbourhood: ${neighborhood}\n` +
+                '\n' +
+                `The owner's representative will answer any of your questions, follow the link to get in touch!\n` +
+                `https://t.me/${agentUsername}`,
+        },
         realtorText: ({ username, flatId, developerName, city, district }) =>
             'Hello! \n' +
             '\n' +

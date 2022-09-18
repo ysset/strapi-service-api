@@ -60,17 +60,33 @@ module.exports = {
         },
     },
     WRITE_AGENT: {
-        userText: ({ agentUsername, flatId, developerName, city, district }) =>
-            `Здравствуйте! \n` +
-            '\n' +
-            'Благодарим Вас за использование нашего сервиса!\n' +
-            '\n' +
-            `ID: ${beautifyId(flatId)} \n` +
-            `Комплекс:\n` +
-            `Застройщик: ${developerName} \n` +
-            `Город: ${city} \n` +
-            `Район: ${district} \n` +
-            `Менеджер компании «${developerName}» https://t.me//${agentUsername} ответит на любой ваш вопрос!`,
+        userText: {
+            complex: ({ agentUsername, flatId, developerName, city, district }) =>
+                `Здравствуйте! \n` +
+                '\n' +
+                'Благодарим Вас за использование нашего сервиса!\n' +
+                '\n' +
+                `ID: ${beautifyId(flatId)} \n` +
+                `Комплекс:\n` +
+                `Застройщик: ${developerName} \n` +
+                `Город: ${city} \n` +
+                `Район: ${district} \n` +
+                `Менеджер компании «${developerName}» https://t.me/${agentUsername} ответит на любой ваш вопрос!`,
+            owner: ({ agentUsername, layout, area, city, district, neighborhood }) =>
+                'Здравствуйте! \n' +
+                '\n' +
+                'Благодарим Вас за использование нашего сервиса!\n' +
+                '\n' +
+                '\n' +
+                `Апартаменты: ${layout}, ${area} м²\n` +
+                '\n' +
+                `Город: ${city} \n` +
+                `Район: ${district} \n` +
+                `Микрорайон: ${neighborhood}\n` +
+                '\n' +
+                'Представитель собственника ответит на любой ваш вопрос, для связи с ним перейдите по ссылке!\n' +
+                `https://t.me/${agentUsername}`,
+        },
         realtorText: ({ username, flatId, developerName, city, district }) =>
             'Здравствуйте! \n' +
             '\n' +
