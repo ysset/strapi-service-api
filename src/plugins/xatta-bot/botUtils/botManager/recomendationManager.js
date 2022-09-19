@@ -8,18 +8,9 @@ const configureFilters = ({ user, userFilters, table }) => {
     //price
     if (userFilters.prices.length)
         filters.localisation.$and.push({
-            $and: [
-                {
-                    cost: {
-                        $gte: userFilters.prices[0][0],
-                    },
-                },
-                {
-                    cost: {
-                        $lt: userFilters.prices[userFilters.prices.length - 1][1],
-                    },
-                },
-            ],
+            cost: {
+                $lte: userFilters.prices[userFilters.prices.length - 1][1],
+            },
         });
     // layout
     if (userFilters.layouts.length && table !== 'Villa' && table !== 'Owner')
@@ -50,6 +41,9 @@ module.exports = {
         if (!userFilters) userFilters = user.filters.last;
 
         const watched = { Complex: user.watchedComplex, Villa: user.watchedVilla };
+
+        if (!userFilters) return;
+        console.log(userFilters);
         const reqData = userFilters.tables.map((table) => ({
             api: `api::${table.toLowerCase()}.${table.toLowerCase()}`,
             table,

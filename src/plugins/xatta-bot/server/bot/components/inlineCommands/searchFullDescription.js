@@ -9,7 +9,7 @@ module.exports = async (query) => {
         data: { table, flatId },
     } = query;
 
-    const caption = await fullDescription(query);
+    const { caption } = await fullDescription(query);
 
     await strapi.bots.alanyaBot
         .sendMessage(chatId, caption, {
@@ -17,7 +17,7 @@ module.exports = async (query) => {
                 inline_keyboard: [
                     [
                         {
-                            ...localisation?.WRITE_INLINE[caption.table],
+                            ...localisation?.WRITE_INLINE[table.toLowerCase()],
                             callback_data: JSON.stringify({
                                 action: actions.SEARCH_WRITE_AGENT,
                                 table,

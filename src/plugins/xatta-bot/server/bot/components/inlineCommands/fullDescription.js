@@ -61,5 +61,5 @@ module.exports = async (query) => {
         await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch(console.error);
     }
 
-    return caption;
+    return { caption, table };
 };
