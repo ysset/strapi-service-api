@@ -23,9 +23,10 @@ module.exports = createCoreController('api::telegram-user.telegram-user', {
     },
 
     async search(ctx) {
-        return searchFlats({
+        await searchFlats({
             filters: ctx.request.body.filters,
             ...(await modifyRequestWithUserData({ msg: ctx.request.body })),
         });
+        return { ok: true };
     },
 });

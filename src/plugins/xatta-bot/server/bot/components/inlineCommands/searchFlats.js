@@ -12,7 +12,7 @@ module.exports = async (query) => {
 
     let recommendation = await recommendations.get({ user, filters });
 
-    if (!recommendation) {
+    if (recommendation === null) {
         user = await strapi.entityService
             .update('api::telegram-user.telegram-user', query.user.id, {
                 data: {
