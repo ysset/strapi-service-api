@@ -1,6 +1,13 @@
 const beautifyId = require('./beautifyId');
 const beautifyMonth = require('./getMonth');
 
+const beautifyParams = (params) => {
+    for (let param in params) {
+        if (params[param] === null) params[param] = 'unknown';
+    }
+    return params;
+};
+
 module.exports = {
     lang: 'en',
     WELCOME:
@@ -50,61 +57,74 @@ module.exports = {
     },
     WRITE_AGENT: {
         userText: {
-            complex: ({ agentUsername, flatId, developerName, city, district }) =>
-                `Hello! \n` +
+            complex: (params) => {
+                const { agentUsername, flatId, developerName, city, district } = beautifyParams(params);
+                return (
+                    `Hello! \n` +
+                    '\n' +
+                    'Thank you for using our service!\n' +
+                    '\n' +
+                    `ID: ${beautifyId(flatId)} \n` +
+                    `Complex:\n` +
+                    `Developer: ${developerName} \n` +
+                    `City: ${city} \n` +
+                    `District: ${district} \n` +
+                    `The manager of the company "${developerName}" https://t.me/${agentUsername} will answer any of your questions!`
+                );
+            },
+            owner: (params) => {
+                const { agentUsername, layout, area, city, district, neighborhood } = beautifyParams(params);
+                return (
+                    'Hello! \n' +
+                    '\n' +
+                    'Thank you for using our service!\n' +
+                    '\n' +
+                    '\n' +
+                    `Apartments: ${layout}, ${area} m²\n` +
+                    '\n' +
+                    `City: ${city} \n` +
+                    `District: ${district} \n` +
+                    `Neighbourhood: ${neighborhood}\n` +
+                    '\n' +
+                    `The owner's representative will answer any of your questions, follow the link to get in touch!\n` +
+                    `https://t.me/${agentUsername}`
+                );
+            },
+        },
+        realtorText: (params) => {
+            const { username, flatId, developerName, city, district } = beautifyParams(params);
+            return (
+                'Hello! \n' +
                 '\n' +
-                'Thank you for using our service!\n' +
+                `User https://t.me/${username} is interested in this object \n` +
                 '\n' +
                 `ID: ${beautifyId(flatId)} \n` +
-                `Complex:\n` +
+                'Complex: \n' +
                 `Developer: ${developerName} \n` +
                 `City: ${city} \n` +
                 `District: ${district} \n` +
-                `The manager of the company "${developerName}" https://t.me/${agentUsername} will answer any of your questions!`,
-            owner: ({ agentUsername, layout, area, city, district, neighborhood }) =>
-                'Hello! \n' +
                 '\n' +
-                'Thank you for using our service!\n' +
-                '\n' +
-                '\n' +
-                `Apartments: ${layout}, ${area} m²\n` +
-                '\n' +
-                `City: ${city} \n` +
-                `District: ${district} \n` +
-                `Neighbourhood: ${neighborhood}\n` +
-                '\n' +
-                `The owner's representative will answer any of your questions, follow the link to get in touch!\n` +
-                `https://t.me/${agentUsername}`,
+                'Please answer him on behalf of the developer as soon as possible!'
+            );
         },
-        realtorText: ({ username, flatId, developerName, city, district }) =>
-            'Hello! \n' +
-            '\n' +
-            `User https://t.me/${username} is interested in this object \n` +
-            '\n' +
-            `ID: ${beautifyId(flatId)} \n` +
-            'Complex: \n' +
-            `Developer: ${developerName} \n` +
-            `City: ${city} \n` +
-            `District: ${district} \n` +
-            '\n' +
-            'Please answer him on behalf of the developer as soon as possible!',
     },
     HOUSING_FULL_DESCRIPTION: {
-        complex: ({
-            name,
-            developerName,
-            cost,
-            apartments,
-            city,
-            district,
-            metersFromTheSea,
-            caption,
-            area,
-            infrastructure,
-            apartmentEquipment,
-            constructionCompletionDate,
-            yearOfConstruction,
-        }) => {
+        complex: (params) => {
+            let {
+                name,
+                developerName,
+                cost,
+                apartments,
+                city,
+                district,
+                metersFromTheSea,
+                caption,
+                area,
+                infrastructure,
+                apartmentEquipment,
+                constructionCompletionDate,
+                yearOfConstruction,
+            } = beautifyParams(params);
             apartments = apartments?.map((el) => el.layout.trim()).join('\n');
             infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
             apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
@@ -135,21 +155,22 @@ module.exports = {
                 } `
             );
         },
-        owner: ({
-            cost,
-            code,
-            city,
-            district,
-            neighborhood,
-            layout,
-            area,
-            floors,
-            heatingType,
-            furniture,
-            yearOfConstruction,
-            infrastructure,
-            metersFromTheSea,
-        }) => {
+        owner: (params) => {
+            let {
+                cost,
+                code,
+                city,
+                district,
+                neighborhood,
+                layout,
+                area,
+                floors,
+                heatingType,
+                furniture,
+                yearOfConstruction,
+                infrastructure,
+                metersFromTheSea,
+            } = beautifyParams(params);
             infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
             floors = floors?.map((el) => el.floor).join(' и ');
             return (
@@ -174,7 +195,8 @@ module.exports = {
         },
     },
     SHORT_DESCRIPTION: {
-        owner: ({ layout, area, floors, city, district, cost }) => {
+        owner: (params) => {
+            let { layout, area, floors, city, district, cost } = beautifyParams(params);
             floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' and ' : '');
             cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
             return (
@@ -184,7 +206,8 @@ module.exports = {
                 `${cost} €\n`
             );
         },
-        complex: ({ apartments, city, district, cost }) => {
+        complex: (params) => {
+            let { apartments, city, district, cost } = beautifyParams(params);
             apartments = apartments?.map(({ layout, area }) => layout.trim() + ` ${area} м²`).join('\n');
             cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
             return `Apartments:\n${apartments}\n` + `${city}, district ${district}.\n` + '\n' + `${cost} €\n`;
