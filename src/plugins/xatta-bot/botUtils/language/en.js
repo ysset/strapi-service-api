@@ -10,9 +10,10 @@ const beautifyParams = (params) => {
 
 module.exports = {
     lang: 'en',
-    WELCOME:
-        'Your choice of luxury villas and apartments in new buildings directly from developers!\n' +
-        'Use filters for a comfortable search.',
+    WELCOME: {
+        first: 'Turkey today is one of the most convenient and safe countries to move to. Here, foreigners can quickly get a residence permit and even a Turkish passport, and Turkey itself is a hospitable and welcoming country with a warm sea. It remains to find housing!',
+        second: 'Your choice of luxury villas and apartments in new buildings, as well as a wide selection of properties from the owners!',
+    },
     MENU_BUTTON: 'Menu',
     CONTROL_PANEL: {
         text: 'control panel',
@@ -111,7 +112,7 @@ module.exports = {
     HOUSING_FULL_DESCRIPTION: {
         complex: (params) => {
             let {
-                name,
+                title,
                 developerName,
                 cost,
                 apartments,
@@ -132,7 +133,7 @@ module.exports = {
             const [monthOwner, yearOwner] = yearOfConstruction && yearOfConstruction.split('.');
 
             return (
-                `Complex: ${name} \n` +
+                `Complex: ${title} \n` +
                 `Developer: ${developerName} \n` +
                 `Price from € ${cost} \n ` +
                 `City: ${city} \n` +
