@@ -70,7 +70,7 @@
       "type": "decimal",
       "required": true
     },
-    "developerName": {
+    "title": {
       "type": "string",
       "maxLength": 100,
       "required": true

@@ -123,7 +123,7 @@ module.exports = {
     HOUSING_FULL_DESCRIPTION: {
         complex: (params) => {
             let {
-                name,
+                title,
                 developerName,
                 cost,
                 apartments,
@@ -142,7 +142,7 @@ module.exports = {
             infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
             apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
             return (
-                `Комплекс: ${name} \n\n` +
+                `Комплекс: ${title} \n\n` +
                 `Застройщик: ${developerName} \n\n` +
                 `Цена от € ${cost} \n\n` +
                 `Город: ${city} \n\n` +
