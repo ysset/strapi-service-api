@@ -9,7 +9,7 @@ const translateApartments = (apartments) =>
                 }
                 return 'Дуплекс' + layout.replace('Duplex', '') + `${area} м²`;
             }
-            return `Апартаменты:\n${layout.trim()} ${area} м²`;
+            return `${layout.trim()} ${area} м²`;
         })
         .join('\n');
 
@@ -211,10 +211,16 @@ module.exports = {
             );
         },
         complex: (params) => {
-            let { apartments, city, district, cost } = beautifyParams(params);
+            let { apartments, city, district, cost, title } = beautifyParams(params);
             apartments = translateApartments(apartments);
             cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
-            return `${apartments}\n` + `${city}, район ${district}.\n` + '\n' + `${cost} €\n`;
+            return (
+                `${title}\n` +
+                `Апартаменты:\n${apartments}\n` +
+                `${city}, район ${district}.\n` +
+                '\n' +
+                `от ${cost} €\n`
+            );
         },
     },
     CHOOSE_THE_ACTION: {

@@ -208,10 +208,16 @@ module.exports = {
             );
         },
         complex: (params) => {
-            let { apartments, city, district, cost } = beautifyParams(params);
+            let { apartments, city, district, cost, title } = beautifyParams(params);
             apartments = apartments?.map(({ layout, area }) => layout.trim() + ` ${area} м²`).join('\n');
             cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
-            return `Apartments:\n${apartments}\n` + `${city}, district ${district}.\n` + '\n' + `${cost} €\n`;
+            return (
+                `${title}\n` +
+                `Apartments:\n${apartments}\n` +
+                `${city}, district ${district}.\n` +
+                '\n' +
+                `from ${cost} €\n`
+            );
         },
     },
     CHOOSE_THE_ACTION: {
