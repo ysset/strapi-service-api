@@ -2,7 +2,8 @@ const configureFilters = ({ user, userFilters, table }) => {
     // language
     const filters = { localisation: { $and: [{ language: user.language }] } };
     // housing type
-    if (userFilters.housings.length) filters.localisation.$and.push({ type: { $in: userFilters.housings } });
+    if (userFilters.housings && userFilters.housings.length)
+        filters.localisation.$and.push({ type: { $in: userFilters.housings } });
     // cities
     if (userFilters.cities.length) filters.localisation.$and.push({ city: { $in: userFilters.cities } });
     //price
