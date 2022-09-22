@@ -215,11 +215,10 @@ module.exports = {
             apartments = translateApartments(apartments);
             cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
             return (
-                `${title}\n` +
-                `Апартаменты:\n${apartments}\n` +
-                `${city}, район ${district}.\n` +
-                '\n' +
-                `от ${cost} €\n`
+                `${title}\n\n` +
+                `${city}, район ${district}.\n\n` +
+                `Апартаменты:\n${apartments}\n\n` +
+                `от ${cost} €`
             );
         },
     },

@@ -212,11 +212,10 @@ module.exports = {
             apartments = apartments?.map(({ layout, area }) => layout.trim() + ` ${area} м²`).join('\n');
             cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
             return (
-                `${title}\n` +
-                `Apartments:\n${apartments}\n` +
-                `${city}, district ${district}.\n` +
-                '\n' +
-                `from ${cost} €\n`
+                `${title}\n\n` +
+                `Apartments:\n${apartments}\n\n` +
+                `${city}, district ${district}.\n\n` +
+                `from ${cost} €`
             );
         },
     },
