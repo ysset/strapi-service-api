@@ -71,18 +71,16 @@ module.exports = {
     WRITE_AGENT: {
         userText: {
             complex: (params) => {
-                const { agentUsername, flatId, developerName, city, district } = beautifyParams(params);
+                const { agentUsername, flatId, city, district } = beautifyParams(params);
                 return (
                     `Здравствуйте! \n` +
                     '\n' +
                     'Благодарим Вас за использование нашего сервиса!\n' +
                     '\n' +
                     `ID: ${beautifyId(flatId)} \n` +
-                    `Комплекс:\n` +
-                    `Застройщик: ${developerName} \n` +
                     `Город: ${city} \n` +
                     `Район: ${district} \n` +
-                    `Менеджер компании «${developerName}» https://t.me/${agentUsername} ответит на любой ваш вопрос!`
+                    `Менеджер компании https://t.me/${agentUsername} ответит на любой ваш вопрос!`
                 );
             },
             owner: (params) => {
@@ -105,15 +103,13 @@ module.exports = {
             },
         },
         realtorText: (params) => {
-            const { username, flatId, developerName, city, district } = beautifyParams(params);
+            const { username, flatId, city, district } = beautifyParams(params);
             return (
                 'Здравствуйте! \n' +
                 '\n' +
                 `Пользователь https://t.me/${username} интересуется данным объектом \n` +
                 '\n' +
                 `ID: ${beautifyId(flatId)} \n` +
-                'Комплекс: \n' +
-                `Застройщик: ${developerName} \n` +
                 `Город: ${city} \n` +
                 `Район: ${district} \n` +
                 '\n' +
