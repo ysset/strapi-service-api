@@ -8,7 +8,7 @@ module.exports = async (query) => {
         chatId,
         data: { table, flatId },
     } = query;
-    const caption = await fullDescription(query);
+    const { caption } = await fullDescription(query);
 
     await strapi.bots.alanyaBot
         .sendMessage(chatId, caption, {
