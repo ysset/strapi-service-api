@@ -3,7 +3,7 @@ const beautifyMonth = require('./getMonth');
 
 const beautifyParams = (params) => {
     for (let param in params) {
-        if (params[param] === null) params[param] = 'unknown';
+        if (params[param] === null || !params[param]) params[param] = 'unknown';
     }
     return params;
 };
