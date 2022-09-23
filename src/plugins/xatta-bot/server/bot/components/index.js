@@ -1,11 +1,10 @@
-const { modifyRequestWithUserData } = require('../../../botUtils/userController');
 const callbacks = require('./componentList');
 
 const index = {
     START: {
         regex: /\/start/,
         fn: async (msg) => {
-            await modifyRequestWithUserData({ msg });
+            if (!process.env.DEVELOPMENT && msg.user.username) return;
             await inlineCallBacks.ENTER_COMMAND(msg);
             return inlineCallBacks.DELETE_MESSAGE(msg);
         },

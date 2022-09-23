@@ -14,6 +14,20 @@ module.exports = {
                 },
             });
         },
+        NO_USERNAME: async ({ chatId, localisation }) => {
+            await strapi.bots.alanyaBot.sendMessage(chatId, localisation?.NO_USERNAME, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                ...localisation.CONTROL_PANEL,
+                                web_app: { url: process.env.WEB_APP_URL },
+                            },
+                        ],
+                    ],
+                },
+            });
+        },
 
         SERVER_ERROR: async ({ chatId, localisation }) =>
             strapi.bots.alanyaBot.sendMessage(chatId, localisation?.SERVER_ERROR, {

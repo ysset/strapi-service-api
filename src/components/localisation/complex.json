@@ -74,6 +74,9 @@
       "type": "string",
       "maxLength": 100,
       "required": true
+    },
+    "keyInfo": {
+      "type": "text"
     }
   }
 }
