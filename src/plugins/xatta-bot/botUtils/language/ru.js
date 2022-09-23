@@ -1,4 +1,5 @@
 const beautifyId = require('./beautifyId');
+const beautifyMonth = require('./getMonth');
 
 const translateApartments = (apartments) =>
     apartments
@@ -35,6 +36,8 @@ module.exports = {
         regex: /\/start/,
     },
     NO_FLATS: 'К сожалению по вашему запросу ничего не найдено, пожалуйста измените фильтры',
+    NO_USERNAME:
+        'Для использования данного бота пожалуйста установите имя пользователя(username) в настройках Telegram',
     SERVER_ERROR: 'К сожалению произошла ошибка, попробуйте еще раз или позже!',
     SAVED: 'Добавлено в избранное',
     FAVORITE: {
@@ -58,11 +61,11 @@ module.exports = {
     NO_FAVORITE_NOW: 'У вас пока нет сохраненной недвижимости!',
     UN_AUTHORIZE: 'Кажется мы не смогли найти избранные квартиры, пожалуйста перезапустите бота!',
     WRITE_AGENT_INLINE: {
-        text: 'Связаться',
+        text: 'Связаться с агентом',
     },
     WRITE_INLINE: {
         complex: {
-            text: 'Связаться с застройщиком',
+            text: 'Связаться с агентом',
         },
         owner: {
             text: 'Связаться с собственником',
@@ -121,7 +124,6 @@ module.exports = {
         complex: (params) => {
             let {
                 title,
-                developerName,
                 cost,
                 apartments,
                 city,
@@ -137,21 +139,26 @@ module.exports = {
 
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
-            apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
+            apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join('\n');
+            const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
+            let date = null;
+
+            if (month && month <= 12 && year) date = `${beautifyMonth('ru', month)} ${year}`;
+
             return (
-                `Комплекс: ${title} \n\n` +
-                `Застройщик: ${developerName} \n\n` +
-                `Цена от € ${cost} \n\n` +
-                `Город: ${city} \n\n` +
-                `Район: ${district} \n\n` +
-                `Геолокация: ${locationUrl} \n\n` +
-                `До Средиземного моря: ${metersFromTheSea}м \n` +
-                `${apartments ? `\nПланировки: \n${apartments} \n\n` : ''}` +
-                `Описание комплекса: \n` +
-                `${caption} Площадь территории комплекса: ${area}. Фурнитура апартаментов: ${apartmentEquipment} \n\n` +
-                `Инфраструктура комплекса: \n` +
-                `${infrastructure} \n\n` +
-                `Сдача объекта: ${constructionCompletionDate}`
+                `${title}\n` +
+                    `Цена от € ${cost}\n` +
+                    `Город: ${city}\n` +
+                    `Район: ${district}\n` +
+                    `Площадь территории комплекса: ${area}.\n` +
+                    `До Средиземного моря: ${metersFromTheSea}м \n\n` +
+                    `${apartments ? `Планировки апартаментов: \n${apartments} \n\n` : ''}` +
+                    `${caption}\n\n` +
+                    `В апартаментах: ${apartmentEquipment} \n\n` +
+                    `Инфраструктура комплекса: \n` +
+                    `${infrastructure} \n\n` +
+                    `Сдача объекта: ${date}\n\n` +
+                    locationUrl && `Геолокация: ${locationUrl}`
             );
         },
         owner: (params) => {
@@ -173,6 +180,11 @@ module.exports = {
 
             infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
             floors = floors?.map((el) => el.floor).join(' и ');
+            const [monthOwner, yearOwner] = yearOfConstruction && yearOfConstruction.split('.');
+            let data = null;
+
+            if (monthOwner && monthOwner <= 12 && yearOwner)
+                data = `${beautifyMonth('ru', monthOwner)} ${yearOwner}`;
             return (
                 `Цена: ${cost}\n` +
                 '\n' +
@@ -185,8 +197,8 @@ module.exports = {
                 `Апартаменты: ${layout}, ${area} м²\n` +
                 `Этаж: ${floors}\n` +
                 `Отопление: ${heatingType}\n` +
-                `Мебель: ${furniture}\n` +
-                `Год постройки: ${yearOfConstruction}\n` +
+                `В апартаментах: ${furniture}\n` +
+                `Год постройки: ${data}\n` +
                 '\n' +
                 `Инфраструктура комплекса: ${infrastructure}\n` +
                 '\n' +

@@ -23,6 +23,7 @@ module.exports = {
         regex: /\/start/,
     },
     NO_FLATS: 'Sorry, no results were found for your search, please change your filters',
+    NO_USERNAME: 'To use this bot please set username in Telegram settings',
     SERVER_ERROR: 'Sorry, an error occurred, please try again or later!',
     SAVED: 'Added to favorites',
     FAVORITE: {
@@ -124,13 +125,11 @@ module.exports = {
                 infrastructure,
                 apartmentEquipment,
                 constructionCompletionDate,
-                yearOfConstruction,
             } = beautifyParams(params);
             apartments = apartments?.map((el) => el.layout.trim()).join('\n');
             infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
             apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join(', ');
             const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
-            const [monthOwner, yearOwner] = yearOfConstruction && yearOfConstruction.split('.');
 
             return (
                 `Complex: ${title} \n` +
@@ -147,11 +146,6 @@ module.exports = {
                 `${
                     month && month <= 12 && year
                         ? `Object handover: ${beautifyMonth('en', month)} ${year}`
-                        : ''
-                } ` +
-                `${
-                    monthOwner && month <= 12 && yearOwner
-                        ? `Object handover: ${beautifyMonth('en', monthOwner)} ${yearOwner}`
                         : ''
                 } `
             );

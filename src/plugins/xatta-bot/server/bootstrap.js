@@ -48,7 +48,9 @@ module.exports = async ({ strapi }) => {
             query.text === 'Start' ||
             query.text === 'Старт'
         ) {
-            return commands.START.fn(await modifyRequestWithUserData({ msg: query })).catch(console.error);
+            const user = await modifyRequestWithUserData({ msg: query });
+            if (!process.env.DEVELOPMENT && user.username) return;
+            return commands.START.fn().catch(console.error);
         }
     });
 

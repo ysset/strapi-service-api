@@ -35,6 +35,12 @@ module.exports = async (query) => {
                             }),
                         },
                     ],
+                    [
+                        {
+                            ...localisation.CONTROL_PANEL,
+                            web_app: { url: process.env.WEB_APP_URL },
+                        },
+                    ],
                 ],
             },
         })
