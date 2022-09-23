@@ -3,6 +3,6 @@ and all telegram bots work on this codebase are owned by
 Lutskii Daniil (https://github.com/ysset) and Kuzmenko Oleg 
 a.k.a Xatta group company
 ---
-> Copyrights (C) 2022, Xatta group company
+> Copyrights (C) 2022, Lutskii Daniil, Kuzmenko Oleg
 > 
 > All right reserved.
