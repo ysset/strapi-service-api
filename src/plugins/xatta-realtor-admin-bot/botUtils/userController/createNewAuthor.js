@@ -1,4 +1,4 @@
-const getUser = require('./index');
+const { getUser } = require('./index');
 const eventStorage = require('./eventStorage');
 
 /**
@@ -6,9 +6,10 @@ const eventStorage = require('./eventStorage');
  * @param id
  * @param dbKey
  * @param regex
+ * @param localisation
  * @returns {Promise<unknown>}
  */
-const createEventToUpdateAgent = async ({ telegramID, agentID: id, dbKey, regex }) =>
+const createEventToUpdateAgent = async ({ telegramID, agentID: id, dbKey, regex, localisation }) =>
     new Promise((resolve) => {
         const event = async (msg) => {
             if (msg.text.match(regex)) {
@@ -19,7 +20,7 @@ const createEventToUpdateAgent = async ({ telegramID, agentID: id, dbKey, regex 
                 });
                 resolve();
             } else {
-                await strapi.bots.admin.sendMessage(telegramID, `Wrong ${dbKey}`);
+                await strapi.bots.admin.sendMessage(telegramID, localisation.INPUT_ERROR[dbKey]);
             }
         };
         eventStorage.createEvent({ telegramID, event });
@@ -31,8 +32,9 @@ const createEventToUpdateAgent = async ({ telegramID, agentID: id, dbKey, regex 
  */
 module.exports = async (msg) => {
     const {
-        user: { ownerName, telegramID, agencyName, email, id, admin },
+        user: { ownerName, telegramID, botToken, agencyName, email, id, admin },
         localisation,
+        chatId,
     } = msg;
 
     /**
@@ -41,6 +43,7 @@ module.exports = async (msg) => {
     if (!ownerName) {
         await strapi.bots.admin.sendMessage(telegramID, localisation.GET_USERNAME);
         await createEventToUpdateAgent({
+            localisation,
             telegramID,
             agentID: id,
             dbKey: 'ownerName',
@@ -55,6 +58,7 @@ module.exports = async (msg) => {
     if (!email) {
         await strapi.bots.admin.sendMessage(telegramID, localisation.GET_USER_EMAIL);
         await createEventToUpdateAgent({
+            localisation,
             telegramID,
             agentID: id,
             dbKey: 'email',
@@ -69,10 +73,23 @@ module.exports = async (msg) => {
     if (!agencyName) {
         await strapi.bots.admin.sendMessage(telegramID, localisation.GET_AGENCY_NAME);
         await createEventToUpdateAgent({
+            localisation,
             telegramID,
             agentID: id,
             dbKey: 'agencyName',
             regex: /[А-Яа-я\w]/,
+        });
+        eventStorage.clearEvents(telegramID);
+    }
+
+    if (!botToken) {
+        await strapi.bots.admin.sendMessage(telegramID, localisation.GET_BOT_TOKEN);
+        await createEventToUpdateAgent({
+            localisation,
+            telegramID,
+            agentID: id,
+            dbKey: 'botToken',
+            regex: /^\d{10}:[\w\W]{35}$/,
         });
         eventStorage.clearEvents(telegramID);
     }
@@ -82,7 +99,7 @@ module.exports = async (msg) => {
      */
     if (!admin) {
         //actualise current user
-        const { user } = await getUser({ msg });
+        const { user } = await getUser(msg);
         //create author
         const admin = await strapi.admin.services.user.create({
             firstname: user.ownerName,
@@ -105,4 +122,5 @@ module.exports = async (msg) => {
             );
         }
     }
+    return strapi.bots.admin.sendMessage(chatId, 'Вы успешно зарегистрированы!');
 };

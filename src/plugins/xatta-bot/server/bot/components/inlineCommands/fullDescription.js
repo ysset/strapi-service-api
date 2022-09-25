@@ -22,6 +22,7 @@ module.exports = async (query) => {
                         floors: true,
                     },
                 },
+                agent: true,
                 layoutPhoto: true,
             },
         })
@@ -54,6 +55,7 @@ module.exports = async (query) => {
     const caption = localisation.HOUSING_FULL_DESCRIPTION[table]({
         ...recLocalisation,
         locationUrl: flat.locationUrl,
+        agent: flat.agent,
         table,
     });
 

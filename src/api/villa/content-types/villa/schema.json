@@ -10,21 +10,13 @@
   "options": {
     "draftAndPublish": false
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": true
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
     "localisation": {
       "type": "component",
       "repeatable": true,
       "component": "localisation.villa",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
+      "pluginOptions": {}
     },
     "agent": {
       "type": "relation",
@@ -39,11 +31,7 @@
       "allowedTypes": [
         "images"
       ],
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
+      "pluginOptions": {}
     },
     "watchedUsers": {
       "type": "relation",
@@ -58,11 +46,7 @@
       "inversedBy": "favoriteVilla"
     },
     "locationUrl": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
+      "pluginOptions": {},
       "type": "string",
       "regex": "([h][t]{2}[p][s][:][\\/]{2}[g][o]{2}[\\.][g][l][\\/][maps]{4}[\\/]|[h][t]{2}[p][s][:][\\/]{2}[y][a][n][d][e][x][\\.][r][u][\\/][m][a][p][s][\\/]|[h][t]{2}[p][s][:][\\/]{2}[g][o][\\.][2][g][i][s][\\.][c][o][m][\\/])",
       "required": false

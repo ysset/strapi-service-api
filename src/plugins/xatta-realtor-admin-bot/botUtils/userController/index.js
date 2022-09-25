@@ -2,37 +2,59 @@ const { userLang } = require('../../botUtils/language');
 
 /**
  * @param msg
- * @returns {Promise<(*&{localisation: *, user: *})|any>}
+ * @returns {Promise<{chatId: *, messageId: *, user: *}>}
  */
-module.exports = async ({ msg }) => {
-    let user = await strapi.db.query('api::agent.agent').findOne({
-        where: {
-            telegramID: msg.from.id,
-        },
-        populate: true,
-    });
+const getUser = async (msg) => {
+    const messageId = msg.message?.message_id || msg.message_id;
+    const userID = msg.from?.id;
+
+    const user = await strapi.db
+        .query('api::agent.agent')
+        .findOne({
+            where: {
+                telegramID: userID,
+            },
+            populate: true,
+        })
+        .catch(console.error);
+
+    return {
+        chatId: userID,
+        messageId,
+        user,
+    };
+};
+
+/**
+ * @param msg
+ * @returns {Promise<*&{chatId: *, localisation: *, messageId: *, user: *}>}
+ */
+const modifyRequestWithUserData = async ({ msg }) => {
+    let { user, messageId, chatId } = await getUser(msg);
 
     if (!user)
-        user = await strapi.entityService.create('api::agent.agent', {
-            data: {
-                telegramID: msg.from.id,
-                language: msg.from.language_code,
-                username: msg.from.username,
-            },
-        });
-
-    //try to parse data from callback query
-    if (msg.data) {
-        try {
-            msg.data = JSON.parse(msg.data);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+        user = await strapi.entityService
+            .create('api::agent.agent', {
+                data: {
+                    telegramID: msg.from.id,
+                    language: msg.from.language_code,
+                    username: msg.from.username,
+                },
+            })
+            .catch(console.error);
 
     return {
         ...msg,
         user,
         localisation: userLang(user.language),
+        messageId,
+        chatId,
     };
+};
+/**
+ * @type {{modifyRequestWithUserData: (function({msg: *}): Promise<*&{chatId: *, localisation: *, messageId: *, user: *}>), getUser: (function(*): Promise<{chatId: *, messageId: *, user: *}>)}}
+ */
+module.exports = {
+    modifyRequestWithUserData,
+    getUser,
 };
