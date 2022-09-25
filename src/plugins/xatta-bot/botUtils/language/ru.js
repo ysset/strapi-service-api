@@ -136,10 +136,9 @@ module.exports = {
                 apartmentEquipment,
                 constructionCompletionDate,
             } = beautifyParams(params);
-
             apartments = translateApartments(apartments);
-            infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
-            apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join('\n\n');
+            infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
+            apartmentEquipment = apartmentEquipment?.map((el) => '-' + el.title.trim() + ';').join('\n');
             const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
             let date = null;
 
@@ -150,7 +149,7 @@ module.exports = {
                 `Цена от € ${beautifyBigNum(cost)}\n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
-                `Площадь территории комплекса: ${beautifyBigNum(area)} м²\n\n` +
+                `Tерритории комплекса: ${beautifyBigNum(area)} м²\n\n` +
                 `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
                 `${apartments ? `Планировки апартаментов: \n${apartments} \n\n` : ''}` +
                 `${caption}\n\n` +
@@ -176,8 +175,7 @@ module.exports = {
                 infrastructure,
                 metersFromTheSea,
             } = beautifyParams(params);
-
-            infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
+            infrastructure = infrastructure?.map((el) => '•' + el.title.trim() + ';').join('\n');
             floors = floors?.map((el) => el.floor).join(' и ');
 
             return (
@@ -195,7 +193,8 @@ module.exports = {
                 `В апартаментах: ${furniture}\n` +
                 `Год постройки: ${yearOfConstruction}\n` +
                 '\n' +
-                `Инфраструктура комплекса: ${infrastructure}\n` +
+                `Инфраструктура комплекса:\n` +
+                `${infrastructure}\n` +
                 '\n' +
                 `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)}м\n`
             );
