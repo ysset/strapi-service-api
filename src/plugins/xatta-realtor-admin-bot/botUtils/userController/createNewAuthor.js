@@ -82,17 +82,17 @@ module.exports = async (msg) => {
         eventStorage.clearEvents(telegramID);
     }
 
-    if (!botToken) {
-        await strapi.bots.admin.sendMessage(telegramID, localisation.GET_BOT_TOKEN);
-        await createEventToUpdateAgent({
-            localisation,
-            telegramID,
-            agentID: id,
-            dbKey: 'botToken',
-            regex: /^\d{10}:[\w\W]{35}$/,
-        });
-        eventStorage.clearEvents(telegramID);
-    }
+    //if (!botToken) {
+    //    await strapi.bots.admin.sendMessage(telegramID, localisation.GET_BOT_TOKEN);
+    //    await createEventToUpdateAgent({
+    //        localisation,
+    //        telegramID,
+    //        agentID: id,
+    //        dbKey: 'botToken',
+    //        regex: /^\d{10}:[\w\W]{35}$/,
+    //    });
+    //    eventStorage.clearEvents(telegramID);
+    //}
 
     /**
      * Create new author in admin panel
