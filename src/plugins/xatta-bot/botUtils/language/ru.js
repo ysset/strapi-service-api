@@ -86,27 +86,22 @@ module.exports = {
                 return (
                     'Благодарим Вас за использование нашего сервиса!\n\n' +
                     `${title}\n\n` +
-                    `${city}, район: ${district} \n` +
-                    `ID: ${beautifyId(flatId)} \n` +
-                    `Менеджер агентства Eagle Group Real Estate & Invest ответит на любой Ваш вопрос!` +
+                    `${city}, район: ${district}\n\n` +
+                    `ID: ${beautifyId(flatId)}\n\n` +
+                    `Менеджер агентства Eagle Group Real Estate & Invest ответит на любой Ваш вопрос!\n\n` +
                     `https://t.me/${agentUsername}`
                 );
             },
             owner: (params) => {
                 const { agentUsername, layout, area, city, district, neighborhood } = beautifyParams(params);
                 return (
-                    'Здравствуйте! \n' +
-                    '\n' +
-                    'Благодарим Вас за использование нашего сервиса!\n' +
-                    '\n' +
-                    '\n' +
-                    `Апартаменты: ${layout}, ${area} м²\n` +
-                    '\n' +
-                    `Город: ${city} \n` +
-                    `Район: ${district} \n` +
-                    `Микрорайон: ${neighborhood}\n` +
-                    '\n' +
-                    'Представитель собственника ответит на любой ваш вопрос, для связи с ним перейдите по ссылке!\n' +
+                    'Здравствуйте! \n\n' +
+                    'Благодарим Вас за использование нашего сервиса!\n\n' +
+                    `Апартаменты: ${layout}, ${area} м²\n\n` +
+                    `Город: ${city} \n\n` +
+                    `Район: ${district} \n\n` +
+                    `Микрорайон: ${neighborhood}\n\n` +
+                    'Представитель собственника ответит на любой ваш вопрос, для связи с ним перейдите по ссылке!\n\n' +
                     `https://t.me/${agentUsername}`
                 );
             },
