@@ -151,18 +151,18 @@ module.exports = {
 
             return (
                 `${title}\n` +
-                    `Цена от € ${cost}\n` +
-                    `Город: ${city}\n` +
-                    `Район: ${district}\n` +
-                    `Площадь территории комплекса: ${area}.\n` +
-                    `До Средиземного моря: ${metersFromTheSea}м \n\n` +
-                    `${apartments ? `Планировки апартаментов: \n${apartments} \n\n` : ''}` +
-                    `${caption}\n\n` +
-                    `В апартаментах: ${apartmentEquipment} \n\n` +
-                    `Инфраструктура комплекса: \n` +
-                    `${infrastructure} \n\n` +
-                    `Сдача объекта: ${date}\n\n` +
-                    locationUrl && `Геолокация: ${locationUrl}`
+                `Цена от € ${cost}\n` +
+                `Город: ${city}\n` +
+                `Район: ${district}\n` +
+                `Площадь территории комплекса: ${area}.\n` +
+                `До Средиземного моря: ${metersFromTheSea}м \n\n` +
+                `${apartments ? `Планировки апартаментов: \n${apartments} \n\n` : ''}` +
+                `${caption}\n\n` +
+                `В апартаментах: ${apartmentEquipment} \n\n` +
+                `Инфраструктура комплекса: \n` +
+                `${infrastructure} \n\n` +
+                `Сдача объекта: ${date}\n\n` +
+                `${locationUrl ? `Геолокация: ${locationUrl}` : ''}`
             );
         },
         owner: (params) => {
