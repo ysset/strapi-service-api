@@ -6,11 +6,11 @@ const translateApartments = (apartments) =>
         ?.map(({ layout = String, area = Number }) => {
             if (layout.includes('Duplex')) {
                 if (layout.includes('Garden')) {
-                    return 'Гарден-дуплекс' + layout.replace('Garden Duplex', '') + `${area} м²`;
+                    return 'Гарден-дуплекс' + layout.replace('Garden Duplex', ',') + `${area} м²`;
                 }
-                return 'Дуплекс' + layout.replace('Duplex', '') + `${area} м²`;
+                return 'Дуплекс' + layout.replace('Duplex', ',') + `${area} м²`;
             }
-            return `${layout.trim()} ${area} м²`;
+            return `${layout.trim()}, ${area} м²`;
         })
         .join('\n');
 
@@ -149,15 +149,15 @@ module.exports = {
             if (month && month <= 12 && year) date = `${beautifyMonth('ru', month)} ${year}`;
 
             return (
-                `${title}\n` +
-                `Цена от € ${cost}\n` +
-                `Город: ${city}\n` +
-                `Район: ${district}\n` +
-                `Площадь территории комплекса: ${area}.\n` +
-                `До Средиземного моря: ${metersFromTheSea}м \n\n` +
+                `${title}\n\n` +
+                `Цена от € ${cost}\\nn` +
+                `Город: ${city}\n\n` +
+                `Район: ${district}\n\n` +
+                `Площадь территории комплекса: ${area}м²\n\n` +
+                `До Средиземного моря: ${metersFromTheSea} м\n\n` +
                 `${apartments ? `Планировки апартаментов: \n${apartments} \n\n` : ''}` +
                 `${caption}\n\n` +
-                `В апартаментах: ${apartmentEquipment} \n\n` +
+                `В апартаментах:\n${apartmentEquipment} \n\n` +
                 `Инфраструктура комплекса: \n` +
                 `${infrastructure} \n\n` +
                 `Сдача объекта: ${date}\n\n`
