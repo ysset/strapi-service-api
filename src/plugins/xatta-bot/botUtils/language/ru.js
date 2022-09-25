@@ -175,7 +175,7 @@ module.exports = {
                 infrastructure,
                 metersFromTheSea,
             } = beautifyParams(params);
-            infrastructure = infrastructure?.map((el) => '•' + el.title.trim() + ';').join('\n');
+            infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
             floors = floors?.map((el) => el.floor).join(' и ');
 
             return (
