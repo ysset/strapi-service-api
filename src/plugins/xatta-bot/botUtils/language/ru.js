@@ -144,7 +144,7 @@ module.exports = {
 
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
-            apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join('\n');
+            apartmentEquipment = apartmentEquipment?.map((el) => el.title.trim()).join('\n\n');
             const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
             let date = null;
 
