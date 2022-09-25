@@ -107,7 +107,7 @@ module.exports = {
             },
         },
         realtorText: (params) => {
-            const { username, flatId, city, district } = beautifyParams(params);
+            const { username, flatId, city, district, table } = beautifyParams(params);
             return (
                 'Здравствуйте! \n' +
                 '\n' +
@@ -115,9 +115,10 @@ module.exports = {
                 '\n' +
                 `ID: ${beautifyId(flatId)} \n` +
                 `Город: ${city} \n` +
-                `Район: ${district} \n` +
-                '\n' +
-                'Пожалуйста, ответьте ему от лица застройщика как можно скорее!'
+                `Район: ${district} \n\n` +
+                'Пожалуйста, ответьте ему от лица застройщика как можно скорее!\n\n' +
+                'Ссылка на объект:\n' +
+                `https://xatta.ru/admin/content-manager/collectionType/api::${table.toLowerCase()}.${table.toLowerCase()}/${flatId}`
             );
         },
     },

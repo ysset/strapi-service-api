@@ -25,7 +25,12 @@ module.exports = async (query) => {
         flatId,
         ...recLocalisation,
     });
-    const realtorMessage = localisation.WRITE_AGENT.realtorText({ username, flatId, ...recLocalisation });
+    const realtorMessage = localisation.WRITE_AGENT.realtorText({
+        username,
+        flatId,
+        ...recLocalisation,
+        table,
+    });
 
     //save current housing
     await recommendations
