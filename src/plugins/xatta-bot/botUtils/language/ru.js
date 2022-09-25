@@ -155,7 +155,7 @@ module.exports = {
                 `Цена от € ${beautifyBigNum(cost)}\n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
-                `Площадь территории комплекса: ${beautifyBigNum(area)}м²\n\n` +
+                `Площадь территории комплекса: ${beautifyBigNum(area)} м²\n\n` +
                 `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
                 `${apartments ? `Планировки апартаментов: \n${apartments} \n\n` : ''}` +
                 `${caption}\n\n` +
