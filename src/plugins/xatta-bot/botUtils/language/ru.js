@@ -138,7 +138,7 @@ module.exports = {
             } = beautifyParams(params);
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
-            apartmentEquipment = apartmentEquipment?.map((el) => '-' + el.title.trim() + ';').join('\n');
+            apartmentEquipment = apartmentEquipment?.map((el) => '- ' + el.title.trim() + ';').join('\n');
             const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
             let date = null;
 
