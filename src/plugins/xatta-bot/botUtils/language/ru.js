@@ -133,7 +133,6 @@ module.exports = {
                 city,
                 district,
                 metersFromTheSea,
-                locationUrl,
                 caption,
                 area,
                 infrastructure,
@@ -161,8 +160,7 @@ module.exports = {
                 `В апартаментах: ${apartmentEquipment} \n\n` +
                 `Инфраструктура комплекса: \n` +
                 `${infrastructure} \n\n` +
-                `Сдача объекта: ${date}\n\n` +
-                `${locationUrl ? `Геолокация: ${locationUrl}` : ''}`
+                `Сдача объекта: ${date}\n\n`
             );
         },
         owner: (params) => {
