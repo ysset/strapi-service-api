@@ -21,6 +21,8 @@ const beautifyParams = (params) => {
     return params;
 };
 
+const beautifyBigNum = (cost) => cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+
 module.exports = {
     lang: 'ru',
     WELCOME: {
@@ -150,11 +152,11 @@ module.exports = {
 
             return (
                 `${title}\n\n` +
-                `Цена от € ${cost}\n\n` +
+                `Цена от € ${beautifyBigNum(cost)}\n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
-                `Площадь территории комплекса: ${area}м²\n\n` +
-                `До Средиземного моря: ${metersFromTheSea} м\n\n` +
+                `Площадь территории комплекса: ${beautifyBigNum(area)}м²\n\n` +
+                `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
                 `${apartments ? `Планировки апартаментов: \n${apartments} \n\n` : ''}` +
                 `${caption}\n\n` +
                 `В апартаментах:\n${apartmentEquipment} \n\n` +
@@ -182,15 +184,11 @@ module.exports = {
 
             infrastructure = infrastructure?.map((el) => el.title.trim()).join('\n');
             floors = floors?.map((el) => el.floor).join(' и ');
-            const [monthOwner, yearOwner] = yearOfConstruction && yearOfConstruction.split('.');
-            let data = null;
 
-            if (monthOwner && monthOwner <= 12 && yearOwner)
-                data = `${beautifyMonth('ru', monthOwner)} ${yearOwner}`;
             return (
-                `Цена: ${cost}\n` +
+                `Цена: ${beautifyBigNum(cost)}\n` +
                 '\n' +
-                `Код: ${code}\n` +
+                `Код: ${beautifyId(code)}\n` +
                 '\n' +
                 `Город: ${city}\n` +
                 `Район: ${district}\n` +
@@ -200,11 +198,11 @@ module.exports = {
                 `Этаж: ${floors}\n` +
                 `Отопление: ${heatingType}\n` +
                 `В апартаментах: ${furniture}\n` +
-                `Год постройки: ${data}\n` +
+                `Год постройки: ${yearOfConstruction}\n` +
                 '\n' +
                 `Инфраструктура комплекса: ${infrastructure}\n` +
                 '\n' +
-                `До Средиземного моря: ${metersFromTheSea}м\n`
+                `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)}м\n`
             );
         },
     },
@@ -212,23 +210,23 @@ module.exports = {
         owner: (params) => {
             let { layout, area, floors, city, district, cost } = beautifyParams(params);
             floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' и ' : '');
-            cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+
             return (
                 `Апартаменты${layout}, ${area} м², ${floors} этаж.\n` +
                 `${city}, район ${district}.\n` +
                 '\n' +
-                `${cost} €\n`
+                `${beautifyBigNum(cost)} €\n`
             );
         },
         complex: (params) => {
             let { apartments, city, district, cost, title } = beautifyParams(params);
             apartments = translateApartments(apartments);
-            cost = cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+
             return (
                 `${title}\n\n` +
                 `${city}, район ${district}.\n\n` +
                 `Апартаменты:\n${apartments}\n\n` +
-                `от ${cost} €`
+                `от ${beautifyBigNum(cost)} €`
             );
         },
     },
