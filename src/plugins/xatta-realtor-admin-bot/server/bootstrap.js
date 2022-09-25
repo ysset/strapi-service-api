@@ -7,20 +7,37 @@ const TgBot = require('node-telegram-bot-api');
 const bot = new TgBot(process.env.XATTA_ADMIN_BOT_API_KEY, { polling: true });
 
 const { commands } = require('./bot/components');
-const modifyRequestWithUserData = require('../botUtils/userController');
+const { modifyRequestWithUserData } = require('../botUtils/userController');
 const eventStorage = require('../botUtils/userController/eventStorage');
 
 /**
  * @param strapi
  */
-module.exports = ({ strapi }) => {
+module.exports = async ({ strapi }) => {
     strapi.bots.admin = bot;
+    await bot.setMyCommands([
+        {
+            command: 'start',
+            description: 'Добро пожаловать',
+        },
+        {
+            command: 'registration',
+            description: 'Регистрация агентства',
+        },
+        {
+            command: 'help',
+            description: 'Помощь',
+        },
+    ]);
+
     /**
      * Event listener for bots commands like /start
      */
-    strapi.bots.admin.onText(commands.START.regex, async (msg) =>
-        commands.START.fn(await modifyRequestWithUserData({ msg }))
-    );
+    for (let command in commands) {
+        strapi.bots.admin.onText(commands[command].regex, async (msg) =>
+            commands[command].fn(await modifyRequestWithUserData({ msg }))
+        );
+    }
 
     /**
      * Text listener, check and call current user event
