@@ -31,7 +31,7 @@ const createEventToUpdateAgent = async ({ telegramID, agentID: id, dbKey, regex 
  */
 module.exports = async (msg) => {
     const {
-        user: { ownerName, telegramID, email, id, admin },
+        user: { ownerName, telegramID, agencyName, email, id, admin },
         localisation,
     } = msg;
 
@@ -59,6 +59,20 @@ module.exports = async (msg) => {
             agentID: id,
             dbKey: 'email',
             regex: /^[a-zA-Z\d]+(?:\.[a-zA-Z\d]+)*@[a-zA-Z]+\.?(?:\.[a-zA-Z\d]+)+$/,
+        });
+        eventStorage.clearEvents(telegramID);
+    }
+
+    /**
+     * Get user agency name and save
+     */
+    if (!agencyName) {
+        await strapi.bots.admin.sendMessage(telegramID, localisation.GET_AGENCY_NAME);
+        await createEventToUpdateAgent({
+            telegramID,
+            agentID: id,
+            dbKey: 'agencyName',
+            regex: /[А-Яа-я\w]/,
         });
         eventStorage.clearEvents(telegramID);
     }
