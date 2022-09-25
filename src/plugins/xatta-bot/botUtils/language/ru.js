@@ -150,7 +150,7 @@ module.exports = {
 
             return (
                 `${title}\n\n` +
-                `Цена от € ${cost}\\nn` +
+                `Цена от € ${cost}\n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
                 `Площадь территории комплекса: ${area}м²\n\n` +
