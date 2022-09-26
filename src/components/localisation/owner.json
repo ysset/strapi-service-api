@@ -57,7 +57,7 @@
     "yearOfConstruction": {
       "type": "string",
       "regex": "^[0-9]{4}$",
-      "required": true
+      "required": false
     },
     "area": {
       "type": "integer",
