@@ -161,22 +161,21 @@ module.exports = {
                 `Сдача объекта: ${date}\n\n`
             );
         },
-        owner: (params) => {
-            let {
-                cost,
-                title,
-                caption,
-                city,
-                district,
-                neighborhood,
-                layout,
-                area,
-                floors,
-                furniture,
-                yearOfConstruction,
-                infrastructure,
-                metersFromTheSea,
-            } = beautifyParams(params);
+        owner: ({
+            cost,
+            title,
+            caption,
+            city,
+            district,
+            neighborhood,
+            layout,
+            area,
+            floors,
+            furniture,
+            yearOfConstruction,
+            infrastructure,
+            metersFromTheSea,
+        }) => {
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
             furniture = furniture?.map((el) => '- ' + el.title.trim() + ';').join('\n');
             floors = floors?.map((el) => el.floor).join(' и ');
@@ -187,7 +186,9 @@ module.exports = {
                 `Город: ${city}\n\n` +
                 `${district ? `Район: ${district}\n\n` : ''}` +
                 `Микрорайон: ${neighborhood}\n\n` +
-                `${metersFromTheSea ? `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)}м\n` : ''}` +
+                `${
+                    metersFromTheSea ? `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)}м\n\n` : ''
+                }` +
                 `Этаж: ${floors}\n\n` +
                 `Апартаменты: ${layout}, ${area} м²\n\n` +
                 `${caption}\n\n` +
