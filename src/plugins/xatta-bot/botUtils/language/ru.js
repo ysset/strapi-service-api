@@ -152,9 +152,10 @@ module.exports = {
                 `Район: ${district}\n\n` +
                 `Tерритория комплекса: ${beautifyBigNum(area)} м²\n\n` +
                 `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
-                `${apartments ? `Планировки апартаментов: \n${apartments} \n\n` : ''}` +
                 `${caption}\n\n` +
-                `В апартаментах:\n${apartmentEquipment} \n\n` +
+                `${apartments ? `Планировки апартаментов: \n${apartments} \n\n` : ''}` +
+                `В апартаментах:` +
+                `${apartmentEquipment} \n\n` +
                 `Инфраструктура комплекса: \n` +
                 `${infrastructure} \n\n` +
                 `Сдача объекта: ${date}\n\n`
@@ -163,41 +164,36 @@ module.exports = {
         owner: (params) => {
             let {
                 cost,
-                code,
+                title,
+                caption,
                 city,
                 district,
                 neighborhood,
                 layout,
                 area,
                 floors,
-                heatingType,
                 furniture,
                 yearOfConstruction,
                 infrastructure,
                 metersFromTheSea,
             } = beautifyParams(params);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
+            furniture = furniture?.map((el) => '- ' + el.title.trim() + ';').join('\n');
             floors = floors?.map((el) => el.floor).join(' и ');
 
             return (
-                `Цена: ${beautifyBigNum(cost)}\n` +
-                '\n' +
-                `Код: ${beautifyId(code)}\n` +
-                '\n' +
-                `Город: ${city}\n` +
-                `Район: ${district}\n` +
-                `Микрорайон: ${neighborhood}\n` +
-                '\n' +
-                `Апартаменты: ${layout}, ${area} м²\n` +
-                `Этаж: ${floors}\n` +
-                `Отопление: ${heatingType}\n` +
-                `В апартаментах: ${furniture}\n` +
-                `Год постройки: ${yearOfConstruction}\n` +
-                '\n' +
-                `Инфраструктура комплекса:\n` +
-                `${infrastructure}\n` +
-                '\n' +
-                `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)}м\n`
+                `${title}\n\n` +
+                `Цена: ${beautifyBigNum(cost)}\n\n` +
+                `Город: ${city}\n\n` +
+                `${district ? `Район: ${district}\n\n` : ''}` +
+                `Микрорайон: ${neighborhood}\n\n` +
+                `${metersFromTheSea ? `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)}м\n` : ''}` +
+                `Этаж: ${floors}\n\n` +
+                `Апартаменты: ${layout}, ${area} м²\n\n` +
+                `${caption}\n\n` +
+                `${furniture ? `В апартаментах:\n${furniture} \n\n` : ''}` +
+                `${yearOfConstruction ? `Инфраструктура:\n${infrastructure}\n\n` : ''}` +
+                `Год постройки: ${yearOfConstruction}\n\n`
             );
         },
     },

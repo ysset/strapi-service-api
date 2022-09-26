@@ -63,14 +63,6 @@
       "type": "integer",
       "required": true
     },
-    "furniture": {
-      "type": "enumeration",
-      "enum": [
-        "yes",
-        "no"
-      ],
-      "required": false
-    },
     "metersFromTheSea": {
       "type": "integer",
       "required": false
@@ -100,6 +92,22 @@
       "type": "component",
       "repeatable": true,
       "component": "apartments.floors"
+    },
+    "furniture": {
+      "type": "component",
+      "repeatable": true,
+      "component": "addtionals.additional"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "caption": {
+      "type": "string",
+      "required": true
+    },
+    "keyIfno": {
+      "type": "text"
     }
   }
 }
