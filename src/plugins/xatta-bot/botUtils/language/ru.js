@@ -192,8 +192,8 @@ module.exports = {
                 `Апартаменты: ${layout}, ${area} м²\n\n` +
                 `${caption}\n\n` +
                 `${furniture ? `В апартаментах:\n${furniture} \n\n` : ''}` +
-                `${yearOfConstruction ? `Инфраструктура:\n${infrastructure}\n\n` : ''}` +
-                `Год постройки: ${yearOfConstruction}\n\n`
+                `${infrastructure ? `Инфраструктура:\n${infrastructure}\n\n` : ''}` +
+                `${yearOfConstruction ? `Год постройки: ${yearOfConstruction}\n\n` : ''}`
             );
         },
     },
