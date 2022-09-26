@@ -42,6 +42,17 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "caption": {
+      "type": "string",
+      "required": true
+    },
+    "keyInfo": {
+      "type": "string"
     }
   }
 }

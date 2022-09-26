@@ -15,11 +15,6 @@
       ],
       "required": true
     },
-    "code": {
-      "type": "string",
-      "required": true,
-      "maxLength": 100
-    },
     "city": {
       "type": "string",
       "required": true,
@@ -68,18 +63,13 @@
       "type": "integer",
       "required": true
     },
-    "heatingType": {
-      "type": "string",
-      "required": true,
-      "maxLength": 30
-    },
     "furniture": {
       "type": "enumeration",
       "enum": [
         "yes",
         "no"
       ],
-      "required": true
+      "required": false
     },
     "metersFromTheSea": {
       "type": "integer",
