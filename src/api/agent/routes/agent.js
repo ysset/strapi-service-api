@@ -30,5 +30,13 @@ module.exports = {
                 policies: [],
             },
         },
+        {
+            method: 'GET',
+            path: '/costs',
+            handler: 'agent.getCost',
+            config: {
+                policies: [],
+            },
+        },
     ],
 };

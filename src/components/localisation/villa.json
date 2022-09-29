@@ -17,13 +17,11 @@
     },
     "title": {
       "type": "string",
-      "required": true,
-      "maxLength": 150
+      "required": true
     },
     "caption": {
       "type": "text",
-      "required": true,
-      "maxLength": 300
+      "required": true
     },
     "city": {
       "type": "string",

@@ -17,8 +17,7 @@
     },
     "caption": {
       "type": "text",
-      "required": true,
-      "maxLength": 300
+      "required": true
     },
     "city": {
       "type": "string",
@@ -72,7 +71,6 @@
     },
     "title": {
       "type": "string",
-      "maxLength": 100,
       "required": true
     },
     "keyInfo": {

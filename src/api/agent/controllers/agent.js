@@ -24,18 +24,49 @@ const getData = async ({ api, field, language }) => {
     return res.map((el) => el.localisation.find((el) => el.language === language)[field]);
 };
 
-const handleDeveloperComplexes = async (language) => {
-    return await strapi.entityService.findMany('api::complex.complex', {
+const handleDeveloperComplexes = async (language) =>
+    strapi.entityService.findMany('api::complex.complex', {
         filters: { localisation: { language } },
         populate: { localisation: { populate: { apartments: { fields: 'layout' } } } },
     });
-};
 
-const handleOwnerComplexes = async (language) => {
-    return await strapi.entityService.findMany('api::owner.owner', {
+const handleOwnerComplexes = async (language) =>
+    strapi.entityService.findMany('api::owner.owner', {
         filters: { localisation: { language } },
         populate: { localisation: { layout: true } },
     });
+
+const handleGetCosts = async () => {
+    const owner = await strapi.entityService.findMany('api::owner.owner', {
+        populate: {
+            localisation: {
+                fields: ['cost'],
+            },
+        },
+        sort: {
+            localisation: {
+                cost: 'asc',
+            },
+        },
+    });
+
+    const complex = await strapi.entityService.findMany('api::complex.complex', {
+        populate: {
+            localisation: {
+                fields: ['cost'],
+            },
+        },
+        sort: {
+            localisation: {
+                cost: 'asc',
+            },
+        },
+    });
+
+    return {
+        complex,
+        owner,
+    };
 };
 
 module.exports = createCoreController('api::agent.agent', {
@@ -59,6 +90,19 @@ module.exports = createCoreController('api::agent.agent', {
         const complexDistricts = await getData({ api: 'api::complex.complex', field: 'district', language });
         const villaDistricts = await getData({ api: 'api::villa.villa', field: 'district', language });
         return [...new Set([...complexDistricts, ...villaDistricts])];
+    },
+
+    getCost: async () => {
+        const { complex, owner } = await handleGetCosts();
+        const complexMin = complex.length ? complex[0].localisation[0].cost : 0;
+        const complexMax = complex.length ? complex[complex.length - 1].localisation[0].cost : 0;
+        const ownerMin = owner.length ? owner[0].localisation[0].cost : 0;
+        const ownerMax = owner.length ? owner[owner.length - 1].localisation[0].cost : 0;
+
+        return {
+            complex: [complexMin === complexMax ? 0 : complexMin, complexMax],
+            owner: [ownerMin === ownerMax ? 0 : ownerMin, ownerMax],
+        };
     },
 
     getLayouts: async (ctx) => {
