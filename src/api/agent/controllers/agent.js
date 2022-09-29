@@ -115,8 +115,12 @@ module.exports = createCoreController('api::agent.agent', {
         const ownerLocalisation = ownerComplexes.flatMap((el) =>
             el.localisation.find((el) => el.language === language)
         );
-        const developerLayouts = developerApartments.map((el) => el.layout);
-        const ownerLayouts = ownerLocalisation.map((el) => el.layout);
+        const developerLayouts = developerApartments
+            .map((el) => el.layout)
+            .filter((el = String) => el.match('^[\\W\\d]+\\+[0-9]{1}$'));
+        const ownerLayouts = ownerLocalisation
+            .map((el) => el.layout)
+            .filter((el = String) => el.match('^[\\W\\d]+\\+[0-9]{1}$'));
         return { developer: [...new Set(developerLayouts)], owner: [...new Set(ownerLayouts)] };
     },
 });
