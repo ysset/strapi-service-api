@@ -10,7 +10,8 @@ const configureFilters = ({ user, userFilters, table }) => {
     if (userFilters.prices.length)
         filters.localisation.$and.push({
             cost: {
-                $lte: userFilters.prices[userFilters.prices.length - 1][1],
+                $gte: userFilters.prices[0],
+                $lte: userFilters.prices[1],
             },
         });
     // layout
