@@ -3,12 +3,13 @@ read filePath
 echo "Enter server IP"
 read IP
 
-rm -rf ../dumps
-mkdir ../dumps
-scp root@${IP}:~/TelegramBot/dumps/${filePath}/uploads.zip ../dumps
-scp root@${IP}:~/TelegramBot/dumps/${filePath}/db-dump.sql ../dumps
+mkdir ../restores
+mkdir ../restores/dump_$(date '+%d-%m-%Y_%H')
 
-cat ../dumps/db-dump.sql | docker-compose exec -T DB psql -U develop xattaBot
+scp root@${IP}:~/xatta-telegram-bot/dumps/${filePath}/uploads.zip ../restores/dump_$(date '+%d-%m-%Y_%H')
+scp root@${IP}:~/xatta-telegram-bot/dumps/${filePath}/db-dump.sql ../restores/dump_$(date '+%d-%m-%Y_%H')
+
+cat ../restores/dump_$(date '+%d-%m-%Y_%H')/db-dump.sql | docker-compose exec -T DB psql -U develop xattaBot
 rm -rf ../public
-unzip ../dumps/uploads.zip
+unzip ../restores/dump_$(date '+%d-%m-%Y_%H')/uploads.zip
 mv ./public ../

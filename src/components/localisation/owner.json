@@ -103,7 +103,7 @@
       "required": true
     },
     "caption": {
-      "type": "string",
+      "type": "text",
       "required": true
     },
     "keyIfno": {
