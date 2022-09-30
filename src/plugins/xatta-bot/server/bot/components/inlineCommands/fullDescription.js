@@ -38,7 +38,7 @@ module.exports = async (query) => {
         const index = parseInt(i / 10);
         const path =
             resolvedPath +
-            `/public${photo.formats?.large ? photo.formats.large.url : photo.formats?.thumbnail.url}`;
+            `/public${photo.formats?.thumbnail ? photo.formats.thumbnail.url : photo.formats?.large.url}`;
         if (!arrayOfArrayOfPhotos[index]) arrayOfArrayOfPhotos[index] = [];
 
         // we can send 10 photo in one time
