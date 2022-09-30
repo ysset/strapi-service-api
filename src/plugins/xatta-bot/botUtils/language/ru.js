@@ -154,7 +154,7 @@ module.exports = {
                 `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
                 `${caption}\n\n` +
                 `${apartments ? `Планировки апартаментов: \n${apartments} \n\n` : ''}` +
-                `В апартаментах:` +
+                `В апартаментах:\n` +
                 `${apartmentEquipment} \n\n` +
                 `Инфраструктура комплекса: \n` +
                 `${infrastructure} \n\n` +
