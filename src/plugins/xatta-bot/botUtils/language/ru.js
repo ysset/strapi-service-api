@@ -95,6 +95,17 @@ module.exports = {
                     `https://t.me/${agentUsername}`
                 );
             },
+            villa: (params) => {
+                const { title, agentUsername, flatId, city, district } = beautifyParams(params);
+                return (
+                    'Благодарим Вас за использование нашего сервиса!\n\n' +
+                    `${title}\n\n` +
+                    `${city}, район: ${district}\n\n` +
+                    `ID: ${beautifyId(flatId)}\n\n` +
+                    `Менеджер агентства Eagle Group Real Estate & Invest ответит на любой Ваш вопрос!\n\n` +
+                    `https://t.me/${agentUsername}`
+                );
+            },
             owner: (params) => {
                 const { agentUsername, layout, area, city, district, neighborhood } = beautifyParams(params);
                 return (
