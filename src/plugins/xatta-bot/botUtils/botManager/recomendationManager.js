@@ -41,10 +41,6 @@ module.exports = {
     async get({ user, filters: userFilters }) {
         let filtered = [];
 
-        if (userFilters?.housings)
-            userFilters.housings = userFilters?.housings
-                .map((el) => [`${el}`, `${el} Duplex`, `${el} Garden Duplex`, `${el} Penthouse`])
-                .flat(1);
         if (userFilters?.layouts)
             userFilters.layouts = userFilters?.layouts
                 .map((el) => [`${el}`, `${el} Duplex`, `${el} Garden Duplex`, `${el} Penthouse`])
