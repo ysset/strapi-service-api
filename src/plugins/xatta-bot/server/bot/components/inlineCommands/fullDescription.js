@@ -36,9 +36,7 @@ module.exports = async (query) => {
     flat.layoutPhoto.forEach((photo, i) => {
         if (!photo.formats) return;
         const index = parseInt(i / 10);
-        const path =
-            resolvedPath +
-            `/public${photo.formats?.thumbnail ? photo.formats.thumbnail.url : photo.formats?.large.url}`;
+        const path = resolvedPath + `/public${photo.url ? photo.url : photo.formats?.large.url}`;
         if (!arrayOfArrayOfPhotos[index]) arrayOfArrayOfPhotos[index] = [];
 
         // we can send 10 photo in one time
