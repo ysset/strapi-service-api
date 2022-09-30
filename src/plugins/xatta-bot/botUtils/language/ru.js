@@ -257,6 +257,17 @@ module.exports = {
                 `от ${beautifyBigNum(cost)} €`
             );
         },
+        villa: (params) => {
+            let { apartments, city, district, cost, title } = beautifyParams(params);
+            apartments = translateApartments(apartments);
+
+            return (
+                `${title}\n\n` +
+                `${city}, район ${district}.\n\n` +
+                `Апартаменты:\n${apartments}\n\n` +
+                `от ${beautifyBigNum(cost)} €`
+            );
+        },
     },
     CHOOSE_THE_ACTION: {
         text: (flatId) => `ID: ${beautifyId(flatId)} \nВыберите действие:`,
