@@ -161,6 +161,42 @@ module.exports = {
                 `Сдача объекта: ${date}\n\n`
             );
         },
+        villa: (params) => {
+            let {
+                title,
+                cost,
+                city,
+                district,
+                metersFromTheSea,
+                apartments,
+                caption,
+                infrastructure,
+                apartmentEquipment,
+                constructionCompletionDate,
+            } = beautifyParams(params);
+            apartments = translateApartments(apartments);
+            infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
+            apartmentEquipment = apartmentEquipment?.map((el) => '- ' + el.title.trim() + ';').join('\n');
+            const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
+            let date = null;
+
+            if (month && month <= 12 && year) date = `${beautifyMonth('ru', month)} ${year}`;
+
+            return (
+                `${title}\n\n` +
+                `Цена от € ${beautifyBigNum(cost)}\n\n` +
+                `Город: ${city}\n\n` +
+                `Район: ${district}\n\n` +
+                `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
+                `${caption}\n\n` +
+                `${apartments ? `Планировки: \n${apartments} \n\n` : ''}` +
+                `В вилле:\n` +
+                `${apartmentEquipment} \n\n` +
+                `Инфраструктура: \n` +
+                `${infrastructure} \n\n` +
+                `${date ? `Сдача объекта: ${date}\n\n` : ''}`
+            );
+        },
         owner: ({
             cost,
             title,
