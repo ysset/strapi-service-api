@@ -36,7 +36,7 @@ module.exports = async (query) => {
     flat.layoutPhoto.forEach((photo, i) => {
         if (!photo.formats) return;
         const index = parseInt(i / 10);
-        console.log(photo);
+
         const path = resolvedPath + `/public${photo.size < 250 ? photo.url : photo.formats?.large.url}`;
         if (!arrayOfArrayOfPhotos[index]) arrayOfArrayOfPhotos[index] = [];
 
