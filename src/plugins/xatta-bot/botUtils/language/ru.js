@@ -88,10 +88,10 @@ module.exports = {
                 const { title, agentUsername, flatId, city, district } = beautifyParams(params);
                 return (
                     'Благодарим Вас за использование нашего сервиса!\n\n' +
-                    `${title}\n\n` +
-                    `${city}, район: ${district}\n\n` +
-                    `ID: ${beautifyId(flatId)}\n\n` +
                     `Менеджер агентства Eagle Group Real Estate & Invest ответит на любой Ваш вопрос!\n\n` +
+                    `${city}, район ${district}\n\n` +
+                    `ID: ${beautifyId(flatId)}\n\n` +
+                    `${title}\n\n` +
                     `https://t.me/${agentUsername}`
                 );
             },
@@ -99,23 +99,22 @@ module.exports = {
                 const { title, agentUsername, flatId, city, district } = beautifyParams(params);
                 return (
                     'Благодарим Вас за использование нашего сервиса!\n\n' +
-                    `${title}\n\n` +
-                    `${city}, район: ${district}\n\n` +
-                    `ID: ${beautifyId(flatId)}\n\n` +
                     `Менеджер агентства Eagle Group Real Estate & Invest ответит на любой Ваш вопрос!\n\n` +
+                    `${city}, район ${district}\n\n` +
+                    `ID: ${beautifyId(flatId)}\n\n` +
+                    `${title}\n\n` +
                     `https://t.me/${agentUsername}`
                 );
             },
             owner: (params) => {
-                const { agentUsername, layout, area, city, district, neighborhood } = beautifyParams(params);
+                const { title, agentUsername, flatId, city, district } = beautifyParams(params);
                 return (
                     'Здравствуйте! \n\n' +
                     'Благодарим Вас за использование нашего сервиса!\n\n' +
-                    `Апартаменты: ${layout}, ${area} м²\n\n` +
-                    `Город: ${city} \n\n` +
-                    `Район: ${district} \n\n` +
-                    `Микрорайон: ${neighborhood}\n\n` +
                     'Представитель собственника ответит на любой ваш вопрос, для связи с ним перейдите по ссылке!\n\n' +
+                    `${city}, район ${district}\n\n` +
+                    `ID: ${beautifyId(flatId)}\n\n` +
+                    `${title}\n\n` +
                     `https://t.me/${agentUsername}`
                 );
             },
