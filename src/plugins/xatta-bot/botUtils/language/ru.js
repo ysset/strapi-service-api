@@ -130,7 +130,7 @@ module.exports = {
                 `ID: ${beautifyId(flatId)} \n` +
                 `Город: ${city} \n` +
                 `Район: ${district} \n\n` +
-                'Пожалуйста, ответьте ему от лица застройщика как можно скорее!\n\n' +
+                'Пожалуйста, ответьте ему как можно скорее!\n\n' +
                 'Ссылка на объект:\n' +
                 `https://xatta.ru/admin/content-manager/collectionType/api::${table.toLowerCase()}.${table.toLowerCase()}/${flatId}`
             );
