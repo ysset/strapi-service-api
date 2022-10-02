@@ -58,7 +58,7 @@ const modifyRequestWithUserData = async ({ msg }) => {
     return {
         ...msg,
         user,
-        localisation: userLang(user.language),
+        localisation: userLang('ru'),
         messageId,
         chatId,
     };
