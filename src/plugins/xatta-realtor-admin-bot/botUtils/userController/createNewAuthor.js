@@ -32,7 +32,7 @@ const createEventToUpdateAgent = async ({ telegramID, agentID: id, dbKey, regex,
  */
 module.exports = async (msg) => {
     const {
-        user: { ownerName, telegramID, botToken, agencyName, email, id, admin },
+        user: { ownerName, telegramID, email, id, admin },
         localisation,
         chatId,
     } = msg;
@@ -66,33 +66,6 @@ module.exports = async (msg) => {
         });
         eventStorage.clearEvents(telegramID);
     }
-
-    /**
-     * Get user agency name and save
-     */
-    if (!agencyName) {
-        await strapi.bots.admin.sendMessage(telegramID, localisation.GET_AGENCY_NAME);
-        await createEventToUpdateAgent({
-            localisation,
-            telegramID,
-            agentID: id,
-            dbKey: 'agencyName',
-            regex: /[А-Яа-я\w]/,
-        });
-        eventStorage.clearEvents(telegramID);
-    }
-
-    //if (!botToken) {
-    //    await strapi.bots.admin.sendMessage(telegramID, localisation.GET_BOT_TOKEN);
-    //    await createEventToUpdateAgent({
-    //        localisation,
-    //        telegramID,
-    //        agentID: id,
-    //        dbKey: 'botToken',
-    //        regex: /^\d{10}:[\w\W]{35}$/,
-    //    });
-    //    eventStorage.clearEvents(telegramID);
-    //}
 
     /**
      * Create new author in admin panel

@@ -40,9 +40,9 @@ module.exports = {
      */
     async get({ user, filters: userFilters }) {
         let filtered = [];
-
         if (userFilters?.layouts)
             userFilters.layouts = userFilters?.layouts
+                .filter((el) => el.match(/^ (\d|\d.\d)\+\d$/))
                 .map((el) => [`${el}`, `${el} Duplex`, `${el} Garden Duplex`, `${el} Penthouse`])
                 .flat(1);
 
