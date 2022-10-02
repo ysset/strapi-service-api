@@ -132,7 +132,7 @@ module.exports = {
      * @returns {Promise<any>}
      */
     async save({ where, apiKey, data: { table, flatId }, user }) {
-        const favoriteObjects = user[`favorite${table}`];
+        const favoriteObjects = user[`favorite${table}`] ? user[`favorite${table}`] : [];
 
         return await strapi.db
             .query(apiKey)

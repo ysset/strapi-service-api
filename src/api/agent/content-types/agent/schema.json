@@ -12,10 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "ownerName": {
-      "type": "string",
-      "required": false
-    },
     "telegramID": {
       "type": "biginteger",
       "required": true
@@ -23,10 +19,6 @@
     "language": {
       "type": "string",
       "required": true
-    },
-    "email": {
-      "type": "string",
-      "required": false
     },
     "admin": {
       "type": "relation",
@@ -51,17 +43,8 @@
       "target": "api::owner.owner",
       "mappedBy": "agent"
     },
-    "agencyName": {
-      "type": "string",
-      "required": false
-    },
     "username": {
       "type": "string",
-      "required": false
-    },
-    "botToken": {
-      "type": "string",
-      "regex": "^\\d{10}:[\\w\\W]{35}$",
       "required": false
     }
   }

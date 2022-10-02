@@ -64,7 +64,7 @@ const modifyRequestWithUserData = async ({ msg }) => {
     };
 };
 /**
- * @type {{modifyRequestWithUserData: (function({msg: *}): Promise<*&{chatId: *, localisation: *, messageId: *, user: *}>), getUser: (function(*): Promise<{chatId: *, messageId: *, user: *}>)}}
+ * @type {{modifyRequestWithUserData: (function({msg: *}): Promise<*&{chatId: *, localisation: *, messageId: *, user: *}>), getUser: (function(*): Promise<{chatId: *, messageId: *, user: any}>)}}
  */
 module.exports = {
     modifyRequestWithUserData,

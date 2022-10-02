@@ -25,6 +25,7 @@ module.exports = async (query) => {
 
         recommendation = await recommendations.get({ user, filters });
     }
+
     if (!recommendation) return await alanyaBot.NO_FLATS({ chatId, localisation });
 
     let recLocalisation = {
@@ -47,9 +48,9 @@ module.exports = async (query) => {
     resolvedPath.pop();
     resolvedPath = resolvedPath.join('/');
     resolvedPath += `/public${
-        recLocalisation.layoutPhoto[0].formats.medium
-            ? recLocalisation.layoutPhoto[0].formats.medium.url
-            : recLocalisation.layoutPhoto[0].formats.thumbnail.url
+        recLocalisation.layoutPhoto[0].url
+            ? recLocalisation.layoutPhoto[0].url
+            : recLocalisation.layoutPhoto[0].formats.large.url
     }`;
 
     const table = recLocalisation.table.toLowerCase();

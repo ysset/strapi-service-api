@@ -103,7 +103,7 @@ module.exports = {
                 const { title, agentUsername, flatId, city, district } = beautifyParams(params);
                 return (
                     'Благодарим Вас за использование нашего сервиса!\n\n' +
-                    `Менеджер агентства Eagle Group Real Estate & Invest ответит на любой Ваш вопрос!\n\n` +
+                    `Менеджер агентства ${process.env.AGENCY_NAME} ответит на любой Ваш вопрос!\n\n` +
                     `${city}, район ${district}\n\n` +
                     `ID: ${beautifyId(flatId)}\n\n` +
                     `${title}\n\n` +
@@ -114,7 +114,7 @@ module.exports = {
                 const { title, agentUsername, flatId, city, district } = beautifyParams(params);
                 return (
                     'Благодарим Вас за использование нашего сервиса!\n\n' +
-                    `Менеджер агентства Eagle Group Real Estate & Invest ответит на любой Ваш вопрос!\n\n` +
+                    `Менеджер агентства ${process.env.AGENCY_NAME} ответит на любой Ваш вопрос!\n\n` +
                     `${city}, район ${district}\n\n` +
                     `ID: ${beautifyId(flatId)}\n\n` +
                     `${title}\n\n` +

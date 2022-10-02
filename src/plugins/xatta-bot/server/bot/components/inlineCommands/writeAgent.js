@@ -1,4 +1,6 @@
 const recommendations = require('../../../../botUtils/botManager/recomendationManager');
+const path = require('path');
+const fs = require('fs');
 
 module.exports = async (query) => {
     const {
@@ -8,36 +10,54 @@ module.exports = async (query) => {
         user,
     } = query;
 
-    const { table, flatId } = data;
-    const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
-    const flat = await strapi.entityService.findOne(api, flatId, { populate: '*' });
+    let { table, flatId } = data;
+    table = table.toLowerCase();
+    const api = `api::${table}.${table}`;
+
+    const flat = await strapi.entityService.findOne(api, flatId, {
+        populate: {
+            localisation: {
+                populate: {
+                    apartments: true,
+                },
+            },
+            layoutPhoto: true,
+            agent: true,
+        },
+    });
+
+    let resolvedPath = path.resolve('./index');
+    resolvedPath = resolvedPath.split('/');
+    resolvedPath.pop();
+    resolvedPath = resolvedPath.join('/');
+    resolvedPath += `/public${
+        flat.layoutPhoto[0].url ? flat.layoutPhoto[0].url : flat.layoutPhoto[0].formats.large.url
+    }`;
 
     const agentUsername = flat.agent.username;
     const agentTelegramId = flat.agent.telegramID;
+    let flatLocal = flat.localisation.find((rec) => rec.language === localisation.lang);
+    if (!flatLocal) flatLocal = flat.localisation.find((rec) => rec.language === 'ru');
 
-    let recLocalisation = flat.localisation.find((rec) => rec.language === localisation.lang);
+    const caption = localisation.SHORT_DESCRIPTION[table](flatLocal);
 
-    if (!recLocalisation) recLocalisation = flat.localisation.find((rec) => rec.language === 'en');
-
-    //get localisation
     const userMessage = localisation.WRITE_AGENT.userText[table.toLowerCase()]({
         agentUsername,
         flatId,
-        ...recLocalisation,
+        ...flatLocal,
     });
+
     const realtorMessage = localisation.WRITE_AGENT.realtorText({
         username,
         flatId,
-        ...recLocalisation,
+        ...flatLocal,
         table,
     });
 
     //save current housing
     await recommendations
         .save({
-            where: {
-                telegramID: query.from.id,
-            },
+            where: { telegramID: query.from.id },
             apiKey: 'api::telegram-user.telegram-user',
             data,
             user,
@@ -46,4 +66,7 @@ module.exports = async (query) => {
 
     await strapi.bots.alanyaBot.sendMessage(userTelegramId, userMessage).catch(console.error);
     await strapi.bots.admin.sendMessage(agentTelegramId, realtorMessage).catch(console.error);
+    await strapi.bots.admin
+        .sendPhoto(agentTelegramId, fs.createReadStream(resolvedPath), { caption })
+        .catch(console.error);
 };
