@@ -34,10 +34,20 @@ module.exports = async (query) => {
     resolvedPath = resolvedPath.join('/');
 
     flat.layoutPhoto.forEach((photo, i) => {
-        if (!photo.formats) return;
+        if (!photo || !photo.formats) return;
         const index = parseInt(i / 10);
-
-        const path = resolvedPath + `/public${photo.size < 250 ? photo.url : photo.formats?.large.url}`;
+        console.log(photo);
+        const path =
+            resolvedPath +
+            `/public${
+                photo.size < 250
+                    ? photo.url
+                    : photo.formats?.large
+                    ? photo.formats?.large.url
+                    : photo.formats?.medium
+                    ? photo.formats?.medium.url
+                    : photo.formats?.small.url
+            }`;
         if (!arrayOfArrayOfPhotos[index]) arrayOfArrayOfPhotos[index] = [];
 
         // we can send 10 photo in one time
