@@ -43,6 +43,12 @@ const modifyRequestWithUserData = async ({ msg }) => {
             })
             .catch(console.error);
 
+    if (user && !user.username && msg.from.username) {
+        await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
+            data: { username: msg.from.username },
+        });
+    }
+
     return {
         ...msg,
         user,
