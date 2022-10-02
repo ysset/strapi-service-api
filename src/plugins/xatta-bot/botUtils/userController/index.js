@@ -37,7 +37,7 @@ const modifyRequestWithUserData = async ({ msg }) => {
             .create('api::telegram-user.telegram-user', {
                 data: {
                     telegramID: msg.from.id,
-                    language: msg.from.language_code,
+                    language: 'ru',
                     username: msg.from.username,
                 },
             })

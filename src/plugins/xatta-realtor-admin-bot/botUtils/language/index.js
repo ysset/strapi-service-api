@@ -4,7 +4,7 @@ const localisation = {
     //ch: require('./ch'),
 };
 
-const userLang = (lang) => localisation[lang] || localisation.ru;
+const userLang = (lang) => (localisation[lang] ? localisation[lang] : localisation.ru);
 
 module.exports = {
     userLang,
