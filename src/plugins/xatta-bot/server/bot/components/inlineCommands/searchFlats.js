@@ -12,20 +12,6 @@ module.exports = async (query) => {
 
     let recommendation = await recommendations.get({ user, filters });
 
-    if (recommendation === null) {
-        user = await strapi.entityService
-            .update('api::telegram-user.telegram-user', query.user.id, {
-                data: {
-                    watchedComplex: [],
-                    watchedVilla: [],
-                },
-                populate: '*',
-            })
-            .catch(console.error);
-
-        recommendation = await recommendations.get({ user, filters });
-    }
-
     if (!recommendation) return await alanyaBot.NO_FLATS({ chatId, localisation });
 
     let recLocalisation = {

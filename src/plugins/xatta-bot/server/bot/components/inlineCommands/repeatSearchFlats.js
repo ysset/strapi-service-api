@@ -7,14 +7,10 @@ module.exports = async (query) => {
             data: {
                 watchedComplex: [],
                 watchedVilla: [],
+                watchedOwner: [],
             },
         })
-        .catch((e) => {
-            console.log(e);
-        })
-        .catch((e) => {
-            console.error(e);
-        });
+        .catch(console.error);
     await deleteCurrentMessage(query);
     await searchFlats(query);
 };

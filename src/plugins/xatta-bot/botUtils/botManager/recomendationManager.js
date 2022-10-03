@@ -48,7 +48,7 @@ module.exports = {
 
         if (!userFilters) userFilters = user.filters.last;
 
-        const watched = { Complex: user.watchedComplex, Villa: user.watchedVilla };
+        const watched = { Complex: user.watchedComplex, Villa: user.watchedVilla, Owner: user.watchedOwner };
 
         if (!userFilters) return;
 
