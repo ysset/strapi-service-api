@@ -174,8 +174,8 @@ module.exports = {
             if (month && month <= 12 && year) date = `${beautifyMonth('ru', month)} ${year}`;
 
             return (
-                `${title}\n\n` +
-                `Цена от € ${beautifyBigNum(cost)}\n\n` +
+                `<b>${title}</b>\n\n` +
+                `<b>Цена от € ${beautifyBigNum(cost)}</b>\n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
                 `Tерритория комплекса: ${beautifyBigNum(area)} м²\n\n` +
@@ -211,8 +211,8 @@ module.exports = {
             if (month && month <= 12 && year) date = `${beautifyMonth('ru', month)} ${year}`;
 
             return (
-                `${title}\n\n` +
-                `Цена от € ${beautifyBigNum(cost)}\n\n` +
+                `<b>${title}</b>\n\n` +
+                `<b>Цена от € ${beautifyBigNum(cost)}</b>\n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
                 `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
@@ -245,8 +245,8 @@ module.exports = {
             floors = floors?.map((el) => el.floor).join(' и ');
 
             return (
-                `${title}\n\n` +
-                `Цена: ${beautifyBigNum(cost)}\n\n` +
+                `<b>${title}</b>\n\n` +
+                `<b>Цена: ${beautifyBigNum(cost)}</b>\n\n` +
                 `Город: ${city}\n\n` +
                 `${district ? `Район: ${district}\n\n` : ''}` +
                 `Микрорайон: ${neighborhood}\n\n` +
@@ -264,13 +264,14 @@ module.exports = {
     },
     SHORT_DESCRIPTION: {
         owner: (params, favorite) => {
-            let { layout, area, floors, city, district, cost } = beautifyParams(params);
+            let { title, layout, area, floors, city, district, cost } = beautifyParams(params);
             floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' и ' : '');
 
             return (
+                `<b>${title}</b>\n\n` +
                 `Апартаменты${layout}, ${area} м², ${floors} этаж.\n` +
                 `${city}, район ${district}.\n\n` +
-                `${beautifyBigNum(cost)} €\n` +
+                `<b>${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ Эта квартира в избранном ❤️' : ''}`
             );
         },
@@ -279,10 +280,10 @@ module.exports = {
             apartments = translateApartments(apartments);
 
             return (
-                `${title}\n\n` +
+                `<b>${title}</b>\n\n` +
                 `${city}, район ${district}.\n\n` +
                 `Апартаменты:\n${apartments}\n\n` +
-                `от ${beautifyBigNum(cost)} €\n` +
+                `<b>от ${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ Этот комплекс в избранном ❤️' : ''}`
             );
         },
@@ -291,10 +292,10 @@ module.exports = {
             apartments = translateApartments(apartments);
 
             return (
-                `${title}\n\n` +
+                `<b>${title}</b>\n\n` +
                 `${city}, район ${district}.\n\n` +
                 `Апартаменты:\n${apartments}\n\n` +
-                `от ${beautifyBigNum(cost)} €\n` +
+                `<b>от ${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ Эта вилла в избранном ❤️' : ''}`
             );
         },

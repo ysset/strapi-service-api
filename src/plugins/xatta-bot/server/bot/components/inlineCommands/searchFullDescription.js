@@ -13,6 +13,7 @@ module.exports = async (query) => {
 
     await strapi.bots.alanyaBot
         .sendMessage(chatId, caption, {
+            parse_mode: 'HTML',
             reply_markup: {
                 inline_keyboard: [
                     [

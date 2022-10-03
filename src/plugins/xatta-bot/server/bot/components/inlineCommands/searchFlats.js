@@ -48,6 +48,7 @@ module.exports = async (query) => {
     await strapi.bots.alanyaBot
         .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
             caption,
+            parse_mode: 'HTML',
             reply_markup: {
                 inline_keyboard: [
                     [
