@@ -30,7 +30,8 @@ module.exports = async (query) => {
                         ...localisation?.FULL_DESCRIPTION,
                         callback_data: JSON.stringify({
                             action: actions.SEARCH_FULL_DESCRIPTION,
-                            flat: `api::${table.toLowerCase()}.${table.toLowerCase()}/${flatId}`,
+                            table,
+                            flatId,
                         }),
                     },
                 ],
