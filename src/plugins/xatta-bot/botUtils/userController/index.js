@@ -43,17 +43,26 @@ const modifyRequestWithUserData = async ({ msg }) => {
             })
             .catch(console.error);
 
-    if (user && !user.username && msg.from.username) {
-        user = await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
-            data: { username: msg.from.username },
-        });
-    }
+    if (user && !user.username && msg.from.username)
+        user = await strapi.entityService
+            .update('api::telegram-user.telegram-user', user.id, {
+                data: { username: msg.from.username },
+            })
+            .catch(console.error);
 
-    if (user && !msg.from.username) {
-        user = await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
-            data: { username: null },
-        });
-    }
+    if (user && !msg.from.username)
+        user = await strapi.entityService
+            .update('api::telegram-user.telegram-user', user.id, {
+                data: { username: null },
+            })
+            .catch(console.error);
+
+    if (user && user.username !== msg.from.username)
+        user = await strapi.entityService
+            .update('api::telegram-user.telegram-user', user.id, {
+                data: { username: msg.from.username },
+            })
+            .catch(console.error);
 
     return {
         ...msg,
