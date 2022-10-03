@@ -49,6 +49,11 @@ module.exports = {
         if (!userFilters) userFilters = user.filters.last;
 
         const watched = { Complex: user.watchedComplex, Villa: user.watchedVilla, Owner: user.watchedOwner };
+        const favorites = {
+            Complex: user.favoriteComplex,
+            Villa: user.favoriteVilla,
+            Owner: user.favoriteOwner,
+        };
 
         if (!userFilters) return;
 
@@ -107,12 +112,17 @@ module.exports = {
 
         for (let table of userFilters.tables) {
             recommendations.forEach((rec) => {
-                if (rec[table])
+                if (rec[table]) {
+                    rec[table] = rec[table].map((el) => {
+                        if (favorites[table].some((favorite) => favorite.id === el.id)) el.favorite = true;
+                        return el;
+                    });
                     filtered.push(
                         rec[table].filter(
                             (filtered) => !watched[table]?.some((watched) => watched.id === filtered.id)
                         ) //delete all watched
                     );
+                }
             });
         }
 

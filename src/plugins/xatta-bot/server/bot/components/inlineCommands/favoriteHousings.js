@@ -45,6 +45,24 @@ module.exports = async (query) => {
                 return res;
             })
             .catch(console.error),
+        await strapi.db
+            .query('api::owner.owner')
+            .findMany({
+                where: {
+                    id: {
+                        $in: user.favoriteOwner.map((el) => el.id),
+                    },
+                },
+                populate: true,
+            })
+            .then((res) => {
+                res.forEach((el) => {
+                    el.api = 'api::owner.owner';
+                    el.table = 'owner';
+                });
+                return res;
+            })
+            .catch(console.error),
     ];
     const favoriteHousings = flats.flat(1);
 

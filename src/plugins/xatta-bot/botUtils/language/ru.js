@@ -263,18 +263,18 @@ module.exports = {
         },
     },
     SHORT_DESCRIPTION: {
-        owner: (params) => {
+        owner: (params, favorite) => {
             let { layout, area, floors, city, district, cost } = beautifyParams(params);
             floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' и ' : '');
 
             return (
                 `Апартаменты${layout}, ${area} м², ${floors} этаж.\n` +
-                `${city}, район ${district}.\n` +
-                '\n' +
-                `${beautifyBigNum(cost)} €\n`
+                `${city}, район ${district}.\n\n` +
+                `${beautifyBigNum(cost)} €\n` +
+                `${favorite ? '❤️ Эта квартира в избранном ❤️' : ''}`
             );
         },
-        complex: (params) => {
+        complex: (params, favorite) => {
             let { apartments, city, district, cost, title } = beautifyParams(params);
             apartments = translateApartments(apartments);
 
@@ -282,10 +282,11 @@ module.exports = {
                 `${title}\n\n` +
                 `${city}, район ${district}.\n\n` +
                 `Апартаменты:\n${apartments}\n\n` +
-                `от ${beautifyBigNum(cost)} €`
+                `от ${beautifyBigNum(cost)} €\n` +
+                `${favorite ? '❤️ Этот комплекс в избранном ❤️' : ''}`
             );
         },
-        villa: (params) => {
+        villa: (params, favorite) => {
             let { apartments, city, district, cost, title } = beautifyParams(params);
             apartments = translateApartments(apartments);
 
@@ -293,7 +294,8 @@ module.exports = {
                 `${title}\n\n` +
                 `${city}, район ${district}.\n\n` +
                 `Апартаменты:\n${apartments}\n\n` +
-                `от ${beautifyBigNum(cost)} €`
+                `от ${beautifyBigNum(cost)} €\n` +
+                `${favorite ? '❤️ Эта вилла в избранном ❤️' : ''}`
             );
         },
     },
@@ -313,7 +315,7 @@ module.exports = {
         text: 'Подробное описание',
     },
     SAVE_INLINE: {
-        text: 'Сохранить',
+        text: 'Сохранить ❤️',
     },
     NEXT_INLINE: {
         text: 'Далее',

@@ -40,7 +40,10 @@ module.exports = async (query) => {
     }`;
 
     const table = recLocalisation.table.toLowerCase();
-    const caption = localisation.SHORT_DESCRIPTION[table](recLocalisation.localisation);
+    const caption = localisation.SHORT_DESCRIPTION[table](
+        recLocalisation.localisation,
+        recommendation.favorite
+    );
 
     await strapi.bots.alanyaBot
         .sendPhoto(chatId, fs.createReadStream(resolvedPath), {

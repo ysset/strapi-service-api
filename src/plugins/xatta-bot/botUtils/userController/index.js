@@ -40,6 +40,7 @@ const modifyRequestWithUserData = async ({ msg }) => {
                     language: 'ru',
                     username: msg.from.username,
                 },
+                populate: '*',
             })
             .catch(console.error);
 
@@ -47,6 +48,7 @@ const modifyRequestWithUserData = async ({ msg }) => {
         user = await strapi.entityService
             .update('api::telegram-user.telegram-user', user.id, {
                 data: { username: msg.from.username },
+                populate: '*',
             })
             .catch(console.error);
 
@@ -54,6 +56,7 @@ const modifyRequestWithUserData = async ({ msg }) => {
         user = await strapi.entityService
             .update('api::telegram-user.telegram-user', user.id, {
                 data: { username: null },
+                populate: '*',
             })
             .catch(console.error);
 
@@ -61,6 +64,7 @@ const modifyRequestWithUserData = async ({ msg }) => {
         user = await strapi.entityService
             .update('api::telegram-user.telegram-user', user.id, {
                 data: { username: msg.from.username },
+                populate: '*',
             })
             .catch(console.error);
 
