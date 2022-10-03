@@ -20,7 +20,7 @@ module.exports = {
         },
         REGISTRATION: {
             regex: /\/registration/,
-            fn: async (msg) => inlineCallBacks.REGISTER(msg),
+            fn: async (msg) => strapi.bots.admin.sendMessage(msg.chatId, 'Вы успешно зарегистрированы!'),
         },
     },
     inlineCallBacks,
