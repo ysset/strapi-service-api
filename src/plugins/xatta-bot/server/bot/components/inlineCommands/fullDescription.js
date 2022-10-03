@@ -5,13 +5,14 @@ module.exports = async (query) => {
     let {
         localisation,
         chatId,
-        data: { table, flatId },
+        data: { table, flatId, flat },
     } = query;
-    table = table.toLowerCase();
+    if (table) table = table.toLowerCase();
+    if (!table) table = flat?.split('.')[1].split('/')[0];
     const api = `api::${table}.${table}`;
     const arrayOfArrayOfPhotos = [];
 
-    const flat = await strapi.entityService
+    const object = await strapi.entityService
         .findOne(api, flatId, {
             populate: {
                 localisation: {
@@ -33,7 +34,7 @@ module.exports = async (query) => {
     resolvedPath.pop();
     resolvedPath = resolvedPath.join('/');
 
-    flat.layoutPhoto.forEach((photo, i) => {
+    object.layoutPhoto.forEach((photo, i) => {
         if (!photo || !photo.formats) return;
         const index = parseInt(i / 10);
         const path =
@@ -56,14 +57,14 @@ module.exports = async (query) => {
         });
     });
 
-    let recLocalisation = flat.localisation.find((rec) => rec.language === localisation.lang);
+    let recLocalisation = object.localisation.find((rec) => rec.language === localisation.lang);
 
-    if (!recLocalisation) recLocalisation = flat.localisation.find((rec) => rec.language === 'en');
+    if (!recLocalisation) recLocalisation = object.localisation.find((rec) => rec.language === 'en');
 
     const caption = localisation.HOUSING_FULL_DESCRIPTION[table]({
         ...recLocalisation,
-        locationUrl: flat.locationUrl,
-        agent: flat.agent,
+        locationUrl: object.locationUrl,
+        agent: object.agent,
         table,
     });
 
