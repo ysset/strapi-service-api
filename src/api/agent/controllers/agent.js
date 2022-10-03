@@ -36,6 +36,12 @@ const handleOwnerComplexes = async (language) =>
         populate: { localisation: { layout: true } },
     });
 
+const handleDeveloperVilla = async (language) =>
+    strapi.entityService.findMany('api::villa.villa', {
+        filters: { localisation: { language } },
+        populate: { localisation: { populate: { apartments: { fields: 'layout' } } } },
+    });
+
 const handleGetCosts = async () => {
     const owner = await strapi.entityService.findMany('api::owner.owner', {
         populate: {
@@ -109,20 +115,28 @@ module.exports = createCoreController('api::agent.agent', {
         const { language } = ctx.params;
         const developComplexes = await handleDeveloperComplexes(language);
         const ownerComplexes = await handleOwnerComplexes(language);
+        const developVilla = await handleDeveloperVilla(language);
         const developerApartments = developComplexes.flatMap(
             (el) => el.localisation.find((el) => el.language === language)?.apartments
         );
         const ownerLocalisation = ownerComplexes.flatMap((el) =>
             el.localisation.find((el) => el.language === language)
         );
+        const villaLocalisation = developVilla.flatMap(
+            (el) => el.localisation.find((el) => el.language === language)?.apartments
+        );
+
         const developerLayouts = developerApartments
             .map((el) => el.layout)
             .filter((el = String) => el.match('^[\\W\\d]+\\+[0-9]{1}$'));
         const ownerLayouts = ownerLocalisation
             .map((el) => el.layout)
             .filter((el = String) => el.match('^[\\W\\d]+\\+[0-9]{1}$'));
+        const villaLayouts = villaLocalisation
+            .map((el) => el.layout)
+            .filter((el = String) => el.match('^[\\W\\d]+\\+[0-9]{1}$'));
         return {
-            developer: [...new Set(developerLayouts)],
+            developer: [...new Set(developerLayouts), ...new Set(villaLayouts)],
             owner: [...new Set(ownerLayouts)],
         };
     },

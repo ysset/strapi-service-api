@@ -37,9 +37,33 @@ const modifyRequestWithUserData = async ({ msg }) => {
             .create('api::agent.agent', {
                 data: {
                     telegramID: msg.from.id,
-                    language: msg.from.language_code,
+                    language: 'ru',
                     username: msg.from.username,
                 },
+            })
+            .catch(console.error);
+
+    if (user && !user.username && msg.from.username)
+        user = await strapi.entityService
+            .update('api::agent.agent', user.id, {
+                data: { username: msg.from.username },
+                populate: '*',
+            })
+            .catch(console.error);
+
+    if (user && !msg.from.username)
+        user = await strapi.entityService
+            .update('api::agent.agent', user.id, {
+                data: { username: null },
+                populate: '*',
+            })
+            .catch(console.error);
+
+    if (user && user.username !== msg.from.username)
+        user = await strapi.entityService
+            .update('api::agent.agent', user.id, {
+                data: { username: msg.from.username },
+                populate: '*',
             })
             .catch(console.error);
 
