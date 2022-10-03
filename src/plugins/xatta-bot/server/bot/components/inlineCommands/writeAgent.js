@@ -71,6 +71,6 @@ module.exports = async (query) => {
         .sendMessage(agentTelegramId, realtorMessage, { parse_mode: 'HTML' })
         .catch(console.error);
     await strapi.bots.admin
-        .sendPhoto(agentTelegramId, fs.createReadStream(resolvedPath), { caption }, { parse_mode: 'HTML' })
+        .sendPhoto(agentTelegramId, fs.createReadStream(resolvedPath), { caption, parse_mode: 'HTML' })
         .catch(console.error);
 };
