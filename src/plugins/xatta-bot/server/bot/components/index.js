@@ -1,11 +1,9 @@
 const callbacks = require('./componentList');
-const { alanyaBot } = require('../../../botUtils/errorHandlers');
 
 const index = {
     START: {
         regex: /\/start/,
         fn: async (msg) => {
-            if (!process.env.DEVELOPMENT && !msg.user.username) return alanyaBot.NO_USERNAME(msg);
             await inlineCallBacks.ENTER_COMMAND(msg);
             return inlineCallBacks.DELETE_MESSAGE(msg);
         },

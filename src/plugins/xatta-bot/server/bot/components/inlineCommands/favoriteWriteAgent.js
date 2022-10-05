@@ -1,8 +1,11 @@
 const actions = require('../actions');
 const writeAgent = require('./writeAgent');
+const { alanyaBot } = require('../../../../botUtils/errorHandlers');
 
 module.exports = async (query) => {
-    const { localisation, data, chatId, messageId } = query;
+    const { localisation, data, chatId, messageId, user } = query;
+
+    if (!process.env.DEVELOPMENT && !user.username) return alanyaBot.NO_USERNAME(query);
 
     const { table, flatId } = data;
     strapi.bots.alanyaBot
