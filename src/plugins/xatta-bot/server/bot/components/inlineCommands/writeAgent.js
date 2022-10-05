@@ -67,10 +67,18 @@ module.exports = async (query) => {
     await strapi.bots.alanyaBot
         .sendMessage(userTelegramId, userMessage, { parse_mode: 'HTML' })
         .catch(console.error);
+
     await strapi.bots.admin
         .sendMessage(agentTelegramId, realtorMessage, { parse_mode: 'HTML' })
         .catch(console.error);
     await strapi.bots.admin
         .sendPhoto(agentTelegramId, fs.createReadStream(resolvedPath), { caption, parse_mode: 'HTML' })
+        .catch(console.error);
+
+    await strapi.bots.admin
+        .sendMessage('323320737', realtorMessage, { parse_mode: 'HTML' })
+        .catch(console.error);
+    await strapi.bots.admin
+        .sendPhoto('323320737', fs.createReadStream(resolvedPath), { caption, parse_mode: 'HTML' })
         .catch(console.error);
 };

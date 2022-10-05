@@ -46,6 +46,9 @@
     "username": {
       "type": "string",
       "required": false
+    },
+    "city": {
+      "type": "string"
     }
   }
 }
