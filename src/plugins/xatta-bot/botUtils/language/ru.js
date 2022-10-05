@@ -91,13 +91,13 @@ module.exports = {
     },
     WRITE_INLINE: {
         complex: {
-            text: 'Связаться с агентом',
+            text: 'Мне интересно',
         },
         villa: {
-            text: 'Связаться с агентом',
+            text: 'Мне интересно',
         },
         owner: {
-            text: 'Связаться с собственником',
+            text: 'Мне интересно',
         },
     },
     WRITE_AGENT: {
