@@ -81,4 +81,12 @@ module.exports = async (query) => {
     await strapi.bots.admin
         .sendPhoto('323320737', fs.createReadStream(resolvedPath), { caption, parse_mode: 'HTML' })
         .catch(console.error);
+
+    await strapi.entityService.create('api::log.log', {
+        data: {
+            [table]: flatId,
+            agent: flat.agent.id,
+            user: user.id,
+        },
+    });
 };

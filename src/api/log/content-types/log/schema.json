@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "logs",
+  "info": {
+    "singularName": "log",
+    "pluralName": "logs",
+    "displayName": "Log",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::telegram-user.telegram-user"
+    },
+    "agent": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::agent.agent"
+    },
+    "complex": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::complex.complex"
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::owner.owner"
+    },
+    "villa": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::villa.villa"
+    }
+  }
+}
