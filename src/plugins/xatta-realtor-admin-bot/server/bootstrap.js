@@ -22,7 +22,11 @@ module.exports = async ({ strapi }) => {
         },
         {
             command: 'registration',
-            description: 'Регистрация агентства',
+            description: 'Регистрация агента и выбор городов',
+        },
+        {
+            command: 'delete',
+            description: 'Удаление городов',
         },
         {
             command: 'help',
@@ -39,18 +43,12 @@ module.exports = async ({ strapi }) => {
         );
     }
 
-    /**
-     * Text listener, check and call current user event
-     */
-    strapi.bots.admin.on('text', async (msg) => {
+    bot.on('callback_query', async (query) => {
         try {
-            if (
-                (!msg.entities || msg?.entities[0].type !== 'bot_command') &&
-                eventStorage.isEvent(msg.from.id)
-            ) {
-                const event = eventStorage.callEvent(msg.from.id);
-                await event(msg);
-            }
+            query.data = JSON.parse(query.data);
+            const data = await modifyRequestWithUserData({ msg: query });
+            const event = eventStorage.callEvent(data.user.telegramID);
+            await event(data);
         } catch (e) {
             console.error(e);
         }

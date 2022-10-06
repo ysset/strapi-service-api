@@ -3,6 +3,19 @@ const isEnv = () => {
     const env = process.env;
     return !(!env.BOT_API_KEY || !env.WEB_APP_URL || !env.XATTA_ADMIN_BOT_API_KEY || !env.AGENCY_NAME);
 };
+const getData = async ({ api, field }) =>
+    await strapi.entityService.findMany(api, {
+        filters: {
+            agent: null,
+        },
+        populate: {
+            localisation: {
+                fields: [field],
+            },
+            agent: true,
+        },
+    });
+
 module.exports = {
     /**
      * An asynchronous register function that runs before
@@ -31,6 +44,42 @@ module.exports = {
                     'AGENCY_NAME'
             );
         }
+
+        const complexes = await getData({ api: 'api::complex.complex', field: 'city', language: 'ru' });
+        const villas = await getData({ api: 'api::villa.villa', field: 'city', language: 'ru' });
+        const owners = await getData({ api: 'api::owner.owner', field: 'agent', language: 'ru' });
+
+        let agents = await strapi.entityService.findMany('api::agent.agent', {
+            filters: { $not: { city: null } },
+        });
+        for (let object of complexes) {
+            const agent = agents.find((agent) => {
+                const city = JSON.parse(agent.city);
+                city.some((city) => city === object.localisation[0].city);
+            });
+            await strapi.entityService.update('api::complex.complex', object.id, {
+                data: { agent: agent?.id || 1 },
+            });
+        }
+        for (let object of villas) {
+            const agent = agents.find((agent) => {
+                const city = JSON.parse(agent.city);
+                city.some((city) => city === object.localisation[0].city);
+            });
+            await strapi.entityService.update('api::villa.villa', object.id, {
+                data: { agent: agent?.id || 1 },
+            });
+        }
+        for (let object of owners) {
+            const agent = agents.find((agent) => {
+                const city = JSON.parse(agent.city);
+                city.some((city) => city === object.localisation[0].city);
+            });
+            await strapi.entityService.update('api::owner.owner', object.id, {
+                data: { agent: agent?.id || 1 },
+            });
+        }
+
         const ids = await strapi.entityService.findMany('api::telegram-user.telegram-user', {
             fields: ['id'],
         });
