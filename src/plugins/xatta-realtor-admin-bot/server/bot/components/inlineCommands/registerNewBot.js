@@ -1,3 +1,3 @@
-const createNewAuthor = require('../../../../botUtils/userController/createNewAuthor');
+const addCities = require('../../../../botUtils/userController/addCities');
 
-module.exports = async (msg) => await createNewAuthor(msg);
+module.exports = async (msg) => await addCities(msg);

@@ -3,6 +3,7 @@ const inlineCallBacks = {
     ENTER_COMMAND: callbacks.ENTER_COMMAND,
     REGISTER: callbacks.REGISTER,
     HELP: callbacks.HELP,
+    DELETE: callbacks.DELETE_CITIES,
 };
 
 /**
@@ -20,7 +21,11 @@ module.exports = {
         },
         REGISTRATION: {
             regex: /\/registration/,
-            fn: async (msg) => strapi.bots.admin.sendMessage(msg.chatId, 'Вы успешно зарегистрированы!'),
+            fn: async (msg) => inlineCallBacks.REGISTER(msg),
+        },
+        DELETE_CITIES: {
+            regex: /\/delete/,
+            fn: async (msg) => inlineCallBacks.DELETE(msg),
         },
     },
     inlineCallBacks,

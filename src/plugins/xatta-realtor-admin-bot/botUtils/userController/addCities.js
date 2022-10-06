@@ -1,0 +1,114 @@
+const eventStorage = require('./eventStorage');
+
+const getData = async ({ api, field, language }) => {
+    let res = await strapi.entityService.findMany(api, {
+        filters: {
+            localisation: {
+                language,
+            },
+        },
+        populate: {
+            localisation: {
+                fields: ['language', field],
+            },
+            agent: true,
+        },
+    });
+    res = res.filter((el) => el.agent);
+    return res.map((el) => el.localisation.find((el) => el.language === language)[field]);
+};
+
+/**
+ * @param telegramID
+ * @param id
+ * @returns {Promise<unknown>}
+ */
+const createEventToUpdateAgent = async ({ telegramID, inline_keyboard }) =>
+    new Promise((resolve) => {
+        const event = async (query) => {
+            if (query.data.exit) return resolve(query);
+
+            const { chatId, messageId, user, data } = query;
+
+            user.city = JSON.parse(user.city);
+            if (user.city?.length) user.city.push(data.city);
+            else user.city = [data.city];
+
+            await strapi.entityService.update('api::agent.agent', user.id, {
+                data: {
+                    city: JSON.stringify(user.city),
+                },
+            });
+            inline_keyboard = inline_keyboard.filter((el) => el[0].text !== data.city);
+            await strapi.bots.admin.editMessageReplyMarkup(
+                { inline_keyboard },
+                {
+                    chat_id: chatId,
+                    message_id: messageId,
+                }
+            );
+        };
+        eventStorage.createEvent({ telegramID, event });
+    });
+
+/**
+ * @param msg
+ * @returns {Promise<void>}
+ */
+module.exports = async (msg) => {
+    const {
+        user: { telegramID },
+        localisation,
+    } = msg;
+
+    const complexCities = await getData({ api: 'api::complex.complex', field: 'city', language: 'ru' });
+    const villaCities = await getData({ api: 'api::villa.villa', field: 'city', language: 'ru' });
+    const ownerCities = await getData({
+        api: 'api::owner.owner',
+        field: 'city',
+        language: 'ru',
+    });
+
+    const agents = await strapi.entityService.findMany('api::agent.agent', {
+        filters: {
+            $not: {
+                city: null,
+            },
+        },
+        fields: ['city'],
+    });
+
+    const agentCities = agents.map((el) => JSON.parse(el.city)).flat(1);
+
+    const cities = [...new Set([...complexCities, ...villaCities, ...ownerCities])]
+        .flat(1)
+        .filter((city) => !agentCities.some((el) => el === city));
+    const inline_keyboard = cities.map((city) => {
+        return [
+            {
+                text: city,
+                callback_data: JSON.stringify({ city }),
+            },
+        ];
+    });
+    inline_keyboard[inline_keyboard.length] = [
+        {
+            text: 'Завершить выбор',
+            callback_data: JSON.stringify({ exit: true }),
+        },
+    ];
+    await strapi.bots.admin.sendMessage(telegramID, localisation.GET_CITY, {
+        reply_markup: {
+            inline_keyboard,
+        },
+    });
+    await createEventToUpdateAgent({
+        telegramID,
+        dbKey: 'city',
+        inline_keyboard,
+    });
+
+    await strapi.bots.admin.deleteMessage(msg.chatId, msg.messageId);
+    await strapi.bots.admin.sendMessage(msg.chatId, 'Вы успешно авторизованы');
+    eventStorage.clearEvents(telegramID);
+};
