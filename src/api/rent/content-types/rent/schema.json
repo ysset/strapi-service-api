@@ -47,6 +47,14 @@
       "type": "component",
       "repeatable": true,
       "component": "dates.rent-dates"
+    },
+    "term": {
+      "type": "enumeration",
+      "enum": [
+        "long",
+        "short"
+      ],
+      "required": true
     }
   }
 }

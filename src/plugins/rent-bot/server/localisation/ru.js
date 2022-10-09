@@ -2,9 +2,7 @@ const { beautifyId } = require('../utils');
 const { beautifyParams } = require('../utils');
 
 const beautifyBigNum = (cost) => cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
-/**
- * @type {{WELCOME: {first: string, second: string}, INPUT_ERROR: {date: string}, DELETED: {text: string}, WRITE_AGENT_INLINE: {text: string}, HOUSING_FULL_DESCRIPTION: (function(*): string), SERVER_ERROR: string, UN_AUTHORIZE: string, SAVED: string, NO_USERNAME: string, FAVORITE: {text: string}, lang: string, FULL_DESCRIPTION: {text: string}, WRITE_AGENT: {userText: (function(*): string), realtorText: (function(*): string)}, NO_FAVORITE_NOW: string, SEARCH: {text: string}, CONTROL_PANEL: {text: string}, COMPLETE_SEARCHING: {text: string}, DATE: string, SAVE_INLINE: {text: string}, SHORT_DESCRIPTION: (function(*): string), NEXT_INLINE: {text: string}, REPEAT_SEARCH_FLATS: {text: string}, START: {regex: RegExp, text: string}, GO_BACK_ACTION: {text: string}, DELETE_ACTION: {text: string}, NO_FLATS: string}}
- */
+
 module.exports = {
     lang: 'ru',
     WELCOME: {

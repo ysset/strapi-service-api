@@ -6,11 +6,11 @@
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-const getData = async ({ api, field, language }) => {
+const getData = async ({ api, field }) => {
     let res = await strapi.entityService.findMany(api, {
         filters: {
             localisation: {
-                language,
+                language: 'ru',
             },
         },
         populate: {
@@ -21,29 +21,48 @@ const getData = async ({ api, field, language }) => {
         },
     });
     res = res.filter((el) => el.agent);
-    return res.map((el) => el.localisation.find((el) => el.language === language)[field]);
+    return res.map((el) => el.localisation.find((el) => el.language === 'ru')[field]);
 };
 
-const handleDeveloperComplexes = async (language) =>
+const handleDeveloperComplexes = async () =>
     strapi.entityService.findMany('api::complex.complex', {
-        filters: { localisation: { language } },
+        filters: { localisation: { language: 'ru' } },
         populate: { localisation: { populate: { apartments: { fields: 'layout' } } } },
     });
 
-const handleOwnerComplexes = async (language) =>
+const handleOwnerComplexes = async () =>
     strapi.entityService.findMany('api::owner.owner', {
-        filters: { localisation: { language } },
+        filters: { localisation: { language: 'ru' } },
         populate: { localisation: { layout: true } },
     });
 
-const handleDeveloperVilla = async (language) =>
+const handleRent = async () =>
+    strapi.entityService.findMany('api::rent.rent', {
+        filters: { localisation: { language: 'ru' } },
+        populate: { localisation: { layout: true } },
+    });
+
+const handleDeveloperVilla = async () =>
     strapi.entityService.findMany('api::villa.villa', {
-        filters: { localisation: { language } },
+        filters: { localisation: { language: 'ru' } },
         populate: { localisation: { populate: { apartments: { fields: 'layout' } } } },
     });
 
 const handleGetCosts = async () => {
     const owner = await strapi.entityService.findMany('api::owner.owner', {
+        populate: {
+            localisation: {
+                fields: ['cost'],
+            },
+        },
+        sort: {
+            localisation: {
+                cost: 'asc',
+            },
+        },
+    });
+
+    const rent = await strapi.entityService.findMany('api::rent.rent', {
         populate: {
             localisation: {
                 fields: ['cost'],
@@ -72,18 +91,18 @@ const handleGetCosts = async () => {
     return {
         complex,
         owner,
+        rent,
     };
 };
 
 module.exports = createCoreController('api::agent.agent', {
-    getCities: async (ctx) => {
-        const { language } = ctx.params;
-        const complexCities = await getData({ api: 'api::complex.complex', field: 'city', language });
-        const villaCities = await getData({ api: 'api::villa.villa', field: 'city', language });
+    getCities: async () => {
+        const complexCities = await getData({ api: 'api::complex.complex', field: 'city' });
+        const villaCities = await getData({ api: 'api::villa.villa', field: 'city' });
         const ownerCities = await getData({
             api: 'api::owner.owner',
             field: 'city',
-            language,
+            language: 'ru',
         });
         return {
             developer: [...new Set([...complexCities, ...villaCities])],
@@ -91,10 +110,9 @@ module.exports = createCoreController('api::agent.agent', {
         };
     },
 
-    getDistricts: async (ctx) => {
-        const { language } = ctx.params;
-        const complexDistricts = await getData({ api: 'api::complex.complex', field: 'district', language });
-        const villaDistricts = await getData({ api: 'api::villa.villa', field: 'district', language });
+    getDistricts: async () => {
+        const complexDistricts = await getData({ api: 'api::complex.complex', field: 'district' });
+        const villaDistricts = await getData({ api: 'api::villa.villa', field: 'district' });
         return [...new Set([...complexDistricts, ...villaDistricts])];
     },
 
@@ -111,33 +129,81 @@ module.exports = createCoreController('api::agent.agent', {
         };
     },
 
-    getLayouts: async (ctx) => {
-        const { language } = ctx.params;
-        const developComplexes = await handleDeveloperComplexes(language);
-        const ownerComplexes = await handleOwnerComplexes(language);
-        const developVilla = await handleDeveloperVilla(language);
-        const developerApartments = developComplexes.flatMap(
-            (el) => el.localisation.find((el) => el.language === language)?.apartments
-        );
-        const ownerLocalisation = ownerComplexes.flatMap((el) =>
-            el.localisation.find((el) => el.language === language)
-        );
-        const villaLocalisation = developVilla.flatMap(
-            (el) => el.localisation.find((el) => el.language === language)?.apartments
-        );
+    getLayouts: async () => {
+        const developComplexes = await handleDeveloperComplexes();
+        const ownerComplexes = await handleOwnerComplexes();
+        const developVilla = await handleDeveloperVilla();
 
-        const developerLayouts = developerApartments
+        const developerLayouts = developComplexes
+            .flatMap((el) => el.localisation.find((el) => el.language === 'ru')?.apartments)
             .map((el) => el.layout)
             .filter((el = String) => el.trim().match('^[\\W\\d]+\\+[0-9]{1}$'));
-        const ownerLayouts = ownerLocalisation
+        const ownerLayouts = ownerComplexes
+            .flatMap((el) => el.localisation.find((el) => el.language === 'ru'))
             .map((el) => el.layout)
             .filter((el = String) => el.trim().match('^[\\W\\d]+\\+[0-9]{1}$'));
-        const villaLayouts = villaLocalisation
+        const villaLayouts = developVilla
+            .flatMap((el) => el.localisation.find((el) => el.language === 'ru')?.apartments)
             .map((el) => el.layout)
             .filter((el = String) => el.trim().match('^[\\W\\d]+\\+[0-9]{1}$'));
+
         return {
             developer: [...new Set([...new Set(developerLayouts), ...new Set(villaLayouts)])],
             owner: [...new Set(ownerLayouts)],
+        };
+    },
+
+    getCitiesRent: async () => {
+        const rents = await handleRent();
+        const short = rents
+            .filter((el) => el.term === 'short')
+            .flatMap((el) => el.localisation.find((el) => el.language === 'ru'))
+            .map((el) => el.city);
+        const long = rents
+            .filter((el) => el.term === 'long')
+            .flatMap((el) => el.localisation.find((el) => el.language === 'ru'))
+            .map((el) => el.city);
+        return {
+            short: [...new Set(short)],
+            long: [...new Set(long)],
+        };
+    },
+
+    getDistrictsRent: async () => {
+        const districts = await getData({ api: 'api::rent.rent', field: 'district' });
+        return [...new Set(districts)];
+    },
+
+    getCostRent: async () => {
+        const { rent } = await handleGetCosts();
+        const short = rent.filter((el) => el.term === 'short');
+        const long = rent.filter((el) => el.term === 'long');
+        const minShort = short.length ? short[0].localisation[0].cost : 0;
+        const maxShort = short.length ? short[short.length - 1].localisation[0].cost : 0;
+        const minLong = long.length ? long[0].localisation[0].cost : 0;
+        const maxLong = long.length ? long[long.length - 1].localisation[0].cost : 0;
+
+        return {
+            short: [minShort === maxShort ? 0 : minShort, maxShort],
+            long: [minLong === maxLong ? 0 : minLong, maxLong],
+        };
+    },
+
+    getLayoutsRent: async () => {
+        const apartments = await handleRent();
+        const layoutsShort = apartments
+            .filter((el) => el.term === 'short')
+            .flatMap((el) => el.localisation.find((el) => el.language === 'ru'))
+            .map((el) => el.layout)
+            .filter((el = String) => el.trim().match('^[\\W\\d]+\\+[0-9]{1}$'));
+        const layoutsLong = apartments
+            .filter((el) => el.term === 'long')
+            .flatMap((el) => el.localisation.find((el) => el.language === 'ru'))
+            .map((el) => el.layout)
+            .filter((el = String) => el.trim().match('^[\\W\\d]+\\+[0-9]{1}$'));
+        return {
+            short: [...new Set(layoutsShort)],
+            long: [...new Set(layoutsLong)],
         };
     },
 });

@@ -1,10 +1,5 @@
 const eventStorage = require('./eventStorage');
 
-/**
- * @param telegramID
- * @param id
- * @returns {Promise<unknown>}
- */
 const createEventToUpdateAgent = async ({ telegramID, inline_keyboard }) =>
     new Promise((resolve) => {
         const event = async (query) => {
@@ -33,10 +28,6 @@ const createEventToUpdateAgent = async ({ telegramID, inline_keyboard }) =>
         eventStorage.createEvent({ telegramID, event });
     });
 
-/**
- * @param msg
- * @returns {Promise<void>}
- */
 module.exports = async (msg) => {
     const {
         user: { telegramID, id },

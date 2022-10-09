@@ -10,9 +10,6 @@ const { commands } = require('./bot/components');
 const { modifyRequestWithUserData } = require('../botUtils/userController');
 const eventStorage = require('../botUtils/userController/eventStorage');
 
-/**
- * @param strapi
- */
 module.exports = async ({ strapi }) => {
     strapi.bots.admin = bot;
     await bot.setMyCommands([
@@ -34,9 +31,6 @@ module.exports = async ({ strapi }) => {
         },
     ]);
 
-    /**
-     * Event listener for bots commands like /start
-     */
     for (let command in commands) {
         strapi.bots.admin.onText(commands[command].regex, async (msg) =>
             commands[command].fn(await modifyRequestWithUserData({ msg }))
@@ -54,9 +48,6 @@ module.exports = async ({ strapi }) => {
         }
     });
 
-    /**
-     * Error handling
-     */
     strapi.bots.admin.on('polling_error', (msg) => console.log(msg));
 
     console.log('ADMIN is ready!');

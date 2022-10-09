@@ -38,5 +38,38 @@ module.exports = {
                 policies: [],
             },
         },
+
+        {
+            method: 'GET',
+            path: '/rent/cities',
+            handler: 'agent.getCitiesRent',
+            config: {
+                policies: [],
+            },
+        },
+        {
+            method: 'GET',
+            path: '/rent/districts',
+            handler: 'agent.getDistrictsRent',
+            config: {
+                policies: [],
+            },
+        },
+        {
+            method: 'GET',
+            path: '/rent/layouts',
+            handler: 'agent.getLayoutsRent',
+            config: {
+                policies: [],
+            },
+        },
+        {
+            method: 'GET',
+            path: '/rent/costs',
+            handler: 'agent.getCostRent',
+            config: {
+                policies: [],
+            },
+        },
     ],
 };

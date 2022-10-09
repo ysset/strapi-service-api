@@ -1,9 +1,5 @@
 const { userLang } = require('../localisation');
 
-/**
- * @param msg
- * @returns {Promise<{chatId: *, messageId: *, user: any}>}
- */
 const getUser = async (msg) => {
     const messageId = msg.message?.message_id || msg.message_id;
     const userID = msg.from?.id;
@@ -25,10 +21,6 @@ const getUser = async (msg) => {
     };
 };
 
-/**
- * @param msg
- * @returns {Promise<{msg, chatId: *, localisation: *, messageId: *, reply: (function(*, *=): TelegramBot.Promise), delete: (function(*=): TelegramBot.Promise), user: *}>}
- */
 const modifyRequestWithUserData = async ({ msg }) => {
     let { user, messageId, chatId } = await getUser(msg);
 
@@ -65,9 +57,7 @@ const modifyRequestWithUserData = async ({ msg }) => {
         chatId,
     };
 };
-/**
- * @type {{modifyRequestWithUserData: (function({msg: *}): Promise<*&{chatId: *, localisation: *, messageId: *, user: *}>), getUser: (function(*): Promise<{chatId: *, messageId: *, user: any}>)}}
- */
+
 module.exports = {
     modifyRequestWithUserData,
     getUser,

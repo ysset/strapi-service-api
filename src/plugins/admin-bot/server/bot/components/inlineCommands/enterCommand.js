@@ -1,9 +1,5 @@
 const { NO_USERNAME } = require('../../../../botUtils/errorHandlers');
 
-/**
- * @param msg
- * @returns {Promise<void>}
- */
 module.exports = async (msg) => {
     const { user, localisation } = msg;
     if (!process.env.DEVELOPMENT && !msg.user.username) return NO_USERNAME(msg);

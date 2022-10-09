@@ -2,10 +2,6 @@ const createEvent = require('./createEvent');
 const getDate = require('../event/getDate');
 const eventStorage = require('./eventStorage');
 
-/**
- * @param bot
- * @returns {Promise<*>}
- */
 module.exports = async (bot) => {
     const {
         chatId,
@@ -34,7 +30,12 @@ module.exports = async (bot) => {
             telegramID: chatId,
             dbKey: 'phoneNumber',
             userId: id,
-            regexes: [/^\+7\d{10}$/, /^\+7\d{3} \d{3} \d{4}$/, /^\+7 \d{3} \d{3} \d{4}$/],
+            regexes: [
+                /^\+7\d{10}$/,
+                /^\+7\d{3} \d{3} \d{4}$/,
+                /^\+7\d{3} \d{3} \d{2} \d{2}$/,
+                /^\+7 \d{3} \d{3} \d{2} \d{2}$/,
+            ],
         });
         eventStorage.clearEvents(chatId);
     }

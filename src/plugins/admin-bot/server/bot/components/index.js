@@ -6,9 +6,6 @@ const inlineCallBacks = {
     DELETE: callbacks.DELETE_CITIES,
 };
 
-/**
- * @type {{inlineCallBacks: {ENTER_COMMAND: function(*): Promise<void>}, commands: {START: {regex: RegExp, fn: (function(*): Promise<void>)}}}}
- */
 module.exports = {
     commands: {
         START: {

@@ -1,6 +1,6 @@
-const configureFilters = ({ user, userFilters, table }) => {
+const configureFilters = ({ userFilters, table }) => {
     // language
-    const filters = { localisation: { $and: [{ language: user.language }] } };
+    const filters = { localisation: { $and: [{ language: 'ru' }] } };
     // housing type
     if (userFilters.housings && userFilters.housings.length)
         filters.localisation.$and.push({ type: { $in: userFilters.housings } });
@@ -64,7 +64,6 @@ module.exports = {
             table,
         }));
 
-        // Updating current user filters, it's ok to be synchronous
         const dbFilters = await strapi.entityService.findOne('api::telegram-user.telegram-user', user.id, {
             fields: ['filters'],
         });

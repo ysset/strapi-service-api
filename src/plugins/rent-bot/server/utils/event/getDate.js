@@ -1,18 +1,19 @@
 const eventStorage = require('./eventStorage');
 const dateStorage = require('./dateStorage');
 
-/**
- * @param telegramID
- * @param key
- * @param regexes
- * @param localisation
- * @returns {Promise<unknown>}
- */
-const createEvent = async ({ telegramID, regexes, localisation }) =>
+const createEvent = async ({ telegramID, localisation }) =>
     new Promise((resolve) => {
         const event = async (msg) => {
-            if (regexes.some((regex) => msg.text.match(regex))) {
-                dateStorage.createDateFilter({ telegramID, date: msg.text });
+            const uDate = msg.text.split('-');
+            let dates = uDate.map((date = String) => date.trim().split('.'));
+            dates = dates.map((date) => {
+                const day = date[0];
+                const month = date[1];
+                const year = date[2];
+                return new Date([month, day, year].join('.'));
+            });
+            if (new Date(uDate[0]) && new Date(uDate[1]) && dates[0] < dates[1]) {
+                dateStorage.createDateFilter({ telegramID, date: dates });
                 eventStorage.clearEvents(telegramID);
                 resolve();
             } else {
@@ -22,16 +23,11 @@ const createEvent = async ({ telegramID, regexes, localisation }) =>
         eventStorage.createEvent({ telegramID, event });
     });
 
-/**
- * @param msg
- * @returns {Promise<*>}
- */
 module.exports = async (msg) => {
     const { chatId, localisation } = msg;
     await strapi.bots.rent.sendMessage(chatId, localisation.DATE);
     await createEvent({
         localisation,
         telegramID: chatId,
-        regexes: [/^\d{2}.\d{2}.\d{4} - \d{2}.\d{2}.\d{4}/, /^\d{2}.\d{2}.\d{4}-\d{2}.\d{2}.\d{4}/],
     });
 };

@@ -1,5 +1,10 @@
 const eventStorage = require('./eventStorage');
-
+/**
+ * @param api
+ * @param field
+ * @param language
+ * @returns {Promise<*>}
+ */
 const getData = async ({ api, field, language }) => {
     let res = await strapi.entityService.findMany(api, {
         filters: {
@@ -18,11 +23,6 @@ const getData = async ({ api, field, language }) => {
     return res.map((el) => el.localisation.find((el) => el.language === language)[field]);
 };
 
-/**
- * @param telegramID
- * @param id
- * @returns {Promise<unknown>}
- */
 const createEventToUpdateAgent = async ({ telegramID, inline_keyboard }) =>
     new Promise((resolve) => {
         const event = async (query) => {
@@ -51,10 +51,6 @@ const createEventToUpdateAgent = async ({ telegramID, inline_keyboard }) =>
         eventStorage.createEvent({ telegramID, event });
     });
 
-/**
- * @param msg
- * @returns {Promise<void>}
- */
 module.exports = async (msg) => {
     const {
         user: { telegramID },

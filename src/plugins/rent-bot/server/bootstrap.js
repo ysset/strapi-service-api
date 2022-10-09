@@ -10,9 +10,6 @@ const commands = require('./commands');
 const { modifyRequestWithUserData } = require('./utils');
 const { eventStorage } = require('./utils');
 
-/**
- * @param strapi
- */
 module.exports = async ({ strapi }) => {
     strapi.bots.rent = bot;
     await bot.setMyCommands([
