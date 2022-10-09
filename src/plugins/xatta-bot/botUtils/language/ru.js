@@ -45,7 +45,7 @@ module.exports = {
         text: '/start',
         regex: /\/start/,
     },
-    NO_FLATS: `Вы посмотрели все объекты по заданным фильтрам!`,
+    NO_FLATS: 'Вы посмотрели все объекты по заданным фильтрам!',
     NO_USERNAME:
         'Для корректной работы сервиса установите себе имя пользователя Telegram в настройках.\n' +
         'После установки напишите в чат старт\n' +
@@ -170,6 +170,7 @@ module.exports = {
                 infrastructure,
                 apartmentEquipment,
                 constructionCompletionDate,
+                paymentMethod,
             } = beautifyParams(params);
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
@@ -186,11 +187,12 @@ module.exports = {
                 `Район: ${district}\n\n` +
                 `Tерритория комплекса: ${beautifyBigNum(area)} м²\n\n` +
                 `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
+                `${paymentMethod ? `Способ оплаты: ${paymentMethod}\n\n` : ''}` +
                 `${caption}\n\n` +
                 `${apartments ? `Планировки апартаментов: \n${apartments} \n\n` : ''}` +
-                `В апартаментах:\n` +
+                'В апартаментах:\n' +
                 `${apartmentEquipment} \n\n` +
-                `Инфраструктура комплекса: \n` +
+                'Инфраструктура комплекса: \n' +
                 `${infrastructure} \n\n` +
                 `Сдача объекта: ${date}\n\n`
             );
@@ -207,6 +209,7 @@ module.exports = {
                 infrastructure,
                 apartmentEquipment,
                 constructionCompletionDate,
+                paymentMethod,
             } = beautifyParams(params);
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
@@ -222,11 +225,12 @@ module.exports = {
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
                 `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
+                `${paymentMethod ? `Способ оплаты: ${paymentMethod}\n\n` : ''}` +
                 `${caption}\n\n` +
                 `${apartments ? `Планировки: \n${apartments} \n\n` : ''}` +
-                `В вилле:\n` +
+                'В вилле:\n' +
                 `${apartmentEquipment} \n\n` +
-                `Инфраструктура: \n` +
+                'Инфраструктура: \n' +
                 `${infrastructure} \n\n` +
                 `${date ? `Сдача объекта: ${date}\n\n` : ''}`
             );
@@ -245,6 +249,7 @@ module.exports = {
             yearOfConstruction,
             infrastructure,
             metersFromTheSea,
+            paymentMethod,
         }) => {
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
             furniture = furniture?.map((el) => '- ' + el.title.trim() + ';').join('\n');
@@ -261,6 +266,7 @@ module.exports = {
                 }` +
                 `Этаж: ${floors}\n\n` +
                 `Апартаменты: ${layout}, ${area} м²\n\n` +
+                `${paymentMethod ? `Способ оплаты: ${paymentMethod}\n\n` : ''}` +
                 `${caption}\n\n` +
                 `${furniture ? `В апартаментах:\n${furniture} \n\n` : ''}` +
                 `${infrastructure ? `Инфраструктура:\n${infrastructure}\n\n` : ''}` +
