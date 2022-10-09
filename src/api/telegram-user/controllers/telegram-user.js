@@ -1,8 +1,8 @@
 'use strict';
 
-const { inlineCallBacks } = require('../../../plugins/xatta-bot/server/bot/components/index');
-const searchFlats = require('../../../plugins/xatta-bot/server/bot/components/inlineCommands/searchFlats');
-const { modifyRequestWithUserData } = require('../../../plugins/xatta-bot/botUtils/userController/index');
+const { inlineCallBacks } = require('../../../plugins/realtor-bot/server/bot/components/index');
+const searchFlats = require('../../../plugins/realtor-bot/server/bot/components/inlineCommands/searchFlats');
+const { modifyRequestWithUserData } = require('../../../plugins/realtor-bot/botUtils/userController/index');
 
 const { createCoreController } = require('@strapi/strapi').factories;
 

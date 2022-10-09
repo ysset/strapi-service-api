@@ -4,7 +4,7 @@ process.env.NTBA_FIX_319 = 1;
 
 // Connect to bot API
 const TgBot = require('node-telegram-bot-api');
-const bot = new TgBot(process.env.XATTA_ADMIN_BOT_API_KEY, { polling: true });
+const bot = new TgBot(process.env.ADMIN_BOT_API_KEY, { polling: true });
 
 const { commands } = require('./bot/components');
 const { modifyRequestWithUserData } = require('../botUtils/userController');
@@ -59,5 +59,5 @@ module.exports = async ({ strapi }) => {
      */
     strapi.bots.admin.on('polling_error', (msg) => console.log(msg));
 
-    console.log('Xatta admin is ready!');
+    console.log('ADMIN is ready!');
 };

@@ -1,7 +1,13 @@
 'use strict';
 const isEnv = () => {
     const env = process.env;
-    return !(!env.BOT_API_KEY || !env.WEB_APP_URL || !env.XATTA_ADMIN_BOT_API_KEY || !env.AGENCY_NAME);
+    return !(
+        !env.REALTOR_BOT_API_KEY ||
+        !env.RENT_BOT_API_KEY ||
+        !env.WEB_APP_URL ||
+        !env.ADMIN_BOT_API_KEY ||
+        !env.AGENCY_NAME
+    );
 };
 const getData = async ({ api, field }) =>
     await strapi.entityService.findMany(api, {
@@ -38,9 +44,10 @@ module.exports = {
         if (!isEnv()) {
             throw new Error(
                 'Please check env for values\n' +
-                    'BOT_API_KEY\n' +
+                    'REALTOR_BOT_API_KEY\n' +
+                    'RENT_BOT_API_KEY\n' +
                     'WEB_APP_URL\n' +
-                    'XATTA_ADMIN_BOT_API_KEY\n' +
+                    'ADMIN_BOT_API_KEY\n' +
                     'AGENCY_NAME'
             );
         }

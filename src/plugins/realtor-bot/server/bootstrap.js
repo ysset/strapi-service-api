@@ -2,7 +2,7 @@
 process.env.NTBA_FIX_319 = 1;
 
 const TgBot = require('node-telegram-bot-api');
-const bot = new TgBot(process.env.BOT_API_KEY, { polling: true });
+const bot = new TgBot(process.env.REALTOR_BOT_API_KEY, { polling: true });
 
 const { commands, inlineCallBacks } = require('./bot/components');
 const { modifyRequestWithUserData } = require('../botUtils/userController');
@@ -53,5 +53,5 @@ module.exports = async ({ strapi }) => {
         }
     });
 
-    console.log('Alanya Live Bot Connected!');
+    console.log('REALTOR is ready!');
 };
