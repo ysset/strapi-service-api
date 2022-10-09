@@ -27,7 +27,7 @@ const getUser = async (msg) => {
 
 /**
  * @param msg
- * @returns {Promise<*&{chatId: *, localisation: *, messageId: *, user: *}>}
+ * @returns {Promise<{msg, chatId: *, localisation: *, messageId: *, reply: (function(*, *=): TelegramBot.Promise), delete: (function(*=): TelegramBot.Promise), user: *}>}
  */
 const modifyRequestWithUserData = async ({ msg }) => {
     let { user, messageId, chatId } = await getUser(msg);
@@ -56,7 +56,9 @@ const modifyRequestWithUserData = async ({ msg }) => {
     }
 
     return {
-        ...msg,
+        reply: (text, form = {}) => strapi.bots.rent.sendMessage(chatId, text, form),
+        delete: (form = {}) => strapi.bots.rent.deleteMessage(chatId, messageId, form),
+        msg,
         user,
         localisation: userLang(user.language),
         messageId,

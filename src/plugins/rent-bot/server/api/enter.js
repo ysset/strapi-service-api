@@ -1,12 +1,11 @@
 const { getUserInfo } = require('../utils');
-const deleteMessage = require('./deleteMessage');
 
-module.exports = async (msg) => {
-    const { localisation, chatId } = msg;
+module.exports = async (bot) => {
+    const { localisation } = bot;
 
-    await strapi.bots.rent.sendMessage(chatId, localisation.WELCOME.first);
-    await strapi.bots.rent.sendMessage(chatId, localisation.WELCOME.second);
-    await deleteMessage(msg);
+    await bot.reply(localisation.WELCOME.first);
+    await bot.reply(localisation.WELCOME.second);
+    await bot.delete();
 
-    return getUserInfo(msg);
+    return getUserInfo(bot);
 };

@@ -1,12 +1,13 @@
 const eventStorage = require('./eventStorage');
 /**
  * @param telegramID
- * @param key
+ * @param dbKey
+ * @param userId
  * @param regexes
  * @param localisation
  * @returns {Promise<unknown>}
  */
-const createEvent = async ({ telegramID, dbKey, userId, regexes, localisation }) =>
+const createEvent = ({ telegramID, dbKey, userId, regexes, localisation }) =>
     new Promise((resolve) => {
         const event = async (msg) => {
             if (regexes.some((regex) => msg.text.match(regex))) {
@@ -17,8 +18,9 @@ const createEvent = async ({ telegramID, dbKey, userId, regexes, localisation })
                         },
                     })
                     .catch(console.error);
-                resolve();
+                return resolve();
             } else {
+                console.log(dbKey);
                 await strapi.bots.rent
                     .sendMessage(telegramID, localisation.INPUT_ERROR[dbKey])
                     .catch(console.error);

@@ -4,7 +4,8 @@ const isEnv = () => {
     return !(
         !env.REALTOR_BOT_API_KEY ||
         !env.RENT_BOT_API_KEY ||
-        !env.WEB_APP_URL ||
+        !env.RENT_WEB_APP_URL ||
+        !env.REALTOR_WEB_APP_URL ||
         !env.ADMIN_BOT_API_KEY ||
         !env.AGENCY_NAME
     );

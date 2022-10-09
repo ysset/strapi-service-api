@@ -1,10 +1,10 @@
 {
-  "name": "alanya-live-bot",
+  "name": "realtor-bot",
   "version": "0.0.0",
-  "description": "This is the description of the plugin.",
+  "description": "Xatta realtor bot",
   "strapi": {
-    "name": "alanya-live-bot",
-    "description": "Description of alanya-live-bot plugin",
+    "name": "realtor-bot",
+    "description": "Xatta realtor bot",
     "kind": "plugin"
   },
   "dependencies": {

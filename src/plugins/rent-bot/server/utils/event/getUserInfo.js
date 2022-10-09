@@ -1,21 +1,22 @@
 const createEvent = require('./createEvent');
 const getDate = require('../event/getDate');
+const eventStorage = require('./eventStorage');
 
 /**
- * @param msg
+ * @param bot
  * @returns {Promise<*>}
  */
-module.exports = async (msg) => {
+module.exports = async (bot) => {
     const {
         chatId,
         user: { id, fullName, phoneNumber },
         localisation,
-    } = msg;
+    } = bot;
 
-    if (!fullName || !phoneNumber) await strapi.bots.rent.sendMessage(chatId, localisation.GET_USER_INFO);
+    if (!fullName || !phoneNumber) await bot.reply(localisation.GET_USER_INFO);
 
     if (!fullName) {
-        await strapi.bots.rent.sendMessage(chatId, localisation.ENTER_FULL_NAME);
+        await bot.reply(localisation.ENTER_FULL_NAME);
         await createEvent({
             localisation,
             telegramID: chatId,
@@ -23,18 +24,20 @@ module.exports = async (msg) => {
             userId: id,
             regexes: [/^[А-яA-z]{2,} [А-яA-z]{2,} [А-яA-z]{2,}$/],
         });
+        eventStorage.clearEvents(chatId);
     }
 
     if (!phoneNumber) {
-        await strapi.bots.rent.sendMessage(chatId, localisation.ENTER_PHONE_NUMBER);
+        await bot.reply(localisation.ENTER_PHONE_NUMBER);
         await createEvent({
             localisation,
             telegramID: chatId,
             dbKey: 'phoneNumber',
             userId: id,
-            regexes: [/^\+7\d{10}$/, /^\+7\d{3} \d{3} \d{4}$/],
+            regexes: [/^\+7\d{10}$/, /^\+7\d{3} \d{3} \d{4}$/, /^\+7 \d{3} \d{3} \d{4}$/],
         });
+        eventStorage.clearEvents(chatId);
     }
 
-    return getDate(msg);
+    return getDate(bot);
 };

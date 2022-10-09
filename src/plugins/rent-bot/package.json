@@ -1,10 +1,10 @@
 {
   "name": "rent-bot",
   "version": "0.0.0",
-  "description": "This is the description of the plugin.",
+  "description": "Xatta rent bot",
   "strapi": {
     "name": "rent-bot",
-    "description": "Description of Rent Bot plugin",
+    "description": "Xatta rent bot",
     "kind": "plugin",
     "displayName": "Rent Bot"
   },

@@ -55,14 +55,20 @@
     "watchedOwner": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::owner.owner",
+      "target": "api::rent.rent",
       "mappedBy": "watchedUsers"
     },
     "favoriteOwner": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::owner.owner",
+      "target": "api::rent.rent",
       "mappedBy": "favoriteUsers"
+    },
+    "fullName": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "string"
     }
   }
 }

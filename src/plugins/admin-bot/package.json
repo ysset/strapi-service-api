@@ -1,10 +1,10 @@
 {
-  "name": "alanya-live-bot",
+  "name": "admin-bot",
   "version": "0.0.0",
-  "description": "This is the description of the plugin.",
+  "description": "Xatta admin bot",
   "strapi": {
-    "name": "alanya-live-bot",
-    "description": "Description of alanya-live-bot plugin",
+    "name": "admin-bot",
+    "description": "Xatta admin bot",
     "kind": "plugin"
   },
   "dependencies": {

@@ -10,7 +10,7 @@ module.exports = async (msg) => {
                     [
                         {
                             ...localisation.CONTROL_PANEL,
-                            web_app: { url: process.env.WEB_APP_URL },
+                            web_app: { url: process.env.REALTOR_WEB_APP_URL },
                         },
                     ],
                 ],
@@ -26,7 +26,7 @@ module.exports = async (msg) => {
                 type: 'web_app',
                 text: localisation.MENU_BUTTON,
                 web_app: {
-                    url: process.env.WEB_APP_URL,
+                    url: process.env.REALTOR_WEB_APP_URL,
                 },
             }),
         })
