@@ -5,13 +5,7 @@ const createEvent = async ({ telegramID, localisation }) =>
     new Promise((resolve) => {
         const event = async (msg) => {
             const uDate = msg.text.split('-');
-            let dates = uDate.map((date = String) => date.trim().split('.'));
-            dates = dates.map((date) => {
-                const day = date[0];
-                const month = date[1];
-                const year = date[2];
-                return new Date([month, day, year].join('.'));
-            });
+            const dates = uDate.map((date = String) => date.trim().split('.').reverse().join('-'));
             if (new Date(uDate[0]) && new Date(uDate[1]) && dates[0] < dates[1]) {
                 dateStorage.createDateFilter({ telegramID, date: dates });
                 eventStorage.clearEvents(telegramID);

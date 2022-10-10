@@ -1,5 +1,4 @@
 const createEvent = require('./createEvent');
-const getDate = require('../event/getDate');
 const eventStorage = require('./eventStorage');
 
 module.exports = async (bot) => {
@@ -39,6 +38,4 @@ module.exports = async (bot) => {
         });
         eventStorage.clearEvents(chatId);
     }
-
-    return getDate(bot);
 };

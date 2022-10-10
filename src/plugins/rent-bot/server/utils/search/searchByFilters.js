@@ -1,7 +1,7 @@
 const { dateStorage } = require('../index');
 const getDate = require('../event/getDate');
 
-const configureFilters = (userFilters = {}, dates = [Date]) => ({
+const configureFilters = (userFilters = {}) => ({
     localisation: {
         $and: [
             { language: 'ru' },
@@ -9,7 +9,6 @@ const configureFilters = (userFilters = {}, dates = [Date]) => ({
             { cost: { $gte: userFilters.prices[0] || 0, $lte: userFilters.prices[1] } },
             { layout: { $in: userFilters.layouts } },
             { type: { $in: userFilters.housings || ['villa', 'apartment'] } },
-            { term: { $not: { $between: dates } } },
         ],
     },
 });
@@ -23,12 +22,15 @@ module.exports = async (bot) => {
     const favorite = user.favoriteRent;
     const table = 'rent';
     const api = 'api::rent.rent';
-    const dates = dateStorage.dates.get(user.telegramID);
+    let dates = dateStorage.dates.get(user.telegramID);
 
     // if user didn't set date, ask it
     if (!dates || !dates.length) {
         await getDate(bot);
+        dates = dateStorage.dates.get(user.telegramID);
     }
+
+    if (!dates || !dates.length) return null;
 
     filters.layouts
         .filter((el) => el.match(/^ (\d|\d.\d)\+(\d|\d.\d)$/))
@@ -49,7 +51,7 @@ module.exports = async (bot) => {
 
     let apartments = await strapi.entityService
         .findMany(api, {
-            filters: configureFilters(filters, dates),
+            filters: configureFilters(filters),
             populate: {
                 localisation: {
                     populate: {
@@ -61,6 +63,7 @@ module.exports = async (bot) => {
                 },
                 layoutPhoto: true,
                 agent: true,
+                dates: true,
             },
         })
         .then((r) =>
@@ -70,13 +73,18 @@ module.exports = async (bot) => {
                 return el;
             })
         );
-    apartments = apartments.filter((apartment) => !watched.some((watched) => apartment.id === watched.id));
-    apartments = apartments.map((el) => {
-        if (favorite.some((favorite) => favorite.id === el.id)) {
-            el.favorite = true;
-        }
-        return el;
-    });
+    apartments = apartments
+        .filter(
+            (apartment) =>
+                !apartment.dates.some((date) => date.arrival > dates[0] && date.departure < dates[1])
+        )
+        .filter((apartment) => !watched.some((watched) => apartment.id === watched.id))
+        .map((el) => {
+            if (favorite.some((favorite) => favorite.id === el.id)) {
+                el.favorite = true;
+            }
+            return el;
+        });
 
     if (apartments.length === 0) return null;
 
