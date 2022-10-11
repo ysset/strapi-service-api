@@ -11,7 +11,7 @@ module.exports = async (query) => {
     if (!user[`watched${table}`].length)
         return await strapi.bots.alanyaBot.sendMessage(
             chatId,
-            'Это была первая квартира которую вы просмотрели'
+            'Это была первая квартира которую вы просмотрели 👆'
         );
     const flatId = user[`watched${table}`].pop().id;
     let object = await strapi.entityService.findOne(

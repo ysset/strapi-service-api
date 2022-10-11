@@ -24,6 +24,7 @@ const inlineCallBacks = {
     DELETE_MESSAGE: callbacks.DELETE_MESSAGE,
     NEXT_FLAT: callbacks.NEXT_FLAT,
     PREVIOUS_FLAT: callbacks.PREVIOUS_FLAT,
+    CANCEL_INTEREST: callbacks.CANCEL_INTEREST,
 };
 
 module.exports = {

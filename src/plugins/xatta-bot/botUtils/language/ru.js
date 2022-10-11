@@ -100,6 +100,17 @@ module.exports = {
             text: 'Мне интересно',
         },
     },
+    CANCEL_INTEREST_INLINE: { text: 'Я передумал, мне не интересно' },
+    CANCEL_INTEREST: {
+        user: 'Отменяем алгоритмы увлекательной беседы с агентом',
+        realtor: (params) => {
+            const { username, flatId } = beautifyParams(params);
+            return (
+                `Пользователь https://t.me/${username} больше НЕ интересуется данным объектом \n\n` +
+                `ID: ${beautifyId(flatId)}`
+            );
+        },
+    },
     WRITE_AGENT: {
         userText: {
             complex: (params) => {

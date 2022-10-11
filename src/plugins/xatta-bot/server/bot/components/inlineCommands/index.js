@@ -13,6 +13,7 @@ const deleteFunc = require('./delete');
 const deleteCurrentMessageFunc = require('./deleteCurrentMessage');
 const nextFlatFunc = require('./nextFlat');
 const previousFlatFunc = require('./previousFlat');
+const cancelUserInterestFunc = require('./cancelUserInterest');
 
 module.exports = {
     writeAgent: writeAgentFunc,
@@ -30,4 +31,5 @@ module.exports = {
     deleteCurrentMessage: deleteCurrentMessageFunc,
     nextFlat: nextFlatFunc,
     previousFlat: previousFlatFunc,
+    cancelUserInterest: cancelUserInterestFunc,
 };
