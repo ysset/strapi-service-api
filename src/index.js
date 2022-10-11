@@ -6,7 +6,9 @@ const isEnv = () => {
 const getData = async ({ api, field }) =>
     await strapi.entityService.findMany(api, {
         filters: {
-            agent: null,
+            localisation: {
+                language: 'ru',
+            },
         },
         populate: {
             localisation: {
@@ -45,9 +47,9 @@ module.exports = {
             );
         }
 
-        const complexes = await getData({ api: 'api::complex.complex', field: 'city', language: 'ru' });
-        const villas = await getData({ api: 'api::villa.villa', field: 'city', language: 'ru' });
-        const owners = await getData({ api: 'api::owner.owner', field: 'agent', language: 'ru' });
+        const complexes = await getData({ api: 'api::complex.complex', field: 'city' });
+        const villas = await getData({ api: 'api::villa.villa', field: 'city' });
+        const owners = await getData({ api: 'api::owner.owner', field: 'city' });
 
         let agents = await strapi.entityService.findMany('api::agent.agent', {
             filters: { $not: { city: null } },
@@ -55,7 +57,7 @@ module.exports = {
         for (let object of complexes) {
             const agent = agents.find((agent) => {
                 const city = JSON.parse(agent.city);
-                city.some((city) => city === object.localisation[0].city);
+                return city.some((city) => city === object.localisation[0].city);
             });
             await strapi.entityService.update('api::complex.complex', object.id, {
                 data: { agent: agent?.id || 1 },
@@ -64,7 +66,7 @@ module.exports = {
         for (let object of villas) {
             const agent = agents.find((agent) => {
                 const city = JSON.parse(agent.city);
-                city.some((city) => city === object.localisation[0].city);
+                return city.some((city) => city === object.localisation[0].city);
             });
             await strapi.entityService.update('api::villa.villa', object.id, {
                 data: { agent: agent?.id || 1 },
@@ -73,7 +75,7 @@ module.exports = {
         for (let object of owners) {
             const agent = agents.find((agent) => {
                 const city = JSON.parse(agent.city);
-                city.some((city) => city === object.localisation[0].city);
+                return city.some((city) => city === object.localisation[0].city);
             });
             await strapi.entityService.update('api::owner.owner', object.id, {
                 data: { agent: agent?.id || 1 },
