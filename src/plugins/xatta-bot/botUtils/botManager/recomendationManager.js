@@ -57,8 +57,6 @@ module.exports = {
 
         if (!userFilters) return;
 
-        console.log(userFilters);
-
         const reqData = userFilters.tables.map((table) => ({
             api: `api::${table.toLowerCase()}.${table.toLowerCase()}`,
             table,

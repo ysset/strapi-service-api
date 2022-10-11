@@ -333,4 +333,7 @@ module.exports = {
     NEXT_INLINE: {
         text: 'Далее',
     },
+    PREVIOUS_INLINE: {
+        text: 'Назад',
+    },
 };

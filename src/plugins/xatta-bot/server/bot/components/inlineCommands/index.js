@@ -12,6 +12,7 @@ const enterCommandFunc = require('./enterCommand');
 const deleteFunc = require('./delete');
 const deleteCurrentMessageFunc = require('./deleteCurrentMessage');
 const nextFlatFunc = require('./nextFlat');
+const previousFlatFunc = require('./previousFlat');
 
 module.exports = {
     writeAgent: writeAgentFunc,
@@ -28,4 +29,5 @@ module.exports = {
     deleteCommand: deleteFunc,
     deleteCurrentMessage: deleteCurrentMessageFunc,
     nextFlat: nextFlatFunc,
+    previousFlat: previousFlatFunc,
 };
