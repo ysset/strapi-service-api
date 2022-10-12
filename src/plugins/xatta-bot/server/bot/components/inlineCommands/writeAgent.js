@@ -2,13 +2,13 @@ const recommendations = require('../../../../botUtils/botManager/recomendationMa
 const path = require('path');
 const fs = require('fs');
 const actions = require('../actions');
+const { getUser } = require('../../../../botUtils/userController');
 
 module.exports = async (query) => {
     const {
         user: { telegramID: userTelegramId },
         localisation,
         data,
-        user,
     } = query;
 
     let { table, flatId } = data;
@@ -48,12 +48,7 @@ module.exports = async (query) => {
         ...flatLocal,
     });
 
-    const realtorMessage = localisation.WRITE_AGENT.realtorText({
-        ...query.user,
-        flatId,
-        ...flatLocal,
-        table,
-    });
+    const { user } = await getUser(query);
 
     //save current housing
     await recommendations
@@ -71,6 +66,13 @@ module.exports = async (query) => {
             agent: flat.agent.id,
             user: user.id,
         },
+    });
+
+    const realtorMessage = localisation.WRITE_AGENT.realtorText({
+        ...user,
+        flatId,
+        ...flatLocal,
+        table,
     });
 
     await strapi.bots.alanyaBot
