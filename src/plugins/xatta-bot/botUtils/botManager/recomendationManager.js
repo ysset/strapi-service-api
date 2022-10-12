@@ -42,8 +42,17 @@ module.exports = {
         let filtered = [];
         if (userFilters?.layouts)
             userFilters.layouts = userFilters?.layouts
-                .filter((el) => el.match(/^ (\d|\d.\d)\+\d$/))
-                .map((el) => [`${el}`, `${el} Duplex`, `${el} Garden Duplex`, `${el} Penthouse`])
+                .filter((el) => el.match(/^ \d\+\d$/))
+                .map((el) => [
+                    `${el}`,
+                    `${el} Duplex`,
+                    `${el} Garden Duplex`,
+                    `${el} Penthouse`,
+                    ` ${el[1]}.5+${el[3]}`,
+                    ` ${el[1]}.5+${el[3]} Duplex`,
+                    ` ${el[1]}.5+${el[3]} Garden Duplex`,
+                    ` ${el[1]}.5+${el[3]} Penthouse`,
+                ])
                 .flat(1);
 
         if (!userFilters) userFilters = user.filters.last;

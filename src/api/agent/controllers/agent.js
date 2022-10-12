@@ -128,13 +128,16 @@ module.exports = createCoreController('api::agent.agent', {
 
         const developerLayouts = developerApartments
             .map((el) => el.layout)
-            .filter((el = String) => el.trim().match('^[\\W\\d]+\\+[0-9]{1}$'));
+            .filter((el = String) => el.trim().match(/^\d\+\d$/))
+            .filter((el = String) => el.trim() !== '7+1');
         const ownerLayouts = ownerLocalisation
             .map((el) => el.layout)
-            .filter((el = String) => el.trim().match('^[\\W\\d]+\\+[0-9]{1}$'));
+            .filter((el = String) => el.trim().match(/^\d\+\d$/))
+            .filter((el = String) => el.trim() !== '7+1');
         const villaLayouts = villaLocalisation
             .map((el) => el.layout)
-            .filter((el = String) => el.trim().match('^[\\W\\d]+\\+[0-9]{1}$'));
+            .filter((el = String) => el.trim().match(/^\d\+\d$/))
+            .filter((el = String) => el.trim() !== '7+1');
         return {
             developer: [...new Set([...new Set(developerLayouts), ...new Set(villaLayouts)])],
             owner: [...new Set(ownerLayouts)],
