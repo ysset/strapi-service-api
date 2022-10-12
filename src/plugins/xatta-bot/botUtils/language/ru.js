@@ -111,7 +111,7 @@ module.exports = {
             text: 'Мне интересно',
         },
     },
-    CANCEL_INTEREST_INLINE: { text: 'Я передумал, мне не интересно' },
+    CANCEL_INTEREST_INLINE: { text: 'Отменить заявку' },
     CANCEL_INTEREST: {
         user: 'Ваша заявка отменена',
         realtor: (params) => {
@@ -132,41 +132,29 @@ module.exports = {
     WRITE_AGENT: {
         userText: {
             complex: (params) => {
-                const { title, agentUsername, flatId, city, district } = beautifyParams(params);
+                const { agentUsername } = beautifyParams(params);
                 return (
-                    'Благодарим Вас за использование нашего сервиса!\n\n' +
-                    'Объект:\n\n' +
-                    `${title}\n\n` +
-                    `${city}, район ${district}\n\n` +
-                    `ID: ${beautifyId(flatId)}\n\n\n` +
                     `Менеджер агентства ${process.env.AGENCY_NAME} свяжется с Вами в ближайшее время и ответит на любой Ваш вопрос!\n` +
-                    'Вы также можете связаться с менеджером по данной ссылке:\n\n' +
+                    '\n' +
+                    'Вы также можете связаться с менеджером по данной ссылке:\n' +
                     `https://t.me/${agentUsername}`
                 );
             },
             villa: (params) => {
-                const { title, agentUsername, flatId, city, district } = beautifyParams(params);
+                const { agentUsername } = beautifyParams(params);
                 return (
-                    'Благодарим Вас за использование нашего сервиса!\n\n' +
-                    'Объект:\n\n' +
-                    `${title}\n\n` +
-                    `${city}, район ${district}\n\n` +
-                    `ID: ${beautifyId(flatId)}\n\n\n` +
                     `Менеджер агентства ${process.env.AGENCY_NAME} свяжется с Вами в ближайшее время и ответит на любой Ваш вопрос!\n` +
-                    'Вы также можете связаться с менеджером по данной ссылке:\n\n' +
+                    '\n' +
+                    'Вы также можете связаться с менеджером по данной ссылке:\n' +
                     `https://t.me/${agentUsername}`
                 );
             },
             owner: (params) => {
-                const { title, agentUsername, flatId, city, district } = beautifyParams(params);
+                const { agentUsername } = beautifyParams(params);
                 return (
-                    'Благодарим Вас за использование нашего сервиса!\n\n' +
-                    'Объект:\n\n' +
-                    `${title}\n\n` +
-                    `${city}, район ${district}\n\n` +
-                    `ID: ${beautifyId(flatId)}\n\n\n` +
                     `Менеджер агентства ${process.env.AGENCY_NAME} свяжется с Вами в ближайшее время и ответит на любой Ваш вопрос!\n` +
-                    'Вы также можете связаться с менеджером по данной ссылке:\n\n' +
+                    '\n' +
+                    'Вы также можете связаться с менеджером по данной ссылке:\n' +
                     `https://t.me/${agentUsername}`
                 );
             },
