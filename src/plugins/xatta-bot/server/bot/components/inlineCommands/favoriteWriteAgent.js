@@ -6,13 +6,13 @@ const { getUser } = require('../../../../botUtils/userController');
 module.exports = async (bot) => {
     const { localisation, data, chatId, messageId } = bot;
 
-    if (!process.env.DEVELOPMENT && !bot.user.phoneNumber) {
+    if (!process.env.DEVELOPMENT && (!bot.user.phoneNumber || !bot.user.fullName)) {
         await getUserInfo(bot);
     }
 
     const { user } = await getUser(bot);
 
-    if (!process.env.DEVELOPMENT && !user.phoneNumber) {
+    if (!process.env.DEVELOPMENT && (!user.phoneNumber || !user.fullName)) {
         return;
     }
 
