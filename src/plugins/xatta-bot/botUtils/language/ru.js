@@ -113,7 +113,7 @@ module.exports = {
     },
     CANCEL_INTEREST_INLINE: { text: 'Я передумал, мне не интересно' },
     CANCEL_INTEREST: {
-        user: 'Отменяем алгоритмы увлекательной беседы с агентом',
+        user: 'Ваша заявка отменена',
         realtor: (params) => {
             const { username, flatId, fullName } = params;
             return (
