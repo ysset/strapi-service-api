@@ -117,6 +117,9 @@ module.exports = {
             );
         },
     },
+    INPUT_ERROR: {
+        phoneNumber: 'Вы ввели неверный номер телефона',
+    },
     WRITE_AGENT: {
         userText: {
             complex: (params) => {
