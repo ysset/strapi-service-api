@@ -86,8 +86,8 @@ module.exports = createCoreController('api::agent.agent', {
             language,
         });
         return {
-            developer: [...new Set([...complexCities, ...villaCities])],
-            owner: [...new Set(ownerCities)],
+            developer: [...new Set([...complexCities, ...villaCities])].sort(),
+            owner: [...new Set(ownerCities)].sort(),
         };
     },
 
