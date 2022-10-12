@@ -11,7 +11,6 @@ const createEvent = ({ telegramID, dbKey, userId, regexes, localisation, rejectE
                                 [dbKey]: msg.text,
                             },
                         })
-                        .then(console.log)
                         .catch(console.error);
                     return resolve();
                 } else {
@@ -24,8 +23,6 @@ const createEvent = ({ telegramID, dbKey, userId, regexes, localisation, rejectE
         }),
         300000,
         rejectEvent
-    )
-        .then(console.log)
-        .catch(console.error);
+    ).catch(console.error);
 
 module.exports = createEvent;

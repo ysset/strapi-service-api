@@ -13,7 +13,7 @@ module.exports = async (bot) => {
     const { user } = await getUser(bot);
 
     if (!process.env.DEVELOPMENT && (!user.fullName || !user.phoneNumber)) {
-        return await bot.reply(localisation.CANCEL_INTEREST.user);
+        return;
     }
 
     const { table, flatId } = data;

@@ -1,11 +1,20 @@
 const actions = require('../actions');
 const writeAgent = require('./writeAgent');
-const { alanyaBot } = require('../../../../botUtils/errorHandlers');
+const getUserInfo = require('../../../../botUtils/events/getUserInfo');
+const { getUser } = require('../../../../botUtils/userController');
 
-module.exports = async (query) => {
-    const { localisation, data, chatId, messageId, user } = query;
+module.exports = async (bot) => {
+    const { localisation, data, chatId, messageId } = bot;
 
-    if (!process.env.DEVELOPMENT && !user.username) return alanyaBot.NO_USERNAME(query);
+    if (!process.env.DEVELOPMENT && (!bot.user.fullName || !bot.user.phoneNumber)) {
+        await getUserInfo(bot);
+    }
+
+    const { user } = await getUser(bot);
+
+    if (!process.env.DEVELOPMENT && (!user.fullName || !user.phoneNumber)) {
+        return;
+    }
 
     const { table, flatId } = data;
     strapi.bots.alanyaBot
@@ -39,5 +48,5 @@ module.exports = async (query) => {
             }
         )
         .catch(console.error);
-    await writeAgent(query);
+    await writeAgent(bot);
 };
