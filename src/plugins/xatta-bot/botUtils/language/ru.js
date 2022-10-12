@@ -96,7 +96,7 @@ module.exports = {
         text: 'Повторный поиск по фильтрам',
     },
     NO_FAVORITE_NOW: 'У вас пока нет сохраненной недвижимости!',
-    UN_AUTHORIZE: 'Кажется мы не смогли найти избранные квартиры, пожалуйста перезапустите бота!',
+    UN_AUTHORIZE: 'Кажется мы не смогли найти избранные объекты, пожалуйста перезапустите бота!',
     WRITE_AGENT_INLINE: {
         text: 'Связаться с агентом',
     },
@@ -115,13 +115,13 @@ module.exports = {
     CANCEL_INTEREST: {
         user: 'Ваша заявка отменена',
         realtor: (params) => {
-            const { username, flatId, fullName } = params;
+            const { username, phoneNumber, fullName } = params;
             return (
-                'Пользователь:\n' +
+                'Пользователь:\n\n' +
                 `${username ? `https://t.me/${username}\n` : ''}` +
-                `${fullName}\n\n` +
-                'Больше НЕ интересуется данным объектом \n\n' +
-                `ID: ${beautifyId(flatId)}`
+                `${fullName}\n` +
+                `${phoneNumber}\n\n` +
+                'Больше НЕ интересуется данным объектом \n\n'
             );
         },
     },
@@ -303,7 +303,7 @@ module.exports = {
                 `Апартаменты${layout}, ${area} м², ${floors} этаж.\n` +
                 `${city}, район ${district}.\n\n` +
                 `<b>${beautifyBigNum(cost)} €</b>\n\n` +
-                `${favorite ? '❤️ Эта квартира в избранном ❤️' : ''}`
+                `${favorite ? '❤️ Эти апартаменты в избранном ❤️' : ''}`
             );
         },
         complex: (params, favorite) => {
