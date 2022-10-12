@@ -4,15 +4,15 @@ const getUserInfo = require('../../../../botUtils/events/getUserInfo');
 const { getUser } = require('../../../../botUtils/userController');
 
 module.exports = async (bot) => {
-    let { localisation, data, chatId, messageId, user } = bot;
+    const { localisation, data, chatId, messageId } = bot;
 
-    if (!process.env.DEVELOPMENT && !user.username) {
+    if (!process.env.DEVELOPMENT && (!bot.user.fullName || !bot.user.phoneNumber)) {
         await getUserInfo(bot);
     }
 
-    user = await getUser(bot);
+    const { user } = await getUser(bot);
 
-    if (!process.env.DEVELOPMENT && !user.username) {
+    if (!process.env.DEVELOPMENT && (!user.fullName || !user.phoneNumber)) {
         return await bot.reply(localisation.CANCEL_INTEREST.user);
     }
 

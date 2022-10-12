@@ -3,6 +3,7 @@ process.env.NTBA_FIX_319 = 1;
 
 const TgBot = require('node-telegram-bot-api');
 const bot = new TgBot(process.env.BOT_API_KEY, { polling: true });
+const eventStorage = require('../botUtils/events/storage');
 
 const { commands, inlineCallBacks } = require('./bot/components');
 const { modifyRequestWithUserData } = require('../botUtils/userController');
@@ -29,6 +30,20 @@ module.exports = async ({ strapi }) => {
     });
 
     bot.on('polling_error', console.error);
+
+    bot.on('text', async (msg) => {
+        try {
+            if (
+                (!msg.entities || msg?.entities[0].type !== 'bot_command') &&
+                eventStorage.isEvent(msg.from.id)
+            ) {
+                const event = eventStorage.callEvent(msg.from.id);
+                await event(msg);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    });
 
     bot.on('message', async (query) => {
         if (query.web_app_data) {

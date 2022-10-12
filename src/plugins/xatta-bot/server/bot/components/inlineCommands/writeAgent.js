@@ -5,7 +5,7 @@ const actions = require('../actions');
 
 module.exports = async (query) => {
     const {
-        user: { telegramID: userTelegramId, username },
+        user: { telegramID: userTelegramId },
         localisation,
         data,
         user,
@@ -49,7 +49,7 @@ module.exports = async (query) => {
     });
 
     const realtorMessage = localisation.WRITE_AGENT.realtorText({
-        username,
+        ...query.user,
         flatId,
         ...flatLocal,
         table,

@@ -38,8 +38,8 @@ module.exports = {
         second: 'На Ваш выбор роскошные виллы и апартаменты в новостройках, а также широкий выбор объектов недвижимости от собственников!',
     },
     GET_USER_INFO: 'Для облегчения взаимодействия пожалуйста введите ваши ФИО и номер телефона',
-    ENTER_FULL_NAME: 'Введите ФИО\nПример Иванов Иван Иванович',
-    ENTER_PHONE_NUMBER: 'Введите номер телефона\nПример +7 999 888 77 66',
+    ENTER_FULL_NAME: 'Введите ФИО\nПример: Иванов Иван Иванович',
+    ENTER_PHONE_NUMBER: 'Введите номер телефона\nПример: +7 999 888 77 66',
     MENU_BUTTON: 'Меню',
     CONTROL_PANEL: {
         text: 'Изменить фильтры',
@@ -107,9 +107,12 @@ module.exports = {
     CANCEL_INTEREST: {
         user: 'Отменяем алгоритмы увлекательной беседы с агентом',
         realtor: (params) => {
-            const { username, flatId } = beautifyParams(params);
+            const { username, flatId, fullName } = params;
             return (
-                `Пользователь https://t.me/${username} больше НЕ интересуется данным объектом \n\n` +
+                'Пользователь:\n' +
+                `${username ? `https://t.me/${username}\n` : ''}` +
+                `${fullName}\n\n` +
+                'Больше НЕ интересуется данным объектом \n\n' +
                 `ID: ${beautifyId(flatId)}`
             );
         },
@@ -157,12 +160,14 @@ module.exports = {
             },
         },
         realtorText: (params) => {
-            const { username, flatId, city, district } = beautifyParams(params);
+            const { username, flatId, city, district, fullName, phoneNumber } = params;
             return (
-                'Здравствуйте! \n' +
-                '\n' +
-                `Пользователь https://t.me/${username} интересуется данным объектом \n` +
-                '\n' +
+                'Здравствуйте! \n\n' +
+                'Пользователь:\n' +
+                `${username ? `https://t.me/${username}\n` : ''}` +
+                `${fullName}\n` +
+                `${phoneNumber}\n\n` +
+                'Интересуется данным объектом \n\n' +
                 `ID: ${beautifyId(flatId)} \n` +
                 `Город: ${city} \n` +
                 `Район: ${district} \n\n` +

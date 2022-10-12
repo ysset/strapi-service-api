@@ -85,7 +85,7 @@ module.exports = async (query) => {
         .sendMessage(
             logField.agent.telegramID,
             localisation.CANCEL_INTEREST.realtor({
-                username: logField.user.username,
+                ...query.user,
                 flatId: logField[table.toLowerCase()].id,
             })
         )

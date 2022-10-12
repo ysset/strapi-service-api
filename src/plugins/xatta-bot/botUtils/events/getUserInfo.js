@@ -3,7 +3,7 @@ const eventStorage = require('./storage');
 
 module.exports = (bot) =>
     // eslint-disable-next-line no-async-promise-executor
-    new Promise(async (_, reject) => {
+    new Promise(async (resolve, reject) => {
         const {
             chatId,
             user: { id, fullName, phoneNumber },
@@ -16,11 +16,14 @@ module.exports = (bot) =>
             await bot.reply(localisation.ENTER_FULL_NAME);
             await createEvent({
                 localisation,
-                telegramID: chatId,
+                telegramID: chatId.toString(),
                 dbKey: 'fullName',
                 userId: id,
                 regexes: [/^[А-яA-z]{2,} [А-яA-z]{2,} [А-яA-z]{2,}$/],
-                rejectEvent: () => reject(`${chatId} full name question time is over`),
+                rejectEvent: () => {
+                    bot.reply(localisation.CANCEL_INTEREST.user);
+                    reject(`${chatId} full name question time is over`);
+                },
             });
             eventStorage.clearEvents(chatId);
         }
@@ -29,7 +32,7 @@ module.exports = (bot) =>
             await bot.reply(localisation.ENTER_PHONE_NUMBER);
             await createEvent({
                 localisation,
-                telegramID: chatId,
+                telegramID: chatId.toString(),
                 dbKey: 'phoneNumber',
                 userId: id,
                 regexes: [
@@ -40,8 +43,12 @@ module.exports = (bot) =>
                     /^\+\d{1,4}\d{3} \d{3} \d{2} \d{2}$/,
                     /^\+\d{1,4} \d{3} \d{3} \d{2} \d{2}$/,
                 ],
-                rejectEvent: () => reject(`${chatId} phone number question time is over`),
+                rejectEvent: () => {
+                    bot.reply(localisation.CANCEL_INTEREST.user);
+                    reject(`${chatId} phone number question time is over`);
+                },
             });
             eventStorage.clearEvents(chatId);
         }
+        resolve();
     });
