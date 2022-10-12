@@ -13,7 +13,6 @@ const createEvent = ({ telegramID, dbKey, userId, regexes, localisation }) =>
                     .catch(console.error);
                 return resolve();
             } else {
-                console.log(dbKey);
                 await strapi.bots.rent
                     .sendMessage(telegramID, localisation.INPUT_ERROR[dbKey])
                     .catch(console.error);
