@@ -63,6 +63,12 @@
       "relation": "manyToMany",
       "target": "api::owner.owner",
       "mappedBy": "favoriteUsers"
+    },
+    "fullName": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "string"
     }
   }
 }
