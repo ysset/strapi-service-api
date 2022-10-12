@@ -4,6 +4,8 @@ const createEvent = ({ telegramID, dbKey, userId, regexes, localisation, rejectE
     Promise.timeout(
         new Promise((resolve) => {
             const event = async (msg) => {
+                if (dbKey === 'phoneNumber') msg.text = msg.text.trim().split(' ').join('');
+
                 if (regexes.some((regex) => msg.text.trim().match(regex))) {
                     await strapi.entityService
                         .update('api::telegram-user.telegram-user', userId, {
