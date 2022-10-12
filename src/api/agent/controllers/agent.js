@@ -139,8 +139,8 @@ module.exports = createCoreController('api::agent.agent', {
             .filter((el = String) => el.trim().match(/^\d\+\d$/))
             .filter((el = String) => el.trim() !== '7+1');
         return {
-            developer: [...new Set([...new Set(developerLayouts), ...new Set(villaLayouts)])],
-            owner: [...new Set(ownerLayouts)],
+            developer: [...new Set([...new Set(developerLayouts), ...new Set(villaLayouts)])].sort(),
+            owner: [...new Set(ownerLayouts)].sort(),
         };
     },
 });
