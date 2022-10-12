@@ -69,6 +69,10 @@ module.exports = async (query) => {
                 inline_keyboard: [
                     [
                         {
+                            ...localisation.CONTROL_PANEL,
+                            web_app: { url: process.env.WEB_APP_URL },
+                        },
+                        {
                             ...localisation.COMPLETE_SEARCHING,
                             callback_data: JSON.stringify({
                                 action: actions.SEARCH_FLATS,
