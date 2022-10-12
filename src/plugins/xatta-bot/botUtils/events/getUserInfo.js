@@ -30,7 +30,7 @@ module.exports = (bot) =>
                 telegramID: chatId.toString(),
                 dbKey: 'phoneNumber',
                 userId: id,
-                regexes: [/^\+\d{1,4}\d{10,12}$/, /^\d{1,4}\d{10,12}$/],
+                regexes: [/^\+\d{1,4}\d{6,12}$/, /^\d{1,4}\d{6,12}$/],
                 rejectEvent: () => reject(`${chatId} phone number question time is over`),
             });
             eventStorage.clearEvents(chatId);
