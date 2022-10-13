@@ -24,5 +24,13 @@ module.exports = {
                 policies: [],
             },
         },
+        {
+            method: 'POST',
+            path: '/search/rent',
+            handler: 'telegram-user.searchRent',
+            config: {
+                policies: [],
+            },
+        },
     ],
 };

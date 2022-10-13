@@ -4,6 +4,9 @@ const { inlineCallBacks } = require('../../../plugins/realtor-bot/server/bot/com
 const searchFlats = require('../../../plugins/realtor-bot/server/bot/components/inlineCommands/searchFlats');
 const searchRentFlats = require('../../../plugins/rent-bot/server/api/search');
 const { modifyRequestWithUserData } = require('../../../plugins/realtor-bot/botUtils/userController/index');
+const {
+    modifyRequestWithUserData: rentModifyUserData,
+} = require('../../../plugins/rent-bot/server/utils/user');
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
@@ -32,10 +35,10 @@ module.exports = createCoreController('api::telegram-user.telegram-user', {
     },
 
     async searchRent(ctx) {
-        await searchRentFlats({
+        searchRentFlats({
             filters: ctx.request.body.filters,
-            ...(await modifyRequestWithUserData({ msg: ctx.request.body })),
-        });
+            ...(await rentModifyUserData({ msg: ctx.request.body })),
+        }).catch(console.error);
         return { ok: true };
     },
 });

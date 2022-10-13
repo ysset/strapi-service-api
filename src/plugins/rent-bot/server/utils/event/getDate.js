@@ -17,9 +17,9 @@ const createEvent = async ({ telegramID, localisation }) =>
         eventStorage.createEvent({ telegramID, event });
     });
 
-module.exports = async (msg) => {
-    const { chatId, localisation } = msg;
-    await strapi.bots.rent.sendMessage(chatId, localisation.DATE);
+module.exports = async (bot) => {
+    const { chatId, localisation } = bot;
+    await bot.reply(localisation.DATE);
     await createEvent({
         localisation,
         telegramID: chatId,

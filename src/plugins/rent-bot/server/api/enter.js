@@ -1,4 +1,3 @@
-const { getUserInfo } = require('../utils');
 const { getDate } = require('../utils');
 
 module.exports = async (bot) => {
@@ -8,7 +7,6 @@ module.exports = async (bot) => {
     await bot.reply(localisation.WELCOME.second);
     await bot.delete();
 
-    await getUserInfo(bot);
     await getDate(bot);
 
     await bot.reply('filters', {

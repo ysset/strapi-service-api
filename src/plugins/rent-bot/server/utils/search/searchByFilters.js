@@ -22,18 +22,18 @@ module.exports = async (bot) => {
     const favorite = user.favoriteRent;
     const table = 'rent';
     const api = 'api::rent.rent';
-    let dates = dateStorage.dates.get(user.telegramID);
+    let dates = dateStorage.dates.get(parseInt(user.telegramID));
 
     // if user didn't set date, ask it
     if (!dates || !dates.length) {
         await getDate(bot);
-        dates = dateStorage.dates.get(user.telegramID);
+        dates = dateStorage.dates.get(parseInt(user.telegramID));
     }
 
     if (!dates || !dates.length) return null;
 
     filters.layouts
-        .filter((el) => el.match(/^ (\d|\d.\d)\+(\d|\d.\d)$/))
+        .filter((el) => el.match(/^ \d\+\d$/))
         .map((el) => [`${el}`, `${el} Duplex`, `${el} Garden Duplex`, `${el} Penthouse`])
         .flat(1);
 
@@ -48,7 +48,7 @@ module.exports = async (bot) => {
             },
         })
         .catch(console.error);
-
+    console.log(filters);
     let apartments = await strapi.entityService
         .findMany(api, {
             filters: configureFilters(filters),
@@ -73,6 +73,7 @@ module.exports = async (bot) => {
                 return el;
             })
         );
+
     apartments = apartments
         .filter(
             (apartment) =>
