@@ -15,6 +15,8 @@ const configureFilters = (userFilters = {}) => ({
             },
         },
         { term: userFilters.term },
+        { $not: { agent: null } },
+        { $not: { layoutPhoto: null } },
     ],
 });
 
@@ -94,5 +96,10 @@ module.exports = async (bot) => {
 
     if (apartments.length === 0) return null;
 
-    return apartments[Math.floor(Math.random() * apartments.length)];
+    const apartment = apartments[Math.floor(Math.random() * apartments.length)];
+
+    if (!apartment.localisation.some((el) => el.language === 'ru')) return null;
+    apartment.localisation = apartment.localisation.find((el) => el.language === 'ru');
+
+    return apartment;
 };
