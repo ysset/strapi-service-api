@@ -2,15 +2,20 @@ const { dateStorage } = require('../index');
 const getDate = require('../event/getDate');
 
 const configureFilters = (userFilters = {}) => ({
-    localisation: {
-        $and: [
-            { language: 'ru' },
-            { cities: { $in: userFilters.cities } },
-            { cost: { $gte: userFilters.prices[0] || 0, $lte: userFilters.prices[1] } },
-            { layout: { $in: userFilters.layouts } },
-            { type: { $in: userFilters.housings || ['villa', 'apartment'] } },
-        ],
-    },
+    $and: [
+        {
+            localisation: {
+                $and: [
+                    { language: 'ru' },
+                    userFilters.cities.length ? { cities: { $in: userFilters.cities } } : {},
+                    { cost: { $gte: userFilters.prices[0] || 0, $lte: userFilters.prices[1] } },
+                    userFilters.layouts.length ? { layout: { $in: userFilters.layouts } } : {},
+                    { type: { $in: userFilters.housings || ['villa', 'apartment'] } },
+                ],
+            },
+        },
+        { term: userFilters.term },
+    ],
 });
 
 module.exports = async (bot) => {
@@ -18,8 +23,8 @@ module.exports = async (bot) => {
     filters = filters || user.filters.rent || user.filters.last;
     if (!filters) return;
 
-    const watched = user.watchedRent;
-    const favorite = user.favoriteRent;
+    const watched = user.watchedRent || [];
+    const favorite = user.favoriteRent || [];
     const table = 'rent';
     const api = 'api::rent.rent';
     let dates = dateStorage.dates.get(parseInt(user.telegramID));
@@ -42,13 +47,13 @@ module.exports = async (bot) => {
             data: {
                 filters: JSON.stringify({
                     ...user.filters,
-                    rent: filters,
+                    [filters.term]: filters,
                     last: filters,
                 }),
             },
         })
         .catch(console.error);
-    console.log(filters);
+
     let apartments = await strapi.entityService
         .findMany(api, {
             filters: configureFilters(filters),

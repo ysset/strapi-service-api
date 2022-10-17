@@ -27,13 +27,13 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::telegram-user.telegram-user",
-      "inversedBy": "watchedOwner"
+      "inversedBy": "watchedRent"
     },
     "favoriteUsers": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::telegram-user.telegram-user",
-      "inversedBy": "favoriteOwner"
+      "inversedBy": "favoriteRent"
     },
     "layoutPhoto": {
       "type": "media",

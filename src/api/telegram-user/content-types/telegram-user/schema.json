@@ -52,6 +52,24 @@
     "filters": {
       "type": "json"
     },
+    "fullName": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "string"
+    },
+    "watchedRent": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::rent.rent",
+      "mappedBy": "watchedUsers"
+    },
+    "favoriteRent": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::rent.rent",
+      "mappedBy": "favoriteUsers"
+    },
     "watchedOwner": {
       "type": "relation",
       "relation": "manyToMany",
@@ -63,12 +81,6 @@
       "relation": "manyToMany",
       "target": "api::rent.rent",
       "mappedBy": "favoriteUsers"
-    },
-    "fullName": {
-      "type": "string"
-    },
-    "phoneNumber": {
-      "type": "string"
     }
   }
 }
