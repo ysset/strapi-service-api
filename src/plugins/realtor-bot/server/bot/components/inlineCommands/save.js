@@ -66,8 +66,6 @@ module.exports = async (query) => {
                         },
                     ],
                 ],
-                resize_keyboard: true,
-                one_time_keyboard: true,
             },
         })
         .catch((e) => {

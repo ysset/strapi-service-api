@@ -36,6 +36,10 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::villa.villa"
+    },
+    "canceled": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

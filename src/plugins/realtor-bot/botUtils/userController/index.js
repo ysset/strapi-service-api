@@ -61,6 +61,8 @@ const modifyRequestWithUserData = async ({ msg }) => {
             .catch(console.error);
 
     return {
+        reply: (text, form = {}) => strapi.bots.alanyaBot.sendMessage(chatId, text, form),
+        delete: (form = {}) => strapi.bots.alanyaBot.deleteMessage(chatId, messageId, form),
         ...msg,
         user,
         localisation: userLang('ru'),

@@ -1,13 +1,14 @@
 const recommendations = require('../../../../botUtils/botManager/recomendationManager');
 const path = require('path');
 const fs = require('fs');
+const actions = require('../actions');
+const { getUser } = require('../../../../botUtils/userController');
 
 module.exports = async (query) => {
     const {
-        user: { telegramID: userTelegramId, username },
+        user: { telegramID: userTelegramId },
         localisation,
         data,
-        user,
     } = query;
 
     let { table, flatId } = data;
@@ -47,12 +48,7 @@ module.exports = async (query) => {
         ...flatLocal,
     });
 
-    const realtorMessage = localisation.WRITE_AGENT.realtorText({
-        username,
-        flatId,
-        ...flatLocal,
-        table,
-    });
+    const { user } = await getUser(query);
 
     //save current housing
     await recommendations
@@ -64,8 +60,39 @@ module.exports = async (query) => {
         })
         .catch(console.error);
 
+    const log = await strapi.entityService.create('api::log.log', {
+        data: {
+            [table]: flatId,
+            agent: flat.agent.id,
+            user: user.id,
+        },
+    });
+
+    const realtorMessage = localisation.WRITE_AGENT.realtorText({
+        ...user,
+        flatId,
+        ...flatLocal,
+        table,
+    });
+
     await strapi.bots.alanyaBot
-        .sendMessage(userTelegramId, userMessage, { parse_mode: 'HTML' })
+        .sendMessage(userTelegramId, userMessage, {
+            parse_mode: 'HTML',
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            ...localisation?.CANCEL_INTEREST_INLINE,
+                            callback_data: JSON.stringify({
+                                action: actions.CANCEL_INTEREST,
+                                log: log.id,
+                                table,
+                            }),
+                        },
+                    ],
+                ],
+            },
+        })
         .catch(console.error);
 
     await strapi.bots.admin
@@ -81,12 +108,4 @@ module.exports = async (query) => {
     await strapi.bots.admin
         .sendPhoto('323320737', fs.createReadStream(resolvedPath), { caption, parse_mode: 'HTML' })
         .catch(console.error);
-
-    await strapi.entityService.create('api::log.log', {
-        data: {
-            [table]: flatId,
-            agent: flat.agent.id,
-            user: user.id,
-        },
-    });
 };

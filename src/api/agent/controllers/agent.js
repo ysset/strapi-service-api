@@ -105,8 +105,8 @@ module.exports = createCoreController('api::agent.agent', {
             language: 'ru',
         });
         return {
-            developer: [...new Set([...complexCities, ...villaCities])],
-            owner: [...new Set(ownerCities)],
+            developer: [...new Set([...complexCities, ...villaCities])].sort(),
+            owner: [...new Set(ownerCities)].sort(),
         };
     },
 
@@ -137,19 +137,21 @@ module.exports = createCoreController('api::agent.agent', {
         const developerLayouts = developComplexes
             .flatMap((el) => el.localisation.find((el) => el.language === 'ru')?.apartments)
             .map((el) => el.layout)
-            .filter((el = String) => el.trim().match('^[\\W\\d]+\\+[0-9]{1}$'));
+            .filter((el = String) => el.trim().match(/^\d\+\d$/))
+            .filter((el = String) => el.trim() !== '7+1');
         const ownerLayouts = ownerComplexes
             .flatMap((el) => el.localisation.find((el) => el.language === 'ru'))
             .map((el) => el.layout)
-            .filter((el = String) => el.trim().match('^[\\W\\d]+\\+[0-9]{1}$'));
+            .filter((el = String) => el.trim().match(/^\d\+\d$/))
+            .filter((el = String) => el.trim() !== '7+1');
         const villaLayouts = developVilla
             .flatMap((el) => el.localisation.find((el) => el.language === 'ru')?.apartments)
             .map((el) => el.layout)
-            .filter((el = String) => el.trim().match('^[\\W\\d]+\\+[0-9]{1}$'));
-
+            .filter((el = String) => el.trim().match(/^\d\+\d$/))
+            .filter((el = String) => el.trim() !== '7+1');
         return {
-            developer: [...new Set([...new Set(developerLayouts), ...new Set(villaLayouts)])],
-            owner: [...new Set(ownerLayouts)],
+            developer: [...new Set([...new Set(developerLayouts), ...new Set(villaLayouts)])].sort(),
+            owner: [...new Set(ownerLayouts)].sort(),
         };
     },
 

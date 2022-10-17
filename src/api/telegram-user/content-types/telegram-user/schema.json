@@ -81,6 +81,12 @@
       "relation": "manyToMany",
       "target": "api::rent.rent",
       "mappedBy": "favoriteUsers"
+    },
+    "fullName": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "string"
     }
   }
 }

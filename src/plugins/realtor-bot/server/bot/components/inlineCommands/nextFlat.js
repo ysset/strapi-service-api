@@ -17,6 +17,16 @@ module.exports = async (query) => {
                         }),
                     },
                 ],
+                [
+                    {
+                        ...localisation?.SAVE_INLINE,
+                        callback_data: JSON.stringify({
+                            action: actions.SAVE,
+                            table,
+                            flatId,
+                        }),
+                    },
+                ],
             ],
         },
         {

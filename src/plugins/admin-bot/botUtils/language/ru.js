@@ -13,6 +13,7 @@ module.exports = {
     GET_AGENCY_NAME: 'Пожалуйста отправьте название агентства',
     GET_BOT_TOKEN: 'Пожалуйста отправьте бот токен.',
     INPUT_ERROR: {
+        phoneNumber: 'Вы ввели неверный номер телефона',
         botToken: 'Неправильный токен',
         agencyName: 'Неправильное название агентства',
         email: 'Неправильная почта',
@@ -20,5 +21,5 @@ module.exports = {
     },
     COMPLETE_ADMIN_REGISTRATION: (registrationToken) =>
         `Теперь у вас есть доступ к xatta админке.\nhttps://xatta.ru/admin/auth/register?registrationToken=${registrationToken}\n` +
-        `Пожалуйста, продолжите регистрацию перейдя по этой ссылке.`,
+        'Пожалуйста, продолжите регистрацию перейдя по этой ссылке.',
 };
