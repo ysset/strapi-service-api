@@ -40,7 +40,7 @@
     "owners": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::owner.owner",
+      "target": "api::rent.rent",
       "mappedBy": "agent"
     },
     "username": {

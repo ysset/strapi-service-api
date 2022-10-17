@@ -5,6 +5,7 @@
   "description": "A Strapi application",
   "scripts": {
     "develop": "strapi develop",
+    "jsdoc": "jsdoc -c jsdoc.json",
     "start": "strapi start",
     "prod": "pm2 start yarn -- start",
     "build": "strapi build",

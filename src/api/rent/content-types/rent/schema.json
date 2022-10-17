@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rents",
+  "info": {
+    "singularName": "rent",
+    "pluralName": "rents",
+    "displayName": "rent",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "localisation": {
+      "type": "component",
+      "repeatable": true,
+      "component": "localisation.owner"
+    },
+    "agent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::agent.agent",
+      "inversedBy": "owners"
+    },
+    "watchedUsers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "watchedRent"
+    },
+    "favoriteUsers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "favoriteRent"
+    },
+    "layoutPhoto": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "dates": {
+      "type": "component",
+      "repeatable": true,
+      "component": "dates.rent-dates"
+    },
+    "term": {
+      "type": "enumeration",
+      "enum": [
+        "long",
+        "short"
+      ],
+      "required": true
+    }
+  }
+}

@@ -1,10 +1,14 @@
 module.exports = {
-    'alanya-live-bot': {
+    'realtor-bot': {
         enabled: true,
-        resolve: './src/plugins/xatta-bot',
+        resolve: './src/plugins/realtor-bot',
     },
-    'xatta-realtor-admin-bot': {
+    'admin-bot': {
         enabled: true,
-        resolve: './src/plugins/xatta-realtor-admin-bot',
+        resolve: './src/plugins/admin-bot',
+    },
+    'rent-bot': {
+        enabled: true,
+        resolve: './src/plugins/rent-bot',
     },
 };
