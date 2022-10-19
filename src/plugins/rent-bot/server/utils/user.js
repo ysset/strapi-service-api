@@ -32,6 +32,7 @@ const modifyRequestWithUserData = async ({ msg }) => {
                     language: msg.from.language_code,
                     username: msg.from.username,
                 },
+                populate: true,
             })
             .catch(console.error);
 
@@ -50,7 +51,7 @@ const modifyRequestWithUserData = async ({ msg }) => {
     return {
         reply: (text, form = {}) => strapi.bots.rent.sendMessage(chatId, text, form),
         delete: (form = {}) => strapi.bots.rent.deleteMessage(chatId, messageId, form),
-        msg,
+        ...msg,
         user,
         localisation: userLang(user.language),
         messageId,

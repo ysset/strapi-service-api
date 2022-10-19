@@ -77,6 +77,7 @@ module.exports = async (bot) => {
             r.map((el) => {
                 el.table = table;
                 el.api = api;
+                el.flatId = el.id;
                 return el;
             })
         );
