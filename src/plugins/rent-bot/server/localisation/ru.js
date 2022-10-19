@@ -132,33 +132,24 @@ module.exports = {
             `${yearOfConstruction ? `Год постройки: ${yearOfConstruction}\n\n` : ''}`
         );
     },
-    SHORT_DESCRIPTION: (params) => {
-        let { layout, area, floors, city, district, cost } = beautifyParams(params);
+    SHORT_DESCRIPTION: ({ localisation, favorite }) => {
+        let { title, layout, area, floors, city, district, cost } = localisation;
         floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' и ' : '');
 
         return (
+            `<b>${title}</b>\n\n` +
             `Апартаменты${layout}, ${area} м², ${floors} этаж.\n` +
-            `${city}, район ${district}.\n` +
-            '\n' +
-            `${beautifyBigNum(cost)} €\n`
+            `${city}, район ${district}.\n\n` +
+            `<b>${beautifyBigNum(cost)} €</b>\n\n` +
+            `${favorite ? '❤️ Эти апартаменты в избранном ❤️' : ''}`
         );
     },
-    GO_BACK_ACTION: {
-        text: '<<Назад',
-    },
-    DELETE_ACTION: {
-        text: 'Удалить из избранного',
-    },
-    DELETED: {
-        text: 'Квартира удалена из избранного.',
-    },
-    FULL_DESCRIPTION: {
-        text: 'Подробное описание',
-    },
-    SAVE_INLINE: {
-        text: 'Сохранить',
-    },
-    NEXT_INLINE: {
-        text: 'Далее',
-    },
+    GO_BACK_ACTION: { text: '<<Назад' },
+    DELETE_ACTION: { text: 'Удалить из избранного' },
+    DELETED: { text: 'Квартира удалена из избранного.' },
+    FULL_DESCRIPTION: { text: 'Подробное описание' },
+    SAVE_INLINE: { text: 'Сохранить' },
+    NEXT_INLINE: { text: 'Далее' },
+    WRITE_INLINE: { text: 'Мне интересно' },
+    PREVIOUS_INLINE: { text: 'Назад' },
 };
