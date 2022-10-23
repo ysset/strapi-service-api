@@ -79,6 +79,22 @@ module.exports = async ({ strapi }) => {
     });
 
     /**
+     * callback listener
+     */
+    bot.on('callback_query', async (query) => {
+        try {
+            query.data = JSON.parse(query.data);
+            const data = await modifyRequestWithUserData({ msg: query });
+            //debug shit
+            console.log('===RENT START====>', '\nACTION:', query.data.action, '\nUSER_ID:', data.user.id);
+            await inlineCallbacks[query.data.action](data);
+            console.log('===RENT END====>');
+        } catch (e) {
+            console.error(e);
+        }
+    });
+
+    /**
      * Error handling
      */
     strapi.bots.rent.on('polling_error', (msg) => console.log(msg));
