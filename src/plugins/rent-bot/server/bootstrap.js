@@ -9,6 +9,7 @@ const bot = new TgBot(process.env.RENT_BOT_API_KEY, { polling: true });
 const commands = require('./commands');
 const { modifyRequestWithUserData } = require('./utils');
 const { eventStorage } = require('./utils');
+const inlineCallbacks = require('./inlineCallbacks');
 
 module.exports = async ({ strapi }) => {
     strapi.bots.rent = bot;
@@ -48,6 +49,22 @@ module.exports = async ({ strapi }) => {
                 const event = eventStorage.callEvent(msg.from.id);
                 await event(msg);
             }
+        } catch (e) {
+            console.error(e);
+        }
+    });
+
+    /**
+     * callback listener
+     */
+    bot.on('callback_query', async (query) => {
+        try {
+            query.data = JSON.parse(query.data);
+            const data = await modifyRequestWithUserData({ msg: query });
+            //debug shit
+            console.log('===RENT START====>', '\nACTION:', query.data.action, '\nUSER_ID:', data.user.id);
+            await inlineCallbacks[query.data.action](data);
+            console.log('===RENT END====>');
         } catch (e) {
             console.error(e);
         }
