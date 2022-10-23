@@ -1,7 +1,13 @@
-module.exports = async (msg) => {
-    const { localisation, chatId } = msg;
+const getUserInfo = require('../../../../botUtils/events/getUserInfo');
+
+module.exports = async (bot) => {
+    const { localisation, chatId } = bot;
 
     await strapi.bots.alanyaBot.sendMessage(chatId, localisation?.WELCOME.first);
+
+    if (!process.env.DEVELOPMENT && (!bot.user.phoneNumber || !bot.user.fullName)) {
+        await getUserInfo(bot);
+    }
 
     await strapi.bots.alanyaBot
         .sendMessage(chatId, localisation?.WELCOME.second, {

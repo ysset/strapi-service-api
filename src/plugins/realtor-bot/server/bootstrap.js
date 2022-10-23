@@ -11,6 +11,17 @@ const { modifyRequestWithUserData } = require('../botUtils/userController');
 module.exports = async ({ strapi }) => {
     strapi.bots.alanyaBot = bot;
 
+    await bot.setMyCommands([
+        {
+            command: 'start',
+            description: 'Добро пожаловать',
+        },
+        {
+            command: 'help',
+            description: 'Помощь',
+        },
+    ]);
+
     bot.onText(commands.START.regex, async (msg) =>
         commands.START.fn(await modifyRequestWithUserData({ msg }))
     );
