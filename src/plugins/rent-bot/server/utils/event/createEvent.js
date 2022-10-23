@@ -3,11 +3,11 @@ const eventStorage = require('./eventStorage');
 const createEvent = ({ telegramID, dbKey, userId, regexes, localisation }) =>
     new Promise((resolve) => {
         const event = async (msg) => {
-            if (regexes.some((regex) => msg.text.match(regex))) {
+            if (msg.contact || regexes.some((regex) => msg.text.match(regex))) {
                 await strapi.entityService
                     .update('api::telegram-user.telegram-user', userId, {
                         data: {
-                            [dbKey]: msg.text,
+                            [dbKey]: msg.text || msg.contact.phone_number,
                         },
                     })
                     .catch(console.error);

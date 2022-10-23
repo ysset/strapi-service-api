@@ -11,6 +11,7 @@ module.exports = async (bot) => {
     if (!fullName || !phoneNumber) await bot.reply(localisation.GET_USER_INFO);
 
     if (!fullName) {
+        eventStorage.clearEvents(chatId);
         await bot.reply(localisation.ENTER_FULL_NAME);
         await createEvent({
             localisation,
@@ -23,20 +24,27 @@ module.exports = async (bot) => {
     }
 
     if (!phoneNumber) {
-        await bot.reply(localisation.ENTER_PHONE_NUMBER);
+        eventStorage.clearEvents(chatId);
+        await bot.reply(localisation.ENTER_PHONE_NUMBER, {
+            reply_markup: {
+                keyboard: [
+                    [
+                        {
+                            text: 'send my number',
+                            request_contact: true,
+                        },
+                    ],
+                ],
+                one_time_keyboard: true,
+                resize_keyboard: true,
+            },
+        });
         await createEvent({
             localisation,
             telegramID: chatId,
             dbKey: 'phoneNumber',
             userId: id,
-            regexes: [
-                /^\+\d{1,4}\d{10}$/,
-                /^\+\d{1,4} \d{10}$/,
-                /^\+\d{1,4}\d{3} \d{3} \d{4}$/,
-                /^\+\d{1,4} \d{3} \d{3} \d{4}$/,
-                /^\+\d{1,4}\d{3} \d{3} \d{2} \d{2}$/,
-                /^\+\d{1,4} \d{3} \d{3} \d{2} \d{2}$/,
-            ],
+            regexes: [/^\+\d{1,4}\d{6,12}$/, /^\d{1,4}\d{6,12}$/],
         });
         eventStorage.clearEvents(chatId);
     }

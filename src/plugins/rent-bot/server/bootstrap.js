@@ -40,7 +40,7 @@ module.exports = async ({ strapi }) => {
     /**
      * Text listener, check and call current user event
      */
-    strapi.bots.rent.on('text', async (msg) => {
+    bot.on('text', async (msg) => {
         try {
             if (
                 (!msg.entities || msg?.entities[0].type !== 'bot_command') &&
@@ -52,6 +52,14 @@ module.exports = async ({ strapi }) => {
         } catch (e) {
             console.error(e);
         }
+    });
+
+    /**
+     * contact listener
+     */
+    bot.on('contact', async (msg) => {
+        const event = eventStorage.callEvent(msg.from.id);
+        await event(msg);
     });
 
     /**
