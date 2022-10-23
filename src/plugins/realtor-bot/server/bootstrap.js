@@ -31,6 +31,14 @@ module.exports = async ({ strapi }) => {
 
     bot.on('polling_error', console.error);
 
+    /**
+     * contact listener
+     */
+    bot.on('contact', async (msg) => {
+        const event = eventStorage.callEvent(msg.from.id);
+        await event(msg);
+    });
+
     bot.on('text', async (msg) => {
         try {
             if (
