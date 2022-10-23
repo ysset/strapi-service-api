@@ -55,11 +55,11 @@ module.exports = async (query) => {
                 inline_keyboard: [
                     [
                         {
-                            ...localisation?.PREVIOUS_INLINE,
+                            ...localisation?.SAVE_INLINE,
                             callback_data: JSON.stringify({
-                                action: actions.PREVIOUS_FLAT,
-                                flatId: recLocalisation.id,
+                                action: actions.SAVE,
                                 table: recLocalisation.table,
+                                flatId: recLocalisation.id,
                             }),
                         },
                         {
@@ -75,16 +75,6 @@ module.exports = async (query) => {
                             ...localisation?.FULL_DESCRIPTION,
                             callback_data: JSON.stringify({
                                 action: actions.SEARCH_FULL_DESCRIPTION,
-                                table: recLocalisation.table,
-                                flatId: recLocalisation.id,
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...localisation?.SAVE_INLINE,
-                            callback_data: JSON.stringify({
-                                action: actions.SAVE,
                                 table: recLocalisation.table,
                                 flatId: recLocalisation.id,
                             }),

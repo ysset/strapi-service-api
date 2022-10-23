@@ -21,11 +21,7 @@ const commands = {
     SAVE: save,
     WRITE_AGENT: writeAgent,
     FAVORITE_HOUSINGS: favoriteHousings,
-    SEARCH_FLATS: (query) => {
-        deleteCurrentMessage(query)
-            .then((success) => success && searchFlats(query).catch(console.error))
-            .catch(console.error);
-    },
+    SEARCH_FLATS: searchFlats,
     REPEAT_SEARCH_FLATS: repeatSearchFlats,
     FULL_DESCRIPTION: fullDescription,
     SEARCH_FULL_DESCRIPTION: searchFullDescription,

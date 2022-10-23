@@ -28,9 +28,9 @@ module.exports = async (query) => {
                     ],
                     [
                         {
-                            ...localisation?.PREVIOUS_INLINE,
+                            ...localisation?.SAVE_INLINE,
                             callback_data: JSON.stringify({
-                                action: actions.PREVIOUS_FLAT,
+                                action: actions.SAVE,
                                 table,
                                 flatId,
                             }),
@@ -39,16 +39,6 @@ module.exports = async (query) => {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
                                 action: actions.NEXT_FLAT,
-                                table,
-                                flatId,
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...localisation?.SAVE_INLINE,
-                            callback_data: JSON.stringify({
-                                action: actions.SAVE,
                                 table,
                                 flatId,
                             }),
