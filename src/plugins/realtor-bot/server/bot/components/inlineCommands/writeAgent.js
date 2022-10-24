@@ -1,4 +1,4 @@
-const recommendations = require('../../../../botUtils/botManager/recomendationManager');
+const recommendations = require('../../../../botUtils/botManager/recommendationManager');
 const path = require('path');
 const fs = require('fs');
 const actions = require('../actions');

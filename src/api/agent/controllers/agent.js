@@ -88,8 +88,22 @@ const handleGetCosts = async () => {
         },
     });
 
+    const villa = await strapi.entityService.findMany('api::villa.villa', {
+        populate: {
+            localisation: {
+                fields: ['cost'],
+            },
+        },
+        sort: {
+            localisation: {
+                cost: 'asc',
+            },
+        },
+    });
+
     return {
         complex,
+        villa,
         owner,
         rent,
     };
@@ -117,14 +131,21 @@ module.exports = createCoreController('api::agent.agent', {
     },
 
     getCost: async () => {
-        const { complex, owner } = await handleGetCosts();
+        const { complex, owner, villa } = await handleGetCosts();
         const complexMin = complex.length ? complex[0].localisation[0].cost : 0;
         const complexMax = complex.length ? complex[complex.length - 1].localisation[0].cost : 0;
+        const villaMin = villa.length ? villa[0].localisation[0].cost : 0;
+        const villaMax = villa.length ? villa[villa.length - 1].localisation[0].cost : 0;
         const ownerMin = owner.length ? owner[0].localisation[0].cost : 0;
         const ownerMax = owner.length ? owner[owner.length - 1].localisation[0].cost : 0;
+        const complexCosts = [villaMin, villaMax, complexMax, complexMin];
+        complexCosts.sort((a, b) => a - b);
+
+        const min = complexCosts[0];
+        const max = complexCosts[complexCosts.length - 1];
 
         return {
-            complex: [complexMin === complexMax ? 0 : complexMin, complexMax],
+            complex: [min === max ? 0 : min, max],
             owner: [ownerMin === ownerMax ? 0 : ownerMin, ownerMax],
         };
     },
