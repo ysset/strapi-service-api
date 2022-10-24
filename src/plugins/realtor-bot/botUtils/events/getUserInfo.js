@@ -11,6 +11,7 @@ module.exports = (bot) =>
         } = bot;
 
         if (!fullName) {
+            eventStorage.clearEvents(chatId);
             await bot.reply(localisation.ENTER_FULL_NAME);
             await createEvent({
                 localisation,
@@ -24,7 +25,21 @@ module.exports = (bot) =>
         }
 
         if (!phoneNumber) {
-            await bot.reply(localisation.ENTER_PHONE_NUMBER);
+            eventStorage.clearEvents(chatId);
+            await bot.reply(localisation.ENTER_PHONE_NUMBER, {
+                reply_markup: {
+                    keyboard: [
+                        [
+                            {
+                                text: 'send my number',
+                                request_contact: true,
+                            },
+                        ],
+                    ],
+                    one_time_keyboard: true,
+                    resize_keyboard: true,
+                },
+            });
             await createEvent({
                 localisation,
                 telegramID: chatId.toString(),

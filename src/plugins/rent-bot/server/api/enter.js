@@ -1,4 +1,4 @@
-const { getDate } = require('../utils');
+const { getDate, getUserInfo } = require('../utils');
 
 module.exports = async (bot) => {
     const { localisation } = bot;
@@ -7,6 +7,7 @@ module.exports = async (bot) => {
     await bot.reply(localisation.WELCOME.second);
     await bot.delete();
 
+    await getUserInfo(bot);
     await getDate(bot);
 
     await bot.reply('filters', {

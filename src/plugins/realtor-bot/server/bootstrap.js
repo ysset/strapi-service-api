@@ -11,6 +11,17 @@ const { modifyRequestWithUserData } = require('../botUtils/userController');
 module.exports = async ({ strapi }) => {
     strapi.bots.alanyaBot = bot;
 
+    await bot.setMyCommands([
+        {
+            command: 'start',
+            description: 'Добро пожаловать',
+        },
+        {
+            command: 'help',
+            description: 'Помощь',
+        },
+    ]);
+
     bot.onText(commands.START.regex, async (msg) =>
         commands.START.fn(await modifyRequestWithUserData({ msg }))
     );
@@ -30,6 +41,14 @@ module.exports = async ({ strapi }) => {
     });
 
     bot.on('polling_error', console.error);
+
+    /**
+     * contact listener
+     */
+    bot.on('contact', async (msg) => {
+        const event = eventStorage.callEvent(msg.from.id);
+        await event(msg);
+    });
 
     bot.on('text', async (msg) => {
         try {

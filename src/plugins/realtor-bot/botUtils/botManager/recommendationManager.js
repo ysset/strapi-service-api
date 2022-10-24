@@ -39,7 +39,7 @@ module.exports = {
      * @returns {Promise<null|*>}
      */
     async get({ user, filters: userFilters }) {
-        let filtered = [];
+        let filtered = {};
         if (userFilters?.layouts)
             userFilters.layouts = userFilters?.layouts
                 .filter((el) => el.match(/^ \d\+\d$/))
@@ -123,20 +123,23 @@ module.exports = {
                         if (favorites[table].some((favorite) => favorite.id === el.id)) el.favorite = true;
                         return el;
                     });
-                    filtered.push(
-                        rec[table].filter(
-                            (filtered) => !watched[table]?.some((watched) => watched.id === filtered.id)
-                        ) //delete all watched
-                    );
+                    filtered[table] = rec[table];
                 }
             });
         }
 
-        filtered = filtered.flat(1);
+        const table = userFilters.tables[Math.floor(Math.random() * userFilters.tables.length)];
 
-        if (filtered.length === 0) return null;
+        if (filtered[table].length === watched[table].length)
+            await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
+                data: {
+                    [`watched${table}`]: [],
+                },
+            });
 
-        return filtered[Math.floor(Math.random() * filtered.length)];
+        return filtered[table].length !== watched[table].length
+            ? filtered[table][watched[table].length]
+            : filtered[table][0];
     },
 
     /**

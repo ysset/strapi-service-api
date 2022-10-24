@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const { getUser } = require('../../../../botUtils/userController');
 const { alanyaBot } = require('../../../../botUtils/errorHandlers');
-const recommendations = require('../../../../botUtils/botManager/recomendationManager');
+const recommendations = require('../../../../botUtils/botManager/recommendationManager');
 const actions = require('../actions');
 
 module.exports = async (query) => {
@@ -12,7 +12,7 @@ module.exports = async (query) => {
 
     let recommendation = await recommendations.get({ user, filters });
 
-    if (!recommendation || !recommendation.localisation.length)
+    if (!recommendation || !recommendation.localisation || !recommendation.localisation.length)
         return await alanyaBot.NO_FLATS({ chatId, localisation });
 
     let recLocalisation = {
@@ -44,7 +44,8 @@ module.exports = async (query) => {
     const table = recLocalisation.table.toLowerCase();
     const caption = localisation.SHORT_DESCRIPTION[table](
         recLocalisation.localisation,
-        recommendation.favorite
+        recommendation.favorite,
+        recommendation.watched
     );
 
     await strapi.bots.alanyaBot
@@ -55,11 +56,11 @@ module.exports = async (query) => {
                 inline_keyboard: [
                     [
                         {
-                            ...localisation?.PREVIOUS_INLINE,
+                            ...localisation?.SAVE_INLINE,
                             callback_data: JSON.stringify({
-                                action: actions.PREVIOUS_FLAT,
-                                flatId: recLocalisation.id,
+                                action: actions.SAVE,
                                 table: recLocalisation.table,
+                                flatId: recLocalisation.id,
                             }),
                         },
                         {
@@ -75,16 +76,6 @@ module.exports = async (query) => {
                             ...localisation?.FULL_DESCRIPTION,
                             callback_data: JSON.stringify({
                                 action: actions.SEARCH_FULL_DESCRIPTION,
-                                table: recLocalisation.table,
-                                flatId: recLocalisation.id,
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...localisation?.SAVE_INLINE,
-                            callback_data: JSON.stringify({
-                                action: actions.SAVE,
                                 table: recLocalisation.table,
                                 flatId: recLocalisation.id,
                             }),

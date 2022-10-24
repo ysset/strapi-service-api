@@ -1,4 +1,4 @@
-const recommendations = require('../../../../botUtils/botManager/recomendationManager');
+const recommendations = require('../../../../botUtils/botManager/recommendationManager');
 const { getUser } = require('../../../../botUtils/userController');
 
 module.exports = async (query) => {

@@ -5,4 +5,6 @@ module.exports = {
     getUserInfo: require('./event/getUserInfo'),
     dateStorage: require('./event/dateStorage'),
     eventStorage: require('./event/eventStorage'),
+    getFilePath: require('./getFilePath'),
+    actions: require('./actions'),
 };

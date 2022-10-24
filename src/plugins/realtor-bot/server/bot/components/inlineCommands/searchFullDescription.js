@@ -28,9 +28,9 @@ module.exports = async (query) => {
                     ],
                     [
                         {
-                            ...localisation?.PREVIOUS_INLINE,
+                            ...localisation?.SAVE_INLINE,
                             callback_data: JSON.stringify({
-                                action: actions.PREVIOUS_FLAT,
+                                action: actions.SAVE,
                                 table,
                                 flatId,
                             }),
@@ -46,18 +46,8 @@ module.exports = async (query) => {
                     ],
                     [
                         {
-                            ...localisation?.SAVE_INLINE,
-                            callback_data: JSON.stringify({
-                                action: actions.SAVE,
-                                table,
-                                flatId,
-                            }),
-                        },
-                    ],
-                    [
-                        {
                             ...localisation.CONTROL_PANEL,
-                            web_app: { url: process.env.WEB_APP_URL },
+                            web_app: { url: process.env.REALTOR_WEB_APP_URL },
                         },
                     ],
                 ],

@@ -16,7 +16,7 @@ module.exports = {
                         [
                             {
                                 ...localisation.CONTROL_PANEL,
-                                web_app: { url: process.env.WEB_APP_URL },
+                                web_app: { url: process.env.REALTOR_WEB_APP_URL },
                             },
                         ],
                     ],
