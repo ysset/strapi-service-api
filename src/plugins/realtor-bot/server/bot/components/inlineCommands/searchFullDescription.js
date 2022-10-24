@@ -9,9 +9,8 @@ module.exports = async (query) => {
         data: { table, flatId },
     } = query;
 
-    const { caption } = await fullDescription(query);
-
-    await strapi.bots.alanyaBot
+    const { caption, messages } = await fullDescription(query);
+    const { message_id: callbackMessage } = await strapi.bots.alanyaBot
         .sendMessage(chatId, caption, {
             parse_mode: 'HTML',
             reply_markup: {
@@ -54,6 +53,13 @@ module.exports = async (query) => {
             },
         })
         .catch(console.error);
-
+    await strapi.entityService.create('api::message-history.message-history', {
+        data: {
+            flatInfo: `${table}/${flatId}`,
+            callbackMessage,
+            messages,
+        },
+        populate: '*',
+    });
     deleteMessage(query);
 };
