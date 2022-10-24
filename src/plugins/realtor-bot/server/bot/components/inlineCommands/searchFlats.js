@@ -98,16 +98,5 @@ module.exports = async (query) => {
             console.error(e);
         });
 
-    const watchedObjects = user[`watched${recLocalisation.table}`];
-    const params = {
-        data: {
-            [`watched${recLocalisation.table}`]: [...watchedObjects, recLocalisation.id],
-        },
-    };
-
-    await strapi.entityService
-        .update('api::telegram-user.telegram-user', user.id, params)
-        .catch(console.error);
-
     return { ok: true };
 };

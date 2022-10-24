@@ -46,8 +46,10 @@ module.exports = async ({ strapi }) => {
      * contact listener
      */
     bot.on('contact', async (msg) => {
-        const event = eventStorage.callEvent(msg.from.id);
-        await event(msg);
+        if (eventStorage.isEvent(msg.from.id)) {
+            const event = eventStorage.callEvent(msg.from.id);
+            await event(msg);
+        }
     });
 
     bot.on('text', async (msg) => {
