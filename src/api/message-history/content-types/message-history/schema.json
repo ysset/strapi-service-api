@@ -20,9 +20,6 @@
     },
     "callbackMessage": {
       "type": "integer"
-    },
-    "flatInfo": {
-      "type": "string"
     }
   }
 }

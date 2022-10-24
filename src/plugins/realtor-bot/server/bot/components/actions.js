@@ -13,4 +13,5 @@ module.exports = {
     NEXT_FLAT: 'NEXT_FLAT',
     PREVIOUS_FLAT: 'PREVIOUS_FLAT',
     CANCEL_INTEREST: 'CANCEL_INTEREST',
+    SFDNF: 'SFDNF',
 };

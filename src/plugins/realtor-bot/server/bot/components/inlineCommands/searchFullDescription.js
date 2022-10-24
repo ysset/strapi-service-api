@@ -37,7 +37,7 @@ module.exports = async (query) => {
                         {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
-                                action: actions.NEXT_FLAT,
+                                action: actions.SFDNF,
                                 table,
                                 flatId,
                             }),
@@ -53,6 +53,7 @@ module.exports = async (query) => {
             },
         })
         .catch(console.error);
+
     await strapi.entityService.create('api::message-history.message-history', {
         data: {
             flatInfo: `${table}/${flatId}`,

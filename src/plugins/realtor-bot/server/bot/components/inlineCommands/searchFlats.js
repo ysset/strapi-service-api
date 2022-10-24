@@ -17,7 +17,9 @@ module.exports = async (query) => {
 
     let recLocalisation = {
         ...recommendation,
-        localisation: recommendation.localisation.find((rec) => rec.language === localisation.lang),
+        localisation: recommendation.localisation.find(
+            (rec) => rec.language === 'ru' || rec.localisation === 'en'
+        ),
     };
 
     if (
