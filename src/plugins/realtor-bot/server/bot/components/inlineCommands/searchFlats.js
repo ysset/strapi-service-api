@@ -17,7 +17,9 @@ module.exports = async (query) => {
 
     let recLocalisation = {
         ...recommendation,
-        localisation: recommendation.localisation.find((rec) => rec.language === localisation.lang),
+        localisation: recommendation.localisation.find(
+            (rec) => rec.language === 'ru' || rec.localisation === 'en'
+        ),
     };
 
     if (
@@ -97,17 +99,6 @@ module.exports = async (query) => {
         .catch((e) => {
             console.error(e);
         });
-
-    const watchedObjects = user[`watched${recLocalisation.table}`];
-    const params = {
-        data: {
-            [`watched${recLocalisation.table}`]: [...watchedObjects, recLocalisation.id],
-        },
-    };
-
-    await strapi.entityService
-        .update('api::telegram-user.telegram-user', user.id, params)
-        .catch(console.error);
 
     return { ok: true };
 };

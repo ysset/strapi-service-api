@@ -129,17 +129,28 @@ module.exports = {
         }
 
         const table = userFilters.tables[Math.floor(Math.random() * userFilters.tables.length)];
-
-        if (filtered[table].length === watched[table].length)
-            await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
+        const object =
+            filtered[table].length !== watched[table].length
+                ? filtered[table][watched[table].length]
+                : filtered[table][0];
+        //clear watched villa if user watched all of them
+        if (filtered[table].length === watched[table].length) {
+            user = await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
                 data: {
                     [`watched${table}`]: [],
                 },
+                populate: '*',
             });
+        }
 
-        return filtered[table].length !== watched[table].length
-            ? filtered[table][watched[table].length]
-            : filtered[table][0];
+        await strapi.entityService
+            .update('api::telegram-user.telegram-user', user.id, {
+                data: {
+                    [`watched${table}`]: [...user[`watched${table}`], object.id],
+                },
+            })
+            .catch(console.error);
+        return object;
     },
 
     /**

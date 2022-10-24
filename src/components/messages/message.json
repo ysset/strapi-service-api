@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_messages_messages",
+  "info": {
+    "displayName": "message",
+    "icon": "mail-bulk"
+  },
+  "options": {},
+  "attributes": {
+    "messageId": {
+      "type": "integer"
+    }
+  }
+}

@@ -14,6 +14,8 @@ const deleteCurrentMessageFunc = require('./deleteCurrentMessage');
 const nextFlatFunc = require('./nextFlat');
 const previousFlatFunc = require('./previousFlat');
 const cancelUserInterestFunc = require('./cancelUserInterest');
+const searchFlatByIdFunc = require('./searchFlatById');
+const searchFullDescriptionNextFlatFunc = require('./searchFullDescriptionNextFlat');
 
 module.exports = {
     writeAgent: writeAgentFunc,
@@ -32,4 +34,6 @@ module.exports = {
     nextFlat: nextFlatFunc,
     previousFlat: previousFlatFunc,
     cancelUserInterest: cancelUserInterestFunc,
+    searchFlatById: searchFlatByIdFunc,
+    searchFullDescriptionNextFlat: searchFullDescriptionNextFlatFunc,
 };

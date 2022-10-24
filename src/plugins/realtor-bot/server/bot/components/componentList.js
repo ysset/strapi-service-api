@@ -15,6 +15,7 @@ const {
     favoriteWriteAgent,
     previousFlat,
     cancelUserInterest,
+    searchFullDescriptionNextFlat,
 } = require('./inlineCommands');
 
 const commands = {
@@ -34,6 +35,7 @@ const commands = {
     SEARCH_WRITE_AGENT: searchWriteAgent,
     FAVORITE_WRITE_AGENT: favoriteWriteAgent,
     CANCEL_INTEREST: cancelUserInterest,
+    SFDNF: searchFullDescriptionNextFlat,
 };
 
 module.exports = commands;

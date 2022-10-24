@@ -11,6 +11,7 @@ module.exports = async (query) => {
     if (!table) table = flat?.split('.')[1].split('/')[0];
     const api = `api::${table}.${table}`;
     const arrayOfArrayOfPhotos = [];
+    let messages = [];
 
     const object = await strapi.entityService
         .findOne(api, flatId, {
@@ -69,8 +70,10 @@ module.exports = async (query) => {
     });
 
     for (let arrayOfPhotos of arrayOfArrayOfPhotos) {
-        await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch(console.error);
+        messages.push(await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch(console.error));
     }
-
-    return { caption, table };
+    messages = messages.flat(1);
+    messages = messages.map((el) => ({ messageId: el.message_id }));
+    console.log(messages);
+    return { caption, table, messages };
 };
