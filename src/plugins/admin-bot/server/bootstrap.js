@@ -2,11 +2,8 @@
 //connection lost fix
 process.env.NTBA_FIX_319 = 1;
 
-// Connect to bot API
 const TgBot = require('node-telegram-bot-api');
-
-const keys = Object.keys(process.env).filter((el) => el.includes('ADMIN_BOT_TOKEN'));
-const tokens = keys.map((el) => process.env[el]);
+const { tokens, languages } = require('../../utils/getBotToken')('ADMIN_BOT_TOKEN');
 
 const { commands } = require('./bot/components');
 const { modifyRequestWithUserData } = require('../botUtils/userController');
@@ -14,7 +11,8 @@ const eventStorage = require('../botUtils/userController/eventStorage');
 
 module.exports = async () => {
     for (let token of tokens) {
-        const bot = new TgBot(token, { polling: true });
+        let bot = await new TgBot(token, { polling: true });
+        bot.language = languages[token];
 
         await bot.setMyCommands([
             {

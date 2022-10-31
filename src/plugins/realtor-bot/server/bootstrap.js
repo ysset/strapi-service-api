@@ -2,17 +2,16 @@
 process.env.NTBA_FIX_319 = 1;
 
 const TgBot = require('node-telegram-bot-api');
+const { tokens, languages } = require('../../utils/getBotToken')('REALTOR_BOT_TOKEN');
+
 const eventStorage = require('../botUtils/events/storage');
-
-const keys = Object.keys(process.env).filter((el) => el.includes('REALTOR_BOT_TOKEN'));
-const tokens = keys.map((el) => process.env[el]);
-
 const { commands, inlineCallBacks } = require('./bot/components');
 const { modifyRequestWithUserData } = require('../botUtils/userController');
 
 module.exports = async () => {
     for (let token of tokens) {
-        const bot = new TgBot(token, { polling: true });
+        const bot = await new TgBot(token, { polling: true });
+        bot.language = languages[token];
 
         await bot.setMyCommands([
             {

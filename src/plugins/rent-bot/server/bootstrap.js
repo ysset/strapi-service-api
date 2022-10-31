@@ -4,9 +4,7 @@ process.env.NTBA_FIX_319 = 1;
 
 // Connect to bot API
 const TgBot = require('node-telegram-bot-api');
-
-const keys = Object.keys(process.env).filter((el) => el.includes('RENT_BOT_TOKEN'));
-const tokens = keys.map((el) => process.env[el]);
+const { tokens, languages } = require('../../utils/getBotToken')('RENT_BOT_TOKEN');
 
 const commands = require('./commands');
 const { modifyRequestWithUserData } = require('./utils');
@@ -15,7 +13,8 @@ const inlineCallbacks = require('./inlineCallbacks');
 
 module.exports = async () => {
     for (let token of tokens) {
-        const bot = new TgBot(token, { polling: true });
+        const bot = await new TgBot(token, { polling: true });
+        bot.language = languages[token];
 
         await bot.setMyCommands([
             {
