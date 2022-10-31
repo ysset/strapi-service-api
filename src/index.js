@@ -1,15 +1,4 @@
 'use strict';
-const isEnv = () => {
-    const env = process.env;
-    return !(
-        !env.REALTOR_BOT_API_KEY ||
-        !env.RENT_BOT_API_KEY ||
-        !env.RENT_WEB_APP_URL ||
-        !env.REALTOR_WEB_APP_URL ||
-        !env.ADMIN_BOT_API_KEY ||
-        !env.AGENCY_NAME
-    );
-};
 const getData = async ({ api, field }) =>
     await strapi.entityService.findMany(api, {
         filters: {
@@ -52,17 +41,6 @@ module.exports = {
      * run jobs, or perform some special logic.
      */
     async bootstrap({ strapi }) {
-        if (!isEnv()) {
-            throw new Error(
-                'Please check env for values\n' +
-                    'REALTOR_BOT_API_KEY\n' +
-                    'RENT_BOT_API_KEY\n' +
-                    'WEB_APP_URL\n' +
-                    'ADMIN_BOT_API_KEY\n' +
-                    'AGENCY_NAME'
-            );
-        }
-
         const complexes = await getData({ api: 'api::complex.complex', field: 'city' });
         const villas = await getData({ api: 'api::villa.villa', field: 'city' });
         const owners = await getData({ api: 'api::owner.owner', field: 'city' });

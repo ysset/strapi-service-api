@@ -21,8 +21,9 @@ const getUser = async (msg) => {
     };
 };
 
-const modifyRequestWithUserData = async ({ msg }) => {
+const modifyRequestWithUserData = async ({ msg, bot }) => {
     let { user, messageId, chatId } = await getUser(msg);
+    if (!bot) throw Error('Bot is undefined');
 
     if (!user)
         user = await strapi.entityService
@@ -60,7 +61,8 @@ const modifyRequestWithUserData = async ({ msg }) => {
             .catch(console.error);
 
     return {
-        ...msg,
+        ...bot,
+        msg,
         user,
         localisation: userLang('ru'),
         messageId,
