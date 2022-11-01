@@ -1,19 +1,19 @@
 const path = require('path');
 const fs = require('fs');
 
-const { getUser } = require('../../../../botUtils/userController');
-const { alanyaBot } = require('../../../../botUtils/errorHandlers');
+const { getUser } = require('../../../../../utils');
+const { NO_FLATS, SERVER_ERROR } = require('../../../../botUtils/errorHandlers');
 const recommendations = require('../../../../botUtils/botManager/recommendationManager');
 const actions = require('../actions');
 
-module.exports = async (query) => {
-    const { localisation, chatId, filters } = query;
-    let { user } = await getUser(query);
+module.exports = async (bot) => {
+    const { localisation, chatId, filters, msg } = bot;
+    let { user } = await getUser(msg);
 
     let recommendation = await recommendations.get({ user, filters });
 
     if (!recommendation || !recommendation.localisation || !recommendation.localisation.length)
-        return await alanyaBot.NO_FLATS({ chatId, localisation });
+        return await NO_FLATS({ chatId, localisation, bot });
 
     let recLocalisation = {
         ...recommendation,
@@ -27,9 +27,10 @@ module.exports = async (query) => {
         !recLocalisation.layoutPhoto ||
         recLocalisation.layoutPhoto.length === 0
     ) {
-        return await alanyaBot.SERVER_ERROR({
+        return await SERVER_ERROR({
             chatId,
             localisation,
+            bot,
         });
     }
 
@@ -50,7 +51,7 @@ module.exports = async (query) => {
         recommendation.watched
     );
 
-    await strapi.bots.alanyaBot
+    await bot
         .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
             caption,
             parse_mode: 'HTML',

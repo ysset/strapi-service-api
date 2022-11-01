@@ -1,10 +1,10 @@
 const searchFlats = require('./searchFlats');
 const actions = require('../actions');
 
-module.exports = async (query) => {
-    const { table, flatId } = query.data;
-    const { localisation, chatId, messageId } = query;
-    await strapi.bots.alanyaBot.editMessageReplyMarkup(
+module.exports = async (bot) => {
+    const { table, flatId } = bot.data;
+    const { localisation, chatId, messageId } = bot;
+    await bot.editMessageReplyMarkup(
         {
             inline_keyboard: [
                 [
@@ -34,5 +34,5 @@ module.exports = async (query) => {
             message_id: messageId,
         }
     );
-    return searchFlats(query);
+    return searchFlats(bot);
 };

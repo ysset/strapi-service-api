@@ -1,12 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = async (query) => {
+module.exports = async (bot) => {
     let {
         localisation,
         chatId,
         data: { table, flatId, flat },
-    } = query;
+    } = bot;
     if (table) table = table.toLowerCase();
     if (!table) table = flat?.split('.')[1].split('/')[0];
     const api = `api::${table}.${table}`;
@@ -70,7 +70,7 @@ module.exports = async (query) => {
     });
 
     for (let arrayOfPhotos of arrayOfArrayOfPhotos) {
-        messages.push(await strapi.bots.alanyaBot.sendMediaGroup(chatId, arrayOfPhotos).catch(console.error));
+        messages.push(await bot.sendMediaGroup(chatId, arrayOfPhotos).catch(console.error));
     }
     messages = messages.flat(1);
     messages = messages.map((el) => ({ messageId: el.message_id }));

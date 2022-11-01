@@ -1,9 +1,9 @@
 const recommendations = require('../../../../botUtils/botManager/recommendationManager');
-const { getUser } = require('../../../../botUtils/userController');
+const { getUser } = require('../../../../../utils');
 
-module.exports = async (query) => {
-    const { user } = await getUser(query);
-    const { chatId, data, localisation, messageId } = query;
+module.exports = async (bot) => {
+    const { user } = await getUser(bot);
+    const { chatId, data, localisation, messageId } = bot;
     const { table, flatId } = data;
 
     if (!user) return;
@@ -18,7 +18,7 @@ module.exports = async (query) => {
         user,
     });
 
-    await strapi.bots.alanyaBot.deleteMessage(chatId, messageId);
+    await bot.deleteMessage(chatId, messageId);
 
-    return await strapi.bots.alanyaBot.sendMessage(chatId, localisation.DELETED.text).catch(console.error);
+    return bot.sendMessage(chatId, localisation.DELETED.text).catch(console.error);
 };

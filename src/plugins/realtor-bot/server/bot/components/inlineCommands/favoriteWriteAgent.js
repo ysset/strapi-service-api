@@ -1,6 +1,6 @@
 const actions = require('../actions');
 const writeAgent = require('./writeAgent');
-const { getUser } = require('../../../../botUtils/userController');
+const { getUser } = require('../../../../../utils');
 
 module.exports = async (bot) => {
     const { localisation, data, chatId, messageId } = bot;
@@ -12,36 +12,34 @@ module.exports = async (bot) => {
     }
 
     const { table, flatId } = data;
-    strapi.bots.alanyaBot
-        .editMessageReplyMarkup(
-            {
-                inline_keyboard: [
-                    [
-                        {
-                            ...localisation?.FULL_DESCRIPTION,
-                            callback_data: JSON.stringify({
-                                action: actions.FAVORITE_FULL_DESCRIPTION,
-                                table,
-                                flatId,
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...localisation.SEARCH,
-                            callback_data: JSON.stringify({
-                                action: actions.SEARCH_FLATS,
-                                table,
-                            }),
-                        },
-                    ],
+    bot.editMessageReplyMarkup(
+        {
+            inline_keyboard: [
+                [
+                    {
+                        ...localisation?.FULL_DESCRIPTION,
+                        callback_data: JSON.stringify({
+                            action: actions.FAVORITE_FULL_DESCRIPTION,
+                            table,
+                            flatId,
+                        }),
+                    },
                 ],
-            },
-            {
-                chat_id: chatId,
-                message_id: messageId,
-            }
-        )
-        .catch(console.error);
+                [
+                    {
+                        ...localisation.SEARCH,
+                        callback_data: JSON.stringify({
+                            action: actions.SEARCH_FLATS,
+                            table,
+                        }),
+                    },
+                ],
+            ],
+        },
+        {
+            chat_id: chatId,
+            message_id: messageId,
+        }
+    ).catch(console.error);
     await writeAgent(bot);
 };

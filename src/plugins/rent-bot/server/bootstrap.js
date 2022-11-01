@@ -7,7 +7,7 @@ const TgBot = require('node-telegram-bot-api');
 const { tokens, languages } = require('../../utils/getBotToken')('RENT_BOT_TOKEN');
 
 const commands = require('./commands');
-const { modifyRequestWithUserData } = require('./utils');
+const { modifyRequestWithUserData } = require('../../utils');
 const { eventStorage } = require('./utils');
 const inlineCallbacks = require('./inlineCallbacks');
 
@@ -15,6 +15,7 @@ module.exports = async () => {
     for (let token of tokens) {
         const bot = await new TgBot(token, { polling: true });
         bot.language = languages[token];
+        bot.type = 'rent';
 
         await bot.setMyCommands([
             {

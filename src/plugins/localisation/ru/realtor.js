@@ -1,30 +1,10 @@
-const beautifyId = require('./beautifyId');
-const beautifyMonth = require('./getMonth');
-
-const translateApartments = (apartments) =>
-    apartments
-        ?.map(({ layout = String, area = Number }) => {
-            if (layout.includes('Duplex')) {
-                if (layout.includes('Garden')) {
-                    return 'Гарден-дуплекс' + layout.replace(' Garden Duplex', ',') + ` ${area} м²`;
-                }
-                return 'Дуплекс' + layout.replace(' Duplex', ',') + ` ${area} м²`;
-            }
-            if (layout.includes('Penthouse')) {
-                return 'Пентхаус' + layout.replace(' Penthouse', ',') + ` ${area} м²`;
-            }
-            return `${layout.trim()}, ${area} м²`;
-        })
-        .join('\n');
-
-const beautifyParams = (params) => {
-    for (let param in params) {
-        if (params[param] === null || !params[param]) params[param] = 'неизвестно';
-    }
-    return params;
-};
-
-const beautifyBigNum = (cost) => cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+const {
+    beautifyParams,
+    beautifyId,
+    translateApartments,
+    beautifyMonth,
+    beautifyBigNum,
+} = require('../../utils');
 
 module.exports = {
     lang: 'ru',

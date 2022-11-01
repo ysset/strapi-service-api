@@ -6,12 +6,13 @@ const { tokens, languages } = require('../../utils/getBotToken')('REALTOR_BOT_TO
 
 const eventStorage = require('../botUtils/events/storage');
 const { commands, inlineCallBacks } = require('./bot/components');
-const { modifyRequestWithUserData } = require('../botUtils/userController');
+const { modifyRequestWithUserData } = require('../../utils');
 
 module.exports = async () => {
     for (let token of tokens) {
         const bot = await new TgBot(token, { polling: true });
         bot.language = languages[token];
+        bot.type = 'realtor';
 
         await bot.setMyCommands([
             {
@@ -29,6 +30,7 @@ module.exports = async () => {
         );
 
         bot.on('callback_query', async (query) => {
+            console.log(query);
             try {
                 query.data = JSON.parse(query.data);
                 const data = await modifyRequestWithUserData({ msg: query, bot });
@@ -69,6 +71,7 @@ module.exports = async () => {
         });
 
         bot.on('message', async (query) => {
+            console.log(query);
             if (query.web_app_data) {
                 const data = JSON.parse(query.web_app_data.data);
 

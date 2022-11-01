@@ -21,7 +21,8 @@ const getUser = async (msg) => {
     };
 };
 
-const modifyRequestWithUserData = async ({ msg, bot }) => {
+const modifyRequestWithUserData = async (bot) => {
+    const { msg } = bot;
     let { user, messageId, chatId } = await getUser(msg);
     if (!bot) throw Error('Bot is undefined');
 

@@ -13,6 +13,7 @@ module.exports = async () => {
     for (let token of tokens) {
         let bot = await new TgBot(token, { polling: true });
         bot.language = languages[token];
+        bot.type = 'admin';
 
         await bot.setMyCommands([
             {

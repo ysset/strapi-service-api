@@ -3,9 +3,9 @@ const callbacks = require('./componentList');
 const index = {
     START: {
         regex: /\/start/,
-        fn: async (msg) => {
-            await inlineCallBacks.ENTER_COMMAND(msg);
-            return inlineCallBacks.DELETE_MESSAGE(msg);
+        fn: async (bot) => {
+            await inlineCallBacks.ENTER_COMMAND(bot);
+            return bot.delete();
         },
     },
 };
@@ -21,7 +21,6 @@ const inlineCallBacks = {
     FFD: callbacks.FAVORITE_FULL_DESCRIPTION,
     ENTER_COMMAND: callbacks.ENTER_COMMAND,
     DELETE_ACTION: callbacks.DELETE_ACTION,
-    DELETE_MESSAGE: callbacks.DELETE_MESSAGE,
     NEXT_FLAT: callbacks.NEXT_FLAT,
     PREVIOUS_FLAT: callbacks.PREVIOUS_FLAT,
     CANCEL_INTEREST: callbacks.CANCEL_INTEREST,

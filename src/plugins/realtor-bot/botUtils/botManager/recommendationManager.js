@@ -55,6 +55,7 @@ module.exports = {
                 ])
                 .flat(1);
 
+        if (user.filters) return null;
         if (!userFilters) userFilters = user.filters.last;
 
         const watched = { Complex: user.watchedComplex, Villa: user.watchedVilla, Owner: user.watchedOwner };

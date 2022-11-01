@@ -3,7 +3,7 @@ module.exports = (env) => {
     const tokens = keys.map((el) => process.env[el]);
     let languages = {};
     keys.forEach((key) => {
-        languages[process.env[key]] = key.split('_')[key.split('_').length - 1];
+        languages[process.env[key]] = key.split('_')[key.split('_').length - 1].toLowerCase();
     });
 
     return {

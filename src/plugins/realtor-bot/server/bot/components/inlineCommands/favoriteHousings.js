@@ -2,11 +2,11 @@ const path = require('path');
 const fs = require('fs');
 const actions = require('../actions');
 
-module.exports = async (query) => {
-    const { localisation, messageId, chatId, user } = query;
+module.exports = async (bot) => {
+    const { localisation, messageId, chatId, user } = bot;
 
     if (!user) return;
-    if (messageId) strapi.bots.alanyaBot.deleteMessage(chatId, messageId).catch(console.error);
+    if (messageId) bot.deleteMessage(chatId, messageId).catch(console.error);
 
     const flats = [
         await strapi.db
@@ -67,9 +67,7 @@ module.exports = async (query) => {
     const favoriteHousings = flats.flat(1);
 
     if (favoriteHousings.length === 0) {
-        return await strapi.bots.alanyaBot
-            .sendMessage(chatId, localisation?.NO_FAVORITE_NOW)
-            .catch(console.error);
+        return await bot.sendMessage(chatId, localisation?.NO_FAVORITE_NOW).catch(console.error);
     }
 
     for (const flat of favoriteHousings) {
@@ -88,7 +86,7 @@ module.exports = async (query) => {
         const table = flat.table;
         const flatId = flat.id;
 
-        await strapi.bots.alanyaBot
+        await bot
             .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
                 reply_markup: {
                     inline_keyboard: [

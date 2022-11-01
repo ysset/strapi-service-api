@@ -2,14 +2,14 @@ const recommendations = require('../../../../botUtils/botManager/recommendationM
 const path = require('path');
 const fs = require('fs');
 const actions = require('../actions');
-const { getUser } = require('../../../../botUtils/userController');
+const { getUser } = require('../../../../../utils');
 
-module.exports = async (query) => {
+module.exports = async (bot) => {
     const {
         user: { telegramID: userTelegramId },
         localisation,
         data,
-    } = query;
+    } = bot;
 
     let { table, flatId } = data;
     table = table.toLowerCase();
@@ -48,12 +48,12 @@ module.exports = async (query) => {
         ...flatLocal,
     });
 
-    const { user } = await getUser(query);
+    const { user } = await getUser(bot);
 
     //save current housing
     await recommendations
         .save({
-            where: { telegramID: query.from.id },
+            where: { telegramID: bot.from.id },
             apiKey: 'api::telegram-user.telegram-user',
             data,
             user,
@@ -75,7 +75,7 @@ module.exports = async (query) => {
         table,
     });
 
-    await strapi.bots.alanyaBot
+    await bot
         .sendMessage(userTelegramId, userMessage, {
             parse_mode: 'HTML',
             reply_markup: {

@@ -1,4 +1,4 @@
-const { userLang } = require('../../botUtils/language');
+const { userLang } = require('../localisation');
 
 const getUser = async (msg) => {
     const messageId = msg.message?.message_id || msg.message_id;
@@ -27,13 +27,12 @@ const modifyRequestWithUserData = async ({ msg, bot }) => {
 
     if (!user)
         user = await strapi.entityService
-            .create('api::telegram-user.telegram-user', {
+            .create('api::agent.agent', {
                 data: {
                     telegramID: msg.from.id,
                     language: 'ru',
                     username: msg.from.username,
                 },
-                populate: '*',
             })
             .catch(console.error);
 
@@ -61,17 +60,16 @@ const modifyRequestWithUserData = async ({ msg, bot }) => {
             })
             .catch(console.error);
 
-    return {
-        reply: (text, form = {}) => strapi.bots.alanyaBot.sendMessage(chatId, text, form),
-        delete: (form = {}) => strapi.bots.alanyaBot.deleteMessage(chatId, messageId, form),
-        deleteById: (messageId, form = {}) => strapi.bots.alanyaBot.deleteMessage(chatId, messageId, form),
-        ...bot,
-        msg,
-        user,
-        localisation: userLang('ru'),
-        messageId,
-        chatId,
-    };
+    bot.reply = (text, form = {}) => bot.sendMessage(chatId, text, form);
+    bot.delete = (form = {}) => bot.deleteMessage(chatId, messageId, form);
+    bot.deleteById = (messageId, form = {}) => bot.deleteMessage(chatId, messageId, form);
+    bot.msg = msg;
+    bot.user = user;
+    bot.chatId = chatId;
+    bot.messageId = messageId;
+    bot.localisation = userLang(bot);
+
+    return bot;
 };
 
 module.exports = {

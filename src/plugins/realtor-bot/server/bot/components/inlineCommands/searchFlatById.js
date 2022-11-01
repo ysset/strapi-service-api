@@ -3,8 +3,12 @@ const fs = require('fs');
 const actions = require('../actions');
 
 module.exports = async (bot) => {
-    const { table, flatId } = bot.data;
-    const { localisation, user, chatId } = bot;
+    const {
+        localisation,
+        user,
+        chatId,
+        data: { table, flatId },
+    } = bot;
     const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
 
     const favorites = {
@@ -50,7 +54,7 @@ module.exports = async (bot) => {
 
     const caption = localisation.SHORT_DESCRIPTION[table.toLowerCase()](object.localisation, object.favorite);
 
-    await strapi.bots.alanyaBot
+    await bot
         .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
             caption,
             parse_mode: 'HTML',

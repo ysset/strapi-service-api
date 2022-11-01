@@ -1,18 +1,15 @@
 const path = require('path');
 const fs = require('fs');
 const actions = require('../actions');
-module.exports = async (query) => {
+module.exports = async (bot) => {
     let {
         user,
         localisation,
         chatId,
         data: { table },
-    } = query;
+    } = bot;
     if (!user[`watched${table}`].length)
-        return await strapi.bots.alanyaBot.sendMessage(
-            chatId,
-            'Это была первая квартира которую вы просмотрели 👆'
-        );
+        return await bot.sendMessage(chatId, 'Это была первая квартира которую вы просмотрели 👆');
     const flatId = user[`watched${table}`].pop().id;
     let object = await strapi.entityService.findOne(
         `api::${table.toLowerCase()}.${table.toLowerCase()}`,
@@ -44,7 +41,7 @@ module.exports = async (query) => {
     }`;
 
     const caption = localisation.SHORT_DESCRIPTION[table.toLowerCase()](object.localisation, object.favorite);
-    await strapi.bots.alanyaBot
+    await bot
         .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
             caption,
             parse_mode: 'HTML',

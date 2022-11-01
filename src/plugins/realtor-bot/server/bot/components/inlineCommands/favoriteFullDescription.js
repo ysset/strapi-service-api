@@ -1,14 +1,13 @@
 const fullDescription = require('./fullDescription');
-const deleteMessage = require('./deleteCurrentMessage');
 const actions = require('../actions');
 
-module.exports = async (query) => {
+module.exports = async (bot) => {
     const {
         localisation,
         chatId,
         data: { table, flatId },
-    } = query;
-    const { caption } = await fullDescription(query);
+    } = bot;
+    const { caption } = await fullDescription(bot);
 
     await strapi.bots.alanyaBot
         .sendMessage(chatId, caption, {
@@ -30,5 +29,5 @@ module.exports = async (query) => {
         })
         .catch(console.error);
 
-    deleteMessage(query);
+    bot.delete();
 };
