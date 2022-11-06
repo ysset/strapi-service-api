@@ -1,10 +1,4 @@
-const {
-    beautifyParams,
-    beautifyId,
-    translateApartments,
-    beautifyMonth,
-    beautifyBigNum,
-} = require('../../utils');
+const { beautifyId, translateApartments, getMonth, beautifyBigNum } = require('../../utils/localisation');
 
 module.exports = {
     lang: 'ru',
@@ -111,8 +105,7 @@ module.exports = {
     },
     WRITE_AGENT: {
         userText: {
-            complex: (params) => {
-                const { agentUsername } = beautifyParams(params);
+            complex: ({ agentUsername }) => {
                 return (
                     `Менеджер агентства ${process.env.AGENCY_NAME} свяжется с Вами в ближайшее время и ответит на любой Ваш вопрос!\n` +
                     '\n' +
@@ -120,8 +113,7 @@ module.exports = {
                     `https://t.me/${agentUsername}`
                 );
             },
-            villa: (params) => {
-                const { agentUsername } = beautifyParams(params);
+            villa: ({ agentUsername }) => {
                 return (
                     `Менеджер агентства ${process.env.AGENCY_NAME} свяжется с Вами в ближайшее время и ответит на любой Ваш вопрос!\n` +
                     '\n' +
@@ -129,8 +121,7 @@ module.exports = {
                     `https://t.me/${agentUsername}`
                 );
             },
-            owner: (params) => {
-                const { agentUsername } = beautifyParams(params);
+            owner: ({ agentUsername }) => {
                 return (
                     `Менеджер агентства ${process.env.AGENCY_NAME} свяжется с Вами в ближайшее время и ответит на любой Ваш вопрос!\n` +
                     '\n' +
@@ -170,14 +161,14 @@ module.exports = {
                 apartmentEquipment,
                 constructionCompletionDate,
                 paymentMethod,
-            } = beautifyParams(params);
+            } = params;
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
             apartmentEquipment = apartmentEquipment?.map((el) => '- ' + el.title.trim() + ';').join('\n');
             const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
             let date = null;
 
-            if (month && month <= 12 && year) date = `${beautifyMonth('ru', month)} ${year}`;
+            if (month && month <= 12 && year) date = `${getMonth('ru', month)} ${year}`;
 
             return (
                 `<b>${title}</b>\n\n` +
@@ -209,14 +200,14 @@ module.exports = {
                 apartmentEquipment,
                 constructionCompletionDate,
                 paymentMethod,
-            } = beautifyParams(params);
+            } = params;
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
             apartmentEquipment = apartmentEquipment?.map((el) => '- ' + el.title.trim() + ';').join('\n');
             const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
             let date = null;
 
-            if (month && month <= 12 && year) date = `${beautifyMonth('ru', month)} ${year}`;
+            if (month && month <= 12 && year) date = `${getMonth('ru', month)} ${year}`;
 
             return (
                 `<b>${title}</b>\n\n` +
@@ -234,22 +225,23 @@ module.exports = {
                 `${date ? `Сдача объекта: ${date}\n\n` : ''}`
             );
         },
-        owner: ({
-            cost,
-            title,
-            caption,
-            city,
-            district,
-            neighborhood,
-            layout,
-            area,
-            floors,
-            furniture,
-            yearOfConstruction,
-            infrastructure,
-            metersFromTheSea,
-            paymentMethod,
-        }) => {
+        owner: (params) => {
+            let {
+                cost,
+                title,
+                caption,
+                city,
+                district,
+                neighborhood,
+                layout,
+                area,
+                floors,
+                furniture,
+                yearOfConstruction,
+                infrastructure,
+                metersFromTheSea,
+                paymentMethod,
+            } = params;
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
             furniture = furniture?.map((el) => '- ' + el.title.trim() + ';').join('\n');
             floors = floors?.map((el) => el.floor).join(' и ');
@@ -275,7 +267,7 @@ module.exports = {
     },
     SHORT_DESCRIPTION: {
         owner: (params, favorite) => {
-            let { title, layout, area, floors, city, district, cost } = beautifyParams(params);
+            let { title, layout, area, floors, city, district, cost } = params;
             floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' и ' : '');
 
             return (
@@ -287,7 +279,7 @@ module.exports = {
             );
         },
         complex: (params, favorite) => {
-            let { apartments, city, district, cost, title } = beautifyParams(params);
+            let { apartments, city, district, cost, title } = params;
             apartments = translateApartments(apartments);
 
             return (
@@ -299,7 +291,7 @@ module.exports = {
             );
         },
         villa: (params, favorite) => {
-            let { apartments, city, district, cost, title } = beautifyParams(params);
+            let { apartments, city, district, cost, title } = params;
             apartments = translateApartments(apartments);
 
             return (

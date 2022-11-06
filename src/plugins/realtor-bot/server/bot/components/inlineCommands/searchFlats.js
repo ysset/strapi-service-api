@@ -7,11 +7,10 @@ const recommendations = require('../../../../botUtils/botManager/recommendationM
 const actions = require('../actions');
 
 module.exports = async (bot) => {
-    const { localisation, chatId, filters, msg } = bot;
+    const { localisation, chatId, msg } = bot;
+    const { filters } = msg;
     let { user } = await getUser(msg);
-
     let recommendation = await recommendations.get({ user, filters });
-
     if (!recommendation || !recommendation.localisation || !recommendation.localisation.length)
         return await NO_FLATS({ chatId, localisation, bot });
 

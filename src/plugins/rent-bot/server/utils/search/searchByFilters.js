@@ -1,5 +1,4 @@
-const { dateStorage } = require('../index');
-const getDate = require('../event/getDate');
+const { getDate, dateStorage } = require('../../../../utils');
 
 const configureFilters = (userFilters = {}) => ({
     $and: [

@@ -1,4 +1,5 @@
 const { userLang } = require('../localisation');
+const getUserInfo = require('../utils/event/getUserInfo');
 
 const getUser = async (msg) => {
     const messageId = msg.message?.message_id || msg.message_id;
@@ -24,7 +25,9 @@ const getUser = async (msg) => {
 const modifyRequestWithUserData = async ({ msg, bot }) => {
     let { user, messageId, chatId } = await getUser(msg);
     if (!bot) throw Error('Bot is undefined');
-
+    if (msg.web_app_data) {
+        msg.filters = JSON.parse(msg.web_app_data.data);
+    }
     if (!user)
         user = await strapi.entityService
             .create('api::agent.agent', {
@@ -68,6 +71,17 @@ const modifyRequestWithUserData = async ({ msg, bot }) => {
     bot.chatId = chatId;
     bot.messageId = messageId;
     bot.localisation = userLang(bot);
+
+    if (
+        user &&
+        (user.watchedVilla.length >= 5 ||
+            user.watchedOwner.length >= 5 ||
+            user.watchedComplex.length >= 5 ||
+            user.watchedRent.length >= 5) &&
+        (!user.fullName || !user.phoneNumber)
+    ) {
+        await getUserInfo(bot);
+    }
 
     return bot;
 };

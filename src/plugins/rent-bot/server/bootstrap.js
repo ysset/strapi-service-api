@@ -8,7 +8,7 @@ const { tokens, languages } = require('../../utils/getBotToken')('RENT_BOT_TOKEN
 
 const commands = require('./commands');
 const { modifyRequestWithUserData } = require('../../utils');
-const { eventStorage } = require('./utils');
+const { eventStorage } = require('../../utils');
 const inlineCallbacks = require('./inlineCallbacks');
 
 module.exports = async () => {

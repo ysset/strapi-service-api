@@ -55,8 +55,8 @@ module.exports = {
                 ])
                 .flat(1);
 
-        if (user.filters) return null;
-        if (!userFilters) userFilters = user.filters.last;
+        if (!userFilters) userFilters = user?.filters?.last;
+        if (!userFilters) return null;
 
         const watched = { Complex: user.watchedComplex, Villa: user.watchedVilla, Owner: user.watchedOwner };
         const favorites = {
@@ -64,8 +64,6 @@ module.exports = {
             Villa: user.favoriteVilla,
             Owner: user.favoriteOwner,
         };
-
-        if (!userFilters) return;
 
         const reqData = userFilters.tables.map((table) => ({
             api: `api::${table.toLowerCase()}.${table.toLowerCase()}`,
@@ -116,7 +114,6 @@ module.exports = {
                 .catch(console.error),
         }));
         let recommendations = await Promise.all(dataArray);
-
         for (let table of userFilters.tables) {
             recommendations.forEach((rec) => {
                 if (rec[table]) {
@@ -134,7 +131,7 @@ module.exports = {
             filtered[table].length !== watched[table].length
                 ? filtered[table][watched[table].length]
                 : filtered[table][0];
-        //clear watched villa if user watched all of them
+        //clear watched object if user watched all of them
         if (filtered[table].length === watched[table].length) {
             user = await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
                 data: {
@@ -143,7 +140,6 @@ module.exports = {
                 populate: '*',
             });
         }
-
         await strapi.entityService
             .update('api::telegram-user.telegram-user', user.id, {
                 data: {

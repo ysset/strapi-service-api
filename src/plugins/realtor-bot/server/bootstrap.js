@@ -30,7 +30,6 @@ module.exports = async () => {
         );
 
         bot.on('callback_query', async (query) => {
-            console.log(query);
             try {
                 query.data = JSON.parse(query.data);
                 const data = await modifyRequestWithUserData({ msg: query, bot });
@@ -42,6 +41,7 @@ module.exports = async () => {
             } catch (e) {
                 console.error(e);
             }
+            console.log('===END====>');
         });
 
         bot.on('polling_error', console.error);
@@ -71,19 +71,8 @@ module.exports = async () => {
         });
 
         bot.on('message', async (query) => {
-            console.log(query);
             if (query.web_app_data) {
-                const data = JSON.parse(query.web_app_data.data);
-
-                if (data.favorite)
-                    return inlineCallBacks.FAVORITE_HOUSINGS(
-                        await modifyRequestWithUserData({ msg: query, bot })
-                    );
-
-                return inlineCallBacks.SEARCH_FLATS({
-                    filters: data,
-                    ...(await modifyRequestWithUserData({ msg: query, bot })),
-                });
+                return inlineCallBacks.SEARCH_FLATS(await modifyRequestWithUserData({ msg: query, bot }));
             }
 
             if (
