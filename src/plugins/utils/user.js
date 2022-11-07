@@ -28,9 +28,10 @@ const modifyRequestWithUserData = async ({ msg, bot }) => {
     if (msg.web_app_data) {
         msg.filters = JSON.parse(msg.web_app_data.data);
     }
+    console.log(user);
     if (!user)
         user = await strapi.entityService
-            .create('api::agent.agent', {
+            .create('api::telegram-user.telegram-user', {
                 data: {
                     telegramID: msg.from.id,
                     language: 'ru',
