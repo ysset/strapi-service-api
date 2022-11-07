@@ -1,4 +1,4 @@
-const getUserInfo = require('../../../../botUtils/events/getUserInfo');
+const { getUserInfo } = require('../../../../../utils');
 const actions = require('../actions');
 
 module.exports = async (bot) => {
