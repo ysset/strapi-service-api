@@ -26,9 +26,13 @@ module.exports = {
     CONTROL_PANEL: {
         text: 'Изменить фильтры',
     },
+    GET_USER_INFO_SUCCESS: '✅',
     START: {
         text: '/start',
         regex: /\/start/,
+    },
+    GET_USER_PHONE_BUTTON: {
+        text: 'оставить номер телефона и продолжить поиск',
     },
     NO_FLATS: 'Вы посмотрели все объекты по заданным фильтрам!',
     NO_USERNAME:
@@ -89,11 +93,10 @@ module.exports = {
     CANCEL_INTEREST: {
         user: 'Ваша заявка отменена',
         realtor: (params) => {
-            const { username, phoneNumber, fullName } = params;
+            const { username, phoneNumber } = params;
             return (
                 'Пользователь:\n\n' +
                 `${username ? `https://t.me/${username}\n` : ''}` +
-                `${fullName}\n` +
                 `${phoneNumber}\n\n` +
                 'Больше НЕ интересуется данным объектом \n\n'
             );
@@ -131,12 +134,11 @@ module.exports = {
             },
         },
         realtorText: (params) => {
-            const { username, flatId, city, district, fullName, phoneNumber } = params;
+            const { username, flatId, city, district, phoneNumber } = params;
             return (
                 'Здравствуйте! \n\n' +
                 'Пользователь:\n' +
                 `${username ? `https://t.me/${username}\n` : ''}` +
-                `${fullName}\n` +
                 `${phoneNumber}\n\n` +
                 'Интересуется данным объектом \n\n' +
                 `ID: ${beautifyId(flatId)} \n` +
@@ -214,7 +216,9 @@ module.exports = {
                 `<b>Цена от € ${beautifyBigNum(cost)}</b>\n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
-                `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
+                `${
+                    metersFromTheSea ? `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` : ''
+                }` +
                 `${paymentMethod ? `Способ оплаты: ${paymentMethod}\n\n` : ''}` +
                 `${caption}\n\n` +
                 `${apartments ? `Планировки: \n${apartments} \n\n` : ''}` +

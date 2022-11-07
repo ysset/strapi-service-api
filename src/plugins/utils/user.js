@@ -9,7 +9,7 @@ const getUser = async (msg) => {
         .query('api::telegram-user.telegram-user')
         .findOne({
             where: {
-                telegramID: userID,
+                telegramID: parseInt(userID),
             },
             populate: true,
         })
@@ -68,18 +68,17 @@ const modifyRequestWithUserData = async ({ msg, bot }) => {
     bot.deleteById = (messageId, form = {}) => bot.deleteMessage(chatId, messageId, form);
     bot.msg = msg;
     bot.user = user;
+    bot.data = msg.data;
     bot.chatId = chatId;
     bot.messageId = messageId;
     bot.localisation = userLang(bot);
 
-    if (
-        user &&
-        (user.watchedVilla.length >= 5 ||
-            user.watchedOwner.length >= 5 ||
-            user.watchedComplex.length >= 5 ||
-            user.watchedRent.length >= 5) &&
-        (!user.fullName || !user.phoneNumber)
-    ) {
+    const limit =
+        (user.watchedVilla?.length || 0) +
+        (user.watchedOwner?.length || 0) +
+        (user.watchedComplex?.length || 0) +
+        (user.watchedRent?.length || 0);
+    if (limit >= 5 && !user.phoneNumber) {
         await getUserInfo(bot);
     }
 

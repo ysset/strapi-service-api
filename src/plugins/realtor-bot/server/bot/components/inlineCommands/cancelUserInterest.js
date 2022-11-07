@@ -83,7 +83,7 @@ module.exports = async (bot) => {
         })
         .catch(console.error);
 
-    await bot
+    await strapi.bots.admin
         .sendMessage(
             logField.agent.telegramID,
             localisation.CANCEL_INTEREST.realtor({
@@ -92,7 +92,7 @@ module.exports = async (bot) => {
             })
         )
         .catch(console.error);
-    await bot
+    await strapi.bots.admin
         .sendPhoto(logField.agent.telegramID, fs.createReadStream(resolvedPath), {
             caption,
             parse_mode: 'HTML',

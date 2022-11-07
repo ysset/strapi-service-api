@@ -4,7 +4,7 @@ process.env.NTBA_FIX_319 = 1;
 const TgBot = require('node-telegram-bot-api');
 const { tokens, languages } = require('../../utils/getBotToken')('REALTOR_BOT_TOKEN');
 
-const eventStorage = require('../botUtils/events/storage');
+const eventStorage = require('../../utils/event/eventStorage');
 const { commands, inlineCallBacks } = require('./bot/components');
 const { modifyRequestWithUserData } = require('../../utils');
 
@@ -35,13 +35,11 @@ module.exports = async () => {
                 const data = await modifyRequestWithUserData({ msg: query, bot });
                 //debug shit
                 console.log('===START====>', '\nACTION:', query.data.action, '\nUSER_ID:', data.user.id);
-                console.log(data.data);
                 await inlineCallBacks[query.data.action](data);
                 console.log('===END====>');
             } catch (e) {
                 console.error(e);
             }
-            console.log('===END====>');
         });
 
         bot.on('polling_error', console.error);
@@ -73,6 +71,11 @@ module.exports = async () => {
         bot.on('message', async (query) => {
             if (query.web_app_data) {
                 return inlineCallBacks.SEARCH_FLATS(await modifyRequestWithUserData({ msg: query, bot }));
+            }
+            if (query.text === 'Сохраненные❤️') {
+                return inlineCallBacks.FAVORITE_HOUSINGS(
+                    await modifyRequestWithUserData({ msg: query, bot })
+                );
             }
 
             if (

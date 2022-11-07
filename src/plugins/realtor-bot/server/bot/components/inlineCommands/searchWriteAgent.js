@@ -5,12 +5,11 @@ const { getUser } = require('../../../../../utils');
 module.exports = async (bot) => {
     const { localisation, data, chatId, messageId } = bot;
 
-    const { user } = await getUser(bot);
+    const { user } = await getUser(bot.msg);
 
     if (!process.env.DEVELOPMENT && (!user.phoneNumber || !user.fullName)) {
         return;
     }
-
     const { table, flatId } = data;
     bot.editMessageReplyMarkup(
         {

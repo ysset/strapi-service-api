@@ -48,12 +48,12 @@ module.exports = async (bot) => {
         ...flatLocal,
     });
 
-    const { user } = await getUser(bot);
+    const { user } = await getUser(bot.msg);
 
     //save current housing
     await recommendations
         .save({
-            where: { telegramID: bot.from.id },
+            where: { telegramID: bot.msg.from.id },
             apiKey: 'api::telegram-user.telegram-user',
             data,
             user,

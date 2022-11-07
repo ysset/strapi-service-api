@@ -8,6 +8,10 @@ const index = {
             return bot.delete();
         },
     },
+    FAVORITE_HOUSINGS: {
+        regex: /\/Сохраненные❤️️️️/,
+        fn: callbacks.FAVORITE_HOUSINGS,
+    },
 };
 
 const inlineCallBacks = {

@@ -1,4 +1,5 @@
 const getUserInfo = require('../../../../botUtils/events/getUserInfo');
+const actions = require('../actions');
 
 module.exports = async (bot) => {
     const { localisation, chatId } = bot;
@@ -21,6 +22,10 @@ module.exports = async (bot) => {
                                     process.env.REALTOR_WEB_APP_URL +
                                     `${bot.type.toLowerCase()}?language=${bot.language.toLowerCase()}`,
                             },
+                        },
+                        {
+                            ...localisation.FAVORITE,
+                            callback_data: JSON.stringify({ action: actions.FAVORITE_HOUSINGS }),
                         },
                     ],
                 ],
