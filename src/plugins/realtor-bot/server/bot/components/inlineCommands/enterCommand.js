@@ -1,14 +1,9 @@
-const { getUserInfo } = require('../../../../../utils');
 const actions = require('../actions');
 
 module.exports = async (bot) => {
     const { localisation, chatId } = bot;
 
     await bot.sendMessage(chatId, localisation?.WELCOME.first);
-
-    if (!process.env.DEVELOPMENT && (!bot.user.phoneNumber || !bot.user.fullName)) {
-        await getUserInfo(bot);
-    }
 
     await bot
         .sendMessage(chatId, localisation?.WELCOME.second, {

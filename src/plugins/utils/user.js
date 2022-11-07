@@ -79,7 +79,7 @@ const modifyRequestWithUserData = async ({ msg, bot }) => {
         (user.watchedOwner?.length || 0) +
         (user.watchedComplex?.length || 0) +
         (user.watchedRent?.length || 0);
-    if (limit >= 5 && !user.phoneNumber) {
+    if (!process.env.DEVELOPMENT && limit >= 5 && !user.phoneNumber) {
         await getUserInfo(bot);
     }
 
