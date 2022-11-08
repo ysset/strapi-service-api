@@ -6,7 +6,7 @@ const localisation = {
     },
     en: {
         rent: require('./ru/rent'),
-        realtor: require('./ru/realtor'),
+        realtor: require('./en/realtor'),
         admin: {},
     },
 };
