@@ -72,10 +72,13 @@ module.exports = async () => {
             if (query.web_app_data) {
                 return inlineCallBacks.SEARCH_FLATS(await modifyRequestWithUserData({ msg: query, bot }));
             }
-            if (query.text === 'Сохраненные❤️') {
+            if (query.text === 'Сохраненные ❤️') {
                 return inlineCallBacks.FAVORITE_HOUSINGS(
                     await modifyRequestWithUserData({ msg: query, bot })
                 );
+            }
+            if (query.text === 'Хочу на инфотур') {
+                return inlineCallBacks.INF_TOUR(await modifyRequestWithUserData({ msg: query, bot }));
             }
 
             if (

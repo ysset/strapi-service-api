@@ -20,6 +20,14 @@ module.exports = {
     CONTROL_PANEL: {
         text: 'Изменить фильтры',
     },
+    INF_TOUR_BUTTON: {
+        text: 'Хочу на инфотур',
+    },
+    INF_TOUR: 'Скоро с вами свяжутся',
+    INF_TOUR_REALTOR: ({ username }) => `${username} хочет на инфотур`,
+    CANCEL_INFO_TOUR_INLINE: {
+        text: 'Не хочу на инфотур',
+    },
     GET_USER_INFO_SUCCESS: '✅',
     START: {
         text: '/start',
@@ -50,7 +58,7 @@ module.exports = {
     SERVER_ERROR: 'К сожалению произошла ошибка, попробуйте еще раз или позже!',
     SAVED: 'Добавлено в избранное',
     FAVORITE: {
-        text: 'Сохраненные❤️',
+        text: 'Сохраненные ❤️',
     },
     FAVORITE_HOUSINGS: {
         text: 'Недвижимость ❤️',

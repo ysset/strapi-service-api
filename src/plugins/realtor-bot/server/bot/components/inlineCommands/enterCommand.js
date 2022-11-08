@@ -23,6 +23,12 @@ module.exports = async (bot) => {
                             callback_data: JSON.stringify({ action: actions.FAVORITE_HOUSINGS }),
                         },
                     ],
+                    [
+                        {
+                            ...localisation.INF_TOUR_BUTTON,
+                            callback_data: JSON.stringify({ action: actions.INF_TOUR }),
+                        },
+                    ],
                 ],
                 resize_keyboard: true,
             },

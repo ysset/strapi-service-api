@@ -15,6 +15,8 @@ const previousFlatFunc = require('./previousFlat');
 const cancelUserInterestFunc = require('./cancelUserInterest');
 const searchFlatByIdFunc = require('./searchFlatById');
 const searchFullDescriptionNextFlatFunc = require('./searchFullDescriptionNextFlat');
+const cancelInfoTourFunc = require('./cancelInfoTour');
+const infoTourFunc = require('./infoTour');
 
 module.exports = {
     writeAgent: writeAgentFunc,
@@ -34,4 +36,6 @@ module.exports = {
     cancelUserInterest: cancelUserInterestFunc,
     searchFlatById: searchFlatByIdFunc,
     searchFullDescriptionNextFlat: searchFullDescriptionNextFlatFunc,
+    cancelInfoTour: cancelInfoTourFunc,
+    infoTour: infoTourFunc,
 };

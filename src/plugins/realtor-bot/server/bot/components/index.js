@@ -29,6 +29,7 @@ const inlineCallBacks = {
     PREVIOUS_FLAT: callbacks.PREVIOUS_FLAT,
     CANCEL_INTEREST: callbacks.CANCEL_INTEREST,
     SFDNF: callbacks.SFDNF,
+    INF_TOUR: callbacks.INF_TOUR,
 };
 
 module.exports = {
