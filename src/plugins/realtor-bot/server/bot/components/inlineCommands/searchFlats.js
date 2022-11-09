@@ -8,8 +8,9 @@ const actions = require('../actions');
 
 module.exports = async (bot) => {
     const { localisation, chatId, msg } = bot;
-    const { filters } = msg;
+    let { filters } = msg;
     let { user } = await getUser(msg);
+    if (filters) filters = { ...filters, language: bot.language };
     let recommendation = await recommendations.get({ user, filters });
     if (!recommendation || !recommendation.localisation || !recommendation.localisation.length)
         return await NO_FLATS({ chatId, localisation, bot });

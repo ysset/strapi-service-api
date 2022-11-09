@@ -1,6 +1,6 @@
 const configureFilters = ({ userFilters, table }) => {
     // language
-    const filters = { localisation: { $and: [{ language: 'ru' }] } };
+    const filters = { localisation: { $and: [{ language: userFilters.language }] } };
     // housing type
     if (userFilters.housings && userFilters.housings.length)
         filters.localisation.$and.push({ type: { $in: userFilters.housings } });
@@ -64,7 +64,7 @@ module.exports = {
             Villa: user.favoriteVilla,
             Owner: user.favoriteOwner,
         };
-
+        console.log(userFilters);
         const reqData = userFilters.tables.map((table) => ({
             api: `api::${table.toLowerCase()}.${table.toLowerCase()}`,
             table,
