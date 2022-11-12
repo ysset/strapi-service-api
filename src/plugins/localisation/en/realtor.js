@@ -283,7 +283,6 @@ module.exports = {
         },
         complex: (params, favorite) => {
             let { apartments, city, district, cost, title } = params;
-            apartments = translateApartments(apartments);
 
             return (
                 `<b>${title}</b>\n\n` +
