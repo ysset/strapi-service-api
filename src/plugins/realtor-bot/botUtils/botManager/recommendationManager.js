@@ -1,37 +1,22 @@
-const configureFilters = ({ userFilters, table }) => {
-    // language
-    const filters = { localisation: { $and: [{ language: userFilters.language }] } };
-    // housing type
-    if (userFilters.housings && userFilters.housings.length)
-        filters.localisation.$and.push({ type: { $in: userFilters.housings } });
-    // cities
-    if (userFilters.cities.length) filters.localisation.$and.push({ city: { $in: userFilters.cities } });
-    //price
-    if (userFilters.prices.length)
-        filters.localisation.$and.push({
-            cost: {
-                $gte: userFilters.prices[0],
-                $lte: userFilters.prices[1],
-            },
-        });
-    // layout
-    if (userFilters.layouts.length && table !== 'Villa' && table !== 'Owner')
-        filters.localisation.$and.push({
-            apartments: {
-                layout: {
-                    $in: userFilters.layouts,
+const getFilters = ({ userFilters, table }) => ({
+    localisation: {
+        $and: [
+            { language: userFilters.language },
+            userFilters.cities.length ? { city: userFilters.cities } : {},
+            {
+                cost: {
+                    $gte: userFilters.prices[0],
+                    $lte: userFilters.prices[1],
                 },
             },
-        });
-    if (userFilters.layouts.length && table === 'Owner')
-        filters.localisation.$and.push({
-            layout: {
-                $in: userFilters.layouts,
-            },
-        });
-    return filters;
-};
-
+            userFilters.layouts.length
+                ? table === 'Owner'
+                    ? { layout: userFilters.layouts }
+                    : { apartments: { layout: userFilters.layouts } }
+                : {},
+        ],
+    },
+});
 module.exports = {
     /**
      * @param user
@@ -39,7 +24,7 @@ module.exports = {
      * @returns {Promise<null|*>}
      */
     async get({ user, filters: userFilters }) {
-        let filtered = {};
+        let filtered = [];
         if (userFilters?.layouts)
             userFilters.layouts = userFilters?.layouts
                 .filter((el) => el.match(/^ \d\+\d$/))
@@ -58,7 +43,7 @@ module.exports = {
         if (!userFilters) userFilters = user?.filters?.last;
         if (!userFilters) return null;
 
-        const watched = { Complex: user.watchedComplex, Villa: user.watchedVilla, Owner: user.watchedOwner };
+        let watched = { Complex: user.watchedComplex, Villa: user.watchedVilla, Owner: user.watchedOwner };
         const favorites = {
             Complex: user.favoriteComplex,
             Villa: user.favoriteVilla,
@@ -83,36 +68,36 @@ module.exports = {
                 },
             })
             .catch(console.error);
-
         // TODO if we have 100,000,000 fields, we will have to do optimization
-        const dataArray = reqData.flatMap(async ({ api, table }) => ({
-            [table]: await strapi.entityService
-                .findMany(api, {
-                    filters: configureFilters({ user, userFilters, table }),
-                    populate: {
-                        localisation: {
-                            populate: {
-                                apartments: true,
-                                infrastructure: true,
-                                apartmentEquipment: true,
-                                floors: true,
+        const dataArray = reqData.flatMap(async ({ api, table }) => {
+            return {
+                [table]: await strapi.entityService
+                    .findMany(api, {
+                        filters: getFilters({ userFilters, table }),
+                        populate: {
+                            localisation: {
+                                populate: {
+                                    apartments: true,
+                                    infrastructure: true,
+                                    apartmentEquipment: true,
+                                    floors: true,
+                                },
                             },
+                            layoutPhoto: true,
+                            agent: true,
                         },
-                        layoutPhoto: true,
-                        agent: true,
-                    },
-                })
-                .then((r) =>
-                    r.map((el) => {
-                        el.table = table;
-                        el.api = api;
-                        return el;
                     })
-                )
-                .catch(console.error),
-        }));
+                    .then((r) =>
+                        r.map((el) => {
+                            el.table = table;
+                            el.api = api;
+                            return el;
+                        })
+                    )
+                    .catch(console.error),
+            };
+        });
         let recommendations = await Promise.all(dataArray);
-
         for (let table of userFilters.tables) {
             recommendations.forEach((rec) => {
                 if (rec[table]) {
@@ -124,32 +109,21 @@ module.exports = {
                 }
             });
         }
-
-        const table = userFilters.tables[Math.floor(Math.random() * userFilters.tables.length)];
-        const object =
-            filtered[table].length !== watched[table].length
-                ? filtered[table][watched[table].length]
-                : filtered[table][0];
-
-        if (!object) return null;
-
-        //clear watched object if user watched all of them
-        if (filtered[table].length === watched[table].length) {
+        const table = userFilters.tables.length === 2 ? 'Complex' : userFilters.tables[0];
+        let object = filtered[table][watched[table].length];
+        if (!object || filtered[table].length === watched[table].length) {
             user = await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
-                data: {
-                    [`watched${table}`]: [],
+                data: { [`watched${table}`]: [] },
+                populate: {
+                    [`watched${table}`]: true,
                 },
-                populate: '*',
             });
+            watched[table] = user[`watched${table}`];
+            object = filtered[table][0];
         }
-
-        await strapi.entityService
-            .update('api::telegram-user.telegram-user', user.id, {
-                data: {
-                    [`watched${table}`]: [...user[`watched${table}`], object.id],
-                },
-            })
-            .catch(console.error);
+        await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
+            data: { [`watched${table}`]: [...watched[table], object.id] },
+        });
         return object;
     },
 
