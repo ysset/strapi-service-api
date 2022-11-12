@@ -5,14 +5,14 @@ const actions = require('../actions');
 module.exports = async (bot) => {
     if (!bot.user) return;
 
-    const { localisation, messageId, chatId, user, data } = bot;
+    const { localisation, messageId, chatId, user, data, msg } = bot;
 
     const { table, flatId } = data;
 
     await recommendations
         .save({
             where: {
-                telegramID: bot.from.id,
+                telegramID: msg.from.id,
             },
             apiKey: 'api::telegram-user.telegram-user',
             data,

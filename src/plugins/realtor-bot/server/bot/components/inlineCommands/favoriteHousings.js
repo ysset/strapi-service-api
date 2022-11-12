@@ -72,7 +72,8 @@ module.exports = async (bot) => {
 
     for (const flat of favoriteHousings) {
         let resolvedPath = path.resolve('./index');
-
+        flat.localisation = flat.localisation.find((el) => el.language === bot.language);
+        if (!localisation) continue;
         resolvedPath = resolvedPath.split('/');
         resolvedPath.pop();
         resolvedPath = resolvedPath.join('/');
@@ -85,9 +86,12 @@ module.exports = async (bot) => {
 
         const table = flat.table;
         const flatId = flat.id;
+        const caption = localisation.SHORT_DESCRIPTION[table](flat.localisation);
 
         await bot
             .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
+                caption,
+                parse_mode: 'HTML',
                 reply_markup: {
                     inline_keyboard: [
                         [

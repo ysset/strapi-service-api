@@ -12,11 +12,10 @@ module.exports = {
         second: 'Your choice of luxury villas and apartments in new buildings, as well as a wide range of properties from the owners!',
     },
     GET_USER_INFO: 'To facilitate interaction, please enter your full name and phone number',
-    ENTER_PHONE_NUMBER:
-        'Please write a phone number where you can be contacted\n' + '\n' + 'Example: +7 999 888 77 66',
+    ENTER_PHONE_NUMBER: 'Please verify your phone number to continue searching.',
     MENU_BUTTON: 'Menu',
     CONTROL_PANEL: {
-        text: 'Edit filters',
+        text: 'Filters',
     },
     INF_TOUR_BUTTON: {
         text: 'I want to go to infotour',
@@ -32,7 +31,7 @@ module.exports = {
         regex: /\/start/,
     },
     GET_USER_PHONE_BUTTON: {
-        text: 'leave phone number and continue searching',
+        text: 'Confirm phone number and continue searching',
     },
     NO_FLATS: 'You have looked at all objects according to the given filters!',
     NO_USERNAME:

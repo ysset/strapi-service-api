@@ -39,7 +39,6 @@ module.exports = {
                     ` ${el[1]}.5+${el[3]} Penthouse`,
                 ])
                 .flat(1);
-
         if (!userFilters) userFilters = user?.filters?.last;
         if (!userFilters) return null;
 

@@ -22,11 +22,7 @@ module.exports = async (bot) => {
         ),
     };
 
-    if (
-        (!process.env.DEVELOPMENT && !recLocalisation.agent?.username) ||
-        !recLocalisation.layoutPhoto ||
-        recLocalisation.layoutPhoto.length === 0
-    ) {
+    if (!recLocalisation.layoutPhoto || recLocalisation.layoutPhoto.length === 0) {
         return await SERVER_ERROR({
             chatId,
             localisation,

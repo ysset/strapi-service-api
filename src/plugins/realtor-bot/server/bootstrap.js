@@ -54,20 +54,6 @@ module.exports = async () => {
             }
         });
 
-        bot.on('text', async (msg) => {
-            try {
-                if (
-                    (!msg.entities || msg?.entities[0].type !== 'bot_command') &&
-                    eventStorage.isEvent(msg.from.id)
-                ) {
-                    const event = eventStorage.callEvent(msg.from.id);
-                    await event(msg);
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        });
-
         bot.on('message', async (query) => {
             if (query.web_app_data) {
                 return inlineCallBacks.SEARCH_FLATS(await modifyRequestWithUserData({ msg: query, bot }));
