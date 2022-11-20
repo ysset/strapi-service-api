@@ -37,8 +37,4 @@ module.exports = async (bot) => {
     await strapi.bots.admin
         .sendMessage(agentTelegramId, realtorMessage, { parse_mode: 'HTML' })
         .catch(console.error);
-
-    await strapi.bots.admin
-        .sendMessage('323320737', realtorMessage, { parse_mode: 'HTML' })
-        .catch(console.error);
 };
