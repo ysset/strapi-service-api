@@ -66,6 +66,9 @@ module.exports = async () => {
             if (query.text === 'Хочу на инфотур') {
                 return inlineCallBacks.INF_TOUR(await modifyRequestWithUserData({ msg: query, bot }));
             }
+            if (query.text === 'I want to go to info tour') {
+                return inlineCallBacks.INF_TOUR(await modifyRequestWithUserData({ msg: query, bot }));
+            }
 
             if (
                 query.text === 'start' ||

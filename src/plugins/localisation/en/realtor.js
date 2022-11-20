@@ -18,12 +18,12 @@ module.exports = {
         text: 'Filters',
     },
     INF_TOUR_BUTTON: {
-        text: 'I want to go to infotour',
+        text: 'I want to go to info tour',
     },
     INF_TOUR: 'You will be contacted soon',
-    INF_TOUR_REALTOR: ({ username }) => `${username} wants infotour`,
+    INF_TOUR_REALTOR: ({ username }) => `${username} wants info tour`,
     CANCEL_INFO_TOUR_INLINE: {
-        text: `'I don't want to go to infotour'`,
+        text: `'I don't want to go to info tour'`,
     },
     GET_USER_INFO_SUCCESS: '✅',
     START: {
