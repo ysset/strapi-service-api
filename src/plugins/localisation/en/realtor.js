@@ -283,6 +283,7 @@ module.exports = {
         },
         complex: (params, favorite) => {
             let { apartments, city, district, cost, title } = params;
+            apartments = apartments.map(({ layout, area }) => layout + `${area} м²`);
 
             return (
                 `<b>${title}</b>\n\n` +
