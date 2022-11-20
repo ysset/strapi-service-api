@@ -283,7 +283,7 @@ module.exports = {
         },
         complex: (params, favorite) => {
             let { apartments, city, district, cost, title } = params;
-            apartments = apartments.map(({ layout, area }) => layout + `${area} м²`);
+            apartments = apartments.map(({ layout, area }) => `${layout}, ${area} м²`).join('\n');
 
             return (
                 `<b>${title}</b>\n\n` +
@@ -295,7 +295,7 @@ module.exports = {
         },
         villa: (params, favorite) => {
             let { apartments, city, district, cost, title } = params;
-            apartments = translateApartments(apartments);
+            apartments = apartments.map(({ layout, area }) => `${layout}, ${area} м²`).join('\n');
 
             return (
                 `<b>${title}</b>\n\n` +
