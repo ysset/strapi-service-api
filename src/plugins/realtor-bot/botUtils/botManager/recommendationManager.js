@@ -2,7 +2,7 @@ const getFilters = ({ userFilters, table }) => ({
     localisation: {
         $and: [
             { language: userFilters.language },
-            userFilters.cities.length ? { city: userFilters.cities } : {},
+            userFilters.cities.length ? { city: { $in: userFilters.cities } } : {},
             {
                 cost: {
                     $gte: userFilters.prices[0],
@@ -106,7 +106,8 @@ module.exports = {
                 }
             });
         }
-        const table = userFilters.tables.length === 2 ? 'Complex' : userFilters.tables[0];
+        const table = filtered.Complex?.length ? 'Complex' : 'Villa';
+        if (!filtered[table]) return null;
         let object = filtered[table][watched[table].length];
         if (!object || filtered[table].length === watched[table].length) {
             user = await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
