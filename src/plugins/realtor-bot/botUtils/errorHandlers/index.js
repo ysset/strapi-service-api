@@ -1,18 +1,7 @@
 module.exports = {
     NO_FLATS: async ({ chatId, localisation, bot }) => {
         console.info(`${chatId}, No flats error`);
-        await bot.sendMessage(chatId, localisation?.NO_FLATS, {
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        {
-                            ...localisation.CONTROL_PANEL,
-                            web_app: { url: process.env.REALTOR_WEB_APP_URL },
-                        },
-                    ],
-                ],
-            },
-        });
+        await bot.sendMessage(chatId, localisation?.NO_FLATS);
     },
     NO_USERNAME: async ({ chatId, localisation, bot }) => {
         console.info(`${chatId}, user name error`);
