@@ -15,7 +15,9 @@ const getData = async ({ api, field, language }) => {
         },
     });
     res = res.filter((el) => el.agent);
-    return res.map((el) => el.localisation.find((el) => el.language === 'ru')[field]);
+    return res.map(
+        (el) => el.localisation.find((el) => el.language === language || el.language === 'en')[field]
+    );
 };
 
 const handleDeveloperComplexes = async () =>
