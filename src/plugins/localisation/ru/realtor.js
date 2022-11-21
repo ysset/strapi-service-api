@@ -288,7 +288,7 @@ module.exports = {
             return (
                 `<b>${title}</b>\n\n` +
                 `${city}, район ${district}.\n\n` +
-                `Апартаменты:\n${apartments}\n\n` +
+                `${apartments ? `Апартаменты:\n${apartments}\n\n` : ''}` +
                 `<b>от ${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ Этот комплекс в избранном ❤️' : ''}`
             );
@@ -300,7 +300,7 @@ module.exports = {
             return (
                 `<b>${title}</b>\n\n` +
                 `${city}, район ${district}.\n\n` +
-                `Апартаменты:\n${apartments}\n\n` +
+                `${apartments ? `Апартаменты:\n${apartments}\n\n` : ''}` +
                 `<b>от ${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ Эта вилла в избранном ❤️' : ''}`
             );

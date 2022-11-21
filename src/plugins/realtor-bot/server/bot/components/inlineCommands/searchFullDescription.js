@@ -45,7 +45,11 @@ module.exports = async (bot) => {
                     [
                         {
                             ...localisation.CONTROL_PANEL,
-                            web_app: { url: process.env.REALTOR_WEB_APP_URL },
+                            web_app: {
+                                url:
+                                    process.env.REALTOR_WEB_APP_URL +
+                                    `${bot.type.toLowerCase()}?language=${bot.language.toLowerCase()}`,
+                            },
                         },
                     ],
                 ],

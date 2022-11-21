@@ -7,7 +7,7 @@ const recommendations = require('../../../../botUtils/botManager/recommendationM
 const actions = require('../actions');
 
 module.exports = async (bot) => {
-    const { localisation, chatId, msg } = bot;
+    const { localisation, chatId, msg, messageId } = bot;
     let { filters } = msg;
     let { user } = await getUser(msg);
     if (filters) filters = { ...filters, language: bot.language };
@@ -46,6 +46,47 @@ module.exports = async (bot) => {
         recommendation.favorite,
         recommendation.watched
     );
+    if (messageId && !msg.web_app_data)
+        bot.editMessageReplyMarkup(
+            {
+                inline_keyboard: [
+                    [
+                        {
+                            ...localisation?.SAVE_INLINE,
+                            callback_data: JSON.stringify({
+                                action: actions.SAVE,
+                                table: recLocalisation.table,
+                                flatId: recLocalisation.id,
+                            }),
+                        },
+                    ],
+                    [
+                        {
+                            ...localisation?.FULL_DESCRIPTION,
+                            callback_data: JSON.stringify({
+                                action: actions.SEARCH_FULL_DESCRIPTION,
+                                table: recLocalisation.table,
+                                flatId: recLocalisation.id,
+                            }),
+                        },
+                    ],
+                    [
+                        {
+                            ...localisation?.WRITE_INLINE[table],
+                            callback_data: JSON.stringify({
+                                action: actions.SEARCH_WRITE_AGENT,
+                                table: recLocalisation.table,
+                                flatId: recLocalisation.id,
+                            }),
+                        },
+                    ],
+                ],
+            },
+            {
+                message_id: messageId,
+                chat_id: chatId,
+            }
+        );
 
     await bot
         .sendPhoto(chatId, fs.createReadStream(resolvedPath), {

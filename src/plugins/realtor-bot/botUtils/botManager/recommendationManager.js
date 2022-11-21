@@ -17,12 +17,8 @@ const getFilters = ({ userFilters, table }) => ({
         ],
     },
 });
+
 module.exports = {
-    /**
-     * @param user
-     * @param api
-     * @returns {Promise<null|*>}
-     */
     async get({ user, filters: userFilters }) {
         let filtered = [];
         if (userFilters?.layouts)
@@ -67,7 +63,6 @@ module.exports = {
                 },
             })
             .catch(console.error);
-        // TODO if we have 100,000,000 fields, we will have to do optimization
         const dataArray = reqData.flatMap(async ({ api, table }) => {
             return {
                 [table]: await strapi.entityService
@@ -84,6 +79,9 @@ module.exports = {
                             },
                             layoutPhoto: true,
                             agent: true,
+                        },
+                        sort: {
+                            id: 'asc',
                         },
                     })
                     .then((r) =>
@@ -126,14 +124,6 @@ module.exports = {
         return object;
     },
 
-    /**
-     * @param where
-     * @param apiKey
-     * @param table
-     * @param flatId
-     * @param user
-     * @returns {Promise<any>}
-     */
     async save({ where, apiKey, data: { table, flatId }, user }) {
         const favoriteObjects = user[`favorite${table}`] ? user[`favorite${table}`] : [];
 
@@ -147,14 +137,6 @@ module.exports = {
             .catch(console.error);
     },
 
-    /**
-     * @param table
-     * @param flatId
-     * @param user
-     * @param where
-     * @param apiKey
-     * @returns {Promise<any>}
-     */
     async remove({ table, flatId, user, where, apiKey }) {
         const flat = await strapi.entityService.findOne(`api::${table}.${table}`, flatId, { populate: '*' });
         const updateData = flat.favoriteUsers.filter((el) => el.id !== user.id);

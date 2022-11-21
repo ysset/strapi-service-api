@@ -9,7 +9,7 @@ module.exports = async (bot) => {
     } = bot;
     const { caption } = await fullDescription(bot);
 
-    await strapi.bots.alanyaBot
+    await bot
         .sendMessage(chatId, caption, {
             parse_mode: 'HTML',
             reply_markup: {

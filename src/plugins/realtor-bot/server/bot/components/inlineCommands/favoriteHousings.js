@@ -17,7 +17,18 @@ module.exports = async (bot) => {
                         $in: user.favoriteComplex.map((el) => el.id),
                     },
                 },
-                populate: true,
+                populate: {
+                    localisation: {
+                        populate: {
+                            apartments: true,
+                            infrastructure: true,
+                            apartmentEquipment: true,
+                            floors: true,
+                        },
+                    },
+                    layoutPhoto: true,
+                    agent: true,
+                },
             })
             .then((res) => {
                 res.forEach((el) => {
@@ -35,7 +46,18 @@ module.exports = async (bot) => {
                         $in: user.favoriteVilla.map((el) => el.id),
                     },
                 },
-                populate: true,
+                populate: {
+                    localisation: {
+                        populate: {
+                            apartments: true,
+                            infrastructure: true,
+                            apartmentEquipment: true,
+                            floors: true,
+                        },
+                    },
+                    layoutPhoto: true,
+                    agent: true,
+                },
             })
             .then((res) => {
                 res.forEach((el) => {
@@ -53,7 +75,18 @@ module.exports = async (bot) => {
                         $in: user.favoriteOwner.map((el) => el.id),
                     },
                 },
-                populate: true,
+                populate: {
+                    localisation: {
+                        populate: {
+                            apartments: true,
+                            infrastructure: true,
+                            apartmentEquipment: true,
+                            floors: true,
+                        },
+                    },
+                    layoutPhoto: true,
+                    agent: true,
+                },
             })
             .then((res) => {
                 res.forEach((el) => {
@@ -72,7 +105,9 @@ module.exports = async (bot) => {
 
     for (const flat of favoriteHousings) {
         let resolvedPath = path.resolve('./index');
-        flat.localisation = flat.localisation.find((el) => el.language === bot.language);
+        flat.localisation = flat.localisation.find(
+            (rec) => rec.language === bot.language || rec.localisation === 'en'
+        );
         if (!localisation) continue;
         resolvedPath = resolvedPath.split('/');
         resolvedPath.pop();
