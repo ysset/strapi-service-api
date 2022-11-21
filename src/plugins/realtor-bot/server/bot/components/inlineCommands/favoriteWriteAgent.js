@@ -1,16 +1,15 @@
 const actions = require('../actions');
 const writeAgent = require('./writeAgent');
-const { getUser } = require('../../../../../utils');
+const { getUser, getUserInfo } = require('../../../../../utils');
 
 module.exports = async (bot) => {
     const { localisation, data, chatId, messageId } = bot;
 
-    const { user } = await getUser(bot);
+    const { user } = await getUser(bot.msg);
 
-    if (!process.env.DEVELOPMENT && (!user.phoneNumber || !user.fullName)) {
-        return;
+    if (!process.env.DEVELOPMENT && !user.phoneNumber) {
+        await getUserInfo(bot);
     }
-
     const { table, flatId } = data;
     bot.editMessageReplyMarkup(
         {
