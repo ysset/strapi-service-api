@@ -118,6 +118,7 @@ module.exports = {
             watched[table] = user[`watched${table}`];
             object = filtered[table][0];
         }
+        if (!object) return null;
         await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
             data: { [`watched${table}`]: [...watched[table], object.id] },
         });
