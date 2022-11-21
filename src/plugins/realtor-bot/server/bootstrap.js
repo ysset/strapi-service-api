@@ -96,9 +96,6 @@ module.exports = async () => {
                         {
                             city: 'Antalya',
                         },
-                        {
-                            language: 'en',
-                        },
                     ],
                 },
             },
