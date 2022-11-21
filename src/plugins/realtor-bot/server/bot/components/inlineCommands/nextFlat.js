@@ -9,9 +9,9 @@ module.exports = async (bot) => {
             inline_keyboard: [
                 [
                     {
-                        ...localisation?.WRITE_INLINE[table.toLowerCase()],
+                        ...localisation?.SAVE_INLINE,
                         callback_data: JSON.stringify({
-                            action: actions.SEARCH_WRITE_AGENT,
+                            action: actions.SAVE,
                             table,
                             flatId,
                         }),
@@ -19,9 +19,19 @@ module.exports = async (bot) => {
                 ],
                 [
                     {
-                        ...localisation?.SAVE_INLINE,
+                        ...localisation?.FULL_DESCRIPTION,
                         callback_data: JSON.stringify({
-                            action: actions.SAVE,
+                            action: actions.SEARCH_FULL_DESCRIPTION,
+                            table,
+                            flatId,
+                        }),
+                    },
+                ],
+                [
+                    {
+                        ...localisation?.WRITE_INLINE[table.toLowerCase()],
+                        callback_data: JSON.stringify({
+                            action: actions.SEARCH_WRITE_AGENT,
                             table,
                             flatId,
                         }),

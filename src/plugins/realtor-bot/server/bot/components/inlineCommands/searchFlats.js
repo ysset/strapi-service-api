@@ -46,47 +46,6 @@ module.exports = async (bot) => {
         recommendation.favorite,
         recommendation.watched
     );
-    if (messageId && !msg.web_app_data)
-        bot.editMessageReplyMarkup(
-            {
-                inline_keyboard: [
-                    [
-                        {
-                            ...localisation?.SAVE_INLINE,
-                            callback_data: JSON.stringify({
-                                action: actions.SAVE,
-                                table: recLocalisation.table,
-                                flatId: recLocalisation.id,
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...localisation?.FULL_DESCRIPTION,
-                            callback_data: JSON.stringify({
-                                action: actions.SEARCH_FULL_DESCRIPTION,
-                                table: recLocalisation.table,
-                                flatId: recLocalisation.id,
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...localisation?.WRITE_INLINE[table],
-                            callback_data: JSON.stringify({
-                                action: actions.SEARCH_WRITE_AGENT,
-                                table: recLocalisation.table,
-                                flatId: recLocalisation.id,
-                            }),
-                        },
-                    ],
-                ],
-            },
-            {
-                message_id: messageId,
-                chat_id: chatId,
-            }
-        );
 
     await bot
         .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
@@ -106,7 +65,7 @@ module.exports = async (bot) => {
                         {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
-                                action: actions.SEARCH_FLATS,
+                                action: actions.NEXT_FLAT,
                                 table: recLocalisation.table,
                             }),
                         },

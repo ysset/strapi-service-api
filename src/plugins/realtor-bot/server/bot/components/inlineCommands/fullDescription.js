@@ -74,6 +74,5 @@ module.exports = async (bot) => {
     }
     messages = messages.flat(1);
     messages = messages.map((el) => ({ messageId: el.message_id }));
-    console.log(messages);
     return { caption, table, messages };
 };
