@@ -88,4 +88,21 @@ module.exports = async () => {
         });
     }
     console.log('REALTOR is ready!');
+    console.log(
+        await strapi.entityService.findMany('api::complex.complex', {
+            filters: {
+                localisation: {
+                    $and: [
+                        {
+                            city: 'Antalya',
+                        },
+                        {
+                            language: 'en',
+                        },
+                    ],
+                },
+            },
+            populate: '*',
+        })
+    );
 };
