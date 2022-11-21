@@ -67,6 +67,7 @@ module.exports = async (bot) => {
                             callback_data: JSON.stringify({
                                 action: actions.NEXT_FLAT,
                                 table: recLocalisation.table,
+                                flatId: recLocalisation.id,
                             }),
                         },
                     ],

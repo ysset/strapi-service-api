@@ -177,7 +177,9 @@ module.exports = {
                 `City: ${city}\n\n` +
                 `District: ${district}\n\n` +
                 `Complex area: ${beautifyBigNum(area)} m²\n\n` +
-                `To the Mediterranean: ${beautifyBigNum(metersFromTheSea)} m\n\n` +
+                `${
+                    metersFromTheSea ? `To the Mediterranean: ${beautifyBigNum(metersFromTheSea)} \n\n` : ''
+                }` +
                 `${paymentMethod ? `Payment method: ${paymentMethod}\n\n` : ''}` +
                 `${caption}\n\n` +
                 `${apartments ? `Apartment plans: \n${apartments} \n\n` : ''}` +
@@ -185,7 +187,7 @@ module.exports = {
                 `${apartmentEquipment} \n\n` +
                 'Complex infrastructure: \n' +
                 `${infrastructure} \n\n` +
-                `Delivery object: ${date}\n\n`
+                `${date ? `Delivery object: ${date}\n\n` : ''}`
             );
         },
         villa: (params) => {
