@@ -1,13 +1,14 @@
 const recommendations = require('../../../../botUtils/botManager/recommendationManager');
-const { getUser } = require('../../../../../utils');
 
 module.exports = async (bot) => {
-    const { user } = await getUser(bot);
-    const { chatId, data, localisation, messageId } = bot;
-    const { table, flatId } = data;
-
+    const {
+        chatId,
+        data: { table, flatId },
+        localisation,
+        messageId,
+        user,
+    } = bot;
     if (!user) return;
-
     await recommendations.remove({
         where: {
             id: flatId,

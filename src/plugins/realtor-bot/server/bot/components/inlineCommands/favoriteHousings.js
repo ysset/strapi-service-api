@@ -106,9 +106,9 @@ module.exports = async (bot) => {
     for (const flat of favoriteHousings) {
         let resolvedPath = path.resolve('./index');
         flat.localisation = flat.localisation.find(
-            (rec) => rec.language === bot.language || rec.localisation === 'en'
+            (rec) => rec.language === bot.language || rec.language === 'en'
         );
-        if (!localisation) continue;
+        if (!flat.localisation) continue;
         resolvedPath = resolvedPath.split('/');
         resolvedPath.pop();
         resolvedPath = resolvedPath.join('/');

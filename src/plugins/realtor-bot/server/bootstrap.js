@@ -63,6 +63,11 @@ module.exports = async () => {
                     await modifyRequestWithUserData({ msg: query, bot })
                 );
             }
+            if (query.text === 'Saved ❤️') {
+                return inlineCallBacks.FAVORITE_HOUSINGS(
+                    await modifyRequestWithUserData({ msg: query, bot })
+                );
+            }
             if (query.text === 'Хочу на инфотур') {
                 return inlineCallBacks.INF_TOUR(await modifyRequestWithUserData({ msg: query, bot }));
             }
