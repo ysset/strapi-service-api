@@ -19,7 +19,7 @@ const getFilters = ({ userFilters, table }) => ({
 });
 
 module.exports = {
-    async get({ user, filters: userFilters }) {
+    async get({ user, filters: userFilters, local }) {
         let filtered = [];
         if (userFilters?.layouts)
             userFilters.layouts = userFilters?.layouts
@@ -35,7 +35,11 @@ module.exports = {
                     ` ${el[1]}.5+${el[3]} Penthouse`,
                 ])
                 .flat(1);
-        if (!userFilters) userFilters = user?.filters?.last;
+        if (!userFilters)
+            userFilters = {
+                ...user?.filters?.last,
+                language: local,
+            };
         if (!userFilters) return null;
 
         let watched = { Complex: user.watchedComplex, Villa: user.watchedVilla, Owner: user.watchedOwner };
@@ -108,15 +112,17 @@ module.exports = {
         }
         const table = filtered.Complex?.length ? 'Complex' : 'Villa';
         if (!filtered[table]) return null;
-        let object = filtered[table][watched[table].length];
+        let object = filtered[table].filter(
+            (el) => !watched[table].some((watched) => el.id === watched.id)
+        )[0];
         if (!object || filtered[table].length === watched[table].length) {
-            user = await strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
+            strapi.entityService.update('api::telegram-user.telegram-user', user.id, {
                 data: { [`watched${table}`]: [] },
                 populate: {
                     [`watched${table}`]: true,
                 },
             });
-            watched[table] = user[`watched${table}`];
+            watched[table] = [];
             object = filtered[table][0];
         }
         if (!object) return null;

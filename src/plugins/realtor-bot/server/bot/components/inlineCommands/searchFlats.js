@@ -11,7 +11,7 @@ module.exports = async (bot) => {
     let { filters } = msg;
     let { user } = await getUser(msg);
     if (filters) filters = { ...filters, language: bot.language };
-    let recommendation = await recommendations.get({ user, filters });
+    let recommendation = await recommendations.get({ user, filters, local: bot.language });
     if (!recommendation || !recommendation.localisation || !recommendation.localisation.length)
         return await NO_FLATS({ chatId, localisation, bot });
 
