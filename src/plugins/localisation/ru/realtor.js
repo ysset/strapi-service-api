@@ -254,7 +254,7 @@ module.exports = {
                 `<b>Цена: ${beautifyBigNum(cost)}</b>\n\n` +
                 `Город: ${city}\n\n` +
                 `${district ? `Район: ${district}\n\n` : ''}` +
-                `Микрорайон: ${neighborhood}\n\n` +
+                `${neighborhood ? `Микрорайон: ${neighborhood}\n\n` : ''}` +
                 `${
                     metersFromTheSea ? `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)}м\n\n` : ''
                 }` +

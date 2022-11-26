@@ -99,6 +99,7 @@ module.exports = {
             };
         });
         let recommendations = await Promise.all(dataArray);
+        console.log(recommendations);
         for (let table of userFilters.tables) {
             recommendations.forEach((rec) => {
                 if (rec[table]) {
@@ -110,7 +111,10 @@ module.exports = {
                 }
             });
         }
-        const table = filtered.Complex?.length ? 'Complex' : 'Villa';
+
+        let table = filtered.Owner?.length ? 'Owner' : filtered.Complex?.length ? 'Complex' : 'Villa';
+
+        if (!table) return null;
         if (!filtered[table]) return null;
         let object = filtered[table].filter(
             (el) => !watched[table].some((watched) => el.id === watched.id)

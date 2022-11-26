@@ -11,7 +11,17 @@ const getUser = async (msg) => {
             where: {
                 telegramID: parseInt(userID),
             },
-            populate: true,
+            populate: {
+                watchedComplex: true,
+                favoriteComplex: true,
+                watchedVilla: true,
+                favoriteVilla: true,
+                watchedRent: true,
+                favoriteRent: true,
+                watchedOwner: true,
+                favoriteOwner: true,
+                filters: true,
+            },
         })
         .catch(console.error);
 
