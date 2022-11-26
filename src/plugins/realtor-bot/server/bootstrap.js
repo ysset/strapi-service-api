@@ -68,10 +68,10 @@ module.exports = async () => {
                     await modifyRequestWithUserData({ msg: query, bot })
                 );
             }
-            if (query.text === 'Хочу на инфотур') {
+            if (query.text === 'Хочу на бесплатный обзорный тур 🚀!') {
                 return inlineCallBacks.INF_TOUR(await modifyRequestWithUserData({ msg: query, bot }));
             }
-            if (query.text === 'I want to go to info tour') {
+            if (query.text === 'I want to take a free tour 🚀!') {
                 return inlineCallBacks.INF_TOUR(await modifyRequestWithUserData({ msg: query, bot }));
             }
 
