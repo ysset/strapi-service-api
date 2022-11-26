@@ -15,12 +15,12 @@ module.exports = {
     ENTER_PHONE_NUMBER: 'Please verify your phone number to continue searching.',
     MENU_BUTTON: 'Menu',
     CONTROL_PANEL: {
-        text: 'Filters',
+        text: 'Filters 🔍',
     },
     INF_TOUR_BUTTON: {
-        text: 'I want to go to info tour',
+        text: 'I want to take a free tour 🚀!',
     },
-    INF_TOUR: 'You will be contacted soon',
+    INF_TOUR: 'You are signed up for a free tour! Our manager will contact you soon!',
     INF_TOUR_REALTOR: ({ username }) => `${username} wants info tour`,
     CANCEL_INFO_TOUR_INLINE: {
         text: `'I don't want to go to info tour'`,
@@ -318,7 +318,7 @@ module.exports = {
         text: 'Remove from favorites',
     },
     DELETED: {
-        text: 'Apartment has been removed from favorites.',
+        text: 'Object has been removed from favorites.',
     },
     FULL_DESCRIPTION: {
         text: 'Detailed description',

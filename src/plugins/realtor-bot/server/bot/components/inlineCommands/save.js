@@ -27,16 +27,6 @@ module.exports = async (bot) => {
             inline_keyboard: [
                 [
                     {
-                        ...localisation?.FULL_DESCRIPTION,
-                        callback_data: JSON.stringify({
-                            action: actions.SEARCH_FULL_DESCRIPTION,
-                            table,
-                            flatId,
-                        }),
-                    },
-                ],
-                [
-                    {
                         ...localisation?.WRITE_AGENT_INLINE,
                         callback_data: JSON.stringify({
                             action: actions.SEARCH_WRITE_AGENT,
