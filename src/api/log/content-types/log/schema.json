@@ -40,6 +40,10 @@
     "canceled": {
       "type": "boolean",
       "default": false
+    },
+    "infoTour": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

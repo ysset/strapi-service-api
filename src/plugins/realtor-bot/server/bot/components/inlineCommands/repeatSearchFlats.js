@@ -1,9 +1,8 @@
-const deleteCurrentMessage = require('./deleteCurrentMessage');
 const searchFlats = require('./searchFlats');
 
-module.exports = async (query) => {
+module.exports = async (bot) => {
     await strapi.entityService
-        .update('api::telegram-user.telegram-user', query.user.id, {
+        .update('api::telegram-user.telegram-user', bot.user.id, {
             data: {
                 watchedComplex: [],
                 watchedVilla: [],
@@ -11,6 +10,6 @@ module.exports = async (query) => {
             },
         })
         .catch(console.error);
-    await deleteCurrentMessage(query);
-    await searchFlats(query);
+    await bot.delete();
+    await searchFlats(bot);
 };

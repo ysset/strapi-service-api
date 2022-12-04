@@ -1,3 +1,7 @@
+/**
+ * @param apartments
+ * @returns {*}
+ */
 const translateApartments = (apartments) =>
     apartments
         ?.map(({ layout = String, area = Number }) => {

@@ -1,4 +1,4 @@
-const { getFilePath, actions, getUser } = require('../utils');
+const { getFilePath, actions, getUser } = require('../../../utils');
 const fs = require('fs');
 
 module.exports = async ({ bot, object }) => {
@@ -19,7 +19,7 @@ module.exports = async ({ bot, object }) => {
                         {
                             ...localisation?.PREVIOUS_INLINE,
                             callback_data: JSON.stringify({
-                                action: actions.PREVIOUS_FLAT,
+                                action: actions.rent.PREVIOUS_FLAT,
                                 flatId,
                                 table,
                             }),
@@ -27,7 +27,7 @@ module.exports = async ({ bot, object }) => {
                         {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
-                                action: actions.SEARCH_FLATS,
+                                action: actions.rent.SEARCH_FLATS,
                                 table,
                             }),
                         },
@@ -36,7 +36,7 @@ module.exports = async ({ bot, object }) => {
                         {
                             ...localisation?.FULL_DESCRIPTION,
                             callback_data: JSON.stringify({
-                                action: actions.SEARCH_FULL_DESCRIPTION,
+                                action: actions.rent.SEARCH_FULL_DESCRIPTION,
                                 table,
                                 flatId,
                             }),
@@ -46,7 +46,7 @@ module.exports = async ({ bot, object }) => {
                         {
                             ...localisation?.SAVE_INLINE,
                             callback_data: JSON.stringify({
-                                action: actions.SAVE,
+                                action: actions.rent.SAVE,
                                 table,
                                 flatId,
                             }),
@@ -56,7 +56,7 @@ module.exports = async ({ bot, object }) => {
                         {
                             ...localisation?.WRITE_INLINE,
                             callback_data: JSON.stringify({
-                                action: actions.SEARCH_WRITE_AGENT,
+                                action: actions.rent.SEARCH_WRITE_AGENT,
                                 table,
                                 flatId,
                             }),

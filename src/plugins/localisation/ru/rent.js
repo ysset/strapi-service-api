@@ -1,6 +1,4 @@
-const { beautifyId } = require('../../../utils');
-
-const beautifyBigNum = (cost) => cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+const { beautifyParams, beautifyId, beautifyBigNum } = require('../../utils');
 
 module.exports = {
     lang: 'ru',
@@ -68,7 +66,8 @@ module.exports = {
         text: 'Связаться с агентом',
     },
     WRITE_AGENT: {
-        userText: ({ title, agentUsername, flatId, city, district }) => {
+        userText: (params) => {
+            const { title, agentUsername, flatId, city, district } = beautifyParams(params);
             return (
                 'Здравствуйте! \n\n' +
                 'Благодарим Вас за использование нашего сервиса!\n\n' +
@@ -79,7 +78,8 @@ module.exports = {
                 `https://t.me/${agentUsername}`
             );
         },
-        realtorText: ({ username, flatId, city, district, table }) => {
+        realtorText: (params) => {
+            const { username, flatId, city, district, table } = beautifyParams(params);
             return (
                 'Здравствуйте! \n' +
                 '\n' +
@@ -109,7 +109,7 @@ module.exports = {
             yearOfConstruction,
             infrastructure,
             metersFromTheSea,
-        } = bparams;
+        } = beautifyParams(params);
         infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
         furniture = furniture?.map((el) => '- ' + el.title.trim() + ';').join('\n');
         floors = floors?.map((el) => el.floor).join(' и ');

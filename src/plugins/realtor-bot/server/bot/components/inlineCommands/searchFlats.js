@@ -1,35 +1,32 @@
 const path = require('path');
 const fs = require('fs');
 
-const { getUser } = require('../../../../botUtils/userController');
-const { alanyaBot } = require('../../../../botUtils/errorHandlers');
+const { getUser } = require('../../../../../utils');
+const { NO_FLATS, SERVER_ERROR } = require('../../../../botUtils/errorHandlers');
 const recommendations = require('../../../../botUtils/botManager/recommendationManager');
 const actions = require('../actions');
 
-module.exports = async (query) => {
-    const { localisation, chatId, filters } = query;
-    let { user } = await getUser(query);
-
-    let recommendation = await recommendations.get({ user, filters });
-
+module.exports = async (bot) => {
+    const { localisation, chatId, msg } = bot;
+    let { filters } = msg;
+    let { user } = await getUser(msg);
+    if (filters) filters = { ...filters, language: bot.language };
+    let recommendation = await recommendations.get({ user, filters, local: bot.language });
     if (!recommendation || !recommendation.localisation || !recommendation.localisation.length)
-        return await alanyaBot.NO_FLATS({ chatId, localisation });
+        return await NO_FLATS({ chatId, localisation, bot });
 
     let recLocalisation = {
         ...recommendation,
         localisation: recommendation.localisation.find(
-            (rec) => rec.language === 'ru' || rec.localisation === 'en'
+            (rec) => rec.language === bot.language || rec.localisation === 'en'
         ),
     };
 
-    if (
-        (!process.env.DEVELOPMENT && !recLocalisation.agent?.username) ||
-        !recLocalisation.layoutPhoto ||
-        recLocalisation.layoutPhoto.length === 0
-    ) {
-        return await alanyaBot.SERVER_ERROR({
+    if (!recLocalisation.layoutPhoto || recLocalisation.layoutPhoto.length === 0) {
+        return await SERVER_ERROR({
             chatId,
             localisation,
+            bot,
         });
     }
 
@@ -50,7 +47,7 @@ module.exports = async (query) => {
         recommendation.watched
     );
 
-    await strapi.bots.alanyaBot
+    await bot
         .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
             caption,
             parse_mode: 'HTML',
@@ -68,8 +65,9 @@ module.exports = async (query) => {
                         {
                             ...localisation?.NEXT_INLINE,
                             callback_data: JSON.stringify({
-                                action: actions.SEARCH_FLATS,
+                                action: actions.NEXT_FLAT,
                                 table: recLocalisation.table,
+                                flatId: recLocalisation.id,
                             }),
                         },
                     ],

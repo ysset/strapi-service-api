@@ -10,12 +10,13 @@ const favoriteFullDescriptionFunc = require('./favoriteFullDescription');
 const searchFullDescriptionFunc = require('./searchFullDescription');
 const enterCommandFunc = require('./enterCommand');
 const deleteFunc = require('./delete');
-const deleteCurrentMessageFunc = require('./deleteCurrentMessage');
 const nextFlatFunc = require('./nextFlat');
 const previousFlatFunc = require('./previousFlat');
 const cancelUserInterestFunc = require('./cancelUserInterest');
 const searchFlatByIdFunc = require('./searchFlatById');
 const searchFullDescriptionNextFlatFunc = require('./searchFullDescriptionNextFlat');
+const cancelInfoTourFunc = require('./cancelInfoTour');
+const infoTourFunc = require('./infoTour');
 
 module.exports = {
     writeAgent: writeAgentFunc,
@@ -30,10 +31,11 @@ module.exports = {
     fullDescription: fullDescriptionFunc,
     enterCommand: enterCommandFunc,
     deleteCommand: deleteFunc,
-    deleteCurrentMessage: deleteCurrentMessageFunc,
     nextFlat: nextFlatFunc,
     previousFlat: previousFlatFunc,
     cancelUserInterest: cancelUserInterestFunc,
     searchFlatById: searchFlatByIdFunc,
     searchFullDescriptionNextFlat: searchFullDescriptionNextFlatFunc,
+    cancelInfoTour: cancelInfoTourFunc,
+    infoTour: infoTourFunc,
 };

@@ -7,7 +7,6 @@ const {
     fullDescription,
     enterCommand,
     deleteCommand,
-    deleteCurrentMessage,
     nextFlat,
     searchFullDescription,
     favoriteFullDescription,
@@ -16,6 +15,8 @@ const {
     previousFlat,
     cancelUserInterest,
     searchFullDescriptionNextFlat,
+    cancelInfoTour,
+    infoTour,
 } = require('./inlineCommands');
 
 const commands = {
@@ -29,13 +30,13 @@ const commands = {
     FAVORITE_FULL_DESCRIPTION: favoriteFullDescription,
     ENTER_COMMAND: enterCommand,
     DELETE_ACTION: deleteCommand,
-    DELETE_MESSAGE: deleteCurrentMessage,
     NEXT_FLAT: nextFlat,
     PREVIOUS_FLAT: previousFlat,
     SEARCH_WRITE_AGENT: searchWriteAgent,
     FAVORITE_WRITE_AGENT: favoriteWriteAgent,
     CANCEL_INTEREST: cancelUserInterest,
     SFDNF: searchFullDescriptionNextFlat,
+    INF_TOUR: infoTour,
 };
 
 module.exports = commands;

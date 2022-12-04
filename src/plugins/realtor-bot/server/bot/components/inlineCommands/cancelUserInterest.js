@@ -1,13 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 const actions = require('../actions');
-module.exports = async (query) => {
+module.exports = async (bot) => {
     const {
         data: { log, table },
         chatId,
         localisation,
         messageId,
-    } = query;
+    } = bot;
     const logField = await strapi.entityService
         .findOne('api::log.log', log, {
             populate: {
@@ -52,26 +52,20 @@ module.exports = async (query) => {
         })
         .catch(console.error);
 
-    strapi.bots.alanyaBot
-        .editMessageReplyMarkup(
-            {
-                inline_keyboard: [[]],
-            },
-            {
-                chat_id: chatId,
-                message_id: messageId,
-            }
-        )
-        .catch(console.error);
-    await strapi.bots.alanyaBot
+    bot.editMessageReplyMarkup(
+        {
+            inline_keyboard: [[]],
+        },
+        {
+            chat_id: chatId,
+            message_id: messageId,
+        }
+    ).catch(console.error);
+    await bot
         .sendMessage(chatId, localisation.CANCEL_INTEREST.user, {
             reply_markup: {
                 inline_keyboard: [
                     [
-                        {
-                            ...localisation.CONTROL_PANEL,
-                            web_app: { url: process.env.WEB_APP_URL },
-                        },
                         {
                             ...localisation.COMPLETE_SEARCHING,
                             callback_data: JSON.stringify({
@@ -89,7 +83,7 @@ module.exports = async (query) => {
         .sendMessage(
             logField.agent.telegramID,
             localisation.CANCEL_INTEREST.realtor({
-                ...query.user,
+                ...bot.user,
                 flatId: logField[table.toLowerCase()].id,
             })
         )

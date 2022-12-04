@@ -1,8 +1,5 @@
 /**
- * @type {{
- * START: {regex: RegExp, fn: function(*): Promise<*>},
- * CHANGE_DATE: {regex: RegExp, fn: function(*): Promise<*>}
- * }}
+ * @type {{START: {regex: RegExp, fn: function(*): Promise<void>}, CHANGE_DATE: {regex: RegExp, fn: function(*): Promise<*>}}}
  */
 module.exports = {
     START: {

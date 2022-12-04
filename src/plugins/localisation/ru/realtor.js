@@ -1,30 +1,4 @@
-const beautifyId = require('./beautifyId');
-const beautifyMonth = require('./getMonth');
-
-const translateApartments = (apartments) =>
-    apartments
-        ?.map(({ layout = String, area = Number }) => {
-            if (layout.includes('Duplex')) {
-                if (layout.includes('Garden')) {
-                    return 'Гарден-дуплекс' + layout.replace(' Garden Duplex', ',') + ` ${area} м²`;
-                }
-                return 'Дуплекс' + layout.replace(' Duplex', ',') + ` ${area} м²`;
-            }
-            if (layout.includes('Penthouse')) {
-                return 'Пентхаус' + layout.replace(' Penthouse', ',') + ` ${area} м²`;
-            }
-            return `${layout.trim()}, ${area} м²`;
-        })
-        .join('\n');
-
-const beautifyParams = (params) => {
-    for (let param in params) {
-        if (params[param] === null || !params[param]) params[param] = 'неизвестно';
-    }
-    return params;
-};
-
-const beautifyBigNum = (cost) => cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+const { beautifyId, translateApartments, getMonth, beautifyBigNum } = require('../../utils/localisation');
 
 module.exports = {
     lang: 'ru',
@@ -38,23 +12,26 @@ module.exports = {
         second: 'На Ваш выбор роскошные виллы и апартаменты в новостройках, а также широкий выбор объектов недвижимости от собственников!',
     },
     GET_USER_INFO: 'Для облегчения взаимодействия пожалуйста введите ваши ФИО и номер телефона',
-    ENTER_FULL_NAME:
-        'Благодарим Вас за использование нашего сервиса!\n' +
-        '\n' +
-        'Напишите пожалуйста, как к Вам можно обращаться\n' +
-        '\n' +
-        'Пример: Иван',
-    ENTER_PHONE_NUMBER:
-        'Напишите пожалуйста номер телефона, по которому с вами можно связаться\n' +
-        '\n' +
-        'Пример: +7 999 888 77 66',
+    ENTER_PHONE_NUMBER: 'Для продолжения поиска подтвердите Ваш номер телефона',
     MENU_BUTTON: 'Меню',
     CONTROL_PANEL: {
-        text: 'Изменить фильтры',
+        text: 'Фильтры 🔍',
     },
+    INF_TOUR_BUTTON: {
+        text: 'Хочу на бесплатный обзорный тур 🚀!',
+    },
+    INF_TOUR: 'Вы записаны на бесплатный обзорный тур! Наш менеджер свяжется с вами в ближайшее время!',
+    INF_TOUR_REALTOR: ({ username }) => `${username} хочет на инфотур`,
+    CANCEL_INFO_TOUR_INLINE: {
+        text: 'Не хочу на инфотур',
+    },
+    GET_USER_INFO_SUCCESS: '✅',
     START: {
         text: '/start',
         regex: /\/start/,
+    },
+    GET_USER_PHONE_BUTTON: {
+        text: 'Подтвердить номер телефона и продолжить поиск',
     },
     NO_FLATS: 'Вы посмотрели все объекты по заданным фильтрам!',
     NO_USERNAME:
@@ -78,7 +55,7 @@ module.exports = {
     SERVER_ERROR: 'К сожалению произошла ошибка, попробуйте еще раз или позже!',
     SAVED: 'Добавлено в избранное',
     FAVORITE: {
-        text: 'Сохраненные❤️',
+        text: 'Сохраненные ❤️',
     },
     FAVORITE_HOUSINGS: {
         text: 'Недвижимость ❤️',
@@ -115,11 +92,10 @@ module.exports = {
     CANCEL_INTEREST: {
         user: 'Ваша заявка отменена',
         realtor: (params) => {
-            const { username, phoneNumber, fullName } = params;
+            const { username, phoneNumber } = params;
             return (
                 'Пользователь:\n\n' +
                 `${username ? `https://t.me/${username}\n` : ''}` +
-                `${fullName}\n` +
                 `${phoneNumber}\n\n` +
                 'Больше НЕ интересуется данным объектом \n\n'
             );
@@ -131,8 +107,7 @@ module.exports = {
     },
     WRITE_AGENT: {
         userText: {
-            complex: (params) => {
-                const { agentUsername } = beautifyParams(params);
+            complex: ({ agentUsername }) => {
                 return (
                     `Менеджер агентства ${process.env.AGENCY_NAME} свяжется с Вами в ближайшее время и ответит на любой Ваш вопрос!\n` +
                     '\n' +
@@ -140,8 +115,7 @@ module.exports = {
                     `https://t.me/${agentUsername}`
                 );
             },
-            villa: (params) => {
-                const { agentUsername } = beautifyParams(params);
+            villa: ({ agentUsername }) => {
                 return (
                     `Менеджер агентства ${process.env.AGENCY_NAME} свяжется с Вами в ближайшее время и ответит на любой Ваш вопрос!\n` +
                     '\n' +
@@ -149,8 +123,7 @@ module.exports = {
                     `https://t.me/${agentUsername}`
                 );
             },
-            owner: (params) => {
-                const { agentUsername } = beautifyParams(params);
+            owner: ({ agentUsername }) => {
                 return (
                     `Менеджер агентства ${process.env.AGENCY_NAME} свяжется с Вами в ближайшее время и ответит на любой Ваш вопрос!\n` +
                     '\n' +
@@ -160,12 +133,11 @@ module.exports = {
             },
         },
         realtorText: (params) => {
-            const { username, flatId, city, district, fullName, phoneNumber } = params;
+            const { username, flatId, city, district, phoneNumber } = params;
             return (
                 'Здравствуйте! \n\n' +
                 'Пользователь:\n' +
                 `${username ? `https://t.me/${username}\n` : ''}` +
-                `${fullName}\n` +
                 `${phoneNumber}\n\n` +
                 'Интересуется данным объектом \n\n' +
                 `ID: ${beautifyId(flatId)} \n` +
@@ -190,14 +162,14 @@ module.exports = {
                 apartmentEquipment,
                 constructionCompletionDate,
                 paymentMethod,
-            } = beautifyParams(params);
+            } = params;
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
             apartmentEquipment = apartmentEquipment?.map((el) => '- ' + el.title.trim() + ';').join('\n');
             const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
             let date = null;
 
-            if (month && month <= 12 && year) date = `${beautifyMonth('ru', month)} ${year}`;
+            if (month && month <= 12 && year) date = `${getMonth('ru', month)} ${year}`;
 
             return (
                 `<b>${title}</b>\n\n` +
@@ -229,21 +201,23 @@ module.exports = {
                 apartmentEquipment,
                 constructionCompletionDate,
                 paymentMethod,
-            } = beautifyParams(params);
+            } = params;
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
             apartmentEquipment = apartmentEquipment?.map((el) => '- ' + el.title.trim() + ';').join('\n');
             const [month, year] = constructionCompletionDate && constructionCompletionDate.split('.');
             let date = null;
 
-            if (month && month <= 12 && year) date = `${beautifyMonth('ru', month)} ${year}`;
+            if (month && month <= 12 && year) date = `${getMonth('ru', month)} ${year}`;
 
             return (
                 `<b>${title}</b>\n\n` +
                 `<b>Цена от € ${beautifyBigNum(cost)}</b>\n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
-                `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
+                `${
+                    metersFromTheSea ? `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` : ''
+                }` +
                 `${paymentMethod ? `Способ оплаты: ${paymentMethod}\n\n` : ''}` +
                 `${caption}\n\n` +
                 `${apartments ? `Планировки: \n${apartments} \n\n` : ''}` +
@@ -254,22 +228,23 @@ module.exports = {
                 `${date ? `Сдача объекта: ${date}\n\n` : ''}`
             );
         },
-        owner: ({
-            cost,
-            title,
-            caption,
-            city,
-            district,
-            neighborhood,
-            layout,
-            area,
-            floors,
-            furniture,
-            yearOfConstruction,
-            infrastructure,
-            metersFromTheSea,
-            paymentMethod,
-        }) => {
+        owner: (params) => {
+            let {
+                cost,
+                title,
+                caption,
+                city,
+                district,
+                neighborhood,
+                layout,
+                area,
+                floors,
+                furniture,
+                yearOfConstruction,
+                infrastructure,
+                metersFromTheSea,
+                paymentMethod,
+            } = params;
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
             furniture = furniture?.map((el) => '- ' + el.title.trim() + ';').join('\n');
             floors = floors?.map((el) => el.floor).join(' и ');
@@ -279,7 +254,7 @@ module.exports = {
                 `<b>Цена: ${beautifyBigNum(cost)}</b>\n\n` +
                 `Город: ${city}\n\n` +
                 `${district ? `Район: ${district}\n\n` : ''}` +
-                `Микрорайон: ${neighborhood}\n\n` +
+                `${neighborhood ? `Микрорайон: ${neighborhood}\n\n` : ''}` +
                 `${
                     metersFromTheSea ? `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)}м\n\n` : ''
                 }` +
@@ -295,7 +270,7 @@ module.exports = {
     },
     SHORT_DESCRIPTION: {
         owner: (params, favorite) => {
-            let { title, layout, area, floors, city, district, cost } = beautifyParams(params);
+            let { title, layout, area, floors, city, district, cost } = params;
             floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' и ' : '');
 
             return (
@@ -307,25 +282,25 @@ module.exports = {
             );
         },
         complex: (params, favorite) => {
-            let { apartments, city, district, cost, title } = beautifyParams(params);
+            let { apartments, city, district, cost, title } = params;
             apartments = translateApartments(apartments);
 
             return (
                 `<b>${title}</b>\n\n` +
                 `${city}, район ${district}.\n\n` +
-                `Апартаменты:\n${apartments}\n\n` +
+                `${apartments ? `Апартаменты:\n${apartments}\n\n` : ''}` +
                 `<b>от ${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ Этот комплекс в избранном ❤️' : ''}`
             );
         },
         villa: (params, favorite) => {
-            let { apartments, city, district, cost, title } = beautifyParams(params);
+            let { apartments, city, district, cost, title } = params;
             apartments = translateApartments(apartments);
 
             return (
                 `<b>${title}</b>\n\n` +
                 `${city}, район ${district}.\n\n` +
-                `Апартаменты:\n${apartments}\n\n` +
+                `${apartments ? `Апартаменты:\n${apartments}\n\n` : ''}` +
                 `<b>от ${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ Эта вилла в избранном ❤️' : ''}`
             );
@@ -341,7 +316,7 @@ module.exports = {
         text: 'Удалить из избранного',
     },
     DELETED: {
-        text: 'Квартира удалена из избранного.',
+        text: 'Объект удален из избранного.',
     },
     FULL_DESCRIPTION: {
         text: 'Подробное описание',

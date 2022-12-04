@@ -1,17 +1,17 @@
 const searchFlats = require('./searchFlats');
 const actions = require('../actions');
 
-module.exports = async (query) => {
-    const { table, flatId } = query.data;
-    const { localisation, chatId, messageId } = query;
-    await strapi.bots.alanyaBot.editMessageReplyMarkup(
+module.exports = async (bot) => {
+    const { table, flatId } = bot.data;
+    const { localisation, chatId, messageId } = bot;
+    await bot.editMessageReplyMarkup(
         {
             inline_keyboard: [
                 [
                     {
-                        ...localisation?.WRITE_INLINE[table.toLowerCase()],
+                        ...localisation?.SAVE_INLINE,
                         callback_data: JSON.stringify({
-                            action: actions.SEARCH_WRITE_AGENT,
+                            action: actions.SAVE,
                             table,
                             flatId,
                         }),
@@ -19,9 +19,19 @@ module.exports = async (query) => {
                 ],
                 [
                     {
-                        ...localisation?.SAVE_INLINE,
+                        ...localisation?.FULL_DESCRIPTION,
                         callback_data: JSON.stringify({
-                            action: actions.SAVE,
+                            action: actions.SEARCH_FULL_DESCRIPTION,
+                            table,
+                            flatId,
+                        }),
+                    },
+                ],
+                [
+                    {
+                        ...localisation?.WRITE_INLINE[table.toLowerCase()],
+                        callback_data: JSON.stringify({
+                            action: actions.SEARCH_WRITE_AGENT,
                             table,
                             flatId,
                         }),
@@ -34,5 +44,5 @@ module.exports = async (query) => {
             message_id: messageId,
         }
     );
-    return searchFlats(query);
+    return searchFlats(bot);
 };

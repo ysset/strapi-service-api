@@ -2,11 +2,11 @@ const path = require('path');
 const fs = require('fs');
 const actions = require('../actions');
 
-module.exports = async (query) => {
-    const { localisation, messageId, chatId, user } = query;
+module.exports = async (bot) => {
+    const { localisation, messageId, chatId, user } = bot;
 
     if (!user) return;
-    if (messageId) strapi.bots.alanyaBot.deleteMessage(chatId, messageId).catch(console.error);
+    if (messageId) bot.deleteMessage(chatId, messageId).catch(console.error);
 
     const flats = [
         await strapi.db
@@ -17,7 +17,18 @@ module.exports = async (query) => {
                         $in: user.favoriteComplex.map((el) => el.id),
                     },
                 },
-                populate: true,
+                populate: {
+                    localisation: {
+                        populate: {
+                            apartments: true,
+                            infrastructure: true,
+                            apartmentEquipment: true,
+                            floors: true,
+                        },
+                    },
+                    layoutPhoto: true,
+                    agent: true,
+                },
             })
             .then((res) => {
                 res.forEach((el) => {
@@ -35,7 +46,18 @@ module.exports = async (query) => {
                         $in: user.favoriteVilla.map((el) => el.id),
                     },
                 },
-                populate: true,
+                populate: {
+                    localisation: {
+                        populate: {
+                            apartments: true,
+                            infrastructure: true,
+                            apartmentEquipment: true,
+                            floors: true,
+                        },
+                    },
+                    layoutPhoto: true,
+                    agent: true,
+                },
             })
             .then((res) => {
                 res.forEach((el) => {
@@ -53,7 +75,18 @@ module.exports = async (query) => {
                         $in: user.favoriteOwner.map((el) => el.id),
                     },
                 },
-                populate: true,
+                populate: {
+                    localisation: {
+                        populate: {
+                            apartments: true,
+                            infrastructure: true,
+                            apartmentEquipment: true,
+                            floors: true,
+                        },
+                    },
+                    layoutPhoto: true,
+                    agent: true,
+                },
             })
             .then((res) => {
                 res.forEach((el) => {
@@ -67,14 +100,15 @@ module.exports = async (query) => {
     const favoriteHousings = flats.flat(1);
 
     if (favoriteHousings.length === 0) {
-        return await strapi.bots.alanyaBot
-            .sendMessage(chatId, localisation?.NO_FAVORITE_NOW)
-            .catch(console.error);
+        return await bot.sendMessage(chatId, localisation?.NO_FAVORITE_NOW).catch(console.error);
     }
 
     for (const flat of favoriteHousings) {
         let resolvedPath = path.resolve('./index');
-
+        flat.localisation = flat.localisation.find(
+            (rec) => rec.language === bot.language || rec.language === 'en'
+        );
+        if (!flat.localisation) continue;
         resolvedPath = resolvedPath.split('/');
         resolvedPath.pop();
         resolvedPath = resolvedPath.join('/');
@@ -87,9 +121,12 @@ module.exports = async (query) => {
 
         const table = flat.table;
         const flatId = flat.id;
+        const caption = localisation.SHORT_DESCRIPTION[table](flat.localisation);
 
-        await strapi.bots.alanyaBot
+        await bot
             .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
+                caption,
+                parse_mode: 'HTML',
                 reply_markup: {
                     inline_keyboard: [
                         [

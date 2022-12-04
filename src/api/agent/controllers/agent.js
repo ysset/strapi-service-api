@@ -1,17 +1,11 @@
 'use strict';
 
-/**
- *  agent controller
- */
-
 const { createCoreController } = require('@strapi/strapi').factories;
 
-const getData = async ({ api, field }) => {
+const getData = async ({ api, field, language }) => {
     let res = await strapi.entityService.findMany(api, {
         filters: {
-            localisation: {
-                language: 'ru',
-            },
+            localisation: { language },
         },
         populate: {
             localisation: {
@@ -21,7 +15,9 @@ const getData = async ({ api, field }) => {
         },
     });
     res = res.filter((el) => el.agent);
-    return res.map((el) => el.localisation.find((el) => el.language === 'ru')[field]);
+    return res.map(
+        (el) => el.localisation.find((el) => el.language === language || el.language === 'en')[field]
+    );
 };
 
 const handleDeveloperComplexes = async () =>
@@ -110,24 +106,23 @@ const handleGetCosts = async () => {
 };
 
 module.exports = createCoreController('api::agent.agent', {
-    getCities: async () => {
-        const complexCities = await getData({ api: 'api::complex.complex', field: 'city' });
-        const villaCities = await getData({ api: 'api::villa.villa', field: 'city' });
-        const ownerCities = await getData({
-            api: 'api::owner.owner',
-            field: 'city',
-            language: 'ru',
-        });
+    getCities: async (ctx) => {
+        const language = ctx.params.language;
+        const complexCities = await getData({ api: 'api::complex.complex', field: 'city', language });
+        const villaCities = await getData({ api: 'api::villa.villa', field: 'city', language });
+        const ownerCities = await getData({ api: 'api::owner.owner', field: 'city', language });
         return {
             developer: [...new Set([...complexCities, ...villaCities])].sort(),
             owner: [...new Set(ownerCities)].sort(),
         };
     },
 
-    getDistricts: async () => {
-        const complexDistricts = await getData({ api: 'api::complex.complex', field: 'district' });
-        const villaDistricts = await getData({ api: 'api::villa.villa', field: 'district' });
-        return [...new Set([...complexDistricts, ...villaDistricts])];
+    getDistricts: async (ctx) => {
+        const language = ctx.params.language;
+        const complexDistricts = await getData({ api: 'api::complex.complex', field: 'district', language });
+        const villaDistricts = await getData({ api: 'api::villa.villa', field: 'district', language });
+        const ownerDistricts = await getData({ api: 'api::owner.owner', field: 'district', language });
+        return [...new Set([...complexDistricts, ...villaDistricts, ...ownerDistricts])];
     },
 
     getCost: async () => {

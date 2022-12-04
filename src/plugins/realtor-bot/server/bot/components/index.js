@@ -3,10 +3,14 @@ const callbacks = require('./componentList');
 const index = {
     START: {
         regex: /\/start/,
-        fn: async (msg) => {
-            await inlineCallBacks.ENTER_COMMAND(msg);
-            return inlineCallBacks.DELETE_MESSAGE(msg);
+        fn: async (bot) => {
+            await inlineCallBacks.ENTER_COMMAND(bot);
+            return bot.delete();
         },
+    },
+    FAVORITE_HOUSINGS: {
+        regex: /\/Сохраненные❤️️️️/,
+        fn: callbacks.FAVORITE_HOUSINGS,
     },
 };
 
@@ -21,11 +25,11 @@ const inlineCallBacks = {
     FFD: callbacks.FAVORITE_FULL_DESCRIPTION,
     ENTER_COMMAND: callbacks.ENTER_COMMAND,
     DELETE_ACTION: callbacks.DELETE_ACTION,
-    DELETE_MESSAGE: callbacks.DELETE_MESSAGE,
     NEXT_FLAT: callbacks.NEXT_FLAT,
     PREVIOUS_FLAT: callbacks.PREVIOUS_FLAT,
     CANCEL_INTEREST: callbacks.CANCEL_INTEREST,
     SFDNF: callbacks.SFDNF,
+    INF_TOUR: callbacks.INF_TOUR,
 };
 
 module.exports = {

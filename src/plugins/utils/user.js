@@ -1,4 +1,5 @@
-const { userLang } = require('../../botUtils/language');
+const { userLang } = require('../localisation');
+const getUserInfo = require('../utils/event/getUserInfo');
 
 const getUser = async (msg) => {
     const messageId = msg.message?.message_id || msg.message_id;
@@ -8,9 +9,19 @@ const getUser = async (msg) => {
         .query('api::telegram-user.telegram-user')
         .findOne({
             where: {
-                telegramID: userID,
+                telegramID: parseInt(userID),
             },
-            populate: true,
+            populate: {
+                watchedComplex: true,
+                favoriteComplex: true,
+                watchedVilla: true,
+                favoriteVilla: true,
+                watchedRent: true,
+                favoriteRent: true,
+                watchedOwner: true,
+                favoriteOwner: true,
+                filters: true,
+            },
         })
         .catch(console.error);
 
@@ -21,8 +32,12 @@ const getUser = async (msg) => {
     };
 };
 
-const modifyRequestWithUserData = async ({ msg }) => {
+const modifyRequestWithUserData = async ({ msg, bot }) => {
     let { user, messageId, chatId } = await getUser(msg);
+    if (!bot) throw Error('Bot is undefined');
+    if (msg.web_app_data) {
+        msg.filters = JSON.parse(msg.web_app_data.data);
+    }
 
     if (!user)
         user = await strapi.entityService
@@ -32,7 +47,6 @@ const modifyRequestWithUserData = async ({ msg }) => {
                     language: 'ru',
                     username: msg.from.username,
                 },
-                populate: '*',
             })
             .catch(console.error);
 
@@ -60,16 +74,26 @@ const modifyRequestWithUserData = async ({ msg }) => {
             })
             .catch(console.error);
 
-    return {
-        reply: (text, form = {}) => strapi.bots.alanyaBot.sendMessage(chatId, text, form),
-        delete: (form = {}) => strapi.bots.alanyaBot.deleteMessage(chatId, messageId, form),
-        deleteById: (messageId, form = {}) => strapi.bots.alanyaBot.deleteMessage(chatId, messageId, form),
-        ...msg,
-        user,
-        localisation: userLang('ru'),
-        messageId,
-        chatId,
-    };
+    bot.reply = (text, form = {}) => bot.sendMessage(chatId, text, form);
+    bot.delete = (form = {}) => bot.deleteMessage(chatId, messageId, form);
+    bot.deleteById = (messageId, form = {}) => bot.deleteMessage(chatId, messageId, form);
+    bot.msg = msg;
+    bot.user = user;
+    bot.data = msg.data;
+    bot.chatId = chatId;
+    bot.messageId = messageId;
+    bot.localisation = userLang(bot);
+
+    const limit =
+        (user.watchedVilla?.length || 0) +
+        (user.watchedOwner?.length || 0) +
+        (user.watchedComplex?.length || 0) +
+        (user.watchedRent?.length || 0);
+    if (!process.env.DEVELOPMENT && limit >= 5 && !user.phoneNumber) {
+        await getUserInfo(bot);
+    }
+
+    return bot;
 };
 
 module.exports = {

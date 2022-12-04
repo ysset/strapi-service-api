@@ -1,4 +1,4 @@
-const { getDate, getUserInfo } = require('../utils');
+const { getDate, getUserInfo } = require('../../../utils');
 
 module.exports = async (bot) => {
     const { localisation } = bot;

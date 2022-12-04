@@ -1,6 +1,6 @@
 const eventStorage = require('./eventStorage');
 
-const createEventToUpdateAgent = async ({ telegramID, inline_keyboard }) =>
+const createEventToUpdateAgent = async ({ telegramID, inline_keyboard, bot }) =>
     new Promise((resolve) => {
         const event = async (query) => {
             if (query.data.exit) return resolve(query);
@@ -17,7 +17,7 @@ const createEventToUpdateAgent = async ({ telegramID, inline_keyboard }) =>
                 },
             });
             inline_keyboard = inline_keyboard.filter((el) => el[0].text !== data.city);
-            await strapi.bots.admin.editMessageReplyMarkup(
+            await bot.editMessageReplyMarkup(
                 { inline_keyboard },
                 {
                     chat_id: chatId,
@@ -28,11 +28,12 @@ const createEventToUpdateAgent = async ({ telegramID, inline_keyboard }) =>
         eventStorage.createEvent({ telegramID, event });
     });
 
-module.exports = async (msg) => {
+module.exports = async (bot) => {
     const {
         user: { telegramID, id },
         localisation,
-    } = msg;
+        msg,
+    } = bot;
 
     const agent = await strapi.entityService.findOne('api::agent.agent', id, {
         filters: {
@@ -59,7 +60,7 @@ module.exports = async (msg) => {
             callback_data: JSON.stringify({ exit: true }),
         },
     ];
-    await strapi.bots.admin.sendMessage(telegramID, localisation.GET_CITY, {
+    await bot.sendMessage(telegramID, localisation.GET_CITY, {
         reply_markup: {
             inline_keyboard,
         },
@@ -68,9 +69,10 @@ module.exports = async (msg) => {
         telegramID,
         dbKey: 'city',
         inline_keyboard,
+        bot,
     });
 
-    await strapi.bots.admin.deleteMessage(msg.chatId, msg.messageId);
-    await strapi.bots.admin.sendMessage(msg.chatId, 'Сохранено');
+    await bot.deleteMessage(msg.chatId, msg.messageId);
+    await bot.sendMessage(msg.chatId, 'Сохранено');
     eventStorage.clearEvents(telegramID);
 };

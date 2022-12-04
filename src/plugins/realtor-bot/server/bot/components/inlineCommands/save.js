@@ -2,17 +2,17 @@ const recommendations = require('../../../../botUtils/botManager/recommendationM
 const searchFlats = require('./searchFlats');
 const actions = require('../actions');
 
-module.exports = async (query) => {
-    if (!query.user) return;
+module.exports = async (bot) => {
+    if (!bot.user) return;
 
-    const { localisation, messageId, chatId, user, data } = query;
+    const { localisation, messageId, chatId, user, data, msg } = bot;
 
     const { table, flatId } = data;
 
     await recommendations
         .save({
             where: {
-                telegramID: query.from.id,
+                telegramID: msg.from.id,
             },
             apiKey: 'api::telegram-user.telegram-user',
             data,
@@ -22,19 +22,9 @@ module.exports = async (query) => {
             console.error(e);
         });
 
-    await strapi.bots.alanyaBot.editMessageReplyMarkup(
+    await bot.editMessageReplyMarkup(
         {
             inline_keyboard: [
-                [
-                    {
-                        ...localisation?.FULL_DESCRIPTION,
-                        callback_data: JSON.stringify({
-                            action: actions.SEARCH_FULL_DESCRIPTION,
-                            table,
-                            flatId,
-                        }),
-                    },
-                ],
                 [
                     {
                         ...localisation?.WRITE_AGENT_INLINE,
@@ -53,7 +43,7 @@ module.exports = async (query) => {
         }
     );
 
-    await strapi.bots.alanyaBot
+    await bot
         .sendMessage(chatId, localisation?.SAVED, {
             reply_markup: {
                 inline_keyboard: [
@@ -72,5 +62,5 @@ module.exports = async (query) => {
             console.error(e);
         });
 
-    await searchFlats(query);
+    await searchFlats(bot);
 };
