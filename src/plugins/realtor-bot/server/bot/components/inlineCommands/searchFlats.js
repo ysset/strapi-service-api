@@ -7,7 +7,7 @@ const recommendations = require('../../../../botUtils/botManager/recommendationM
 const actions = require('../actions');
 
 module.exports = async (bot) => {
-    const { localisation, chatId, msg, messageId } = bot;
+    const { localisation, chatId, msg } = bot;
     let { filters } = msg;
     let { user } = await getUser(msg);
     if (filters) filters = { ...filters, language: bot.language };
