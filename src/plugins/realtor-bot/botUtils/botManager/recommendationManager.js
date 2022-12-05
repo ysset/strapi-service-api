@@ -99,7 +99,6 @@ module.exports = {
             };
         });
         let recommendations = await Promise.all(dataArray);
-        console.log(recommendations);
         for (let table of userFilters.tables) {
             recommendations.forEach((rec) => {
                 if (rec[table]) {
