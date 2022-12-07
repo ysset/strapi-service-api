@@ -73,13 +73,13 @@
     "watchedOwner": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::rent.rent",
+      "target": "api::owner.owner",
       "mappedBy": "watchedUsers"
     },
     "favoriteOwner": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::rent.rent",
+      "target": "api::owner.owner",
       "mappedBy": "favoriteUsers"
     }
   }

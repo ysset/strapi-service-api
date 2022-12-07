@@ -41,8 +41,11 @@ module.exports = {
                 language: local,
             };
         if (!userFilters) return null;
-
-        let watched = { Complex: user.watchedComplex, Villa: user.watchedVilla, Owner: user.watchedOwner };
+        let watched = {
+            Complex: user.watchedComplex || [],
+            Villa: user.watchedVilla || [],
+            Owner: user.watchedOwner || [],
+        };
         const favorites = {
             Complex: user.favoriteComplex,
             Villa: user.favoriteVilla,
