@@ -15,11 +15,13 @@ module.exports = async (bot) => {
                         },
                         {
                             ...localisation.FAVORITE,
+                            callback_data: JSON.stringify(''),
                         },
                     ],
                     [
                         {
                             ...localisation.INF_TOUR_BUTTON,
+                            callback_data: JSON.stringify(''),
                         },
                     ],
                 ],

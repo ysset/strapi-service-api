@@ -9,9 +9,36 @@ module.exports = {
     [actions.presentation.START]: require('./start'),
     [actions.presentation.SEARCH_FLATS]: async (bot) => {
         const { localisation, user } = bot;
-        if (user.showPromo) {
+        const watched =
+            (user.watchedVilla?.length || 0) +
+            (user.watchedOwner?.length || 0) +
+            (user.watchedComplex?.length || 0) +
+            (user.watchedRent?.length || 0);
+        if (watched === 0) {
             await bot.reply(localisation.joke);
-            await bot.reply(localisation.onFilterDescription);
+            await bot.reply(localisation.onFilterDescription, {
+                reply_markup: {
+                    keyboard: [
+                        [
+                            {
+                                ...localisation.CONTROL_PANEL,
+                                callback_data: JSON.stringify(''),
+                            },
+                            {
+                                ...localisation.FAVORITE,
+                                callback_data: JSON.stringify(''),
+                            },
+                        ],
+                        [
+                            {
+                                ...localisation.INF_TOUR_BUTTON,
+                                callback_data: JSON.stringify(''),
+                            },
+                        ],
+                    ],
+                    resize_keyboard: true,
+                },
+            });
             await searchFlats(bot);
             await bot.reply(localisation.buttons);
             await bot.reply(localisation.saveButtonDescription);
@@ -49,13 +76,26 @@ module.exports = {
         const userMessage = localisation.INF_TOUR;
         const realtorMessage = localisation.infoTourRealtor({ username });
 
+        await bot.sendMessage(agentTelegramId, realtorMessage, { parse_mode: 'HTML' }).catch(console.error);
+
         await bot.sendMessage(userTelegramId, userMessage).catch(console.error);
 
-        await bot.sendMessage(agentTelegramId, realtorMessage, { parse_mode: 'HTML' }).catch(console.error);
         await bot.reply(bot.localisation.cancelFreeTourDescription);
         await bot.reply(bot.localisation.favoriteDescription);
         await bot.reply(bot.localisation.theEnd);
-        await strapi.entityService.delete('api::telegram-user.telegram-user', bot.user.id);
+        await strapi.entityService.update('api::telegram-user.telegram-user', bot.user.id, {
+            data: {
+                watchedComplex: [],
+                watchedVilla: [],
+                watchedRent: [],
+                watchedOwner: [],
+                favoriteComplex: [],
+                favoriteVilla: [],
+                favoriteRent: [],
+                favoriteOwner: [],
+                phoneNumber: null,
+            },
+        });
     },
     [actions.presentation.SFDNF]: SFDNF,
     [actions.presentation.NEXT_FLAT]: nextFlat,

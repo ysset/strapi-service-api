@@ -46,8 +46,13 @@ module.exports = async (bot) => {
         recommendation.favorite,
         recommendation.watched
     );
-    let buttons = [];
-    if (!user.phoneNumber && user.showPromo) {
+    let buttons;
+    const watched =
+        (user.watchedVilla?.length || 0) +
+        (user.watchedOwner?.length || 0) +
+        (user.watchedComplex?.length || 0) +
+        (user.watchedRent?.length || 0);
+    if (watched === 0) {
         buttons = [
             [
                 {
@@ -76,7 +81,7 @@ module.exports = async (bot) => {
                 },
             ],
         ];
-    } else if (!user.phoneNumber) {
+    } else if (watched >= 1 && watched <= 4) {
         buttons = [
             [
                 {

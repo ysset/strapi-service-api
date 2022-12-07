@@ -33,6 +33,7 @@ module.exports = async ({ strapi }) => {
         bot.on('callback_query', async (query) => {
             try {
                 query.data = JSON.parse(query.data);
+                if (typeof commandsInline[query.data.action] !== 'function') return;
                 const data = await modifyRequestWithUserData({ msg: query, bot });
                 //debug shit
                 strapi.log.info(
@@ -55,35 +56,25 @@ module.exports = async ({ strapi }) => {
                     await modifyRequestWithUserData({ msg: query, bot })
                 );
             }
-            if (user && user.phoneNumber && !user.showPromo) {
-                switch (query.text) {
-                    case 'Сохраненные ❤️':
-                        if (typeof commandsInline[actions.presentation.FAVORITE_HOUSINGS] === 'function')
-                            return commandsInline[actions.presentation.FAVORITE_HOUSINGS](
-                                await modifyRequestWithUserData({ msg: query, bot })
-                            );
-                        break;
-                    case 'Saved ❤️':
-                        if (typeof commandsInline[actions.presentation.FAVORITE_HOUSINGS] === 'function')
-                            return commandsInline[actions.presentation.FAVORITE_HOUSINGS](
-                                await modifyRequestWithUserData({ msg: query, bot })
-                            );
-                        break;
-                    case 'Хочу на бесплатный обзорный тур 🚀!':
-                        if (typeof commandsInline[actions.presentation.INF_TOUR] === 'function')
+            if (user) {
+                const saved =
+                    (user.favoriteVilla?.length || 0) +
+                    (user.favoriteOwner?.length || 0) +
+                    (user.favoriteComplex?.length || 0) +
+                    (user.favoriteRent?.length || 0);
+                if (user.phoneNumber && !user.showPromo && saved > 0) {
+                    switch (query.text) {
+                        case 'Хочу на бесплатный обзорный тур 🚀!':
                             return commandsInline[actions.presentation.INF_TOUR](
                                 await modifyRequestWithUserData({ msg: query, bot })
                             );
-                        break;
-                    case 'I want to take a free tour 🚀!':
-                        if (typeof commandsInline[actions.presentation.INF_TOUR] === 'function')
+                        case 'I want to take a free tour 🚀!':
                             return commandsInline[actions.presentation.INF_TOUR](
                                 await modifyRequestWithUserData({ msg: query, bot })
                             );
-                        break;
+                    }
                 }
             }
-
             if (
                 query.text === 'start' ||
                 query.text === 'старт' ||

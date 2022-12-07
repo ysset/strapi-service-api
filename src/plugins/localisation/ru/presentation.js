@@ -153,7 +153,7 @@ module.exports = {
             );
         },
     },
-    infoTourRealtor: ({ username }) => `${username} хочет на инфотур`,
+    infoTourRealtor: ({ username }) => `@${username} хочет на инфотур`,
     housingFullDescription: {
         complex: (params) => {
             let {

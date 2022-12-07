@@ -35,15 +35,13 @@ module.exports = async (bot) => {
         flat.layoutPhoto[0].url ? flat.layoutPhoto[0].url : flat.layoutPhoto[0].formats.large.url
     }`;
 
-    const agentUsername = flat.agent.username;
-    const agentTelegramId = flat.agent.telegramID;
     let flatLocal = flat.localisation.find((rec) => rec.language === localisation.lang);
     if (!flatLocal) flatLocal = flat.localisation.find((rec) => rec.language === 'ru');
 
     const caption = localisation.shortDescription[table](flatLocal);
 
     const userMessage = localisation.writeAgent.userText[table.toLowerCase()]({
-        agentUsername,
+        agentUsername: '@XattaProject',
         flatId,
         ...flatLocal,
     });
@@ -69,9 +67,9 @@ module.exports = async (bot) => {
 
     await bot.reply(localisation.adminBotMsg);
 
-    await bot.sendMessage(agentTelegramId, realtorMessage, { parse_mode: 'HTML' }).catch(console.error);
+    await bot.sendMessage(userTelegramId, realtorMessage, { parse_mode: 'HTML' }).catch(console.error);
     await bot
-        .sendPhoto(agentTelegramId, fs.createReadStream(resolvedPath), { caption, parse_mode: 'HTML' })
+        .sendPhoto(userTelegramId, fs.createReadStream(resolvedPath), { caption, parse_mode: 'HTML' })
         .catch(console.error);
 
     await bot.reply(localisation.adminMsgDescription);
