@@ -1,5 +1,19 @@
 module.exports = async (bot) => {
     const { localisation, chatId } = bot;
+    await strapi.entityService.update('api::telegram-user.telegram-user', bot.user.id, {
+        data: {
+            watchedComplex: [],
+            watchedVilla: [],
+            watchedRent: [],
+            watchedOwner: [],
+            favoriteComplex: [],
+            favoriteVilla: [],
+            favoriteRent: [],
+            favoriteOwner: [],
+            phoneNumber: null,
+            showPromo: true,
+        },
+    });
     await bot
         .sendMessage(chatId, localisation?.startTour, {
             reply_markup: {

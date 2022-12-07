@@ -94,6 +94,7 @@ module.exports = {
                 favoriteRent: [],
                 favoriteOwner: [],
                 phoneNumber: null,
+                showPromo: true,
             },
         });
     },
