@@ -6,6 +6,82 @@ const { NO_FLATS, SERVER_ERROR } = require('../../../../botUtils/errorHandlers')
 const recommendations = require('../../../../botUtils/botManager/recommendationManager');
 const actions = require('../actions');
 
+const getKeyboard = ({ favorite, localisation, table, flatId }) => {
+    if (favorite)
+        return [
+            [
+                {
+                    ...localisation?.NEXT_INLINE,
+                    callback_data: JSON.stringify({
+                        action: actions.NEXT_FLAT,
+                        table,
+                        flatId,
+                    }),
+                },
+            ],
+            [
+                {
+                    ...localisation?.FULL_DESCRIPTION,
+                    callback_data: JSON.stringify({
+                        action: actions.SEARCH_FULL_DESCRIPTION,
+                        table,
+                        flatId,
+                    }),
+                },
+            ],
+            [
+                {
+                    ...localisation?.WRITE_INLINE[table.toLowerCase()],
+                    callback_data: JSON.stringify({
+                        action: actions.SEARCH_WRITE_AGENT,
+                        table,
+                        flatId,
+                    }),
+                },
+            ],
+        ];
+    return [
+        [
+            {
+                ...localisation?.SAVE_INLINE,
+                callback_data: JSON.stringify({
+                    action: actions.SAVE,
+                    table,
+                    flatId,
+                }),
+            },
+            {
+                ...localisation?.NEXT_INLINE,
+                callback_data: JSON.stringify({
+                    action: actions.NEXT_FLAT,
+                    table,
+                    flatId,
+                }),
+            },
+        ],
+        [
+            {
+                ...localisation?.FULL_DESCRIPTION,
+                callback_data: JSON.stringify({
+                    action: actions.SEARCH_FULL_DESCRIPTION,
+                    table,
+                    flatId,
+                }),
+            },
+        ],
+        [
+            {
+                ...localisation?.WRITE_INLINE[table.toLowerCase()],
+                callback_data: JSON.stringify({
+                    action: actions.SEARCH_WRITE_AGENT,
+                    table,
+                    flatId,
+                }),
+            },
+        ],
+    ];
+};
+
 module.exports = async (bot) => {
     const { localisation, chatId, msg } = bot;
     let { filters } = msg;
@@ -52,46 +128,12 @@ module.exports = async (bot) => {
             caption,
             parse_mode: 'HTML',
             reply_markup: {
-                inline_keyboard: [
-                    [
-                        {
-                            ...localisation?.SAVE_INLINE,
-                            callback_data: JSON.stringify({
-                                action: actions.SAVE,
-                                table: recLocalisation.table,
-                                flatId: recLocalisation.id,
-                            }),
-                        },
-                        {
-                            ...localisation?.NEXT_INLINE,
-                            callback_data: JSON.stringify({
-                                action: actions.NEXT_FLAT,
-                                table: recLocalisation.table,
-                                flatId: recLocalisation.id,
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...localisation?.FULL_DESCRIPTION,
-                            callback_data: JSON.stringify({
-                                action: actions.SEARCH_FULL_DESCRIPTION,
-                                table: recLocalisation.table,
-                                flatId: recLocalisation.id,
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...localisation?.WRITE_INLINE[table],
-                            callback_data: JSON.stringify({
-                                action: actions.SEARCH_WRITE_AGENT,
-                                table: recLocalisation.table,
-                                flatId: recLocalisation.id,
-                            }),
-                        },
-                    ],
-                ],
+                inline_keyboard: getKeyboard({
+                    favorite: recommendation.favorite,
+                    table: recLocalisation.table,
+                    flatId: recLocalisation.id,
+                    localisation,
+                }),
             },
         })
         .catch((e) => {

@@ -14,6 +14,7 @@ module.exports = async () => {
         bot.language = languages[token];
         bot.type = 'realtor';
 
+        strapi.log.info(`Registering telegram bot for token: ${token}`);
         await bot.setMyCommands([
             {
                 command: 'start',
@@ -42,7 +43,7 @@ module.exports = async () => {
             }
         });
 
-        bot.on('polling_error', console.error);
+        bot.on('polling_error', (e) => console.error(e));
 
         /**
          * contact listener
