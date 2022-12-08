@@ -67,7 +67,7 @@ module.exports = async (bot) => {
         Villa: user.favoriteVilla,
         Owner: user.favoriteOwner,
     };
-    console.log(favorites[table], flatId);
+
     const favorite = favorites[table].some((o) => o.id === flatId);
     await bot.editMessageReplyMarkup(
         {
