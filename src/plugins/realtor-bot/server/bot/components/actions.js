@@ -15,4 +15,5 @@ module.exports = {
     SFDNF: 'SFDNF',
     INF_TOUR: 'INF_TOUR',
     CANCEL_INFO_TOUR_INLINE: 'CITI',
+    SEARCH_WRITE_AGENT_FOR_FULL_DESCRIPTION: '0',
 };

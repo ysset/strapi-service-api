@@ -17,6 +17,7 @@ const searchFlatByIdFunc = require('./searchFlatById');
 const searchFullDescriptionNextFlatFunc = require('./searchFullDescriptionNextFlat');
 const cancelInfoTourFunc = require('./cancelInfoTour');
 const infoTourFunc = require('./infoTour');
+const swaffd = require('./searchWriteAgentForFullDesc');
 
 module.exports = {
     writeAgent: writeAgentFunc,
@@ -38,4 +39,5 @@ module.exports = {
     searchFullDescriptionNextFlat: searchFullDescriptionNextFlatFunc,
     cancelInfoTour: cancelInfoTourFunc,
     infoTour: infoTourFunc,
+    swaffd: swaffd,
 };

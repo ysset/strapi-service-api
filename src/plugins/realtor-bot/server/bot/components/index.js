@@ -1,4 +1,5 @@
 const callbacks = require('./componentList');
+const actions = require('./actions');
 
 const index = {
     START: {
@@ -30,6 +31,7 @@ const inlineCallBacks = {
     CANCEL_INTEREST: callbacks.CANCEL_INTEREST,
     SFDNF: callbacks.SFDNF,
     INF_TOUR: callbacks.INF_TOUR,
+    [actions.SEARCH_WRITE_AGENT_FOR_FULL_DESCRIPTION]: callbacks.swaffd,
 };
 
 module.exports = {
