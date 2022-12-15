@@ -87,6 +87,7 @@ module.exports = async () => {
                 );
             }
         });
+        strapi.log.info(`Registering telegram bot for token: ${token}`);
     }
-    console.log('REALTOR is ready!');
+    strapi.log.warn('Realtor Telegram bot registered successfully');
 };

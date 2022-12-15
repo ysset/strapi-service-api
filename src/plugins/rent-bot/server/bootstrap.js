@@ -103,5 +103,5 @@ module.exports = async () => {
          */
         bot.on('polling_error', (msg) => console.log(msg));
     }
-    console.log('RENT is ready!');
+    strapi.log.warn('Rent Telegram bot registered successfully');
 };
