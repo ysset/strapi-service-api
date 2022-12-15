@@ -18,7 +18,7 @@ module.exports = async (bot) => {
                         {
                             ...localisation?.WRITE_INLINE[table.toLowerCase()],
                             callback_data: JSON.stringify({
-                                action: actions.SEARCH_WRITE_AGENT,
+                                action: actions.SEARCH_WRITE_AGENT_FOR_FULL_DESCRIPTION,
                                 table,
                                 flatId,
                             }),

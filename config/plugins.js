@@ -11,4 +11,8 @@ module.exports = {
         enabled: true,
         resolve: './src/plugins/rent-bot',
     },
+    presentation: {
+        enabled: true,
+        resolve: './src/plugins/presentation',
+    },
 };

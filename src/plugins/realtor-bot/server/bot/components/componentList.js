@@ -15,8 +15,8 @@ const {
     previousFlat,
     cancelUserInterest,
     searchFullDescriptionNextFlat,
-    cancelInfoTour,
     infoTour,
+    swaffd,
 } = require('./inlineCommands');
 
 const commands = {
@@ -37,6 +37,7 @@ const commands = {
     CANCEL_INTEREST: cancelUserInterest,
     SFDNF: searchFullDescriptionNextFlat,
     INF_TOUR: infoTour,
+    swaffd: swaffd,
 };
 
 module.exports = commands;
