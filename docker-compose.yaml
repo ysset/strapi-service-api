@@ -8,19 +8,3 @@ services:
       POSTGRES_USER: "develop"
       POSTGRES_PASSWORD: "developpass"
       POSTGRES_DB: "xattaBot"
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:12.0.4
-    environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_SCHEMA: public
-      DB_PASSWORD: password
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: password
-    ports:
-      - 9090:9090
-    depends_on:
-      - DB
