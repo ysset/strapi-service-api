@@ -15,7 +15,6 @@ module.exports = {
             (user.watchedComplex?.length || 0) +
             (user.watchedRent?.length || 0);
         if (watched === 0) {
-            await bot.reply(localisation.joke);
             await bot.reply(localisation.onFilterDescription, {
                 reply_markup: {
                     keyboard: [
