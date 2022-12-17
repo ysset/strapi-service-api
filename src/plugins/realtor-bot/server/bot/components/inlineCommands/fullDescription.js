@@ -72,6 +72,12 @@ module.exports = async (bot) => {
     for (let arrayOfPhotos of arrayOfArrayOfPhotos) {
         messages.push(await bot.sendMediaGroup(chatId, arrayOfPhotos).catch(console.error));
     }
+
+    //ожидаем пока отправятся все фото чтоб описание не прилетело раньше фото
+    await new Promise((resolve) => {
+        setTimeout(() => resolve(), 1500);
+    });
+
     messages = messages.flat(1);
     messages = messages.map((el) => ({ messageId: el.message_id }));
     return { caption, table, messages };

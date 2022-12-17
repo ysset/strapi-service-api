@@ -6,18 +6,9 @@ module.exports = async (bot) => {
         localisation,
         chatId,
         data: { table, flatId },
-        user,
+        user: { isFlatFavorite },
     } = bot;
 
-    const favorites = [
-        ...user.favoriteVilla,
-        ...user.favoriteOwner,
-        ...user.favoriteComplex,
-        ...user.favoriteRent,
-    ];
-
-    const isFlatFavorite = favorites.find((el) => el.id === flatId);
-    console.log(isFlatFavorite, favorites, user);
     const inline_keyboard = [
         [
             {

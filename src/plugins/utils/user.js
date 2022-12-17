@@ -74,6 +74,15 @@ const modifyRequestWithUserData = async ({ msg, bot }) => {
             })
             .catch(console.error);
 
+    const favorites = [
+        ...user.favoriteVilla,
+        ...user.favoriteOwner,
+        ...user.favoriteComplex,
+        ...user.favoriteRent,
+    ];
+
+    const isFlatFavorite = favorites.find((el) => el.id === msg.data?.flatId);
+
     bot.reply = (text, form = {}) => bot.sendMessage(chatId, text, form);
     bot.delete = (form = {}) => bot.deleteMessage(chatId, messageId, form);
     bot.deleteById = (messageId, form = {}) => bot.deleteMessage(chatId, messageId, form);
@@ -83,6 +92,8 @@ const modifyRequestWithUserData = async ({ msg, bot }) => {
     bot.chatId = chatId;
     bot.messageId = messageId;
     bot.localisation = userLang(bot);
+
+    bot.user.isFlatFavorite = isFlatFavorite;
 
     const limit =
         (user.watchedVilla?.length || 0) +
