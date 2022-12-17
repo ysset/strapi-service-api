@@ -2,6 +2,82 @@ const path = require('path');
 const fs = require('fs');
 const actions = require('../actions');
 
+const getKeyboard = ({ favorite, localisation, table, flatId }) => {
+    if (favorite)
+        return [
+            [
+                {
+                    ...localisation?.NEXT_INLINE,
+                    callback_data: JSON.stringify({
+                        action: actions.NEXT_FLAT,
+                        table,
+                        flatId,
+                    }),
+                },
+            ],
+            [
+                {
+                    ...localisation?.FULL_DESCRIPTION,
+                    callback_data: JSON.stringify({
+                        action: actions.SEARCH_FULL_DESCRIPTION,
+                        table,
+                        flatId,
+                    }),
+                },
+            ],
+            [
+                {
+                    ...localisation?.WRITE_INLINE[table.toLowerCase()],
+                    callback_data: JSON.stringify({
+                        action: actions.SEARCH_WRITE_AGENT,
+                        table,
+                        flatId,
+                    }),
+                },
+            ],
+        ];
+    return [
+        [
+            {
+                ...localisation?.SAVE_INLINE,
+                callback_data: JSON.stringify({
+                    action: actions.SAVE,
+                    table,
+                    flatId,
+                }),
+            },
+            {
+                ...localisation?.NEXT_INLINE,
+                callback_data: JSON.stringify({
+                    action: actions.NEXT_FLAT,
+                    table,
+                    flatId,
+                }),
+            },
+        ],
+        [
+            {
+                ...localisation?.FULL_DESCRIPTION,
+                callback_data: JSON.stringify({
+                    action: actions.SEARCH_FULL_DESCRIPTION,
+                    table,
+                    flatId,
+                }),
+            },
+        ],
+        [
+            {
+                ...localisation?.WRITE_INLINE[table.toLowerCase()],
+                callback_data: JSON.stringify({
+                    action: actions.SEARCH_WRITE_AGENT,
+                    table,
+                    flatId,
+                }),
+            },
+        ],
+    ];
+};
+
 module.exports = async (bot) => {
     const {
         localisation,
@@ -10,7 +86,6 @@ module.exports = async (bot) => {
         data: { table, flatId },
     } = bot;
     const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
-
     const favorites = {
         Complex: user.favoriteComplex,
         Villa: user.favoriteVilla,
@@ -59,45 +134,7 @@ module.exports = async (bot) => {
             caption,
             parse_mode: 'HTML',
             reply_markup: {
-                inline_keyboard: [
-                    [
-                        {
-                            ...localisation?.SAVE_INLINE,
-                            callback_data: JSON.stringify({
-                                action: actions.SAVE,
-                                table: object.table,
-                                flatId: object.id,
-                            }),
-                        },
-                        {
-                            ...localisation?.NEXT_INLINE,
-                            callback_data: JSON.stringify({
-                                action: actions.SEARCH_FLATS,
-                                table: object.table,
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...localisation?.FULL_DESCRIPTION,
-                            callback_data: JSON.stringify({
-                                action: actions.SEARCH_FULL_DESCRIPTION,
-                                table: object.table,
-                                flatId: object.id,
-                            }),
-                        },
-                    ],
-                    [
-                        {
-                            ...localisation?.WRITE_INLINE[table.toLowerCase()],
-                            callback_data: JSON.stringify({
-                                action: actions.SEARCH_WRITE_AGENT,
-                                table: object.table,
-                                flatId: object.id,
-                            }),
-                        },
-                    ],
-                ],
+                inline_keyboard: getKeyboard({ favorite: object.favorite, flatId, localisation, table }),
             },
         })
         .catch((e) => {
