@@ -40,4 +40,5 @@ module.exports = {
     cancelInfoTour: cancelInfoTourFunc,
     infoTour: infoTourFunc,
     swaffd: swaffd,
+    cancelInfoTour: require('./cancelInfoTour'),
 };

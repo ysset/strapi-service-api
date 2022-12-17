@@ -32,6 +32,7 @@ const inlineCallBacks = {
     SFDNF: callbacks.SFDNF,
     INF_TOUR: callbacks.INF_TOUR,
     [actions.SEARCH_WRITE_AGENT_FOR_FULL_DESCRIPTION]: callbacks.swaffd,
+    [actions.CANCEL_INFO_TOUR_INLINE]: callbacks.cancelInfoTour,
 };
 
 module.exports = {
