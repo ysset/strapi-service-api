@@ -67,15 +67,14 @@ module.exports = {
     },
     [actions.presentation.INF_TOUR]: async (bot) => {
         const {
-            user: { telegramID: userTelegramId, username },
+            user: { telegramID: userTelegramId, username, phoneNumber },
             localisation,
         } = bot;
         await bot.reply(bot.localisation.freeTourDescription);
-        const { telegramID: agentTelegramId } = await strapi.entityService.findOne('api::agent.agent', 1);
         const userMessage = localisation.INF_TOUR;
-        const realtorMessage = localisation.infoTourRealtor({ username });
+        const realtorMessage = localisation.infoTourRealtor({ username, phoneNumber });
 
-        await bot.sendMessage(agentTelegramId, realtorMessage, { parse_mode: 'HTML' }).catch(console.error);
+        await bot.sendMessage(userTelegramId, realtorMessage, { parse_mode: 'HTML' }).catch(console.error);
 
         await bot.sendMessage(userTelegramId, userMessage).catch(console.error);
 

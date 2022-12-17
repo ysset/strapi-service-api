@@ -152,7 +152,10 @@ module.exports = {
             );
         },
     },
-    infoTourRealtor: ({ username }) => `@${username} хочет на инфотур`,
+    infoTourRealtor: ({ username, phoneNumber }) =>
+        `Пользователь хочет на инфотур\n` +
+        `${username ? `@${username}` : ''}\n` +
+        `${phoneNumber ? `${phoneNumber}` : ''}`,
     housingFullDescription: {
         complex: (params) => {
             let {
