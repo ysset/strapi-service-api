@@ -21,7 +21,10 @@ module.exports = {
         text: 'I want to take a free tour 🚀!',
     },
     INF_TOUR: 'You are signed up for a free tour! Our manager will contact you soon!',
-    INF_TOUR_REALTOR: ({ username }) => `@${username} wants info tour`,
+    INF_TOUR_REALTOR: ({ username, phoneNumber }) =>
+        `User wants info tour\n` +
+        `${username ? `@${username}` : ''}\n` +
+        `${phoneNumber ? `${phoneNumber}` : ''}`,
     CANCEL_INFO_TOUR_INLINE: {
         text: `'I don't want to go to info tour'`,
     },
