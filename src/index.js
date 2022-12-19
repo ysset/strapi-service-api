@@ -49,27 +49,27 @@ module.exports = {
         });
         if (agents.length || owner) {
             for (let object of complexes) {
-                const { city, id } =
-                    agents.find((el) => object.localisation.some((agent) => el.city === agent.city)) || {};
+                const { id } =
+                    agents.find((agent) => object.localisation.some((el) => el.city === agent.city)) || {};
                 if (id || owner)
                     await strapi.entityService.update('api::complex.complex', object.id, {
-                        data: { agent: object.localisation.some((el) => el.city === city) ? id : owner.id },
+                        data: { agent: id || owner.id },
                     });
             }
             for (let object of villas) {
-                const { city, id } =
+                const { id } =
                     agents.find((el) => object.localisation.some((agent) => el.city === agent.city)) || {};
                 if (id || owner)
                     await strapi.entityService.update('api::villa.villa', object.id, {
-                        data: { agent: object.localisation.some((el) => el.city === city) ? id : owner.id },
+                        data: { agent: id || owner.id },
                     });
             }
             for (let object of owners) {
-                const { city, id } =
+                const { id } =
                     agents.find((el) => object.localisation.some((agent) => el.city === agent.city)) || {};
                 if (id || owner)
                     await strapi.entityService.update('api::owner.owner', object.id, {
-                        data: { agent: object.localisation.some((el) => el.city === city) ? id : owner.id },
+                        data: { agent: id || owner.id },
                     });
             }
         }
