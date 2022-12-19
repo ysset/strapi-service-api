@@ -2,20 +2,27 @@ module.exports = {
     async afterCreate(event) {
         const { result } = event;
         if (result.agent) return event;
-        const city = result.localisation[0].city;
+        const cityEn = result.localisation.find((el) => el.language === 'en')?.city;
+        const cityRu = result.localisation.find((el) => el.language === 'ru')?.city;
 
-        const [agent] = await strapi.entityService.findMany('api::agent.agent', {
-            filters: { city },
-            fields: ['id'],
-        });
-
-        let [randAgent] = await strapi.entityService.findMany('api::agent.agent', {
-            filters: { $not: { city: null } },
-        });
-
-        await strapi.entityService.update('api::complex.complex', result.id, {
-            data: { agent: agent?.id || randAgent.id || 1 },
-        });
+        if (cityEn || cityRu) {
+            const [agent] = await strapi.entityService.findMany('api::agent.agent', {
+                filters:
+                    cityRu && cityEn
+                        ? { $or: [{ city: cityEn }, { city: cityRu }] }
+                        : { city: cityRu || cityEn },
+                fields: ['id'],
+            });
+            const [owner] = await strapi.entityService.findMany('api::agent.agent', {
+                filters: { isOwner: true },
+                fields: ['id'],
+            });
+            if (agent || owner) {
+                await strapi.entityService.update('api::complex.complex', result.id, {
+                    data: { agent: agent?.id || owner.id },
+                });
+            }
+        }
 
         return event;
     },

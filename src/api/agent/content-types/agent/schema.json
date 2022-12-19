@@ -49,6 +49,9 @@
     },
     "city": {
       "type": "string"
+    },
+    "isOwner": {
+      "type": "boolean"
     }
   }
 }
