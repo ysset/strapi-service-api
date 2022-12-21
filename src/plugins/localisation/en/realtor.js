@@ -179,7 +179,7 @@ module.exports = {
                 `<b>Price from € ${beautifyBigNum(cost)}</b>\n\n` +
                 `City: ${city}\n\n` +
                 `District: ${district}\n\n` +
-                `Complex area: ${beautifyBigNum(area)} m²\n\n` +
+                `${area ? `Complex area: ${beautifyBigNum(area)} м²\n\n` : ''}` +
                 `${
                     metersFromTheSea ? `To the Mediterranean: ${beautifyBigNum(metersFromTheSea)} \n\n` : ''
                 }` +

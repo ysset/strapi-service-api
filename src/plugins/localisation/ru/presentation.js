@@ -185,7 +185,7 @@ module.exports = {
                 `<b>Цена от € ${beautifyBigNum(cost)}</b>\n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
-                `Tерритория комплекса: ${beautifyBigNum(area)} м²\n\n` +
+                `${area ? `Tерритория комплекса: ${beautifyBigNum(area)} м²\n\n` : ''}` +
                 `До Средиземного моря: ${beautifyBigNum(metersFromTheSea)} м\n\n` +
                 `${paymentMethod ? `Способ оплаты: ${paymentMethod}\n\n` : ''}` +
                 `${caption}\n\n` +
