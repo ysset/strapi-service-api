@@ -35,7 +35,7 @@
     },
     "area": {
       "type": "integer",
-      "required": true
+      "required": false
     },
     "paymentMethod": {
       "type": "string",
