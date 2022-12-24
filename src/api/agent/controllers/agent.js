@@ -112,8 +112,10 @@ module.exports = createCoreController('api::agent.agent', {
         const villaCities = await getData({ api: 'api::villa.villa', field: 'city', language });
         const ownerCities = await getData({ api: 'api::owner.owner', field: 'city', language });
         return {
-            developer: [...new Set([...complexCities, ...villaCities])].sort(),
-            owner: [...new Set(ownerCities)].sort(),
+            developer: [
+                ...new Set([...complexCities.map((el) => el.trim()), ...villaCities.map((el) => el.trim())]),
+            ].sort(),
+            owner: [...new Set(ownerCities.map((el) => el.trim()))].sort(),
         };
     },
 
