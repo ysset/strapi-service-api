@@ -7,4 +7,6 @@ module.exports = async (bot) => {
         data: { canceled: true },
     });
     strapi.bots.admin.deleteMessage(chatId, msgId);
+    await bot.delete();
+    bot.reply(bot.localisation.INFO_TOUR_CANCELED);
 };

@@ -13,7 +13,11 @@ module.exports = async (bot) => {
     }
     const { user, chatId } = await getUser(bot.msg);
 
-    const { telegramID: agentTelegramId } = await strapi.entityService.findOne('api::agent.agent', 1);
+    const [{ telegramID: ownerTelegramId }] = await strapi.entityService.findMany('api::agent.agent', {
+        filters: {
+            isOwner: true,
+        },
+    });
     const userMessage = localisation.INF_TOUR;
     const realtorMessage = localisation.INF_TOUR_REALTOR({
         username: user.username,
@@ -27,7 +31,7 @@ module.exports = async (bot) => {
     });
 
     const { message_id } = await strapi.bots.admin
-        .sendMessage(agentTelegramId, realtorMessage, { parse_mode: 'HTML' })
+        .sendMessage(ownerTelegramId, realtorMessage, { parse_mode: 'HTML' })
         .catch(console.error);
 
     await bot

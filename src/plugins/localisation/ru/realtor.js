@@ -28,6 +28,7 @@ module.exports = {
     CANCEL_INFO_TOUR_INLINE: {
         text: 'Не хочу на инфотур',
     },
+    INFO_TOUR_CANCELED: 'Инфотур отменен',
     GET_USER_INFO_SUCCESS: '✅',
     START: {
         text: '/start',
