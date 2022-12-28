@@ -1,6 +1,7 @@
 const recommendations = require('../../../../botUtils/botManager/recommendationManager');
 const actions = require('../actions');
 const searchFlatById = require('./searchFlatById');
+const searchFlats = require('./searchFlats');
 
 module.exports = async (bot) => {
     if (!bot.user) return;
@@ -33,7 +34,26 @@ module.exports = async (bot) => {
         }
 
         await bot.delete();
-        await searchFlatById(bot);
+
+        await bot
+            .sendMessage(chatId, localisation?.SAVED, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                ...localisation?.FAVORITE,
+                                callback_data: JSON.stringify({
+                                    action: actions.FAVORITE_HOUSINGS,
+                                }),
+                            },
+                        ],
+                    ],
+                },
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+        searchFlatById(bot);
     } else {
         await bot.editMessageReplyMarkup(
             {
@@ -55,24 +75,25 @@ module.exports = async (bot) => {
                 message_id: messageId,
             }
         );
-    }
 
-    await bot
-        .sendMessage(chatId, localisation?.SAVED, {
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        {
-                            ...localisation?.FAVORITE,
-                            callback_data: JSON.stringify({
-                                action: actions.FAVORITE_HOUSINGS,
-                            }),
-                        },
+        await bot
+            .sendMessage(chatId, localisation?.SAVED, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            {
+                                ...localisation?.FAVORITE,
+                                callback_data: JSON.stringify({
+                                    action: actions.FAVORITE_HOUSINGS,
+                                }),
+                            },
+                        ],
                     ],
-                ],
-            },
-        })
-        .catch((e) => {
-            console.error(e);
-        });
+                },
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+        searchFlats(bot);
+    }
 };
