@@ -1,6 +1,6 @@
 const recommendations = require('../../../../botUtils/botManager/recommendationManager');
-const searchFlats = require('./searchFlats');
 const actions = require('../actions');
+const searchFlatById = require('./searchFlatById');
 
 module.exports = async (bot) => {
     if (!bot.user) return;
@@ -22,26 +22,40 @@ module.exports = async (bot) => {
             console.error(e);
         });
 
-    await bot.editMessageReplyMarkup(
-        {
-            inline_keyboard: [
-                [
-                    {
-                        ...localisation?.WRITE_AGENT_INLINE,
-                        callback_data: JSON.stringify({
-                            action: actions.SEARCH_WRITE_AGENT,
-                            table,
-                            flatId,
-                        }),
-                    },
-                ],
-            ],
-        },
-        {
-            chat_id: chatId,
-            message_id: messageId,
+    const [history] = await strapi.entityService.findMany('api::message-history.message-history', {
+        filters: { callbackMessage: parseInt(messageId) },
+        populate: '*',
+    });
+
+    if (history) {
+        for (const { messageId } of history.messages) {
+            await bot.deleteById(messageId);
         }
-    );
+
+        await bot.delete();
+        await searchFlatById(bot);
+    } else {
+        await bot.editMessageReplyMarkup(
+            {
+                inline_keyboard: [
+                    [
+                        {
+                            ...localisation?.WRITE_AGENT_INLINE,
+                            callback_data: JSON.stringify({
+                                action: actions.SEARCH_WRITE_AGENT,
+                                table,
+                                flatId,
+                            }),
+                        },
+                    ],
+                ],
+            },
+            {
+                chat_id: chatId,
+                message_id: messageId,
+            }
+        );
+    }
 
     await bot
         .sendMessage(chatId, localisation?.SAVED, {
@@ -61,6 +75,4 @@ module.exports = async (bot) => {
         .catch((e) => {
             console.error(e);
         });
-
-    await searchFlats(bot);
 };

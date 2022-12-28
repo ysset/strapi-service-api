@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const actions = require('../actions');
+const { getUser } = require('../../../../../utils');
 
 const getKeyboard = ({ favorite, localisation, table, flatId, writeAgent }) => {
     if (favorite && writeAgent)
@@ -135,20 +136,19 @@ const getKeyboard = ({ favorite, localisation, table, flatId, writeAgent }) => {
 module.exports = async (bot, writeAgent) => {
     const {
         localisation,
-        user,
         chatId,
         data: { table, flatId },
     } = bot;
     const api = `api::${table.toLowerCase()}.${table.toLowerCase()}`;
+    const { user } = await getUser(bot.msg);
     const favorites = {
         Complex: user.favoriteComplex,
         Villa: user.favoriteVilla,
         Owner: user.favoriteOwner,
     };
 
-    let [object] = await strapi.entityService
-        .findMany(api, {
-            filters: { id: flatId },
+    let object = await strapi.entityService
+        .findOne(api, flatId, {
             populate: {
                 localisation: {
                     populate: {
@@ -162,14 +162,12 @@ module.exports = async (bot, writeAgent) => {
                 agent: true,
             },
         })
-        .then((r) =>
-            r.map((el) => {
-                el.table = table;
-                el.api = api;
-                if (favorites[table].some((favorite) => favorite.id === el.id)) el.favorite = true;
-                return el;
-            })
-        )
+        .then((el) => {
+            el.table = table;
+            el.api = api;
+            if (favorites[table].some((favorite) => favorite.id === el.id)) el.favorite = true;
+            return el;
+        })
         .catch(console.error);
 
     object.localisation = object.localisation.find((rec) => rec.language === 'ru' || rec.language === 'en');
