@@ -77,7 +77,13 @@ module.exports = async (bot) => {
 
     const agentCities = agents.map((el) => JSON.parse(el.city)).flat(1);
 
-    const cities = [...new Set([...complexCities, ...villaCities, ...ownerCities])]
+    const cities = [
+        ...new Set([
+            ...complexCities.map((el) => el.trim()),
+            ...villaCities.map((el) => el.trim()),
+            ...ownerCities.map((el) => el.trim()),
+        ]),
+    ]
         .flat(1)
         .filter((city) => !agentCities.some((el) => el === city));
     const inline_keyboard = cities.map((city) => {
