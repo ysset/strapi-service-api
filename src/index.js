@@ -6,6 +6,7 @@ const getData = async ({ api, field }) =>
                 fields: [field],
             },
             agent: true,
+            createdBy: true,
         },
     });
 
@@ -39,7 +40,19 @@ module.exports = {
         const complexes = await getData({ api: 'api::complex.complex', field: 'city' });
         const villas = await getData({ api: 'api::villa.villa', field: 'city' });
         const owners = await getData({ api: 'api::owner.owner', field: 'city' });
-
+        const managers = [...new Set(complexes.map((el) => el.createdBy.firstname))];
+        const objects = { complexes, villas, owners };
+        const count = [];
+        managers.forEach((manger) => {
+            for (const el in objects) {
+                count.push({
+                    [el + ' ' + manger]: objects[el].filter(
+                        (complex) => complex.createdBy.firstname === manger
+                    ).length,
+                });
+            }
+        });
+        console.log(count);
         let agents = await strapi.entityService.findMany('api::agent.agent', {
             filters: { $not: { city: null } },
         });
