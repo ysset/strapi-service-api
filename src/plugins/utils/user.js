@@ -83,7 +83,7 @@ const modifyRequestWithUserData = async ({ msg, bot }) => {
 
     const isFlatFavorite = favorites.find((el) => el.id === msg.data?.flatId);
 
-    bot.reply = (text, form = {}) => bot.sendMessage(chatId, text, form);
+    bot.reply = (text, form) => bot.sendMessage(chatId, text, form);
     bot.delete = (form = {}) => bot.deleteMessage(chatId, messageId, form);
     bot.deleteById = (messageId, form = {}) => bot.deleteMessage(chatId, messageId, form);
     bot.msg = msg;

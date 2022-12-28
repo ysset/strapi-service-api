@@ -67,7 +67,7 @@ module.exports = async (bot) => {
                 inline_keyboard: [
                     [
                         {
-                            ...localisation.COMPLETE_SEARCHING,
+                            ...localisation.CONTINUE_SEARCHING,
                             callback_data: JSON.stringify({
                                 action: actions.SEARCH_FLATS,
                                 table,

@@ -67,9 +67,10 @@ module.exports = {
     SEARCH: {
         text: 'Поиск 🔍',
     },
-    COMPLETE_SEARCHING: {
+    CONTINUE_SEARCHING: {
         text: 'Продолжить поиск 🔍',
     },
+    CONTINUE_SEARCHING_MESSAGE: 'Продолжить поиск?',
     SELECT_SUBGROUP: {
         text: 'Выберите подгруппу',
     },

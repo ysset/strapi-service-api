@@ -26,7 +26,7 @@ module.exports = async (bot) => {
                 ],
                 [
                     {
-                        ...localisation.COMPLETE_SEARCHING,
+                        ...localisation.CONTINUE_SEARCHING,
                         callback_data: JSON.stringify({
                             action: actions.SEARCH_FLATS,
                             table,

@@ -33,7 +33,7 @@ module.exports = async (bot) => {
             .then((res) => {
                 res.forEach((el) => {
                     el.api = 'api::complex.complex';
-                    el.table = 'complex';
+                    el.table = 'Complex';
                 });
                 return res;
             })
@@ -62,7 +62,7 @@ module.exports = async (bot) => {
             .then((res) => {
                 res.forEach((el) => {
                     el.api = 'api::villa.villa';
-                    el.table = 'villa';
+                    el.table = 'Villa';
                 });
                 return res;
             })
@@ -91,7 +91,7 @@ module.exports = async (bot) => {
             .then((res) => {
                 res.forEach((el) => {
                     el.api = 'api::owner.owner';
-                    el.table = 'owner';
+                    el.table = 'Owner';
                 });
                 return res;
             })
@@ -103,25 +103,25 @@ module.exports = async (bot) => {
         return await bot.sendMessage(chatId, localisation?.NO_FAVORITE_NOW).catch(console.error);
     }
 
-    for (const flat of favoriteHousings) {
+    for (const object of favoriteHousings) {
         let resolvedPath = path.resolve('./index');
-        flat.localisation = flat.localisation.find(
+        object.localisation = object.localisation.find(
             (rec) => rec.language === bot.language || rec.language === 'en'
         );
-        if (!flat.localisation) continue;
+        if (!object.localisation) continue;
         resolvedPath = resolvedPath.split('/');
         resolvedPath.pop();
         resolvedPath = resolvedPath.join('/');
 
         resolvedPath += `/public${
-            flat.layoutPhoto[0].formats.medium
-                ? flat.layoutPhoto[0].formats.medium.url
-                : flat.layoutPhoto[0].formats.thumbnail.url
+            object.layoutPhoto[0].formats.medium
+                ? object.layoutPhoto[0].formats.medium.url
+                : object.layoutPhoto[0].formats.thumbnail.url
         }`;
 
-        const table = flat.table;
-        const flatId = flat.id;
-        const caption = localisation.SHORT_DESCRIPTION[table](flat.localisation);
+        const table = object.table.toLowerCase();
+        const flatId = object.id;
+        const caption = localisation.SHORT_DESCRIPTION[table](object.localisation);
 
         await bot
             .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
@@ -164,4 +164,18 @@ module.exports = async (bot) => {
             })
             .catch(console.error);
     }
+    bot.reply(localisation.CONTINUE_SEARCHING_MESSAGE, {
+        reply_markup: {
+            inline_keyboard: [
+                [
+                    {
+                        ...localisation?.CONTINUE_SEARCHING,
+                        callback_data: JSON.stringify({
+                            action: actions.SEARCH_FLATS,
+                        }),
+                    },
+                ],
+            ],
+        },
+    });
 };

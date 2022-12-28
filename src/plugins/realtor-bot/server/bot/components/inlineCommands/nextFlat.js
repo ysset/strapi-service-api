@@ -1,5 +1,6 @@
 const searchFlats = require('./searchFlats');
 const actions = require('../actions');
+const { getUser } = require('../../../../../utils');
 
 const getKeyboard = ({ favorite, localisation, table, flatId }) => {
     if (favorite)
@@ -61,7 +62,8 @@ const getKeyboard = ({ favorite, localisation, table, flatId }) => {
 
 module.exports = async (bot) => {
     const { table, flatId } = bot.data;
-    const { localisation, chatId, messageId, user } = bot;
+    const { localisation, chatId, messageId } = bot;
+    const { user } = await getUser(bot.msg);
     const favorites = {
         Complex: user.favoriteComplex,
         Villa: user.favoriteVilla,
