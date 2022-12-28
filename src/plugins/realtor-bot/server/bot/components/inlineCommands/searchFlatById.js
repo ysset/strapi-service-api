@@ -2,7 +2,61 @@ const path = require('path');
 const fs = require('fs');
 const actions = require('../actions');
 
-const getKeyboard = ({ favorite, localisation, table, flatId }) => {
+const getKeyboard = ({ favorite, localisation, table, flatId, writeAgent }) => {
+    if (favorite && writeAgent)
+        return [
+            [
+                {
+                    ...localisation?.NEXT_INLINE,
+                    callback_data: JSON.stringify({
+                        action: actions.NEXT_FLAT,
+                        table,
+                        flatId,
+                    }),
+                },
+            ],
+            [
+                {
+                    ...localisation?.FULL_DESCRIPTION,
+                    callback_data: JSON.stringify({
+                        action: actions.SEARCH_FULL_DESCRIPTION,
+                        table,
+                        flatId,
+                    }),
+                },
+            ],
+        ];
+    if (writeAgent)
+        return [
+            [
+                {
+                    ...localisation?.SAVE_INLINE,
+                    callback_data: JSON.stringify({
+                        action: actions.SAVE,
+                        table,
+                        flatId,
+                    }),
+                },
+                {
+                    ...localisation?.NEXT_INLINE,
+                    callback_data: JSON.stringify({
+                        action: actions.NEXT_FLAT,
+                        table,
+                        flatId,
+                    }),
+                },
+            ],
+            [
+                {
+                    ...localisation?.FULL_DESCRIPTION,
+                    callback_data: JSON.stringify({
+                        action: actions.SEARCH_FULL_DESCRIPTION,
+                        table,
+                        flatId,
+                    }),
+                },
+            ],
+        ];
     if (favorite)
         return [
             [
@@ -78,7 +132,7 @@ const getKeyboard = ({ favorite, localisation, table, flatId }) => {
     ];
 };
 
-module.exports = async (bot) => {
+module.exports = async (bot, writeAgent) => {
     const {
         localisation,
         user,
@@ -134,7 +188,13 @@ module.exports = async (bot) => {
             caption,
             parse_mode: 'HTML',
             reply_markup: {
-                inline_keyboard: getKeyboard({ favorite: object.favorite, flatId, localisation, table }),
+                inline_keyboard: getKeyboard({
+                    favorite: object.favorite,
+                    flatId,
+                    localisation,
+                    table,
+                    writeAgent,
+                }),
             },
         })
         .catch((e) => {
