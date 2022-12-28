@@ -21,8 +21,7 @@ const getUser = async (msg) => {
     };
 };
 
-const modifyRequestWithUserData = async (bot) => {
-    const { msg } = bot;
+const modifyRequestWithUserData = async ({ msg, bot }) => {
     let { user, messageId, chatId } = await getUser(msg);
     if (!bot) throw Error('Bot is undefined');
 
@@ -61,14 +60,17 @@ const modifyRequestWithUserData = async (bot) => {
             })
             .catch(console.error);
 
-    return {
-        ...bot,
-        msg,
-        user,
-        localisation: userLang('ru'),
-        messageId,
-        chatId,
-    };
+    bot.reply = (text, form) => bot.sendMessage(chatId, text, form);
+    bot.delete = (form = {}) => bot.deleteMessage(chatId, messageId, form);
+    bot.deleteById = (messageId, form = {}) => bot.deleteMessage(chatId, messageId, form);
+    bot.msg = msg;
+    bot.user = user;
+    bot.data = msg.data;
+    bot.chatId = chatId;
+    bot.messageId = messageId;
+    bot.localisation = userLang(bot);
+
+    return bot;
 };
 
 module.exports = {

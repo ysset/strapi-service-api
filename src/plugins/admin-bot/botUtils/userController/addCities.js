@@ -55,7 +55,7 @@ module.exports = async (bot) => {
     const {
         user: { telegramID },
         localisation,
-        msg,
+        messageId,
     } = bot;
 
     const complexCities = await getData({ api: 'api::complex.complex', field: 'city', language: 'ru' });
@@ -106,7 +106,7 @@ module.exports = async (bot) => {
         bot,
     });
 
-    await bot.deleteMessage(msg.chatId, msg.messageId);
-    await bot.sendMessage(msg.chatId, 'Вы успешно авторизованы');
+    await bot.deleteMessage(telegramID, messageId);
+    await bot.sendMessage(telegramID, 'Вы успешно авторизованы');
     eventStorage.clearEvents(telegramID);
 };

@@ -32,7 +32,7 @@ module.exports = async (bot) => {
     const {
         user: { telegramID, id },
         localisation,
-        msg,
+        messageId,
     } = bot;
 
     const agent = await strapi.entityService.findOne('api::agent.agent', id, {
@@ -72,7 +72,7 @@ module.exports = async (bot) => {
         bot,
     });
 
-    await bot.deleteMessage(msg.chatId, msg.messageId);
-    await bot.sendMessage(msg.chatId, 'Сохранено');
+    await bot.deleteMessage(telegramID, messageId);
+    await bot.sendMessage(telegramID, 'Сохранено');
     eventStorage.clearEvents(telegramID);
 };

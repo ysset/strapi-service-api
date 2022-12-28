@@ -1,11 +1,9 @@
 const { NO_USERNAME } = require('../../../../botUtils/errorHandlers');
 
 module.exports = async (bot) => {
-    const { msg } = bot;
-    const { user, localisation } = msg;
-    if (!process.env.DEVELOPMENT && !msg.user.username) return NO_USERNAME(msg);
-    const messageId = msg.message?.message_id || msg.message_id;
+    const { user, localisation, messageId } = bot;
+    if (!process.env.DEVELOPMENT && !user.username) return NO_USERNAME(bot);
 
-    await bot.sendMessage(user.telegramID, localisation?.WELCOME);
-    return bot.deleteMessage(user.telegramID, messageId);
+    await bot.reply(localisation?.WELCOME);
+    return bot.deleteById(messageId);
 };
