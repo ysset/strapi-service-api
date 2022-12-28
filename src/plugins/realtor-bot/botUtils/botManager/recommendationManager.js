@@ -3,12 +3,14 @@ const getFilters = ({ userFilters, table }) => ({
         $and: [
             { language: userFilters.language },
             userFilters.cities.length ? { city: { $in: userFilters.cities } } : {},
-            {
-                cost: {
-                    $gte: userFilters.prices[0],
-                    $lte: userFilters.prices[1],
-                },
-            },
+            userFilters.prices
+                ? {
+                      cost: {
+                          $gte: userFilters.prices[0],
+                          $lte: userFilters.prices[1],
+                      },
+                  }
+                : {},
             userFilters.layouts.length
                 ? table === 'Owner'
                     ? { layout: userFilters.layouts }
@@ -40,7 +42,14 @@ module.exports = {
                 ...user?.filters?.last,
                 language: local,
             };
-        if (!userFilters) return null;
+        if (!userFilters.tables?.length)
+            userFilters = {
+                cities: [],
+                layouts: [],
+                tables: ['Complex', 'Villa'],
+                type: 'developer',
+                language: 'ru',
+            };
         let watched = {
             Complex: user.watchedComplex || [],
             Villa: user.watchedVilla || [],

@@ -11,19 +11,23 @@ module.exports = async (bot) => {
                 keyboard: [
                     [
                         {
-                            ...localisation.CONTROL_PANEL,
+                            ...localisation.SEARCH,
+                            callback_data: actions.SEARCH_FLATS,
+                        },
+                        {
+                            ...localisation.SEARCH_BY,
                             web_app: {
                                 url:
                                     process.env.REALTOR_WEB_APP_URL +
                                     `${bot.type.toLowerCase()}?language=${bot.language.toLowerCase()}`,
                             },
                         },
+                    ],
+                    [
                         {
                             ...localisation.FAVORITE,
                             callback_data: JSON.stringify({ action: actions.FAVORITE_HOUSINGS }),
                         },
-                    ],
-                    [
                         {
                             ...localisation.INF_TOUR_BUTTON,
                             callback_data: JSON.stringify({ action: actions.INF_TOUR }),

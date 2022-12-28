@@ -75,6 +75,12 @@ module.exports = async () => {
             if (query.text === 'I want to take a free tour 🚀!') {
                 return inlineCallBacks.INF_TOUR(await modifyRequestWithUserData({ msg: query, bot }));
             }
+            if (query.text === 'Поиск 🔍') {
+                return inlineCallBacks.SEARCH_FLATS(await modifyRequestWithUserData({ msg: query, bot }));
+            }
+            if (query.text === 'Search 🔍') {
+                return inlineCallBacks.SEARCH_FLATS(await modifyRequestWithUserData({ msg: query, bot }));
+            }
 
             if (
                 query.text === 'start' ||
