@@ -12,10 +12,6 @@ module.exports = async (bot) => {
                     [
                         {
                             ...localisation.SEARCH,
-                            callback_data: actions.SEARCH_FLATS,
-                        },
-                        {
-                            ...localisation.SEARCH_BY,
                             web_app: {
                                 url:
                                     process.env.REALTOR_WEB_APP_URL +

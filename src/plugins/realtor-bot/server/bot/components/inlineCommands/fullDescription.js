@@ -34,7 +34,7 @@ module.exports = async (bot) => {
     resolvedPath = resolvedPath.split('/');
     resolvedPath.pop();
     resolvedPath = resolvedPath.join('/');
-
+    object.layoutPhoto.shift();
     object.layoutPhoto.forEach((photo, i) => {
         if (!photo || !photo.formats) return;
         const index = parseInt(i / 10);
