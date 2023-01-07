@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- *  complex controller
+ * object controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::complex.complex');
+module.exports = createCoreController('api::object.object');

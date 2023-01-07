@@ -25,30 +25,6 @@
       "type": "boolean",
       "default": true
     },
-    "watchedComplex": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::complex.complex",
-      "inversedBy": "watchedUsers"
-    },
-    "watchedVilla": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::villa.villa",
-      "inversedBy": "watchedUsers"
-    },
-    "favoriteVilla": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::villa.villa",
-      "mappedBy": "favoriteUsers"
-    },
-    "favoriteComplex": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::complex.complex",
-      "mappedBy": "favoriteUsers"
-    },
     "filters": {
       "type": "json"
     },
@@ -81,6 +57,18 @@
       "relation": "manyToMany",
       "target": "api::owner.owner",
       "mappedBy": "favoriteUsers"
+    },
+    "watchedObjects": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::object.object",
+      "inversedBy": "watchedUsers"
+    },
+    "favoriteObjects": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::object.object",
+      "inversedBy": "favoriteUsers"
     }
   }
 }

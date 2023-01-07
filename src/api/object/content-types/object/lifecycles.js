@@ -18,7 +18,7 @@ module.exports = {
                 fields: ['id'],
             });
             if (agent || owner) {
-                await strapi.entityService.update('api::complex.complex', result.id, {
+                await strapi.entityService.update('api::object.object', result.id, {
                     data: { agent: agent?.id || owner.id },
                 });
             }

@@ -22,20 +22,10 @@
       "relation": "oneToOne",
       "target": "api::agent.agent"
     },
-    "complex": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::complex.complex"
-    },
     "owner": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::owner.owner"
-    },
-    "villa": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::villa.villa"
     },
     "canceled": {
       "type": "boolean",

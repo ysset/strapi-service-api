@@ -37,22 +37,7 @@ module.exports = {
      * run jobs, or perform some special logic.
      */
     async bootstrap({ strapi }) {
-        const complexes = await getData({ api: 'api::complex.complex', field: 'city' });
-        const villas = await getData({ api: 'api::villa.villa', field: 'city' });
         const owners = await getData({ api: 'api::owner.owner', field: 'city' });
-        const managers = [...new Set(complexes.map((el) => el.createdBy.firstname))];
-        const objects = { complexes, villas, owners };
-        const count = [];
-        managers.forEach((manger) => {
-            for (const el in objects) {
-                count.push({
-                    [el + ' ' + manger]: objects[el].filter(
-                        (complex) => complex.createdBy.firstname === manger
-                    ).length,
-                });
-            }
-        });
-        console.log(count);
         let agents = await strapi.entityService.findMany('api::agent.agent', {
             filters: { $not: { city: null } },
         });
@@ -61,22 +46,6 @@ module.exports = {
             fields: ['id'],
         });
         if (agents.length || owner) {
-            for (let object of complexes) {
-                const { id } =
-                    agents.find((agent) => object.localisation.some((el) => el.city === agent.city)) || {};
-                if (id || owner)
-                    await strapi.entityService.update('api::complex.complex', object.id, {
-                        data: { agent: id || owner.id },
-                    });
-            }
-            for (let object of villas) {
-                const { id } =
-                    agents.find((el) => object.localisation.some((agent) => el.city === agent.city)) || {};
-                if (id || owner)
-                    await strapi.entityService.update('api::villa.villa', object.id, {
-                        data: { agent: id || owner.id },
-                    });
-            }
             for (let object of owners) {
                 const { id } =
                     agents.find((el) => object.localisation.some((agent) => el.city === agent.city)) || {};

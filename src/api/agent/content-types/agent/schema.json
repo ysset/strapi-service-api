@@ -25,18 +25,6 @@
       "relation": "oneToOne",
       "target": "admin::user"
     },
-    "complexes": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::complex.complex",
-      "mappedBy": "agent"
-    },
-    "villas": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::villa.villa",
-      "mappedBy": "agent"
-    },
     "owners": {
       "type": "relation",
       "relation": "oneToMany",
@@ -52,6 +40,12 @@
     },
     "isOwner": {
       "type": "boolean"
+    },
+    "objects": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::object.object",
+      "mappedBy": "agent"
     }
   }
 }

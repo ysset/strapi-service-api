@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * complex service.
+ * object service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::complex.complex');
+module.exports = createCoreService('api::object.object');
