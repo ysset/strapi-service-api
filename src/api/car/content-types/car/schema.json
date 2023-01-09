@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cars",
+  "info": {
+    "singularName": "car",
+    "pluralName": "cars",
+    "displayName": "Bla Bla Car car",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "carNumber": {
+      "type": "string"
+    },
+    "carModel": {
+      "type": "string"
+    },
+    "carInsurancePhoto": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "carPassportPhoto": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "carPhoto": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "placesForPassengers": {
+      "type": "integer"
+    },
+    "baggagePlaces": {
+      "type": "integer"
+    },
+    "isChildChair": {
+      "type": "boolean"
+    },
+    "isAnimals": {
+      "type": "boolean"
+    },
+    "isSmoke": {
+      "type": "boolean"
+    }
+  }
+}

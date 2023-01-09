@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_clients_clients",
+  "info": {
+    "displayName": "clients",
+    "icon": "male"
+  },
+  "options": {},
+  "attributes": {
+    "client": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bla-bla-car-client.bla-bla-car-client"
+    },
+    "canceled": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

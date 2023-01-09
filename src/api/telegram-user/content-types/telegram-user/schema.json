@@ -62,13 +62,13 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::object.object",
-      "inversedBy": "watchedUsers"
+      "mappedBy": "watchedUsers"
     },
     "favoriteObjects": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::object.object",
-      "inversedBy": "favoriteUsers"
+      "mappedBy": "favoriteUsers"
     }
   }
 }

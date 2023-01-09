@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bots",
+  "info": {
+    "singularName": "bot",
+    "pluralName": "bots",
+    "displayName": "Bots",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "token": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "regex": "/^[0-9]{10}:\\w{35}$/"
+    },
+    "name": {
+      "type": "string"
+    },
+    "language": {
+      "type": "enumeration",
+      "enum": [
+        "ru",
+        "en",
+        "ch"
+      ],
+      "required": true,
+      "default": "ru"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "admin",
+        "realtor",
+        "rent",
+        "presentation"
+      ],
+      "required": true
+    },
+    "agency": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::agency.agency",
+      "inversedBy": "bots"
+    }
+  }
+}

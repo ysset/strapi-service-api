@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "agencies",
+  "info": {
+    "singularName": "agency",
+    "pluralName": "agencies",
+    "displayName": "Agency",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "agencyName": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::agent.agent"
+    },
+    "agents": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::agent.agent",
+      "mappedBy": "agency"
+    },
+    "bots": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::bot.bot",
+      "mappedBy": "agency"
+    }
+  }
+}

@@ -34,6 +34,12 @@
     "infoTour": {
       "type": "boolean",
       "default": false
+    },
+    "object": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::object.object",
+      "inversedBy": "log"
     }
   }
 }

@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bla_bla_car_orders",
+  "info": {
+    "singularName": "bla-bla-car-order",
+    "pluralName": "bla-bla-car-orders",
+    "displayName": "Bla Bla Car order"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "departurePoint": {
+      "type": "string"
+    },
+    "arrivalPoint": {
+      "type": "string"
+    },
+    "departureTime": {
+      "type": "datetime"
+    },
+    "arrivalTime": {
+      "type": "datetime"
+    },
+    "isStops": {
+      "type": "boolean"
+    },
+    "car": {
+      "displayName": "cars",
+      "type": "component",
+      "repeatable": true,
+      "component": "bla-bla-car-order.cars"
+    },
+    "payment": {
+      "type": "enumeration",
+      "enum": [
+        "cash",
+        "bank transfer"
+      ]
+    },
+    "bankType": {
+      "type": "enumeration",
+      "enum": [
+        "local",
+        "global"
+      ]
+    }
+  }
+}

@@ -4,20 +4,13 @@ const { createCoreController } = require('@strapi/strapi').factories;
 
 const getData = async ({ api, field, language }) => {
     let res = await strapi.entityService.findMany(api, {
-        filters: {
-            localisation: { language },
-        },
+        locale: ['en', 'ru'],
         populate: {
-            localisation: {
-                fields: ['language', field],
-            },
             agent: true,
         },
     });
     res = res.filter((el) => el.agent);
-    return res.map(
-        (el) => el.localisation.find((el) => el.language === language || el.language === 'en')[field]
-    );
+    return res;
 };
 
 const handleDeveloperComplexes = async () =>
@@ -108,13 +101,11 @@ const handleGetCosts = async () => {
 module.exports = createCoreController('api::agent.agent', {
     getCities: async (ctx) => {
         const language = ctx.params.language;
-        const complexCities = await getData({ api: 'api::complex.complex', field: 'city', language });
-        const villaCities = await getData({ api: 'api::villa.villa', field: 'city', language });
+        const objectCities = await getData({ api: 'api::object.object', field: 'city', language });
         const ownerCities = await getData({ api: 'api::owner.owner', field: 'city', language });
+        console.log(objectCities);
         return {
-            developer: [
-                ...new Set([...complexCities.map((el) => el.trim()), ...villaCities.map((el) => el.trim())]),
-            ].sort(),
+            developer: [...new Set([...objectCities.map((el) => el.trim())])].sort(),
             owner: [...new Set(ownerCities.map((el) => el.trim()))].sort(),
         };
     },

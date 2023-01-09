@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bla_bla_car_clients",
+  "info": {
+    "singularName": "bla-bla-car-client",
+    "pluralName": "bla-bla-car-clients",
+    "displayName": "Bla Bla Car client",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "surname": {
+      "type": "string"
+    },
+    "facePhoto": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "passportPhoto": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "telegramId": {
+      "type": "string"
+    }
+  }
+}

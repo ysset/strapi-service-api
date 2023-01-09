@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_bla_bla_car_order_child_chair_places",
+  "info": {
+    "displayName": "childChairPlace",
+    "icon": "child"
+  },
+  "options": {},
+  "attributes": {
+    "childChairPlaceNumber": {
+      "type": "integer"
+    },
+    "price": {
+      "type": "decimal"
+    }
+  }
+}

@@ -46,6 +46,12 @@
       "relation": "oneToMany",
       "target": "api::object.object",
       "mappedBy": "agent"
+    },
+    "agency": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::agency.agency",
+      "inversedBy": "agents"
     }
   }
 }
