@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bots",
+  "info": {
+    "singularName": "bot",
+    "pluralName": "bots",
+    "displayName": "Bot"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "token": {
+      "type": "string"
+    },
+    "isActive": {
+      "type": "boolean"
+    },
+    "payments": {
+      "displayName": "payments",
+      "type": "component",
+      "repeatable": true,
+      "component": "bots-payments.payments"
+    },
+    "author": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
+    }
+  }
+}

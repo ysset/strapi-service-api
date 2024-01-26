@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_bots_payments_payments",
+  "info": {
+    "displayName": "payments",
+    "icon": "money-bill-alt"
+  },
+  "options": {},
+  "attributes": {
+    "price": {
+      "type": "biginteger"
+    },
+    "paymentDate": {
+      "type": "string"
+    }
+  }
+}
