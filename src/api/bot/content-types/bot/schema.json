@@ -4,7 +4,8 @@
   "info": {
     "singularName": "bot",
     "pluralName": "bots",
-    "displayName": "Bot"
+    "displayName": "Bot",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -12,21 +13,17 @@
   "pluginOptions": {},
   "attributes": {
     "token": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "unique": true
     },
     "isActive": {
       "type": "boolean"
     },
     "payments": {
-      "displayName": "payments",
       "type": "component",
       "repeatable": true,
       "component": "bots-payments.payments"
-    },
-    "author": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "admin::user"
     }
   }
 }

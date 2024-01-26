@@ -3,5 +3,5 @@
 const customAuthor = require('./customAuthor');
 
 module.exports = {
-   customAuthor,
+    customAuthor,
 };

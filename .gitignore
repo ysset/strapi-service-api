@@ -9,10 +9,6 @@ Icon
 .Spotlight-V100
 .Trashes
 ._*
-dumps
-public
-public/robots.txt
-restores
 
 
 ############################
@@ -103,7 +99,6 @@ node_modules
 # Tests
 ############################
 
-testApp
 coverage
 
 ############################
@@ -113,8 +108,7 @@ coverage
 .env
 license.txt
 exports
-*.cache
+.strapi
+dist
 build
 .strapi-updater.json
-yarn.lock
-

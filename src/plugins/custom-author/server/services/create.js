@@ -1,55 +1,56 @@
 'use strict';
-const { v4: uuidv4 } = require('uuid');
+const { v4 } = require('uuid');
+const Email = require('email-templates');
 
 module.exports = ({ strapi }) => ({
     async create(ctx) {
         try {
             const { firstname, lastname, email, botToken } = ctx.request.body;
-            const password = uuidv4();
-            if (!firstname || !lastname || !email || !password) {
+            const password = v4().toString();
+
+            if (!firstname || !lastname || !email || !botToken) {
                 // ctx.badRequest(message, details)
-                return ctx.badRequest(`firstname, lastname, email and password are required fields`);
+               strapi.log.error(`firstname, lastname, email are required fields`)
+                return ctx.badRequest();
             }
 
-            const user = await strapi.db.query('admin::user').findOne({ where: { email: email } });
-            if (user) {
-                strapi.log.error(`Couldn't create author: ${email} already exists`);
-                return ctx.badRequest(`${email} already exists`);
-            }
-            const adminUserData = {
-                firstname,
-                lastname,
-                email,
-                password,
-                roles: [3],
-                blocked: false,
-                isActive: true,
-            };
+            const author = await strapi.db.query('admin::user').findOne({ where: { email: email } });
+            if (!author) {
+               const adminUserData = {
+                  firstname,
+                  lastname,
+                  email,
+                  password,
+                  roles: [3],
+                  blocked: false,
+                  isActive: true,
+               };
 
-            const admin = await strapi.admin.services.user.create(adminUserData);
-            if (!admin) {
-                strapi.log.error(`Couldn't create author: ${email}\n ${admin}`);
-                return ctx.badRequest(admin);
+               const admin = await strapi.admin.services.user.create(adminUserData);
+               if (!admin) {
+                  strapi.log.error(`Couldn't create author: ${email}\n ${admin}`);
+                  return ctx.badRequest(admin);
+               }
             }
 
-            strapi.entityService('api::bot:bot').create({
-                token: botToken,
-            });
+            await strapi.entityService.create('api::bot.bot', {
+               data: {
+                  token: botToken,
+                  isActive: false
+               }
+            }).catch(() => {
+                return ctx.send({ message: 'Внутренняя ошибка сервера, убедитесь что токен бота уникален' }, 500);
+            })
 
             strapi.log.info(`Created author: ${firstname} ${lastname} (${email})`);
             const mailer = new Email({
                 message: {
-                    from: 'telegram_for_business@gmail.com',
+                    from: 'telegramForBusiness@gmail.com',
                     attachments: [
                         {
-                            raw: 'hello',
+                            raw: `email: ${email}\npassword: ${password}`,
                         },
                     ],
-                },
-                // uncomment below to send emails in development/test env:
-                // send: true
-                transport: {
-                    jsonTransport: true,
                 },
             });
             mailer
@@ -61,9 +62,9 @@ module.exports = ({ strapi }) => ({
                 })
                 .then(console.log)
                 .catch(console.error);
-            return ctx.send({ message: 'Author created successfully!', details: response }, 200);
+            return ctx.send({ message: 'Bot created successfully!' }, 200);
         } catch (err) {
-            return ctx.internalServerError(err.message);
+            strapi.log.error(err);
         }
     },
 });
