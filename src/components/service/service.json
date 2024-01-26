@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_service_services",
+  "info": {
+    "displayName": "service",
+    "icon": "hand-holding-usd",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "biginteger",
+      "required": true
+    },
+    "remark": {
+      "type": "text",
+      "maxLength": 100
+    },
+    "comingSoon": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}

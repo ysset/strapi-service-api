@@ -4,71 +4,34 @@
   "info": {
     "singularName": "telegram-user",
     "pluralName": "telegram-users",
-    "displayName": "Telegram user",
-    "description": ""
+    "displayName": "Telegram пользователи"
   },
   "options": {
     "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "telegramID": {
-      "type": "biginteger"
+    "telegramId": {
+      "type": "integer",
+      "required": true
+    },
+    "isBot": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "firstName": {
+      "type": "string",
+      "required": true
+    },
+    "lastName": {
+      "type": "string"
     },
     "username": {
       "type": "string"
     },
     "language": {
       "type": "string"
-    },
-    "showPromo": {
-      "type": "boolean",
-      "default": true
-    },
-    "filters": {
-      "type": "json"
-    },
-    "fullName": {
-      "type": "string"
-    },
-    "phoneNumber": {
-      "type": "string"
-    },
-    "watchedRent": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::rent.rent",
-      "mappedBy": "watchedUsers"
-    },
-    "favoriteRent": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::rent.rent",
-      "mappedBy": "favoriteUsers"
-    },
-    "watchedOwner": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::owner.owner",
-      "mappedBy": "watchedUsers"
-    },
-    "favoriteOwner": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::owner.owner",
-      "mappedBy": "favoriteUsers"
-    },
-    "watchedObjects": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::object.object",
-      "mappedBy": "watchedUsers"
-    },
-    "favoriteObjects": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::object.object",
-      "mappedBy": "favoriteUsers"
     }
   }
 }

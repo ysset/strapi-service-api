@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * telegram-user service.
+ * telegram-user service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
