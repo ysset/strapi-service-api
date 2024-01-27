@@ -1,9 +1,29 @@
 'use strict';
 const { v4 } = require('uuid');
-const Email = require('email-templates');
+const nodemailer = require("nodemailer");
+require('dotenv').config()
+
+const transporter = nodemailer.createTransport({
+    service: 'Yandex',
+    host: process.env.YANDEX_SMTP_HOST,
+    port: process.env.YANDEX_SMTP_PORT,
+    secure: true,
+    auth: {
+        user: process.env.YANDEX_SMTP_USER,
+        pass: process.env.YANDEX_SMTP_USER_PASS,
+    },
+});
+
+transporter.verify(function (error, success) {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log("Server is ready to take our messages");
+    }
+});
 
 module.exports = ({ strapi }) => ({
-    async create(ctx) {
+    async AddNewAuthor(ctx) {
         try {
             const { firstname, lastname, email, botToken } = ctx.request.body;
             const password = v4().toString();
@@ -43,25 +63,12 @@ module.exports = ({ strapi }) => ({
             })
 
             strapi.log.info(`Created author: ${firstname} ${lastname} (${email})`);
-            const mailer = new Email({
-                message: {
-                    from: 'telegramForBusiness@gmail.com',
-                    attachments: [
-                        {
-                            raw: `email: ${email}\npassword: ${password}`,
-                        },
-                    ],
-                },
-            });
-            mailer
-                .send({
-                    template: 'mars',
-                    message: {
-                        to: 'kamdenech@gmail.com',
-                    },
-                })
-                .then(console.log)
-                .catch(console.error);
+            await transporter.sendMail({
+                from: 'kamdenech@yandex.ru',
+                to: "kamdenech@gmail.com",
+                subject: 'Hello',
+                text: "xyi"
+            }, console.log)
             return ctx.send({ message: 'Bot created successfully!' }, 200);
         } catch (err) {
             strapi.log.error(err);

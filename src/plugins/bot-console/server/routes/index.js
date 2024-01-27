@@ -1,12 +1,12 @@
 module.exports = [
     {
         method: 'POST',
-        path: '/create',
-        handler: 'customAuthor.create',
+        path: '/createNewAuthor',
+        handler: 'author.createNewAuthor',
        config: {
           // Set auth to false to pass through to API token validation policy.
           auth: false,
-          policies: ['plugin::custom-author.has-full-access-token']
+          policies: ['plugin::bot-console.has-full-access-token']
        },
     },
 ];
