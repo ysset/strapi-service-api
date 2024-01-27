@@ -64,7 +64,7 @@ module.exports = ({ strapi }) => ({
 
             strapi.log.info(`Created author: ${firstname} ${lastname} (${email})`);
             await transporter.sendMail({
-                from: 'kamdenech@yandex.ru',
+                from: process.env.YANDEX_SMTP_FROM,
                 to: "kamdenech@gmail.com",
                 subject: 'Hello',
                 text: "xyi"
