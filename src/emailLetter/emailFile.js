@@ -238,17 +238,8 @@ module.exports = function (login, pass, payUrl, adminUrl) {
                                            width="100%">
                                         <tr>
                                             <td class="pad">
-                                                <div align="center" class="alignment"><!--[if mso]>
-                                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
-                                                                 xmlns:w="urn:schemas-microsoft-com:office:word"
-                                                                 href="ss"
-                                                                 style="height:38px;width:212px;v-text-anchor:middle;"
-                                                                 arcsize="27%" stroke="false" fillcolor="#20a6b1">
-                                                        <w:anchorlock/>
-                                                        <v:textbox inset="5px,0px,0px,0px">
-                                                            <center style="color:#ffffff; font-family:Tahoma, Verdana, sans-serif; font-size:14px">
-                                                    <![endif]-->
-                                                    <a href={adminUrl} style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#20a6b1;border-radius:10px;width:auto;border-top:0px solid transparent;font-weight:400;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:'Source Sans Pro', Tahoma, Verdana, Segoe, sans-serif;font-size:14px;text-align:center;mso-border-alt:none;word-break:keep-all;"
+                                                <div align="center" class="alignment">
+                                                    <a href=${adminUrl} style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#20a6b1;border-radius:10px;width:auto;border-top:0px solid transparent;font-weight:400;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:'Source Sans Pro', Tahoma, Verdana, Segoe, sans-serif;font-size:14px;text-align:center;mso-border-alt:none;word-break:keep-all;"
                                                        target="_blank"><span
                                                             style="padding-left:40px;padding-right:35px;font-size:14px;display:inline-block;letter-spacing:normal;"><span
                                                             style="word-break:break-word;"><span data-mce-style style>
@@ -263,17 +254,8 @@ module.exports = function (login, pass, payUrl, adminUrl) {
                                            width="100%">
                                         <tr>
                                             <td class="pad">
-                                                <div align="center" class="alignment"><!--[if mso]>
-                                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
-                                                                 xmlns:w="urn:schemas-microsoft-com:office:word"
-                                                                 href="ss"
-                                                                 style="height:38px;width:210px;v-text-anchor:middle;"
-                                                                 arcsize="27%" stroke="false" fillcolor="#3AAEE0">
-                                                        <w:anchorlock/>
-                                                        <v:textbox inset="0px,0px,0px,0px">
-                                                            <center style="color:#ffffff; font-family:Tahoma, Verdana, sans-serif; font-size:14px">
-                                                    <![endif]-->
-                                                    <a href={payUrl} style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#3AAEE0;border-radius:10px;width:auto;border-top:0px solid transparent;font-weight:700;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:'Source Sans Pro', Tahoma, Verdana, Segoe, sans-serif;font-size:14px;text-align:center;mso-border-alt:none;word-break:keep-all;"
+                                                <div align="center" class="alignment">
+                                                    <a href=${payUrl} style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#3AAEE0;border-radius:10px;width:auto;border-top:0px solid transparent;font-weight:700;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:'Source Sans Pro', Tahoma, Verdana, Segoe, sans-serif;font-size:14px;text-align:center;mso-border-alt:none;word-break:keep-all;"
                                                        target="_blank"><span
                                                             style="padding-left:45px;padding-right:45px;font-size:14px;display:inline-block;letter-spacing:normal;"><span
                                                             style="word-break: break-word; line-height: 28px;">ОПЛАТИТЬ УСЛУГИ</span></span></a>
@@ -354,7 +336,7 @@ module.exports = function (login, pass, payUrl, adminUrl) {
                                                         <div class
                                                              style="font-size:14px;font-family:Tahoma,Verdana,Segoe,sans-serif;mso-line-height-alt:16.8px;color:#852976;line-height:1.2">
                                                             <p style="margin:0;font-size:14px;mso-line-height-alt:16.8px">
-                                                                <span style="font-size:12px;color:#000000;">Вы получили это письмо, так как ранее делали заполнили заявку на нашем сайте</span>
+                                                                <span style="font-size:12px;color:#000000;">Вы получили это письмо, так как ранее заполнили заявку на нашем сайте</span>
                                                             </p></div>
                                                     </div>
                                                 </td>

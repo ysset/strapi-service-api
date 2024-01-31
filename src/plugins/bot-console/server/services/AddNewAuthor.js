@@ -31,13 +31,15 @@ module.exports = ({ strapi }) => ({
                   strapi.log.error(`Couldn't create author: ${email}\n ${admin}`);
                   return ctx.badRequest(admin);
                }
+                //TODO каким-то магическим способом создавать ссылку на оплату и брать оплату
+                const payUrl = ''
 
                 strapi.log.info(`Created author: ${firstname} ${lastname} (${email})`);
                 await strapi.mail.sendMail({
                     from: process.env.YANDEX_SMTP_FROM,
                     to: email,
                     subject: "Телеграм для бизнеса",
-                    html: emailFile(email, password, '', process.env.ADMIN_URL)
+                    html: emailFile(email, password, payUrl, process.env.ADMIN_URL)
                 }, (err, info) => {
                     if (err)
                         throw new Error(err)
