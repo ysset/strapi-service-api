@@ -1,5 +1,6 @@
 'use strict';
 const { v4 } = require('uuid');
+const emailFile = require("../../../../emailLetter/emailFile");
 
 module.exports = ({ strapi }) => ({
     async AddNewAuthor(ctx) {
@@ -30,24 +31,36 @@ module.exports = ({ strapi }) => ({
                   strapi.log.error(`Couldn't create author: ${email}\n ${admin}`);
                   return ctx.badRequest(admin);
                }
+
+                strapi.log.info(`Created author: ${firstname} ${lastname} (${email})`);
+                await strapi.mail.sendMail({
+                    from: process.env.YANDEX_SMTP_FROM,
+                    to: email,
+                    subject: "Телеграм для бизнеса",
+                    html: emailFile(email, password, '', process.env.ADMIN_URL)
+                }, (err, info) => {
+                    if (err)
+                        throw new Error(err)
+                    strapi.log.info(`to ${email} -> res: ${info.response}`)
+                })
             }
 
-            await strapi.entityService.create('api::bot.bot', {
-               data: {
-                  token: botToken,
-                  isActive: false
-               }
-            }).catch(() => {
-                return ctx.send({ message: 'Внутренняя ошибка сервера, убедитесь что токен бота уникален' }, 500);
+            const [bot] = await strapi.entityService.findMany('api::bot.bot', {
+                data: {
+                    token: botToken
+                }
             })
 
-            strapi.log.info(`Created author: ${firstname} ${lastname} (${email})`);
-            await strapi.mail.sendMail({
-                from: process.env.YANDEX_SMTP_FROM,
-                to: "kamdenech@gmail.com",
-                subject: 'xaxa',
-                text: "testing meailer"
-            }, console.log)
+            if (!bot) {
+                await strapi.entityService.create('api::bot.bot', {
+                    data: {
+                        token: botToken,
+                        isActive: false
+                    }
+                }).catch((e) => {
+                    throw new Error(e)
+                })
+            }
             return ctx.send({ message: 'Bot created successfully!' }, 200);
         } catch (err) {
             strapi.log.error(err);
