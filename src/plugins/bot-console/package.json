@@ -1,12 +1,12 @@
 {
-  "name": "custom-author",
+  "name": "bot-console",
   "version": "0.0.0",
   "description": "This is the description of the plugin.",
   "strapi": {
-    "name": "custom-author",
+    "name": "Bot console",
     "description": "Description of Custom Author plugin",
     "kind": "plugin",
-    "displayName": "Custom Author"
+    "displayName": "Bot console"
   },
   "dependencies": {},
   "author": {
