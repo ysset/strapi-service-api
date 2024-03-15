@@ -24,6 +24,11 @@
       "type": "component",
       "repeatable": true,
       "component": "bots-payments.payments"
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
     }
   }
 }

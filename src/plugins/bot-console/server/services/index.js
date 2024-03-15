@@ -1,6 +1,6 @@
 'use strict';
 
-const author = require('./AddNewAuthor');
+const author = require('./createNewBot');
 
 module.exports = {
     author,

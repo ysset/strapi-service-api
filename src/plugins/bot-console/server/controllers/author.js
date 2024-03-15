@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = ({ strapi }) => ({
-    createNewAuthor(ctx) {
-        return strapi.plugin('bot-console').service('author').AddNewAuthor(ctx);
+    createNewBot(ctx) {
+        return strapi.plugin('bot-console').service('author').createNewBot(ctx);
     },
 });
