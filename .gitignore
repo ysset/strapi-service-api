@@ -10,7 +10,7 @@ Icon
 .Trashes
 ._*
 dumps
-public
+# public
 public/robots.txt
 restores
 
@@ -84,7 +84,7 @@ $RECYCLE.BIN/
 ssl
 .idea
 nbproject
-public/uploads/*
+# public/uploads/*
 !public/uploads/.gitkeep
 
 ############################
