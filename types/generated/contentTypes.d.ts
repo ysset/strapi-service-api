@@ -309,6 +309,8 @@ export interface ApiBotBot extends Schema.CollectionType {
         isActive: Attribute.Boolean;
         payments: Attribute.Component<'bots-payments.payments', true>;
         owner: Attribute.Relation<'api::bot.bot', 'oneToOne', 'admin::user'>;
+        type: Attribute.Enumeration<['showcase']>;
+        language: Attribute.Enumeration<['ru', 'en', 'ch']>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'api::bot.bot', 'oneToOne', 'admin::user'> & Attribute.Private;
@@ -321,7 +323,7 @@ export interface ApiServiceTypeServiceType extends Schema.CollectionType {
     info: {
         singularName: 'service-type';
         pluralName: 'service-types';
-        displayName: '\u0421\u0444\u0435\u0440\u044B \u0443\u0441\u043B\u0443\u0433';
+        displayName: '\u0423\u0441\u043B\u0443\u0433\u0438';
         description: '';
     };
     options: {

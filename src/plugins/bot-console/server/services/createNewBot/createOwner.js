@@ -16,8 +16,6 @@ const createBotOwner = async ({firstname, lastname, email, password}) => {
         strapi.log.error(`Couldn't create author: ${email}\n ${owner}`);
         return ctx.badRequest(owner);
     }
-    //TODO каким-то магическим способом создавать ссылку на оплату и брать оплату
-    const payUrl = ''
 
     strapi.log.info(`Created author: ${firstname} ${lastname} (${email})`);
     await strapi.mail.sendMail({

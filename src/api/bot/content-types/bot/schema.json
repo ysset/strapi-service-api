@@ -29,6 +29,20 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "admin::user"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "showcase"
+      ]
+    },
+    "language": {
+      "type": "enumeration",
+      "enum": [
+        "ru",
+        "en",
+        "ch"
+      ]
     }
   }
 }

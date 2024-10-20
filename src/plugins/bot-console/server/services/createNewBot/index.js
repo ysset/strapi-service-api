@@ -41,6 +41,7 @@ module.exports = ({ strapi }) => ({
                     throw new Error(e)
                 })
             }
+            //TODO редирект на страницу оплаты
             return ctx.send({ message: 'Bot created successfully!' }, 200);
         } catch (err) {
             strapi.log.error(err);

@@ -1,19 +1,18 @@
-'use strict';
+"use strict";
 
-/**
- * bot controller
- */
+const { createCoreController } = require("@strapi/strapi").factories;
 
-module.exports = {
-    async getAll(ctx) {
-        const res = strapi.entityService.findMany(
-            "api::bot.bot",
-            {
-               filters: {
-                isActive: true
-               } 
-            }
-        )
-        console.log(res);
-    },
-};
+module.exports = createCoreController("api::bot.bot", ({ strapi }) => ({
+  async findAll(ctx) {
+    const res = strapi.entityService.findMany(
+        "api::bot.bot",
+        {
+           filters: {
+            isActive: true
+           } 
+        }
+    )
+
+    return res;
+  },
+}));
