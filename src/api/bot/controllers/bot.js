@@ -4,6 +4,16 @@
  * bot controller
  */
 
-const { createCoreController } = require('@strapi/strapi').factories;
-
-module.exports = createCoreController('api::bot.bot');
+module.exports = {
+    async getAll(ctx) {
+        const res = strapi.entityService.findMany(
+            "api::bot.bot",
+            {
+               filters: {
+                isActive: true
+               } 
+            }
+        )
+        console.log(res);
+    },
+};

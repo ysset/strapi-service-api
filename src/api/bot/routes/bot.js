@@ -6,4 +6,12 @@
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::bot.bot');
+module.exports = {
+    routes: [
+        { // Path defined with an URL parameter
+            method: 'GET',
+            path: '/bot/all', 
+            handler: 'bot.getAll',
+        }
+    ]
+}
