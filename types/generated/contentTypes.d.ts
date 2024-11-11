@@ -307,10 +307,10 @@ export interface ApiBotBot extends Schema.CollectionType {
     attributes: {
         token: Attribute.String & Attribute.Required & Attribute.Unique;
         isActive: Attribute.Boolean;
-        payments: Attribute.Component<'bots-payments.payments', true>;
         owner: Attribute.Relation<'api::bot.bot', 'oneToOne', 'admin::user'>;
         type: Attribute.Enumeration<['showcase']>;
         language: Attribute.Enumeration<['ru', 'en', 'ch']>;
+        paymentToken: Attribute.String;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'api::bot.bot', 'oneToOne', 'admin::user'> & Attribute.Private;
@@ -660,7 +660,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     };
     options: {
         draftAndPublish: false;
-        timestamps: true;
     };
     attributes: {
         username: Attribute.String &
@@ -692,6 +691,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
         telegramUsername: Attribute.String;
         language: Attribute.String;
         telegramID: Attribute.BigInteger;
+        payments: Attribute.Component<'bots-payments.payments', true>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'plugin::users-permissions.user', 'oneToOne', 'admin::user'> &

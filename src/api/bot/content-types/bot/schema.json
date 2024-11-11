@@ -20,11 +20,6 @@
     "isActive": {
       "type": "boolean"
     },
-    "payments": {
-      "type": "component",
-      "repeatable": true,
-      "component": "bots-payments.payments"
-    },
     "owner": {
       "type": "relation",
       "relation": "oneToOne",
@@ -43,6 +38,9 @@
         "en",
         "ch"
       ]
+    },
+    "paymentToken": {
+      "type": "string"
     }
   }
 }

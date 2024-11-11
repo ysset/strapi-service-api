@@ -3,8 +3,8 @@
 const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::bot.bot", ({ strapi }) => ({
-  async findAll(ctx) {
-    const res = strapi.entityService.findMany(
+  findAll(ctx) {
+    return strapi.entityService.findMany(
         "api::bot.bot",
         {
            filters: {
@@ -12,7 +12,5 @@ module.exports = createCoreController("api::bot.bot", ({ strapi }) => ({
            } 
         }
     )
-
-    return res;
   },
 }));

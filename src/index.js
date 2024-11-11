@@ -5,6 +5,7 @@ const rejectSleep = (time, customReject) =>
     new Promise((_, reject) =>
         setTimeout(() => (customReject ? customReject() : reject('Time is over')), time)
     );
+// @ts-ignore
 Promise.timeout = (promise = Promise, time, customReject) =>
     Promise.race([promise, rejectSleep(time, customReject)]);
 

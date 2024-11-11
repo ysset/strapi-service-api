@@ -9,8 +9,7 @@
     "displayName": "User"
   },
   "options": {
-    "draftAndPublish": false,
-    "timestamps": true
+    "draftAndPublish": false
   },
   "attributes": {
     "username": {
@@ -71,6 +70,11 @@
     },
     "telegramID": {
       "type": "biginteger"
+    },
+    "payments": {
+      "type": "component",
+      "repeatable": true,
+      "component": "bots-payments.payments"
     }
   }
 }

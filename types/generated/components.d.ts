@@ -27,6 +27,8 @@ export interface ServiceService extends Schema.Component {
                 maxLength: 100;
             }>;
         comingSoon: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
+        image: Attribute.Media;
+        needRegistrationOnDate: Attribute.Boolean & Attribute.Required;
     };
 }
 

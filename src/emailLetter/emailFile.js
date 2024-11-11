@@ -1,4 +1,4 @@
-module.exports = function (login, pass, payUrl, adminUrl) {
+module.exports = function (login, pass, payUrl = null, adminUrl) {
     return `
 <html lang="en">
 <head><title></title>
