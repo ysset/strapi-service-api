@@ -4,7 +4,7 @@ module.exports = ({ strapi }) => ({
   index(ctx) {
     ctx.body = strapi
       .plugin('storage')
-      .service('myService')
+      .service('adminService')
       .getWelcomeMessage();
   },
 });

@@ -535,6 +535,28 @@ export interface PluginContentReleasesReleaseAction extends Schema.CollectionTyp
     };
 }
 
+export interface PluginStorageStorage extends Schema.CollectionType {
+    collectionName: 'storages';
+    info: {
+        singularName: 'storage';
+        pluralName: 'storages';
+        displayName: 'storage';
+    };
+    options: {
+        draftAndPublish: true;
+        comment: '';
+    };
+    attributes: {
+        createdAt: Attribute.DateTime;
+        updatedAt: Attribute.DateTime;
+        publishedAt: Attribute.DateTime;
+        createdBy: Attribute.Relation<'plugin::storage.storage', 'oneToOne', 'admin::user'> &
+            Attribute.Private;
+        updatedBy: Attribute.Relation<'plugin::storage.storage', 'oneToOne', 'admin::user'> &
+            Attribute.Private;
+    };
+}
+
 export interface PluginI18NLocale extends Schema.CollectionType {
     collectionName: 'i18n_locale';
     info: {
@@ -718,6 +740,7 @@ declare module '@strapi/types' {
             'plugin::upload.folder': PluginUploadFolder;
             'plugin::content-releases.release': PluginContentReleasesRelease;
             'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+            'plugin::storage.storage': PluginStorageStorage;
             'plugin::i18n.locale': PluginI18NLocale;
             'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
             'plugin::users-permissions.role': PluginUsersPermissionsRole;

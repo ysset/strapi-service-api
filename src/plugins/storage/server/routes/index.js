@@ -1,10 +1,12 @@
 module.exports = [
   {
+    type: 'admin',
     method: 'GET',
-    path: '/',
-    handler: 'myController.index',
+    path: '/all',
+    handler: 'adminController.index',
     config: {
-      policies: [],
+      // policies: ['plugin::storage.has-full-access-token'],
+      auth: false
     },
   },
 ];
