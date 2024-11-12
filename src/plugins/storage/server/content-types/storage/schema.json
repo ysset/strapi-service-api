@@ -1,0 +1,14 @@
+{
+  "kind": "collectionType",
+  "collectionName": "storages",
+  "info": {
+    "singularName": "storage",
+    "pluralName": "storages",
+    "displayName": "storage"
+  },
+  "options": {
+    "draftAndPublish": true,
+    "comment": ""
+  },
+  "attributes": {}
+}

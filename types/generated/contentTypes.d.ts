@@ -323,7 +323,7 @@ export interface ApiServiceTypeServiceType extends Schema.CollectionType {
     info: {
         singularName: 'service-type';
         pluralName: 'service-types';
-        displayName: '\u0423\u0441\u043B\u0443\u0433\u0438';
+        displayName: 'Services';
         description: '';
     };
     options: {
