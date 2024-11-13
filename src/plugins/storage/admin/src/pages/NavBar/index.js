@@ -17,24 +17,18 @@ import { NavLink } from 'react-router-dom';
 
 const NavBar = () => {
 
-    const links = [{
-        id: 1,
-        label: 'Storage',
-        href: '/plugins/storage'
-      }, {
-        id: 2,
-        label: 'Categories',
-        href: '/plugins/'
-      }, {
-        id: 3,
-        label: 'Cities',
-        href: '/plugins/',
-        active: true
-      }, {
-        id: 4,
-        label: 'Countries',
-        href: '/plugins/'
-      }];
+    const links = [
+        {
+            id: 1,
+            label: 'Storage',
+            href: '/plugins/storage'
+        },
+        {
+            id: 2,
+            label: 'Load storage from Excel',
+            href: '/plugins/storage/load'
+        }
+    ];
 
   return (
     <SubNav aria-label="Settings sub nav">

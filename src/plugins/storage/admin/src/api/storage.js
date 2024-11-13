@@ -1,8 +1,11 @@
-import { request } from '@strapi/helper-plugin'
+import axios from 'axios'
 
 const storageListRequet = {
     getList: async () => {
-        return await request('/storage/all')
+        const res = await axios.get('/storage/all')
+        if (res.data.length)
+            return res.data
+        return [null]
     }
 }
 

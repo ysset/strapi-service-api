@@ -41,6 +41,16 @@
     },
     "paymentToken": {
       "type": "string"
+    },
+    "as": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }

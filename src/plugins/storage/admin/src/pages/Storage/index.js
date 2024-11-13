@@ -23,23 +23,26 @@ import {
   IconButton,
   EmptyStateLayout,
   BaseHeaderLayout,
-  ContentLayout
+  ContentLayout,
+  Modal,
+  Button,
+  Field
 } from '@strapi/design-system';
 import { Stack, Pencil, Trash} from '@strapi/icons'
 const Storage = () => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
-  const [taskCount, setTaskCount] = useState(0);
+  const [storageList, setStorageList] = useState(null);
 
   useEffect(() => {
     storageListRequet.getList()
     .then(res => {
-      setTaskCount(res);
+        setStorageList(res);
     })
     .catch(e => {
       console.log(e);
     });
-  }, [setTaskCount]);
+  }, [setStorageList]);
 
   const entry = {
     cover: 'https://avatars.githubusercontent.com/u/3874873?v=4',
@@ -58,15 +61,39 @@ const Storage = () => {
 
   return (
     <>   
-        {taskCount === 0 && (
+        {!storageList && (
             <EmptyStateLayout icon={<Stack />} content="На данный момент склад пуст" />
         )}
-        {taskCount > 0 && (
+        {storageList && storageList.length && (
             <>
                 <BaseHeaderLayout
                     title="Storage plugin"
                     subtitle="Это ваш склад, управлять им так же легко как нажать большую красную кнопку."
                     as="h2"
+                    // action={
+                    //     <Modal.Root>
+                    //         <Modal.Trigger>
+                    //         <Button>Edit Release</Button>
+                    //         </Modal.Trigger>
+                    //         <Modal.Content>
+                    //         <Modal.Header>
+                    //             <Modal.Title>Add to release</Modal.Title>
+                    //         </Modal.Header>
+                    //         <Modal.Body>
+                    //             <Field.Root name="name" required>
+                    //             <Field.Label>Name</Field.Label>
+                    //             <Field.Input />
+                    //             </Field.Root>
+                    //         </Modal.Body>
+                    //         <Modal.Footer>
+                    //             <Modal.Close>
+                    //             <Button variant="tertiary">Cancel</Button>
+                    //             </Modal.Close>
+                    //             <Button>Confirm</Button>
+                    //         </Modal.Footer>
+                    //         </Modal.Content>
+                    //     </Modal.Root>
+                    //   }
                 />
                 <ContentLayout>
                     <Table colCount={COL_COUNT} rowCount={ROW_COUNT}>

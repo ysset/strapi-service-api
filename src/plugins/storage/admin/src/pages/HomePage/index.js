@@ -38,6 +38,7 @@ const App = () => {
             }}>
               <Switch>
                 <Route path={`/plugins/${pluginId}`} component={Storage} exact/>
+                <Route path={`/plugins/${pluginId}/load`} component={Storage} exact/>
                 <Route component={NotFound} />
               </Switch>
             </div>

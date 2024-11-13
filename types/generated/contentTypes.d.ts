@@ -311,6 +311,7 @@ export interface ApiBotBot extends Schema.CollectionType {
         type: Attribute.Enumeration<['showcase']>;
         language: Attribute.Enumeration<['ru', 'en', 'ch']>;
         paymentToken: Attribute.String;
+        as: Attribute.Media;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'api::bot.bot', 'oneToOne', 'admin::user'> & Attribute.Private;
