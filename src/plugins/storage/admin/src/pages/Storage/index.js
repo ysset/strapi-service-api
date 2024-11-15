@@ -24,9 +24,7 @@ import {
   EmptyStateLayout,
   BaseHeaderLayout,
   ContentLayout,
-  Modal,
-  Button,
-  Field
+  Button
 } from '@strapi/design-system';
 import { Stack, Pencil, Trash} from '@strapi/icons'
 const Storage = () => {
@@ -70,30 +68,8 @@ const Storage = () => {
                     title="Storage plugin"
                     subtitle="Это ваш склад, управлять им так же легко как нажать большую красную кнопку."
                     as="h2"
-                    // action={
-                    //     <Modal.Root>
-                    //         <Modal.Trigger>
-                    //         <Button>Edit Release</Button>
-                    //         </Modal.Trigger>
-                    //         <Modal.Content>
-                    //         <Modal.Header>
-                    //             <Modal.Title>Add to release</Modal.Title>
-                    //         </Modal.Header>
-                    //         <Modal.Body>
-                    //             <Field.Root name="name" required>
-                    //             <Field.Label>Name</Field.Label>
-                    //             <Field.Input />
-                    //             </Field.Root>
-                    //         </Modal.Body>
-                    //         <Modal.Footer>
-                    //             <Modal.Close>
-                    //             <Button variant="tertiary">Cancel</Button>
-                    //             </Modal.Close>
-                    //             <Button>Confirm</Button>
-                    //         </Modal.Footer>
-                    //         </Modal.Content>
-                    //     </Modal.Root>
-                    //   }
+                    //TODO кнопка загрузки  таблицыe
+                    primaryAction={<Button>Добавить excel</Button>}
                 />
                 <ContentLayout>
                     <Table colCount={COL_COUNT} rowCount={ROW_COUNT}>

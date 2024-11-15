@@ -9,10 +9,11 @@
     "displayName": "Storage"
   },
   "dependencies": {
-    "@strapi/design-system": "^1.6.3",
     "@strapi/helper-plugin": "^4.6.0",
     "@strapi/icons": "^1.6.3",
     "axios": "^1.7.7",
+    "i": "^0.3.7",
+    "npm": "^10.9.0",
     "prop-types": "^15.7.2"
   },
   "devDependencies": {

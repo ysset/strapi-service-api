@@ -1,4 +1,4 @@
-import type { Schema, Attribute } from '@strapi/strapi';
+import type { Attribute, Schema } from '@strapi/strapi';
 
 export interface BotsPaymentsPayments extends Schema.Component {
     collectionName: 'components_bots_payments_payments';
@@ -7,28 +7,28 @@ export interface BotsPaymentsPayments extends Schema.Component {
         icon: 'money-bill-alt';
     };
     attributes: {
-        price: Attribute.BigInteger;
         paymentDate: Attribute.String;
+        price: Attribute.BigInteger;
     };
 }
 
 export interface ServiceService extends Schema.Component {
     collectionName: 'components_service_services';
     info: {
+        description: '';
         displayName: 'service';
         icon: 'hand-holding-usd';
-        description: '';
     };
     attributes: {
+        comingSoon: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
+        image: Attribute.Media<'images'>;
         name: Attribute.String & Attribute.Required;
+        needRegistrationOnDate: Attribute.Boolean & Attribute.Required;
         price: Attribute.BigInteger & Attribute.Required;
         remark: Attribute.Text &
             Attribute.SetMinMaxLength<{
                 maxLength: 100;
             }>;
-        comingSoon: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
-        image: Attribute.Media;
-        needRegistrationOnDate: Attribute.Boolean & Attribute.Required;
     };
 }
 
