@@ -18,8 +18,6 @@ import {
   Flex,
   Typography,
   Checkbox,
-  VisuallyHidden,
-  Avatar,
   IconButton,
   EmptyStateLayout,
   BaseHeaderLayout,
@@ -28,11 +26,9 @@ import {
 } from '@strapi/design-system';
 import { Stack, Pencil, Trash} from '@strapi/icons'
 import CustomCheckbox from '../../components/Checkbox'
+import LoadFromExcelButton from '../../components/LoadFromExcelButton/index.js';
 
 const Storage = () => {
-  const ROW_COUNT = 6;
-  const COL_COUNT = 10;
-  const [storageList, setStorageList] = useState(null);
   const [data, setData] = useState(
     [
         {
@@ -143,12 +139,12 @@ const Storage = () => {
   useEffect(() => {
     storageListRequet.getList()
     .then(res => {
-        setStorageList(res);
+        // setData(res);
     })
     .catch(e => {
       console.log(e);
     });
-  }, [setStorageList]);
+  }, []);
 
 
   useEffect(() => {
@@ -173,27 +169,26 @@ const Storage = () => {
 
   return (
     <>   
-        {!storageList && (
+        {!data && (
             <EmptyStateLayout icon={<Stack />} content="На данный момент склад пуст" />
         )}
-        {storageList && storageList.length && (
+        {data && data.length && (
             <>
                 <BaseHeaderLayout
                     title="Storage plugin"
                     subtitle="Это ваш склад, управлять им так же легко как нажать большую красную кнопку."
                     as="h2"
-                    //TODO кнопка загрузки  таблицыe
-                    primaryAction={<Button>Добавить из excel файла</Button>}
+                    primaryAction={<LoadFromExcelButton>Добавить из excel файла</LoadFromExcelButton>}
                 />
                 <ContentLayout>
-                    <Table colCount={COL_COUNT} rowCount={ROW_COUNT}>
+                    <Table>
                         <Thead>
                             <Tr>
                                 <Th>
                                     <Checkbox aria-label="Select all entries" />
                                 </Th>
                                 {data.map((e, i) => {
-                                    if(e.visible || isTableOptions)
+                                    if(e && e.visible || isTableOptions)
                                         return(
                                             isTableOptions ? 
                                             <Th>
@@ -216,7 +211,7 @@ const Storage = () => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                        {rows.map((e, i) => 
+                        {rows && rows.map((e, i) => 
                             <Tr key={i}>
                                 <Td>
                                     <Checkbox aria-label={`Select ${1}`} />
