@@ -3,8 +3,10 @@ import {
   Checkbox,
 } from '@strapi/design-system';
 
-const CustomCheckbox = ({children, handleChange}) => {
-  const [checked, setChecked] = useState(true);
+const CustomCheckbox = ({children, handleChange, checkedModificator}) => {
+    console.log(checkedModificator);
+    
+  const [checked, setChecked] = useState(checkedModificator);
 
   const localHandleChange = () => {
     setChecked(!checked)

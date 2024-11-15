@@ -33,7 +33,7 @@ const Storage = () => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
   const [storageList, setStorageList] = useState(null);
-  const [collums, setCollums] = useState(
+  const [data, setData] = useState(
     [
         {
             name: 'Наименование товара',
@@ -134,10 +134,11 @@ const Storage = () => {
     ]
     );
   const [rows, setRows] = useState(null);
+  const [isTableOptions, setIsTableOptions] = useState(false);
 
   useEffect(() => {
-    console.log(collums);
-  }, [collums])
+    console.log(data);
+  }, [data])
 
   useEffect(() => {
     storageListRequet.getList()
@@ -152,8 +153,8 @@ const Storage = () => {
 
   useEffect(() => {
     const local = []
-    for(let i = 0; i <= collums[0].data.length - 1; i++) {
-          local.push(collums.map(e => {
+    for(let i = 0; i <= data[0].data.length - 1; i++) {
+          local.push(data.map(e => {
               return {
                   visible: e.visible,
                   data: e.data[i]
@@ -163,11 +164,11 @@ const Storage = () => {
     console.log(local);
     
     setRows([...local]);
-  }, [collums])
+  }, [data])
   
   const handleChange = (collIndex) => (checked) => {
-    collums[collIndex].visible = checked;
-    setCollums([...collums])
+    data[collIndex].visible = checked;
+    setData([...data])
   }
 
   return (
@@ -191,20 +192,26 @@ const Storage = () => {
                                 <Th>
                                     <Checkbox aria-label="Select all entries" />
                                 </Th>
-                                {collums.map((e, i) => {
-                                    if(e.visible)
+                                {data.map((e, i) => {
+                                    if(e.visible || isTableOptions)
                                         return(
+                                            isTableOptions ? 
                                             <Th>
                                                 <CustomCheckbox
                                                     handleChange={handleChange(i)}
+                                                    checkedModificator={e.visible}
                                                 >
                                                     <Typography variant="sigma">{e.name}</Typography>
                                                 </CustomCheckbox>
                                             </Th>
+                                            :
+                                            <Th>
+                                                <Typography variant="sigma">{e.name}</Typography>
+                                            </Th>
                                         )
                                 })}
                                 <Th>
-                                    <Button>Настроить</Button>
+                                    {!isTableOptions ? <Button onClick={() => setIsTableOptions(!isTableOptions)}>Настроить</Button> : <Button onClick={() => setIsTableOptions(!isTableOptions)}>сохранить</Button>}
                                 </Th>
                             </Tr>
                         </Thead>
@@ -215,7 +222,7 @@ const Storage = () => {
                                     <Checkbox aria-label={`Select ${1}`} />
                                 </Td>
                                     {e.map(row => {
-                                        if(row.visible)
+                                        if(row.visible || isTableOptions)
                                             return (
                                                 <Td>
                                                     <Typography textColor="neutral800">{row.data}</Typography>
