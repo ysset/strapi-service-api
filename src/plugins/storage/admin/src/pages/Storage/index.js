@@ -5,7 +5,7 @@
  *
  */
 
-import { storageListRequet } from '../../api/storage.js';
+import { storageListRequest } from '../../api/storage.js';
 import React, { memo, useState, useEffect } from 'react';
 import { 
   Table,
@@ -34,19 +34,30 @@ const Storage = () => {
   const [isTableOptions, setIsTableOptions] = useState(false);
 
   useEffect(() => {
-    storageListRequet.getList()
-    .then(res => {
-        // setData(res);
+    storageListRequest.getList()
+    .then(storage => {
+        const localRows = JSON.parse(storage)
+        if(localRows) {
+            const collums = localRows.shift();
+            const local = collums?.map(e => ({
+                    name: e,
+                    data: [],
+                    visible: true,
+                }))
+            local.forEach((e, i) => {
+                localRows.forEach(row => {
+                    e.data.push(row[i])
+                })
+            });
+            setData(local)
+        }
     })
-    .catch(e => {
-      console.log(e);
-    });
+    .catch(console.log);
   }, []);
 
 
   useEffect(() => {
     const local = []
-    console.log(data);
     
     if(data){
         for(let i = 0; i <= data[0].data.length - 1; i++) {
@@ -57,10 +68,10 @@ const Storage = () => {
                 }
             }))
         }
-        console.log(local);
         
         setRows([...local]);
     }
+    
   }, [data])
   
   const handleChange = (collIndex) => (checked) => {
@@ -100,7 +111,7 @@ const Storage = () => {
                                     if(e && e.visible || isTableOptions)
                                         return(
                                             isTableOptions ? 
-                                            <Th>
+                                            <Th key={i}>
                                                 <CustomCheckbox
                                                     handleChange={handleChange(i)}
                                                     checkedModificator={e.visible}
@@ -120,34 +131,34 @@ const Storage = () => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                        {rows && rows.map((e, i) => 
-                            <Tr key={i}>
-                                <Td>
-                                    <Checkbox aria-label={`Select ${1}`} />
-                                </Td>
-                                    {e.map(row => {
-                                        if(row.visible || isTableOptions)
-                                            return (
-                                                <Td>
-                                                    <Typography textColor="neutral800">{row.data}</Typography>
-                                                </Td>
-                                            )
-                                    })}
-                                    
-                                <Td>
-                                    <Flex>
-                                        <IconButton onClick={() => console.log('edit')} label="Edit" borderWidth={0}>
-                                            <Pencil />
-                                        </IconButton>
-                                        <Box paddingLeft={1}>
-                                            <IconButton onClick={() => console.log('delete')} label="Delete" borderWidth={0}>
-                                            <Trash />
+                            {rows && rows.map((e, i) => 
+                                <Tr key={i}>
+                                    <Td>
+                                        <Checkbox aria-label={`Select ${1}`} />
+                                    </Td>
+                                        {e.map(row => {
+                                            if(row.visible || isTableOptions)
+                                                return (
+                                                    <Td>
+                                                        <Typography textColor="neutral800">{row.data}</Typography>
+                                                    </Td>
+                                                )
+                                        })}
+                                        
+                                    <Td>
+                                        <Flex>
+                                            <IconButton onClick={() => console.log('edit')} label="Edit" borderWidth={0}>
+                                                <Pencil />
                                             </IconButton>
-                                        </Box>
-                                    </Flex>
-                                </Td>
-                            </Tr>
-                        )}
+                                            <Box paddingLeft={1}>
+                                                <IconButton onClick={() => console.log('delete')} label="Delete" borderWidth={0}>
+                                                <Trash />
+                                                </IconButton>
+                                            </Box>
+                                        </Flex>
+                                    </Td>
+                                </Tr>
+                            )}
                         </Tbody>
                     </Table>
                 </ContentLayout>

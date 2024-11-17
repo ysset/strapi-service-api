@@ -1,7 +1,7 @@
 'use strict';
 
-const adminService = require('./adminservice');
+const storageService = require('./storageService');
 
 module.exports = {
-  adminService,
+  storageService,
 };

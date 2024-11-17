@@ -499,10 +499,12 @@ export interface PluginStorageStorage extends Schema.CollectionType {
         createdAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'plugin::storage.storage', 'oneToOne', 'admin::user'> &
             Attribute.Private;
+        data: Attribute.JSON;
         publishedAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         updatedBy: Attribute.Relation<'plugin::storage.storage', 'oneToOne', 'admin::user'> &
             Attribute.Private;
+        user: Attribute.Relation<'plugin::storage.storage', 'oneToOne', 'admin::user'>;
     };
 }
 

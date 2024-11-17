@@ -8,4 +8,11 @@ module.exports = {
     enabled: true,
     resolve: './src/plugins/storage'
   },
+  'users-permissions': {
+    config: {
+      jwt: {
+        expiresIn: '7d',
+      },
+    },
+  },
 };

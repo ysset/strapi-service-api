@@ -10,5 +10,14 @@
     "draftAndPublish": true,
     "comment": ""
   },
-  "attributes": {}
+  "attributes": {
+    "data": {
+      "type": "json"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
+    }
+  }
 }

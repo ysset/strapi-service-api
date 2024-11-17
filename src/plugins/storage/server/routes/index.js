@@ -5,11 +5,20 @@ module.exports = {
       {
         method: 'GET',
         path: '/all',
-        handler: 'adminController.index',
-        config: {
-          // policies: ['plugin::storage.has-full-access-token'],
-          auth: false
-        },
+        handler: 'userStorage.getAll',
+        config: {},
+      },
+      {
+        method: 'PUT',
+        path: '/new',
+        handler: 'userStorage.saveNewList',
+        config: {},
+      },
+      {
+        method: 'DELETE',
+        path: '/:id',
+        handler: 'userStorage.delete',
+        config: {},
       }
     ]
   }

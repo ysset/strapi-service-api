@@ -1,7 +1,7 @@
 'use strict';
 
-const adminController = require('./adminController');
+const userStorage = require('./userStorage');
 
 module.exports = {
-  adminController,
+  userStorage,
 };
