@@ -27,32 +27,52 @@ import {
 import { Stack, Pencil, Trash} from '@strapi/icons'
 import CustomCheckbox from '../../components/Checkbox'
 import LoadFromExcelButton from '../../components/LoadFromExcelButton/index.js';
+import { useSelector, useDispatch, useStore } from "react-redux";
+import pluginId from '../../pluginId.js'
+
+const statePath = `${pluginId}_excelKeeper`
 
 const Storage = () => {
-  const [data, setData] = useState(null);
+  const state = useSelector(state => state[`${pluginId}_excelKeeper`].data)
+  const dispatch = useDispatch();
+  const store = useStore()
+  const [data, setData] = useState(store.getState().data);
   const [rows, setRows] = useState(null);
   const [isTableOptions, setIsTableOptions] = useState(false);
 
   useEffect(() => {
-    storageListRequest.getList()
-    .then(storage => {
-        const localRows = JSON.parse(storage)
-        if(localRows) {
-            const collums = localRows.shift();
-            const local = collums?.map(e => ({
-                    name: e,
-                    data: [],
-                    visible: true,
-                }))
-            local.forEach((e, i) => {
-                localRows.forEach(row => {
-                    e.data.push(row[i])
-                })
-            });
-            setData(local)
-        }
+    if(state && state.length)
+        setData(state)
+
+    store.subscribe(() => {
+        setData(store.getState()[statePath].data)
     })
-    .catch(console.log);
+  }, [])
+
+  useEffect(() => {
+    if(!state)
+        storageListRequest.getList()
+        .then(storage => {
+            const localRows = JSON.parse(storage)
+            if(localRows) {
+                const collums = localRows.shift();
+                const local = collums?.map(e => ({
+                        name: e,
+                        data: [],
+                        visible: true,
+                    }))
+                local.forEach((e, i) => {
+                    localRows.forEach(row => {
+                        e.data.push(row[i])
+                    })
+                });
+                dispatch({
+                    type: "DATA_SAVE",
+                    payload: local
+                })
+            }
+        })
+        .catch(console.log);
   }, []);
 
 

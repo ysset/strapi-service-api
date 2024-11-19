@@ -3,8 +3,14 @@ import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
+import UserReducer from './redux/UserReducer';
 
 const name = pluginPkg.strapi.name;
+
+const reducers = {
+  // Reducer Syntax
+  [`${pluginId}_excelKeeper`]: UserReducer
+}
 
 export default {
   register(app) {
@@ -34,6 +40,9 @@ export default {
       isReady: false,
       name,
     });
+    app.addReducers(reducers)
+    console.log(app);
+    
   },
 
   bootstrap(app) {},

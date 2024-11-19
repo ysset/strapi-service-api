@@ -10,8 +10,12 @@ module.exports = ({ strapi }) => ({
       }
     })
     
-    return {storage: storage.data};
+    if(storage)
+      return {storage: storage.data};
+
+    return { error: true }
   },
+
   async saveNewList(user, data) {
     const isSaved = await strapi.entityService.findMany('plugin::storage.storage', {
       populate: '*',
@@ -29,7 +33,7 @@ module.exports = ({ strapi }) => ({
       .catch(console.log)
       console.log(storage);
       
-      return { ok: true, storage }
+      return { storage: storage.data }
     }
     return await strapi.entityService.update('plugin::storage.storage', isSaved.id,{
       data: {
@@ -37,6 +41,7 @@ module.exports = ({ strapi }) => ({
       }
     })
   },
+
   async delete(id) {
     return await strapi.entityService.delete('plugin::storage.storage', id)
   }
