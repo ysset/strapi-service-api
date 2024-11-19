@@ -33,16 +33,18 @@ import pluginId from '../../pluginId.js'
 const statePath = `${pluginId}_excelKeeper`
 
 const Storage = () => {
-  const state = useSelector(state => state[`${pluginId}_excelKeeper`].data)
+  const state = useSelector(state => state[`${pluginId}_excelKeeper`])
   const dispatch = useDispatch();
   const store = useStore()
   const [data, setData] = useState(null);
   const [rows, setRows] = useState(null);
+  const [reservedData, setReservedData] = useState(null);
   const [isTableOptions, setIsTableOptions] = useState(false);
+  const [hasDeletedRows, setHasDeletedRows] = useState(false);
 
   useEffect(() => {
-    if(state && state.length)
-        setData(state)
+    if(state.data && state.data.length)
+        setData(state.data)
 
     store.subscribe(() => {
         setData(store.getState()[statePath].data)
@@ -50,14 +52,18 @@ const Storage = () => {
   }, [])
 
   useEffect(() => {
-    if(!state)
+    if(!state.data)
         storageListRequest.getList()
         .then(storage => {
             const localRows = JSON.parse(storage)
             if(localRows) {
+                // первый элемент массива - список названий колонок таблицы
                 const collums = localRows.shift();
+                // подобная сложная структура нужна для реализации настройки колонок таблицы
                 const local = collums?.map(e => ({
+                        // название колонки
                         name: e,
+                        // список полей в колонке
                         data: [],
                         visible: true,
                     }))
@@ -104,6 +110,35 @@ const Storage = () => {
     })
   }
 
+  //TODO сохранять таблицу с учетом удаленных строк
+  //TODO добавить возможность добавлять строки
+  //TODO добавить возможность изменять инфу в строках
+  const handleDeleteRow = (rowIndex) => {
+    if(!reservedData){
+        setHasDeletedRows(true);
+        setReservedData(data);
+    }
+    dispatch({
+        type: 'DELETE_ROW',
+        payload: {rowIndex}
+    })
+  }
+
+  const handleSaveTableChangesAfterDeleteRows = () => {
+    setHasDeletedRows(false);
+    setReservedData(null);
+  }
+
+  const handleCancelTableChangesAfterDeleteRows = () => {
+    setHasDeletedRows(false);
+    // setData(reservedData);
+    dispatch({
+        type: 'DATA_SAVE',
+        payload: reservedData
+    })
+    setReservedData(null);
+  }
+
   return (
     <>   
         {!data && (
@@ -126,6 +161,15 @@ const Storage = () => {
                     primaryAction={<LoadFromExcelButton setDataState={setData}>Добавить из excel файла</LoadFromExcelButton>}
                 />
                 <ContentLayout>
+                    {hasDeletedRows ?
+                        <Flex justifyContent={'flex-end'} paddingBottom={4}>
+                            <Button onClick={handleSaveTableChangesAfterDeleteRows}>Сохранить</Button>
+                            <Box paddingLeft={4}>
+                                <Button onClick={handleCancelTableChangesAfterDeleteRows}>Отменить</Button>
+                            </Box>
+                        </Flex>
+                        : <></>
+                    }
                     <Table>
                         <Thead>
                             <Tr>
@@ -156,33 +200,36 @@ const Storage = () => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {rows && rows.map((e, i) => 
-                                <Tr key={i}>
-                                    <Td>
-                                        <Checkbox aria-label={`Select ${1}`} />
-                                    </Td>
-                                        {e.map(row => {
-                                            if(row.visible || isTableOptions)
-                                                return (
-                                                    <Td>
-                                                        <Typography textColor="neutral800">{row.data}</Typography>
-                                                    </Td>
-                                                )
-                                        })}
-                                        
-                                    <Td>
-                                        <Flex>
-                                            <IconButton onClick={() => console.log('edit')} label="Edit" borderWidth={0}>
-                                                <Pencil />
-                                            </IconButton>
-                                            <Box paddingLeft={1}>
-                                                <IconButton onClick={() => console.log('delete')} label="Delete" borderWidth={0}>
-                                                <Trash />
+                            {rows && rows.map((e, i) => {
+                                return (
+                                    <Tr key={i}>
+                                        <Td>
+                                            <Checkbox aria-label={`Select ${1}`} />
+                                        </Td>
+                                            {e.map(row => {
+                                                if(row.visible || isTableOptions)
+                                                    return (
+                                                        <Td>
+                                                            <Typography textColor="neutral800">{row.data}</Typography>
+                                                        </Td>
+                                                    )
+                                            })}
+                                            
+                                        <Td>
+                                            <Flex>
+                                                <IconButton onClick={() => console.log('edit')} label="Edit" borderWidth={0}>
+                                                    <Pencil />
                                                 </IconButton>
-                                            </Box>
-                                        </Flex>
-                                    </Td>
-                                </Tr>
+                                                <Box paddingLeft={1}>
+                                                    <IconButton onClick={() => handleDeleteRow(i)} label="Delete" borderWidth={0}>
+                                                        <Trash />
+                                                    </IconButton>
+                                                </Box>
+                                            </Flex>
+                                        </Td>
+                                    </Tr>
+                                )
+                            }
                             )}
                         </Tbody>
                     </Table>

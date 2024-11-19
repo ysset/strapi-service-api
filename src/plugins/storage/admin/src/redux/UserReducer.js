@@ -2,7 +2,7 @@
     import update from 'react-addons-update';
 
     const defaultState = {
-        data: null
+        data: null,  
     };
       
       /**
@@ -38,6 +38,17 @@
                         visible: {$set: checked}
                     }
                 }
+            })
+          }
+
+          case 'DELETE_ROW': {
+            const {rowIndex} = action.payload
+
+            return update(state, {
+                data: {$set: state.data.map(e => ({
+                    ...e,
+                    data: e.data.filter((e, i) => i !== rowIndex)
+                }))}
             })
           }
       
