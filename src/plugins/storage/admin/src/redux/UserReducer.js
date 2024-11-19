@@ -1,5 +1,6 @@
     // UserReducer.js
-    
+    import update from 'react-addons-update';
+
     const defaultState = {
         data: null
     };
@@ -30,20 +31,14 @@
           }
           
           case 'SET_CHECK': {
-            console.log(action);
-            
             const {collIndex, checked} = action.payload
-            if(state.data && state.data.length) {
-                const data = [...state.data]
-                console.log(data);
-                
-                
-                data[collIndex].visible = checked;
-                return{
-                    ...state,
-                    ...{data: [...data]}
+            return update(state, {
+                data: {
+                    [collIndex]: {
+                        visible: {$set: checked}
+                    }
                 }
-            }
+            })
           }
       
           default:

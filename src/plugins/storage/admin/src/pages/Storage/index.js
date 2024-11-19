@@ -36,7 +36,7 @@ const Storage = () => {
   const state = useSelector(state => state[`${pluginId}_excelKeeper`].data)
   const dispatch = useDispatch();
   const store = useStore()
-  const [data, setData] = useState(store.getState().data);
+  const [data, setData] = useState(null);
   const [rows, setRows] = useState(null);
   const [isTableOptions, setIsTableOptions] = useState(false);
 
@@ -95,8 +95,13 @@ const Storage = () => {
   }, [data])
   
   const handleChange = (collIndex) => (checked) => {
-    data[collIndex].visible = checked;
-    setData([...data])
+    dispatch({
+        type: 'SET_CHECK',
+        payload: {
+            collIndex,
+            checked
+        }
+    })
   }
 
   return (
