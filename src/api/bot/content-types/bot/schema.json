@@ -52,6 +52,10 @@
         "videos",
         "audios"
       ]
+    },
+    "name": {
+      "type": "string",
+      "required": true
     }
   }
 }

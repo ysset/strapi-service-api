@@ -1,9 +1,11 @@
 'use strict';
+require('./websocket')
+const { Server } = require('socket.io');
 
 // Create custom Promise method
 const rejectSleep = (time, customReject) =>
     new Promise((_, reject) =>
-        setTimeout(() => (customReject ? customReject() : reject('Time is over')), time)
+        setTimeout(() => (customReject ? customReject() : reject('Time is over')), time),
     );
 // @ts-ignore
 Promise.timeout = (promise = Promise, time, customReject) =>
@@ -28,5 +30,9 @@ module.exports = {
      * run jobs, or perform some special logic.
      */
     async bootstrap({ strapi }) {
+        // const wss = new Server(strapi.server.httpServer);
+        // wss.on("connection", (socket) => {
+        //     console.log('Client connected');
+        // });
     },
 };
