@@ -337,7 +337,6 @@ export interface ApiServiceTypeServiceType extends Schema.CollectionType {
         createdAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'api::service-type.service-type', 'oneToOne', 'admin::user'> &
             Attribute.Private;
-        expandInWebApp: Attribute.Boolean & Attribute.Required;
         name: Attribute.String & Attribute.Required;
         publishedAt: Attribute.DateTime;
         services: Attribute.Component<'service.service', true> & Attribute.Required;
