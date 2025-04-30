@@ -23,11 +23,12 @@ export interface ServiceService extends Schema.Component {
         comingSoon: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
         image: Attribute.Media<'images'>;
         name: Attribute.String & Attribute.Required;
+        needPayment: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
         needRegistrationOnDate: Attribute.Boolean & Attribute.Required;
-        price: Attribute.BigInteger & Attribute.Required;
+        price: Attribute.BigInteger;
         remark: Attribute.Text &
             Attribute.SetMinMaxLength<{
-                maxLength: 100;
+                maxLength: 200;
             }>;
     };
 }

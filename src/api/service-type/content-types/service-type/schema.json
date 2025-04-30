@@ -28,6 +28,10 @@
       "relation": "oneToOne",
       "target": "admin::user",
       "private": true
+    },
+    "expandInWebApp": {
+      "type": "boolean",
+      "required": true
     }
   }
 }

@@ -13,11 +13,11 @@
     },
     "price": {
       "type": "biginteger",
-      "required": true
+      "required": false
     },
     "remark": {
       "type": "text",
-      "maxLength": 100
+      "maxLength": 200
     },
     "comingSoon": {
       "type": "boolean",
@@ -34,6 +34,11 @@
     },
     "needRegistrationOnDate": {
       "type": "boolean",
+      "required": true
+    },
+    "needPayment": {
+      "type": "boolean",
+      "default": false,
       "required": true
     }
   }

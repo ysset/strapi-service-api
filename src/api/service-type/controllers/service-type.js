@@ -8,7 +8,15 @@ module.exports = createCoreController(
         const entities = await strapi.entityService.findOne(
           'api::service-type.service-type',
           ctx.request.params.id,
-          {populate: '*'}
+          {
+              populate: {
+                  services: {
+                      populate: {
+                          image: true
+                      }
+                  }
+              }
+          }
         );
         return entities;
      },
