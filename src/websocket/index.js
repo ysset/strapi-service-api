@@ -13,7 +13,7 @@ io.on('connection', function(socket) {
     });
     socket.on(events.botList, async function() {
         const bots = await  strapi.entityService.findMany('api::bot.bot', {
-            filter: {
+          filters: {
                 isActive: true,
             }
         })

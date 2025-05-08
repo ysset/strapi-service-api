@@ -32,6 +32,11 @@
     "expandInWebApp": {
       "type": "boolean",
       "required": true
+    },
+    "bots": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::bot.bot"
     }
   }
 }

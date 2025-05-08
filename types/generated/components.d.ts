@@ -28,7 +28,7 @@ export interface ServiceService extends Schema.Component {
         price: Attribute.BigInteger;
         remark: Attribute.Text &
             Attribute.SetMinMaxLength<{
-                maxLength: 200;
+                maxLength: 2000;
             }>;
     };
 }

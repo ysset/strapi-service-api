@@ -17,7 +17,7 @@
     },
     "remark": {
       "type": "text",
-      "maxLength": 200
+      "maxLength": 2000
     },
     "comingSoon": {
       "type": "boolean",
