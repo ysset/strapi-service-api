@@ -8,6 +8,9 @@ module.exports = createCoreController('api::service-type.service-type', ({ strap
         if (id) {
             return await strapi.entityService.findMany('api::service-type.service-type', {
                 filters: {
+                    publishedAt: {
+                        $ne: null,
+                    },
                     id,
                     bots: {
                         id: botId,
@@ -24,6 +27,9 @@ module.exports = createCoreController('api::service-type.service-type', ({ strap
         } else if (!id)
             return await strapi.entityService.findMany('api::service-type.service-type', {
                 filters: {
+                    publishedAt: {
+                        $ne: null,
+                    },
                     bots: {
                         id: botId,
                     },
