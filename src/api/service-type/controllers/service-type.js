@@ -23,7 +23,8 @@ module.exports = createCoreController('api::service-type.service-type', ({ strap
                     },
                 },
             });
-        } else if (!id)
+        }
+        if (botId && type) {
             return await strapi.entityService.findMany('api::service-type.service-type', {
                 filters: {
                     type: type,
@@ -35,5 +36,19 @@ module.exports = createCoreController('api::service-type.service-type', ({ strap
                     },
                 },
             });
+        }
+        if (botId && type == null && !id) {
+            const data = await strapi.entityService.findMany('api::service-type.service-type', {
+                filters: {
+                    publishedAt: {
+                        $ne: null,
+                    },
+                    bots: {
+                        id: botId,
+                    },
+                },
+            });
+            return data.map((service) => service.type);
+        }
     },
 }));
