@@ -24,12 +24,14 @@ export interface ServiceService extends Schema.Component {
         image: Attribute.Media<'images'>;
         name: Attribute.String & Attribute.Required;
         needPayment: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
-        needRegistrationOnDate: Attribute.Boolean & Attribute.Required;
+        needRegistrationOnDate: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
         price: Attribute.BigInteger;
+        priceFrom: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
         remark: Attribute.Text &
             Attribute.SetMinMaxLength<{
                 maxLength: 2000;
             }>;
+        volet: Attribute.Enumeration<['RUB', 'USD']>;
     };
 }
 

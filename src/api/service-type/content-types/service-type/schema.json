@@ -31,7 +31,8 @@
     },
     "expandInWebApp": {
       "type": "boolean",
-      "required": true
+      "required": true,
+      "default": false
     },
     "bots": {
       "type": "relation",
@@ -43,7 +44,8 @@
       "enum": [
         "services",
         "goods"
-      ]
+      ],
+      "required": true
     }
   }
 }

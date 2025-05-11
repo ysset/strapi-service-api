@@ -305,7 +305,6 @@ export interface ApiBotBot extends Schema.CollectionType {
         draftAndPublish: false;
     };
     attributes: {
-        as: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
         createdAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'api::bot.bot', 'oneToOne', 'admin::user'> & Attribute.Private;
         isActive: Attribute.Boolean;
@@ -338,11 +337,11 @@ export interface ApiServiceTypeServiceType extends Schema.CollectionType {
         createdAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'api::service-type.service-type', 'oneToOne', 'admin::user'> &
             Attribute.Private;
-        expandInWebApp: Attribute.Boolean & Attribute.Required;
+        expandInWebApp: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
         name: Attribute.String & Attribute.Required;
         publishedAt: Attribute.DateTime;
         services: Attribute.Component<'service.service', true> & Attribute.Required;
-        type: Attribute.Enumeration<['services', 'goods']>;
+        type: Attribute.Enumeration<['services', 'goods']> & Attribute.Required;
         updatedAt: Attribute.DateTime;
         updatedBy: Attribute.Relation<'api::service-type.service-type', 'oneToOne', 'admin::user'> &
             Attribute.Private;

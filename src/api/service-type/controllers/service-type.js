@@ -37,7 +37,7 @@ module.exports = createCoreController('api::service-type.service-type', ({ strap
                 },
             });
         }
-        if (botId && type == null && !id) {
+        if (botId && !type && !id) {
             const data = await strapi.entityService.findMany('api::service-type.service-type', {
                 filters: {
                     publishedAt: {

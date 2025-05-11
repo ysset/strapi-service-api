@@ -42,17 +42,6 @@
     "paymentToken": {
       "type": "string"
     },
-    "as": {
-      "type": "media",
-      "multiple": true,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "name": {
       "type": "string",
       "required": true
