@@ -11,10 +11,6 @@
       "type": "string",
       "required": true
     },
-    "price": {
-      "type": "biginteger",
-      "required": false
-    },
     "remark": {
       "type": "text",
       "maxLength": 2000
@@ -37,22 +33,10 @@
       "required": true,
       "default": false
     },
-    "needPayment": {
-      "type": "boolean",
-      "default": false,
-      "required": true
-    },
-    "priceFrom": {
-      "type": "boolean",
-      "default": false,
-      "required": true
-    },
-    "volet": {
-      "type": "enumeration",
-      "enum": [
-        "RUB",
-        "USD"
-      ]
+    "payment": {
+      "type": "component",
+      "repeatable": false,
+      "component": "service.payment"
     }
   }
 }

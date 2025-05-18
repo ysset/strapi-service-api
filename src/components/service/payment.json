@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_service_payments",
+  "info": {
+    "displayName": "payment",
+    "icon": "database",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 50
+    },
+    "price": {
+      "type": "string",
+      "regex": "[0-9]",
+      "required": true
+    },
+    "volute": {
+      "type": "enumeration",
+      "enum": [
+        "RUB",
+        "USD"
+      ],
+      "required": true
+    },
+    "priceFrom": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}

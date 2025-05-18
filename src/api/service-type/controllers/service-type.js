@@ -19,6 +19,7 @@ module.exports = createCoreController('api::service-type.service-type', ({ strap
                     services: {
                         populate: {
                             image: true,
+                            payment: true,
                         },
                     },
                 },

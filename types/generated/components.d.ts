@@ -12,6 +12,26 @@ export interface BotsPaymentsPayments extends Schema.Component {
     };
 }
 
+export interface ServicePayment extends Schema.Component {
+    collectionName: 'components_service_payments';
+    info: {
+        description: '';
+        displayName: 'payment';
+        icon: 'database';
+    };
+    attributes: {
+        description: Attribute.Text &
+            Attribute.Required &
+            Attribute.SetMinMaxLength<{
+                maxLength: 50;
+            }>;
+        price: Attribute.String & Attribute.Required;
+        priceFrom: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
+        title: Attribute.String & Attribute.Required;
+        volute: Attribute.Enumeration<['RUB', 'USD']> & Attribute.Required;
+    };
+}
+
 export interface ServiceService extends Schema.Component {
     collectionName: 'components_service_services';
     info: {
@@ -23,15 +43,12 @@ export interface ServiceService extends Schema.Component {
         comingSoon: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
         image: Attribute.Media<'images'>;
         name: Attribute.String & Attribute.Required;
-        needPayment: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
         needRegistrationOnDate: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
-        price: Attribute.BigInteger;
-        priceFrom: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
+        payment: Attribute.Component<'service.payment'>;
         remark: Attribute.Text &
             Attribute.SetMinMaxLength<{
                 maxLength: 2000;
             }>;
-        volet: Attribute.Enumeration<['RUB', 'USD']>;
     };
 }
 
@@ -39,6 +56,7 @@ declare module '@strapi/types' {
     export module Shared {
         export interface Components {
             'bots-payments.payments': BotsPaymentsPayments;
+            'service.payment': ServicePayment;
             'service.service': ServiceService;
         }
     }

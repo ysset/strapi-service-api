@@ -21,6 +21,7 @@ module.exports = {
         strapi.io.emit(
             events.updateBot,
             JSON.stringify({
+                id: result.id,
                 name: result.name,
                 token: result.token,
                 type: result.type,
