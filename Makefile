@@ -2,7 +2,7 @@ PORT=1337
 APP_NAME=strapi_api
 
 build_app:
-	@node -v
+	@curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
 	@sudo yarn
 	@sudo yarn build
 
