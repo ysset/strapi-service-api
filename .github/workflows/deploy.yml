@@ -18,7 +18,7 @@ jobs:
       - name: Deploy to server
         run: |
           sshpass -p '${{ secrets.PSWD }}' ssh -v -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} <<'ENDSSH'
-          git clone git@github.com:ysset/bot-service.git
+          git clone git@github.com:ysset/strapi-service-api.git
           cd ${{ secrets.STRAPI_APP_PATH }}
           git checkout dev
           git pull
