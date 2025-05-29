@@ -21,13 +21,13 @@ jobs:
           git clone git@github.com:ysset/strapi-service-api.git
           cd ${{ secrets.STRAPI_APP_PATH }}
           touch .env
-          echo ${{ secrets.STRAPI_HOST }}
-          echo ${{ secrets.STRAPI_PORT }}
-          echo ${{ secrets.STRAPI_APP_KEYS }}
-          echo ${{ secrets.STRAPI_API_TOKEN_SALT }}
-          echo ${{ secrets.STRAPI_ADMIN_JWT_SECRET }}
-          echo ${{ secrets.STRAPI_TRANSFER_TOKEN_SALT }}
-          echo ${{ secrets.STRAPI_JWT_SECRET }}
+          echo HOST=${{ secrets.STRAPI_HOST }}
+          echo PORT=${{ secrets.STRAPI_PORT }}
+          echo APP_KEYS=${{ secrets.STRAPI_APP_KEYS }}
+          echo API_TOKEN_SALT=${{ secrets.STRAPI_API_TOKEN_SALT }}
+          echo ADMIN_JWT_SECRET=${{ secrets.STRAPI_ADMIN_JWT_SECRET }}
+          echo TRANSFER_TOKEN_SALT=${{ secrets.STRAPI_TRANSFER_TOKEN_SALT }}
+          echo JWT_SECRET=${{ secrets.STRAPI_JWT_SECRET }}
           cat .env
           git checkout dev
           git pull
