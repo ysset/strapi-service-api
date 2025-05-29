@@ -18,6 +18,7 @@ jobs:
       - name: Deploy to server
         run: |
           sshpass -p '${{ secrets.PSWD }}' ssh -v -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} <<'ENDSSH'
+          rm -rf strapi-service-api
           git clone git@github.com:ysset/strapi-service-api.git
           cd ${{ secrets.STRAPI_APP_PATH }}
           touch .env

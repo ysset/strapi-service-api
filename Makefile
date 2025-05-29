@@ -10,4 +10,3 @@ build_app:
 
 deploy_headless:
 	@make build_app
-	@sudo yarn start
