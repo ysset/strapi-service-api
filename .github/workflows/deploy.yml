@@ -32,6 +32,5 @@ jobs:
           cat .env
           git checkout dev
           git pull
-          npm -g config set user root
           sudo make deploy_headless
           ENDSSH
