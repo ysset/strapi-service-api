@@ -8,5 +8,3 @@ build_app:
 deploy_headless:
 	@make build_app
 	@pm2 start npm -- start
-
-
