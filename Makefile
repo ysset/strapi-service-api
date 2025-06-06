@@ -7,4 +7,5 @@ build_app:
 
 deploy_headless:
 	@make build_app
+	@sudo npm i -g pm2
 	@pm2 start npm -- start
