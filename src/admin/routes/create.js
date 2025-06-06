@@ -38,7 +38,7 @@ module.exports = {
                strapi.log.info(`Created author: ${firstname} ${lastname} (${email})`);
                const mailer = new Email({
                   message: {
-                     from: 'telegram_for_business@gmail.com',
+                     from: 'noreply@botforbusiness.online',
                      attachments: [
                         {
                            raw: "hello"
@@ -55,7 +55,7 @@ module.exports = {
                  .send({
                     template: 'mars',
                     message: {
-                       to: 'kamdenech@gmail.com'
+                       to: email
                     }
                  })
                  .then(console.log)

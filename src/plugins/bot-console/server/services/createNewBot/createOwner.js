@@ -22,7 +22,7 @@ const createBotOwner = async ({firstname, lastname, email, password}) => {
         from: process.env.YANDEX_SMTP_FROM,
         to: email,
         subject: "Телеграм для бизнеса",
-        html: emailFile(email, password, null, process.env.ADMIN_URL)
+        html: emailFile(email, password, null, process.env.ADMIN_URL),
     }, (err, info) => {
         if (err)
             throw new Error(err)
