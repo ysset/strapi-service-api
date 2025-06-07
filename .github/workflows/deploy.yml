@@ -27,7 +27,6 @@ jobs:
           echo ADMIN_JWT_SECRET=${{ secrets.STRAPI_ADMIN_JWT_SECRET }} >> .env
           echo TRANSFER_TOKEN_SALT=${{ secrets.STRAPI_TRANSFER_TOKEN_SALT }} >> .env
           echo JWT_SECRET=${{ secrets.STRAPI_JWT_SECRET }} >> .env
-
           echo YANDEX_SMTP_HOST=${{ secrets.YANDEX_SMTP_HOST }} >> .env
           echo YANDEX_SMTP_PORT=${{ secrets.YANDEX_SMTP_PORT }} >> .env
           echo YANDEX_SMTP_USER=${{ secrets.YANDEX_SMTP_USER }} >> .env
