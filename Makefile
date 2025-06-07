@@ -9,5 +9,4 @@ deploy_headless:
 	@make build_app
 	@pm2 delete all
 	@pm2 kill
-	@sudo npm i -g pm2
 	@pm2 start npm -- start
