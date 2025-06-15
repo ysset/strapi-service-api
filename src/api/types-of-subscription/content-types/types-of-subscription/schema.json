@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "types_of_subscriptions",
+  "info": {
+    "singularName": "types-of-subscription",
+    "pluralName": "types-of-subscriptions",
+    "displayName": "types of subscriptions",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "integer"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

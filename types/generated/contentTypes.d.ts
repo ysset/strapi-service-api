@@ -374,6 +374,38 @@ export interface ApiTelegramUserTelegramUser extends Schema.CollectionType {
     };
 }
 
+export interface ApiTypesOfSubscriptionTypesOfSubscription extends Schema.CollectionType {
+    collectionName: 'types_of_subscriptions';
+    info: {
+        description: '';
+        displayName: 'types of subscriptions';
+        pluralName: 'types-of-subscriptions';
+        singularName: 'types-of-subscription';
+    };
+    options: {
+        draftAndPublish: false;
+    };
+    attributes: {
+        createdAt: Attribute.DateTime;
+        createdBy: Attribute.Relation<
+            'api::types-of-subscription.types-of-subscription',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private;
+        description: Attribute.Text;
+        name: Attribute.String;
+        price: Attribute.Integer;
+        updatedAt: Attribute.DateTime;
+        updatedBy: Attribute.Relation<
+            'api::types-of-subscription.types-of-subscription',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private;
+    };
+}
+
 export interface PluginContentReleasesRelease extends Schema.CollectionType {
     collectionName: 'strapi_releases';
     info: {
@@ -746,6 +778,7 @@ declare module '@strapi/types' {
             'api::bot.bot': ApiBotBot;
             'api::service-type.service-type': ApiServiceTypeServiceType;
             'api::telegram-user.telegram-user': ApiTelegramUserTelegramUser;
+            'api::types-of-subscription.types-of-subscription': ApiTypesOfSubscriptionTypesOfSubscription;
             'plugin::content-releases.release': PluginContentReleasesRelease;
             'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
             'plugin::i18n.locale': PluginI18NLocale;

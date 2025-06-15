@@ -6,19 +6,22 @@ const io = new Server(8080, {
     transports: ['websocket'],
 });
 
-io.on('connection', function(socket) {
+io.on('connection', function (socket) {
     console.log('User connected');
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
         console.log('User disconnected');
     });
-    socket.on(events.botList, async function() {
-        const bots = await  strapi.entityService.findMany('api::bot.bot', {
-          filters: {
+    socket.on(events.botList, async function () {
+        const bots = await strapi.entityService.findMany('api::bot.bot', {
+            filters: {
                 isActive: true,
-            }
-        })
+            },
+            populate: {
+                owner: true,
+            },
+        });
         io.emit(events.botList, JSON.stringify(bots));
-    })
+    });
 });
 
 strapi.io = io;
