@@ -32,6 +32,12 @@
     },
     "language": {
       "type": "string"
+    },
+    "invoices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::invoice.invoice",
+      "mappedBy": "user"
     }
   }
 }

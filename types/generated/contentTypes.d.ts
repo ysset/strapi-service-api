@@ -319,6 +319,30 @@ export interface ApiBotBot extends Schema.CollectionType {
     };
 }
 
+export interface ApiInvoiceInvoice extends Schema.CollectionType {
+    collectionName: 'invoices';
+    info: {
+        displayName: 'invoices';
+        pluralName: 'invoices';
+        singularName: 'invoice';
+    };
+    options: {
+        draftAndPublish: true;
+    };
+    attributes: {
+        createdAt: Attribute.DateTime;
+        createdBy: Attribute.Relation<'api::invoice.invoice', 'oneToOne', 'admin::user'> & Attribute.Private;
+        currency: Attribute.String;
+        invoicePayload: Attribute.String;
+        paymentId: Attribute.String;
+        publishedAt: Attribute.DateTime;
+        totalAmount: Attribute.Integer;
+        updatedAt: Attribute.DateTime;
+        updatedBy: Attribute.Relation<'api::invoice.invoice', 'oneToOne', 'admin::user'> & Attribute.Private;
+        user: Attribute.Relation<'api::invoice.invoice', 'manyToOne', 'api::telegram-user.telegram-user'>;
+    };
+}
+
 export interface ApiServiceTypeServiceType extends Schema.CollectionType {
     collectionName: 'service_types';
     info: {
@@ -363,6 +387,7 @@ export interface ApiTelegramUserTelegramUser extends Schema.CollectionType {
         createdBy: Attribute.Relation<'api::telegram-user.telegram-user', 'oneToOne', 'admin::user'> &
             Attribute.Private;
         firstName: Attribute.String & Attribute.Required;
+        invoices: Attribute.Relation<'api::telegram-user.telegram-user', 'oneToMany', 'api::invoice.invoice'>;
         isBot: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
         language: Attribute.String;
         lastName: Attribute.String;
@@ -776,6 +801,7 @@ declare module '@strapi/types' {
             'admin::transfer-token-permission': AdminTransferTokenPermission;
             'admin::user': AdminUser;
             'api::bot.bot': ApiBotBot;
+            'api::invoice.invoice': ApiInvoiceInvoice;
             'api::service-type.service-type': ApiServiceTypeServiceType;
             'api::telegram-user.telegram-user': ApiTelegramUserTelegramUser;
             'api::types-of-subscription.types-of-subscription': ApiTypesOfSubscriptionTypesOfSubscription;

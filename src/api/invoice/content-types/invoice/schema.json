@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "invoices",
+  "info": {
+    "singularName": "invoice",
+    "pluralName": "invoices",
+    "displayName": "invoices"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "paymentId": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "totalAmount": {
+      "type": "integer"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::telegram-user.telegram-user",
+      "inversedBy": "invoices"
+    },
+    "invoicePayload": {
+      "type": "string"
+    }
+  }
+}
