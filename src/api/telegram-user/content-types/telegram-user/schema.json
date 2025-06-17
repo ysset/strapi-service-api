@@ -4,7 +4,8 @@
   "info": {
     "singularName": "telegram-user",
     "pluralName": "telegram-users",
-    "displayName": "Telegram пользователи"
+    "displayName": "Telegram пользователи",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -33,11 +34,16 @@
     "language": {
       "type": "string"
     },
+    "adminUser": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
+    },
     "invoices": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::invoice.invoice",
-      "mappedBy": "user"
+      "mappedBy": "telegramUser"
     }
   }
 }

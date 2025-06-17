@@ -322,12 +322,13 @@ export interface ApiBotBot extends Schema.CollectionType {
 export interface ApiInvoiceInvoice extends Schema.CollectionType {
     collectionName: 'invoices';
     info: {
+        description: '';
         displayName: 'invoices';
         pluralName: 'invoices';
         singularName: 'invoice';
     };
     options: {
-        draftAndPublish: true;
+        draftAndPublish: false;
     };
     attributes: {
         createdAt: Attribute.DateTime;
@@ -335,11 +336,14 @@ export interface ApiInvoiceInvoice extends Schema.CollectionType {
         currency: Attribute.String;
         invoicePayload: Attribute.String;
         paymentId: Attribute.String;
-        publishedAt: Attribute.DateTime;
+        telegramUser: Attribute.Relation<
+            'api::invoice.invoice',
+            'manyToOne',
+            'api::telegram-user.telegram-user'
+        >;
         totalAmount: Attribute.Integer;
         updatedAt: Attribute.DateTime;
         updatedBy: Attribute.Relation<'api::invoice.invoice', 'oneToOne', 'admin::user'> & Attribute.Private;
-        user: Attribute.Relation<'api::invoice.invoice', 'manyToOne', 'api::telegram-user.telegram-user'>;
     };
 }
 
@@ -375,6 +379,7 @@ export interface ApiServiceTypeServiceType extends Schema.CollectionType {
 export interface ApiTelegramUserTelegramUser extends Schema.CollectionType {
     collectionName: 'telegram_users';
     info: {
+        description: '';
         displayName: 'Telegram \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0438';
         pluralName: 'telegram-users';
         singularName: 'telegram-user';
@@ -383,6 +388,7 @@ export interface ApiTelegramUserTelegramUser extends Schema.CollectionType {
         draftAndPublish: false;
     };
     attributes: {
+        adminUser: Attribute.Relation<'api::telegram-user.telegram-user', 'oneToOne', 'admin::user'>;
         createdAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'api::telegram-user.telegram-user', 'oneToOne', 'admin::user'> &
             Attribute.Private;

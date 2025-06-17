@@ -1,9 +1,20 @@
 'use strict';
 
 /**
- * telegram-user router
+ * service-type router
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
-
-module.exports = createCoreRouter('api::telegram-user.telegram-user');
+module.exports = {
+    routes: [
+        {
+            method: 'GET',
+            path: '/telegram-user/:id',
+            handler: 'telegram-user.getUser'
+        },
+        {
+            method: 'POST',
+            path: '/telegram-user',
+            handler: 'telegram-user.createUser'
+        },
+    ]
+}
