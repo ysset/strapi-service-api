@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_bots_payments_subscriptions",
+  "info": {
+    "displayName": "subscriptions"
+  },
+  "options": {},
+  "attributes": {
+    "types_of_subscription": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::types-of-subscription.types-of-subscription"
+    },
+    "start": {
+      "type": "date"
+    },
+    "end": {
+      "type": "date"
+    },
+    "price": {
+      "type": "string"
+    }
+  }
+}
