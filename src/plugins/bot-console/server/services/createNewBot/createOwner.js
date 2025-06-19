@@ -49,7 +49,7 @@ const createBotOwner = async ({ firstname, lastname, email, _password, username,
     return {
         id: owner.id,
         email: owner.email,
-        registrationLink: `${process.env.STRAPI_URL}/admin/auth/register?registrationToken=${owner.registrationToken}`,
+        registrationLink: `${process.env.STRAPI_URL}admin/auth/register?registrationToken=${owner.registrationToken}`,
         // password,
     };
 };
