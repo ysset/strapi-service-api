@@ -380,7 +380,7 @@ export interface ApiTelegramUserTelegramUser extends Schema.CollectionType {
     collectionName: 'telegram_users';
     info: {
         description: '';
-        displayName: 'Telegram \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0438';
+        displayName: '\u041F\u043E\u043B\u044C\u0437\u043E\u0437\u0432\u0430\u0442\u0435\u043B\u044C';
         pluralName: 'telegram-users';
         singularName: 'telegram-user';
     };
@@ -397,6 +397,7 @@ export interface ApiTelegramUserTelegramUser extends Schema.CollectionType {
         isBot: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
         language: Attribute.String;
         lastName: Attribute.String;
+        subscriptions: Attribute.Component<'bots-payments.subscriptions', true>;
         telegramId: Attribute.Integer & Attribute.Required;
         updatedAt: Attribute.DateTime;
         updatedBy: Attribute.Relation<'api::telegram-user.telegram-user', 'oneToOne', 'admin::user'> &

@@ -17,7 +17,6 @@ module.exports = createCoreController('api::telegram-user.telegram-user', ({ str
 
     async createUser(ctx) {
         const { telegramId, firstName, lastName, username, language, isBot } = ctx.request.body;
-        console.log(ctx.request.body);
         const user = await strapi.entityService.create('api::telegram-user.telegram-user', {
             data: {
                 telegramId,

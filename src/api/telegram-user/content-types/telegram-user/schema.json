@@ -4,7 +4,7 @@
   "info": {
     "singularName": "telegram-user",
     "pluralName": "telegram-users",
-    "displayName": "Telegram пользователи",
+    "displayName": "Пользозватель",
     "description": ""
   },
   "options": {
@@ -44,6 +44,12 @@
       "relation": "oneToMany",
       "target": "api::invoice.invoice",
       "mappedBy": "telegramUser"
+    },
+    "subscriptions": {
+      "displayName": "subscriptions",
+      "type": "component",
+      "repeatable": true,
+      "component": "bots-payments.subscriptions"
     }
   }
 }

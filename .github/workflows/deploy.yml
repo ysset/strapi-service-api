@@ -33,6 +33,7 @@ jobs:
           echo YANDEX_SMTP_USER_PASS=${{ secrets.YANDEX_SMTP_USER_PASS }} >> .env
           echo YANDEX_SMTP_FROM=${{ secrets.YANDEX_SMTP_FROM }} >> .env
           echo ADMIN_URL=${{ secrets.ADMIN_URL }} >> .env
+          echo STRAPI_URL=${{ secrets.STRAPI_URL }} >> .env
           cat .env
           git checkout dev
           git pull

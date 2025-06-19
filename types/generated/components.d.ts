@@ -12,6 +12,23 @@ export interface BotsPaymentsPayments extends Schema.Component {
     };
 }
 
+export interface BotsPaymentsSubscriptions extends Schema.Component {
+    collectionName: 'components_bots_payments_subscriptions';
+    info: {
+        displayName: 'subscriptions';
+    };
+    attributes: {
+        end: Attribute.Date;
+        price: Attribute.String;
+        start: Attribute.Date;
+        types_of_subscription: Attribute.Relation<
+            'bots-payments.subscriptions',
+            'oneToOne',
+            'api::types-of-subscription.types-of-subscription'
+        >;
+    };
+}
+
 export interface ServicePayment extends Schema.Component {
     collectionName: 'components_service_payments';
     info: {
@@ -56,6 +73,7 @@ declare module '@strapi/types' {
     export module Shared {
         export interface Components {
             'bots-payments.payments': BotsPaymentsPayments;
+            'bots-payments.subscriptions': BotsPaymentsSubscriptions;
             'service.payment': ServicePayment;
             'service.service': ServiceService;
         }

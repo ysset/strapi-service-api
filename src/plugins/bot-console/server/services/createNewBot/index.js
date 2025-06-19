@@ -1,5 +1,4 @@
 'use strict';
-const { v4 } = require('uuid');
 const { createBotOwner } = require('./createOwner');
 
 module.exports = ({ strapi }) => ({
@@ -20,6 +19,20 @@ module.exports = ({ strapi }) => ({
                     email,
                     username,
                     telegramId
+                });
+            }
+
+            const [telegramUser] = await strapi.entityService.findMany('api::telegram-user.telegram-user', {
+                filters: {
+                    telegramId,
+                },
+            });
+
+            if (telegramUser && !telegramUser.adminUser) {
+                await strapi.entityService.update('api::telegram-user.telegram-user', telegramUser.id, {
+                    data: {
+                        adminUser: owner.id,
+                    },
                 });
             }
 
