@@ -20,13 +20,28 @@ module.exports = {
             subscriptions.push(...uSubs)
             const lustSub = uSubs.reduce(
                 (largest, current) => (new Date(current.end) > new Date(largest.end) ? current : largest));
-            const next_month = date.addMonths(new Date(lustSub.end), 1);
-            subscriptions.push({
-                types_of_subscription: subType.id,
-                price: result.invoicePayload,
-                start: now,
-                end: next_month,
-            });
+            const subEnd = new Date(lustSub.end)
+            if (now < subEnd) {
+                // метод getMonth начинает отсчет с 0
+                const lSubMonth = subEnd.getMonth() + 1
+                const lSubYear = subEnd.getFullYear()
+                const currDay = now.getDate();
+                const next_month = date.addMonths(new Date(`${lSubYear}-${lSubMonth}-${currDay}`), 1);
+                subscriptions.push({
+                    types_of_subscription: subType.id,
+                    price: result.invoicePayload,
+                    start: now,
+                    end: next_month,
+                });
+            } else {
+                const next_month = date.addMonths(now, 1);
+                subscriptions.push({
+                    types_of_subscription: subType.id,
+                    price: result.invoicePayload,
+                    start: now,
+                    end: next_month,
+                });
+            }
         } else {
             const next_month = date.addMonths(now, 1);
             subscriptions.push({
