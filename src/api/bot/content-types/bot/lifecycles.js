@@ -6,6 +6,7 @@ module.exports = {
         strapi.io.emit(
             events.newBot,
             JSON.stringify({
+                id: result.id,
                 name: result.name,
                 token: result.token,
                 type: result.type,
