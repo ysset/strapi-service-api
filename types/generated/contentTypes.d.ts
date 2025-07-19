@@ -308,6 +308,7 @@ export interface ApiBotBot extends Schema.CollectionType {
         createdAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'api::bot.bot', 'oneToOne', 'admin::user'> & Attribute.Private;
         isActive: Attribute.Boolean;
+        isAdmin: Attribute.Boolean & Attribute.DefaultTo<false>;
         language: Attribute.Enumeration<['ru', 'en', 'ch']>;
         name: Attribute.String & Attribute.Required;
         owner: Attribute.Relation<'api::bot.bot', 'oneToOne', 'admin::user'>;

@@ -20,6 +20,17 @@ io.on('connection', function (socket) {
                 owner: true,
             },
         });
+        for (const bot of bots) {
+            if (bot.owner && bot.owner.id) {
+                const [owner] = await strapi.entityService.findMany('api::telegram-user.telegram-user', {
+                    filters: {
+                        adminUser: bot.owner.id,
+                    },
+                });
+                bot.owner = owner;
+            }
+        }
+
         io.emit(events.botList, JSON.stringify(bots));
     });
 });

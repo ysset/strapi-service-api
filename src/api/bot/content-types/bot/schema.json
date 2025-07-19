@@ -45,6 +45,10 @@
     "name": {
       "type": "string",
       "required": true
+    },
+    "isAdmin": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
